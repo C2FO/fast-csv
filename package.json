@@ -1,0 +1,21 @@
+{
+  "name": "fast-csv",
+  "version": "0.0.0",
+  "description": "CSV parser for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:C2FO/fast-csv.git"
+  },
+  "keywords": [
+    "csv",
+    "parser",
+    "fast",
+    ""
+  ],
+  "author": "Doug Martin",
+  "license": "MIT"
+}
