@@ -2,7 +2,7 @@ var it = require("it"),
     assert = require("assert"),
     fs = require("fs"),
     comb = require("comb"),
-    csv = require("../index.js"),
+    csv = require("index"),
     path = require("path");
 
 var expected1 = [
@@ -78,6 +78,18 @@ var expectedCamelCase = [
     {firstName:"First7", lastName:"Last7", emailAddress:"email7@email.com"},
     {firstName:"First8", lastName:"Last8", emailAddress:"email8@email.com"},
     {firstName:"First9", lastName:"Last9", emailAddress:"email9@email.com"}
+];
+
+var expected7 = [
+    {first_name:"First1", last_name:"Last1", email_address:"email1@email.com", address:""},
+    {first_name:"First2", last_name:"Last2", email_address:"email2@email.com", address:""},
+    {first_name:"First3", last_name:"Last3", email_address:"email3@email.com", address:""},
+    {first_name:"First4", last_name:"Last4", email_address:"email4@email.com", address:""},
+    {first_name:"First5", last_name:"Last5", email_address:"email5@email.com", address:""},
+    {first_name:"First6", last_name:"Last6", email_address:"email6@email.com", address:""},
+    {first_name:"First7", last_name:"Last7", email_address:"email7@email.com", address:""},
+    {first_name:"First8", last_name:"Last8", email_address:"email8@email.com", address:""},
+    {first_name:"First9", last_name:"Last9", email_address:"email9@email.com", address:""}
 ];
 
 it.describe("fast-csv parser",function (it) {
@@ -199,5 +211,53 @@ it.describe("fast-csv parser",function (it) {
             })
             .parse();
     });
+
+    it.should("emit an error for invalid rows", function (next) {
+        var actual = [];
+        csv(path.resolve(__dirname, "./assets/test6.csv"), {headers:true})
+            .on("data", function (data, index) {
+                actual.push(data);
+            })
+            .on("end", function (error) {
+                assert.deepEqual(actual, expected1.splice(1));
+                next();
+            })
+            .on("error", function (error) {
+                assert.equal(error.message, 'Invalid row First1\\\\s   , Last1 ,email1@email.com,"1 Street St, State ST, 88888"');
+            })
+            .parse();
+    });
+
+    it.should("handle a trailing comma", function (next) {
+        var actual = [];
+        csv(path.resolve(__dirname, "./assets/test7.csv"), {headers:true})
+            .on("data", function (data, index) {
+                actual.push(data);
+            })
+            .on("end", function (error) {
+                assert.deepEqual(actual, expected7);
+                next();
+            })
+            .parse();
+    });
+
+    it.should("throw an error if an invalid path or stream is passed in", function () {
+        assert.throws(function () {
+            csv(1).parse();
+        });
+    });
+
+    it.should("throw an error if a validate is not called with a function", function () {
+        assert.throws(function () {
+            csv(path.resolve(__dirname, "./assets/test7.csv"), {headers:true}).validate("hello");
+        });
+    });
+
+    it.should("throw an error if a transform is not called with a function", function () {
+        assert.throws(function () {
+            csv(path.resolve(__dirname, "./assets/test7.csv"), {headers:true}).transform("hello");
+        });
+    });
+
 
 }).as(module).run();
