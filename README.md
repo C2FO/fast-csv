@@ -7,8 +7,15 @@
 This is a library is aimed at providing fast CSV parsing. It accomplishes this by not handling some of the more complex
 edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.
 
+##Installation
+
+`npm install fast-csv`
+
+##Usage
+
 To parse a file.
-```
+
+```javascript
 var csv = require("fast-csv");
 
 csv("my.csv")
@@ -23,7 +30,7 @@ csv("my.csv")
 
 You may also parse a stream.
 
-```
+```javascript
 var stream = fs.createReadStream("my.csv");
 
 csv(stream)
@@ -40,7 +47,7 @@ csv(stream)
 If you expect the first line your csv to headers you may pass a headers option in. Setting the headers option will
 cause change each row to an object rather than an array.
 
-```
+```javascript
 var stream = fs.createReadStream("my.csv");
 
 csv(stream, {headers : true})
@@ -57,7 +64,7 @@ csv(stream, {headers : true})
 You may alternatively pass an array of header names which must match the order of each column in the csv, otherwise
 the data columns will not match.
 
-```
+```javascript
 var stream = fs.createReadStream("my.csv");
 
 csv(stream, {headers : ["firstName", "lastName", "address"]})
@@ -76,7 +83,7 @@ csv(stream, {headers : ["firstName", "lastName", "address"]})
 You can validate each row in the csv by providing a validate handler. If a row is invalid then a `data-invalid` event
 will be emitted with the row and the index.
 
-```
+```javascript
 var stream = fs.createReadStream("my.csv");
 
 csv(stream, {headers : true})
@@ -101,7 +108,7 @@ csv(stream, {headers : true})
 You can transform data by providing in a transform function. What is returned from the transform function will
 be provided to validate and emitted as a row.
 
-```
+```javascript
 var stream = fs.createReadStream("my.csv");
 
 csv(stream)
@@ -118,19 +125,14 @@ csv(stream)
 
 ```
 
-##Namespaces
+##License
 
+MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 
-
-
-
-##Classes
-
-
-
-
-
-
+##Meta
+* Code: `git clone git://github.com/C2FO/fast-csv.git`
+* Website: <http://c2fo.com>
+* Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
 
 
 
