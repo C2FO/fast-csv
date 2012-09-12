@@ -1,0 +1,7 @@
+test
+node_modules
+docs
+support
+lib-cov
+Makefile
+.travis.yml
