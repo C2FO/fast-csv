@@ -1,3 +1,4 @@
 node_modules
 *.iml
 .DS_Store
+lib-cov
