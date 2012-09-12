@@ -179,9 +179,15 @@
 edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.
 
 </p>
-<p>To parse a file.
+<h2>Installation</h2>
+<p><code>npm install fast-csv</code>
+
 </p>
-<pre class='prettyprint linenums lang-js'><code>var csv = require(&quot;fast-csv&quot;);
+<h2>Usage</h2>
+<p>To parse a file.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csv = require(&quot;fast-csv&quot;);
 
 csv(&quot;my.csv&quot;)
  .on(&quot;data&quot;, function(data){
@@ -194,7 +200,7 @@ csv(&quot;my.csv&quot;)
 <p>You may also parse a stream.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>var stream = fs.createReadStream(&quot;my.csv&quot;);
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream)
  .on(&quot;data&quot;, function(data){
@@ -208,7 +214,7 @@ csv(stream)
 cause change each row to an object rather than an array.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>var stream = fs.createReadStream(&quot;my.csv&quot;);
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream, {headers : true})
  .on(&quot;data&quot;, function(data){
@@ -222,7 +228,7 @@ csv(stream, {headers : true})
 the data columns will not match.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>var stream = fs.createReadStream(&quot;my.csv&quot;);
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream, {headers : [&quot;firstName&quot;, &quot;lastName&quot;, &quot;address&quot;]})
  .on(&quot;data&quot;, function(data){
@@ -237,7 +243,7 @@ csv(stream, {headers : [&quot;firstName&quot;, &quot;lastName&quot;, &quot;addre
 will be emitted with the row and the index.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>var stream = fs.createReadStream(&quot;my.csv&quot;);
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream, {headers : true})
  .validate(function(data){
@@ -258,7 +264,7 @@ csv(stream, {headers : true})
 be provided to validate and emitted as a row.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>var stream = fs.createReadStream(&quot;my.csv&quot;);
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream)
  .transform(function(data){
@@ -275,7 +281,19 @@ csv(stream)
 
 <hr>
 
-Documentation generated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+    
+  <h2>License</h2>
+<p>MIT <a href="https://github.com/C2FO/fast-csv/raw/master/LICENSE">https://github.com/C2FO/fast-csv/raw/master/LICENSE</a>
+
+</p>
+<h2>Meta</h2>
+<ul>
+<li>Code: <code>git clone git://github.com/C2FO/fast-csv.git</code></li>
+<li>Website: <a href="http://c2fo.com">http://c2fo.com</a></li>
+<li>Twitter: <a href="http://twitter.com/c2fo"><a href="http://twitter.com/c2fo">http://twitter.com/c2fo</a></a> - 877.465.4045</li>
+</ul>
+
+
 
 
 </div>

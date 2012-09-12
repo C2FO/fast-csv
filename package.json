@@ -15,6 +15,7 @@
         "parser",
         "fast"
     ],
+    "homepage":"http://c2fo.github.com/fast-csv/index.html",
     "author":"Doug Martin",
     "license":"MIT",
     "dependencies":{
