@@ -16,5 +16,13 @@
         "fast"
     ],
     "author":"Doug Martin",
-    "license":"MIT"
+    "license":"MIT",
+    "dependencies":{
+        "comb":"~0.1.8",
+        "it":"0.0.5"
+    },
+    "devDependencies":{
+
+        "it":"0.0.5"
+    }
 }
