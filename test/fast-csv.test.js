@@ -101,8 +101,9 @@ it.describe("fast-csv parser",function (it) {
             .on("data",function (data, index) {
                 actual[index] = data;
             }).
-            on("end", function () {
+            on("end", function (count) {
                 assert.deepEqual(actual, expected4);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
@@ -114,8 +115,9 @@ it.describe("fast-csv parser",function (it) {
             .on("data",function (data, index) {
                 actual[index] = data;
             }).
-            on("end", function () {
+            on("end", function (count) {
                 assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
@@ -126,8 +128,9 @@ it.describe("fast-csv parser",function (it) {
             .on("data",function (data, index) {
                 actual[index] = data;
             }).
-            on("end", function () {
+            on("end", function (count) {
                 assert.deepEqual(actual, expected2);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
@@ -139,8 +142,9 @@ it.describe("fast-csv parser",function (it) {
             .on("data",function (data, index) {
                 actual[index] = data;
             }).
-            on("end", function () {
+            on("end", function (count) {
                 assert.deepEqual(actual, expected3);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
@@ -152,8 +156,9 @@ it.describe("fast-csv parser",function (it) {
             .on("data",function (data, index) {
                 actual[index] = data;
             }).
-            on("end", function () {
+            on("end", function (count) {
                 assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
@@ -171,9 +176,10 @@ it.describe("fast-csv parser",function (it) {
             .on("data-invalid", function (data, index) {
                 invalid.push(data);
             })
-            .on("end", function () {
+            .on("end", function (count) {
                 assert.deepEqual(actual, expectedValid);
                 assert.deepEqual(invalid, expectedInvalid);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
@@ -192,8 +198,9 @@ it.describe("fast-csv parser",function (it) {
             .on("data",function (data, index) {
                 actual[index] = data;
             }).
-            on("end", function () {
+            on("end", function (count) {
                 assert.deepEqual(actual, expectedCamelCase);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
@@ -234,8 +241,9 @@ it.describe("fast-csv parser",function (it) {
             .on("data", function (data, index) {
                 actual.push(data);
             })
-            .on("end", function (error) {
+            .on("end", function (count) {
                 assert.deepEqual(actual, expected7);
+                assert.equal(count, actual.length);
                 next();
             })
             .parse();
