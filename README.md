@@ -20,7 +20,7 @@ var csv = require("fast-csv");
 
 csv("my.csv")
  .on("data", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -35,7 +35,7 @@ var stream = fs.createReadStream("my.csv");
 
 csv(stream)
  .on("data", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -52,7 +52,7 @@ var stream = fs.createReadStream("my.csv");
 
 csv(stream, {headers : true})
  .on("data", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -69,7 +69,7 @@ var stream = fs.createReadStream("my.csv");
 
 csv(stream, {headers : ["firstName", "lastName", "address"]})
  .on("data", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -94,7 +94,7 @@ csv(stream, {headers : true})
      //do something with invalid row
  })
  .on("data", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -116,7 +116,7 @@ csv(stream)
      return data.reverse(); //reverse each row.
  })
  .on("data", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
