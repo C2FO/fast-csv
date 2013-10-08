@@ -1,9 +1,14 @@
 var it = require("it"),
     assert = require("assert"),
     fs = require("fs"),
-    comb = require("comb"),
     csv = require("../index"),
     path = require("path");
+
+function camelize(str) {
+    return str.replace(/_(.)/g, function (a, b) {
+        return b.toUpperCase();
+    });
+}
 
 var expected1 = [
     {first_name: "First1", last_name: "Last1", email_address: "email1@email.com", address: "1 Street St, State ST, 88888"},
@@ -96,7 +101,7 @@ var expected8 = [
     {first_name: "First1", last_name: "Last1", email_address: "email1@email.com"},
     {first_name: "", last_name: "Last4", email_address: "email4@email.com"},
     {first_name: "First5", last_name: "", email_address: "email5@email.com"},
-    {first_name: "First7", last_name: "Last7", email_address: ""},
+    {first_name: "First7", last_name: "Last7", email_address: ""}
 ];
 
 it.describe("fast-csv parser",function (it) {
@@ -198,7 +203,7 @@ it.describe("fast-csv parser",function (it) {
             .transform(function (data) {
                 var ret = {};
                 ["first_name", "last_name", "email_address"].forEach(function (prop) {
-                    ret[comb.camelize(prop)] = data[prop];
+                    ret[camelize(prop)] = data[prop];
                 })
                 return ret;
             })
