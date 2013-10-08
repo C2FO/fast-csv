@@ -144,21 +144,7 @@ csv(stream)
 
 ```
 
-##Namespaces
-
-
-
-
-
-##Classes
-
-
-
-
-
-
-
-  ## License
+## License
 
 MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 
