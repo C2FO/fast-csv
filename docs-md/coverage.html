@@ -256,9 +256,9 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>98.82</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>279</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>85</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>98.90</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>323</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>91</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>1</span>
                 </div>
             </td>
@@ -275,9 +275,9 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>98.82</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>279</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>85</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>98.90</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>323</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>91</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>1</span>
                 </div>
             </td>
@@ -288,11 +288,22 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> * @github https://github.com/C2FO/fast-csv</code></li>
 <li class='green'><span class=''> </span><code> * @includeDoc [Test Coverage] [../docs-md/coverage.html]</code></li>
 <li class='green'><span class=''> </span><code> * @header</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * [![build status](https://secure.travis-ci.org/C2FO/fast-csv.png)](http://travis-ci.org/C2FO/fast-csv)</code></li>
+<li class='green'><span class=''> </span><code> * # Fast-csv</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * This is a library is aimed at providing fast CSV parsing. It accomplishes this by not handling some of the more complex</code></li>
 <li class='green'><span class=''> </span><code> * edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * ## Installation</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * `npm install fast-csv`</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * ## Usage</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * To parse a file.</code></li>
-<li class='green'><span class=''> </span><code> * ```</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * ```javascript</code></li>
 <li class='green'><span class=''> </span><code> * var csv = require("fast-csv");</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * csv("my.csv")</code></li>
@@ -307,7 +318,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * You may also parse a stream.</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * ```</code></li>
+<li class='green'><span class=''> </span><code> * ```javascript</code></li>
 <li class='green'><span class=''> </span><code> * var stream = fs.createReadStream("my.csv");</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * csv(stream)</code></li>
@@ -324,7 +335,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> * If you expect the first line your csv to headers you may pass a headers option in. Setting the headers option will</code></li>
 <li class='green'><span class=''> </span><code> * cause change each row to an object rather than an array.</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * ```</code></li>
+<li class='green'><span class=''> </span><code> * ```javascript</code></li>
 <li class='green'><span class=''> </span><code> * var stream = fs.createReadStream("my.csv");</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * csv(stream, {headers : true})</code></li>
@@ -341,7 +352,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> * You may alternatively pass an array of header names which must match the order of each column in the csv, otherwise</code></li>
 <li class='green'><span class=''> </span><code> * the data columns will not match.</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * ```</code></li>
+<li class='green'><span class=''> </span><code> * ```javascript</code></li>
 <li class='green'><span class=''> </span><code> * var stream = fs.createReadStream("my.csv");</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * csv(stream, {headers : ["firstName", "lastName", "address"]})</code></li>
@@ -355,12 +366,31 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * ```</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * ###Validating</code></li>
+<li class='green'><span class=''> </span><code> * If your data may include empty rows, the sort Excel might include at the end of the file for instance, you can ignore</code></li>
+<li class='green'><span class=''> </span><code> * these by including the `ignoreEmpty` option.</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * Any rows consisting of nothing but empty strings and/or commas will be skipped, without emitting a 'data' or 'error' event.</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * ```javascript</code></li>
+<li class='green'><span class=''> </span><code> * var stream = fs.createReadStream("my.csv");</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * csv(stream, {ignoreEmpty: true})</code></li>
+<li class='green'><span class=''> </span><code> *  .on("data", function(data){</code></li>
+<li class='green'><span class=''> </span><code> *      console.log(data):</code></li>
+<li class='green'><span class=''> </span><code> *  })</code></li>
+<li class='green'><span class=''> </span><code> *  .on("end", function(){</code></li>
+<li class='green'><span class=''> </span><code> *      console.log("done");</code></li>
+<li class='green'><span class=''> </span><code> *  })</code></li>
+<li class='green'><span class=''> </span><code> *  .parse();</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * ```</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * ### Validating</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * You can validate each row in the csv by providing a validate handler. If a row is invalid then a `data-invalid` event</code></li>
 <li class='green'><span class=''> </span><code> * will be emitted with the row and the index.</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * ```</code></li>
+<li class='green'><span class=''> </span><code> * ```javascript</code></li>
 <li class='green'><span class=''> </span><code> * var stream = fs.createReadStream("my.csv");</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * csv(stream, {headers : true})</code></li>
@@ -380,12 +410,12 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * ```</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * ###Transforming</code></li>
+<li class='green'><span class=''> </span><code> * ### Transforming</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * You can transform data by providing in a transform function. What is returned from the transform function will</code></li>
 <li class='green'><span class=''> </span><code> * be provided to validate and emitted as a row.</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * ```</code></li>
+<li class='green'><span class=''> </span><code> * ```javascript</code></li>
 <li class='green'><span class=''> </span><code> * var stream = fs.createReadStream("my.csv");</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * csv(stream)</code></li>
@@ -401,145 +431,159 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> *  .parse();</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * ```</code></li>
-<li class='green'><span class=''> </span><code> * @type {*}</code></li>
+<li class='green'><span class=''> </span><code> * @footer</code></li>
+<li class='green'><span class=''> </span><code> * ## License</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * MIT &lt;https://github.com/C2FO/fast-csv/raw/master/LICENSE&gt;</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * ##Meta</code></li>
+<li class='green'><span class=''> </span><code> * * Code: `git clone git://github.com/C2FO/fast-csv.git`</code></li>
+<li class='green'><span class=''> </span><code> * * Website: &lt;http://c2fo.com&gt;</code></li>
+<li class='green'><span class=''> </span><code> * * Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045</code></li>
 <li class='green'><span class=''> </span><code> */</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var fs = require("fs"),</code></li>
-<li class='green'><span class=''> </span><code>    comb = require("comb"),</code></li>
+<li class='green'><span class=''> </span><code>    _ = require("extended")().register(require("is-extended")).register(require("object-extended")),</code></li>
 <li class='green'><span class=''> </span><code>    EventEmitter = require("events").EventEmitter,</code></li>
-<li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
 <li class='green'><span class=''> </span><code>    util = require("util"),</code></li>
 <li class='green'><span class=''> </span><code>    out = process.stdout,</code></li>
 <li class='green'><span class=''> </span><code>    Stream = require("stream").Stream;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var VALIDATE = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;</code></li>
+<li class='green'><span class='hits'>1</span><code>var EMPTY = /^\s*(?:''|"")?\s*(?:,\s*(?:''|"")?\s*)*$/;</code></li>
 <li class='green'><span class='hits'>1</span><code>var VALUE = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;</code></li>
+<li class='green'><span class='hits'>1</span><code>var LINE_SPLIT = /[\r\n|\r|\n]/;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1</span><code>var Parser = comb(function Parser(options) {</code></li>
-<li class='green'><span class='hits'>13</span><code>    EventEmitter.call(this);</code></li>
-<li class='green'><span class='hits'>13</span><code>    this._parsedHeaders = false;</code></li>
-<li class='green'><span class='hits'>13</span><code>    this._rowCount = 0;</code></li>
-<li class='green'><span class='hits'>13</span><code>    options = options || {};</code></li>
-<li class='green'><span class='hits'>13</span><code>    this._headers = options.headers;</code></li>
-<li class='green'><span class=''> </span><code>});</code></li>
+<li class='green'><span class='hits'>1</span><code>function Parser(options) {</code></li>
+<li class='green'><span class='hits'>14</span><code>    EventEmitter.call(this);</code></li>
+<li class='green'><span class='hits'>14</span><code>    this._parsedHeaders = false;</code></li>
+<li class='green'><span class='hits'>14</span><code>    this._rowCount = 0;</code></li>
+<li class='green'><span class='hits'>14</span><code>    options = options || {};</code></li>
+<li class='green'><span class='hits'>14</span><code>    this._headers = options.headers;</code></li>
+<li class='green'><span class='hits'>14</span><code>    this._ignoreEmpty = options.ignoreEmpty;</code></li>
+<li class='green'><span class=''> </span><code>}</code></li>
 <li class='green'><span class='hits'>1</span><code>util.inherits(Parser, EventEmitter);</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1</span><code>Parser.extend({</code></li>
-<li class='green'><span class=''> </span><code>    __parseLine:function __parseLineData(data, index, ignore) {</code></li>
+<li class='green'><span class='hits'>1</span><code>_(Parser).extend({</code></li>
+<li class='green'><span class=''> </span><code>    __parseLine: function __parseLineData(data, index, ignore) {</code></li>
 <li class='green'><span class=''> </span><code>        // Return NULL if input string is not well formed CSV string.</code></li>
-<li class='green'><span class='hits'>98</span><code>        if (!VALIDATE.test(data)) {</code></li>
+<li class='green'><span class=''> </span><code>        //regexp based on http://stackoverflow.com/a/8497474</code></li>
+<li class='green'><span class='hits'>108</span><code>        var ignoreEmpty = this._ignoreEmpty;</code></li>
+<li class='green'><span class='hits'>108</span><code>        if (!VALIDATE.test(data)) {</code></li>
 <li class='green'><span class='hits'>1</span><code>            this.emit("error", new Error("Invalid row " + data));</code></li>
 <li class='green'><span class='hits'>1</span><code>            return null;</code></li>
+<li class='green'><span class='hits'>107</span><code>        } else if (_.isBoolean(ignoreEmpty) &amp;&amp; ignoreEmpty &amp;&amp; EMPTY.test(data)) {</code></li>
+<li class='green'><span class='hits'>5</span><code>            return null;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class='hits'>97</span><code>        var a = [];</code></li>
-<li class='green'><span class='hits'>97</span><code>        data.replace(VALUE, function lineReplace(m0, m1, m2, m3) {</code></li>
-<li class='green'><span class='hits'>339</span><code>            var item;</code></li>
-<li class='green'><span class='hits'>339</span><code>            if (m1 !== undefined) {</code></li>
+<li class='green'><span class='hits'>102</span><code>        var a = [];</code></li>
+<li class='green'><span class='hits'>102</span><code>        data.replace(VALUE, function lineReplace(m0, m1, m2, m3) {</code></li>
+<li class='green'><span class='hits'>353</span><code>            var item;</code></li>
+<li class='green'><span class='hits'>353</span><code>            if (m1 !== undefined) {</code></li>
 <li class='green'><span class='hits'>9</span><code>                item = m1.replace(/\\'/g, "'");</code></li>
-<li class='green'><span class='hits'>330</span><code>            } else if (m2 !== undefined) {</code></li>
+<li class='green'><span class='hits'>344</span><code>            } else if (m2 !== undefined) {</code></li>
 <li class='green'><span class='hits'>35</span><code>                item = m2.replace(/\\"/g, '"');</code></li>
-<li class='green'><span class='hits'>295</span><code>            } else if (m3 !== undefined) {</code></li>
-<li class='green'><span class='hits'>295</span><code>                item = m3;</code></li>
+<li class='green'><span class='hits'>309</span><code>            } else if (m3 !== undefined) {</code></li>
+<li class='green'><span class='hits'>309</span><code>                item = m3;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>339</span><code>            a.push(item);</code></li>
-<li class='green'><span class='hits'>339</span><code>            return ''; // Return empty string.</code></li>
+<li class='green'><span class='hits'>353</span><code>            a.push(item);</code></li>
+<li class='green'><span class='hits'>353</span><code>            return ''; // Return empty string.</code></li>
 <li class='green'><span class=''> </span><code>        }.bind(this));</code></li>
 <li class='green'><span class=''> </span><code>        // Handle special case of empty last value.</code></li>
-<li class='green'><span class='hits'>97</span><code>        if (/,\s*$/.test(data)) {</code></li>
-<li class='green'><span class='hits'>9</span><code>            a.push('');</code></li>
+<li class='green'><span class='hits'>102</span><code>        if (/,\s*$/.test(data)) {</code></li>
+<li class='green'><span class='hits'>10</span><code>            a.push('');</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class='hits'>97</span><code>        if (!ignore) {</code></li>
-<li class='green'><span class='hits'>89</span><code>            a = this._transform(a, index);</code></li>
-<li class='green'><span class='hits'>89</span><code>            if (this._validate(a, index)) {</code></li>
-<li class='green'><span class='hits'>85</span><code>                return a;</code></li>
+<li class='green'><span class='hits'>102</span><code>        if (!ignore) {</code></li>
+<li class='green'><span class='hits'>93</span><code>            a = this._transform(a, index);</code></li>
+<li class='green'><span class='hits'>93</span><code>            if (this._validate(a, index)) {</code></li>
+<li class='green'><span class='hits'>89</span><code>                return a;</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='green'><span class='hits'>4</span><code>                this.emit("data-invalid", a, index);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        } else {</code></li>
-<li class='green'><span class='hits'>8</span><code>            return a;</code></li>
+<li class='green'><span class='hits'>9</span><code>            return a;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>    _parse:function _parseLine(data) {</code></li>
-<li class='green'><span class='hits'>20</span><code>        var row, parseLine = this.__parseLine.bind(this), emitRow = this.emit.bind(this, "data");</code></li>
-<li class='green'><span class='hits'>20</span><code>        if (!this._parsedHeaders) {</code></li>
-<li class='green'><span class='hits'>10</span><code>            var headers = this._headers;</code></li>
-<li class='green'><span class='hits'>10</span><code>            if (comb.isBoolean(headers) &amp;&amp; headers) {</code></li>
-<li class='green'><span class='hits'>8</span><code>                headers = parseLine(data.shift(), 0, true);</code></li>
+<li class='green'><span class=''> </span><code>    _parse: function _parseLine(data) {</code></li>
+<li class='green'><span class='hits'>22</span><code>        var row, parseLine = this.__parseLine.bind(this), emitRow = this.emit.bind(this, "data"), count = 0;</code></li>
+<li class='green'><span class='hits'>22</span><code>        if (!this._parsedHeaders) {</code></li>
+<li class='green'><span class='hits'>11</span><code>            var headers = this._headers;</code></li>
+<li class='green'><span class='hits'>11</span><code>            if (_.isBoolean(headers) &amp;&amp; headers) {</code></li>
+<li class='green'><span class='hits'>9</span><code>                headers = parseLine(data.shift(), 0, true);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>10</span><code>            if (comb.isArray(headers)) {</code></li>
-<li class='green'><span class='hits'>9</span><code>                var headersLength = headers.length,</code></li>
+<li class='green'><span class='hits'>11</span><code>            if (_.isArray(headers)) {</code></li>
+<li class='green'><span class='hits'>10</span><code>                var headersLength = headers.length,</code></li>
 <li class='green'><span class=''> </span><code>                    orig = this._transform.bind(this);</code></li>
-<li class='green'><span class='hits'>9</span><code>                this._transform = function (data, index) {</code></li>
-<li class='green'><span class='hits'>80</span><code>                    var ret = {};</code></li>
-<li class='green'><span class='hits'>80</span><code>                    for (var i = 0; i &lt; headersLength; i++) {</code></li>
-<li class='green'><span class='hits'>284</span><code>                        ret[headers[i]] = data[i];</code></li>
+<li class='green'><span class='hits'>10</span><code>                this._transform = function (data, index) {</code></li>
+<li class='green'><span class='hits'>84</span><code>                    var ret = {};</code></li>
+<li class='green'><span class='hits'>84</span><code>                    for (var i = 0; i &lt; headersLength; i++) {</code></li>
+<li class='green'><span class='hits'>296</span><code>                        ret[headers[i]] = data[i];</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class='hits'>80</span><code>                    return orig(ret, index);</code></li>
+<li class='green'><span class='hits'>84</span><code>                    return orig(ret, index);</code></li>
 <li class='green'><span class=''> </span><code>                };</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>10</span><code>            this._parsedHeaders = true;</code></li>
+<li class='green'><span class='hits'>11</span><code>            this._parsedHeaders = true;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class='hits'>20</span><code>        for (var i = 0, l = data.length; i &lt; l; i++) {</code></li>
-<li class='green'><span class='hits'>90</span><code>            row = data[i];</code></li>
-<li class='green'><span class='hits'>90</span><code>            if (row) {</code></li>
-<li class='green'><span class='hits'>90</span><code>                var count = this._rowCount++;</code></li>
-<li class='green'><span class='hits'>90</span><code>                var dataRow = parseLine(row, count);</code></li>
-<li class='green'><span class='hits'>90</span><code>                if (dataRow) {</code></li>
-<li class='green'><span class='hits'>85</span><code>                    emitRow(dataRow, count);</code></li>
+<li class='green'><span class='hits'>22</span><code>        for (var i = 0, l = data.length; i &lt; l; i++) {</code></li>
+<li class='green'><span class='hits'>99</span><code>            row = data[i];</code></li>
+<li class='green'><span class='hits'>99</span><code>            if (row) {</code></li>
+<li class='green'><span class='hits'>99</span><code>                var dataRow = parseLine(row, count);</code></li>
+<li class='green'><span class='hits'>99</span><code>                if (dataRow) {</code></li>
+<li class='green'><span class='hits'>89</span><code>                    count = this._rowCount++;</code></li>
+<li class='green'><span class='hits'>89</span><code>                    emitRow(dataRow, count);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code>    from:function _from(from) {</code></li>
-<li class='green'><span class='hits'>13</span><code>        this.__from = from;</code></li>
-<li class='green'><span class='hits'>13</span><code>        return this;</code></li>
+<li class='green'><span class=''> </span><code>    from: function _from(from) {</code></li>
+<li class='green'><span class='hits'>14</span><code>        this.__from = from;</code></li>
+<li class='green'><span class='hits'>14</span><code>        return this;</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code>    parse:function _parse(from) {</code></li>
-<li class='green'><span class='hits'>11</span><code>        from = from || this.__from;</code></li>
-<li class='green'><span class='hits'>11</span><code>        if (comb.isString(from)) {</code></li>
-<li class='green'><span class='hits'>9</span><code>            from = fs.createReadStream(from);</code></li>
-<li class='green'><span class='hits'>9</span><code>            from.on("end", function () {</code></li>
-<li class='green'><span class='hits'>9</span><code>                from.destroy();</code></li>
+<li class='green'><span class=''> </span><code>    parse: function _parse(from) {</code></li>
+<li class='green'><span class='hits'>12</span><code>        from = from || this.__from;</code></li>
+<li class='green'><span class='hits'>12</span><code>        if (_.isString(from)) {</code></li>
+<li class='green'><span class='hits'>10</span><code>            from = fs.createReadStream(from);</code></li>
+<li class='green'><span class='hits'>10</span><code>            from.on("end", function () {</code></li>
+<li class='green'><span class='hits'>10</span><code>                from.destroy();</code></li>
 <li class='green'><span class=''> </span><code>            });</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class='hits'>11</span><code>        if (comb.isObject(from) &amp;&amp; from instanceof Stream) {</code></li>
-<li class='green'><span class='hits'>10</span><code>            var lines = "", parse = this._parse.bind(this), end = this.emit.bind(this, "end");</code></li>
-<li class='green'><span class='hits'>10</span><code>            from.on("data", function streamOnData(data) {</code></li>
-<li class='green'><span class='hits'>10</span><code>                var lineData = (lines + data).trim().split("\n");</code></li>
-<li class='green'><span class='hits'>10</span><code>                if (lineData.length &gt; 1) {</code></li>
-<li class='green'><span class='hits'>10</span><code>                    lines = lineData.pop();</code></li>
-<li class='green'><span class='hits'>10</span><code>                    parse(lineData);</code></li>
+<li class='green'><span class='hits'>12</span><code>        if (_.isObject(from) &amp;&amp; from instanceof Stream) {</code></li>
+<li class='green'><span class='hits'>11</span><code>            var lines = "", parse = this._parse.bind(this), end = this.emit.bind(this, "end");</code></li>
+<li class='green'><span class='hits'>11</span><code>            from.on("data", function streamOnData(data) {</code></li>
+<li class='green'><span class='hits'>11</span><code>                var lineData = (lines + data).trim().split(LINE_SPLIT);</code></li>
+<li class='green'><span class='hits'>11</span><code>                if (lineData.length &gt; 1) {</code></li>
+<li class='green'><span class='hits'>11</span><code>                    lines = lineData.pop();</code></li>
+<li class='green'><span class='hits'>11</span><code>                    parse(lineData);</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    lines += data;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            });</code></li>
-<li class='green'><span class='hits'>10</span><code>            from.on("end", function streamOnEnd() {</code></li>
-<li class='green'><span class='hits'>10</span><code>                parse(lines.split("\n"));</code></li>
-<li class='green'><span class='hits'>10</span><code>                end();</code></li>
-<li class='green'><span class=''> </span><code>            });</code></li>
+<li class='green'><span class='hits'>11</span><code>            from.on("end", function streamOnEnd() {</code></li>
+<li class='green'><span class='hits'>11</span><code>                parse(lines.split(LINE_SPLIT));</code></li>
+<li class='green'><span class='hits'>11</span><code>                end(this._rowCount);</code></li>
+<li class='green'><span class=''> </span><code>            }.bind(this));</code></li>
 <li class='green'><span class=''> </span><code>        } else {</code></li>
 <li class='green'><span class='hits'>1</span><code>            throw new TypeError("fast-csv.Parser#parse from must be a path or ReadableStream");</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class='hits'>10</span><code>        return this;</code></li>
+<li class='green'><span class='hits'>11</span><code>        return this;</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>    _validate:function (data, index) {</code></li>
-<li class='green'><span class='hits'>80</span><code>        return true;</code></li>
+<li class='green'><span class=''> </span><code>    _validate: function (data, index) {</code></li>
+<li class='green'><span class='hits'>84</span><code>        return true;</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code>    _transform:function (data, index) {</code></li>
-<li class='green'><span class='hits'>80</span><code>        return data;</code></li>
+<li class='green'><span class=''> </span><code>    _transform: function (data, index) {</code></li>
+<li class='green'><span class='hits'>84</span><code>        return data;</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code>    validate:function (cb) {</code></li>
-<li class='green'><span class='hits'>2</span><code>        if (!comb.isFunction(cb)) {</code></li>
+<li class='green'><span class=''> </span><code>    validate: function (cb) {</code></li>
+<li class='green'><span class='hits'>2</span><code>        if (!_.isFunction(cb)) {</code></li>
 <li class='green'><span class='hits'>1</span><code>            throw new TypeError("fast-csv.Parser#validate requires a function");</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class='hits'>1</span><code>        this._validate = cb;</code></li>
 <li class='green'><span class='hits'>1</span><code>        return this;</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code>    transform:function (cb) {</code></li>
-<li class='green'><span class='hits'>2</span><code>        if (!comb.isFunction(cb)) {</code></li>
+<li class='green'><span class=''> </span><code>    transform: function (cb) {</code></li>
+<li class='green'><span class='hits'>2</span><code>        if (!_.isFunction(cb)) {</code></li>
 <li class='green'><span class='hits'>1</span><code>            throw new TypeError("fast-csv.Parser#transform requires a function");</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class='hits'>1</span><code>        this._transform = cb;</code></li>
@@ -560,7 +604,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> * @return {*}</code></li>
 <li class='green'><span class=''> </span><code> */</code></li>
 <li class='green'><span class='hits'>1</span><code>module.exports = function parse(location, options) {</code></li>
-<li class='green'><span class='hits'>13</span><code>    return new Parser(options).from(location);</code></li>
+<li class='green'><span class='hits'>14</span><code>    return new Parser(options).from(location);</code></li>
 <li class='green'><span class=''> </span><code>};</code></li></ol></pre></div>
 </div>
 

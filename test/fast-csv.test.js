@@ -92,6 +92,13 @@ var expected7 = [
     {first_name: "First9", last_name: "Last9", email_address: "email9@email.com", address: ""}
 ];
 
+var expected8 = [
+    {first_name: "First1", last_name: "Last1", email_address: "email1@email.com"},
+    {first_name: "", last_name: "Last4", email_address: "email4@email.com"},
+    {first_name: "First5", last_name: "", email_address: "email5@email.com"},
+    {first_name: "First7", last_name: "Last7", email_address: ""},
+];
+
 it.describe("fast-csv parser",function (it) {
 
 
@@ -243,6 +250,20 @@ it.describe("fast-csv parser",function (it) {
             })
             .on("end", function (count) {
                 assert.deepEqual(actual, expected7);
+                assert.equal(count, actual.length);
+                next();
+            })
+            .parse();
+    });
+
+    it.should("skip valid, but empty rows with ignoreEmpty option", function (next) {
+        var actual = [];
+        csv(path.resolve(__dirname, "./assets/test8.csv"), {headers: true, ignoreEmpty: true})
+            .on("data", function (data, index) {
+                actual.push(data);
+            })
+            .on("end", function (count) {
+                assert.deepEqual(actual, expected8);
                 assert.equal(count, actual.length);
                 next();
             })

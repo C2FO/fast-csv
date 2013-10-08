@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fast-csv</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -172,21 +177,14 @@
 
 
 
-  <p><a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a>
-</p>
+  <p><a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a></p>
 <h1>Fast-csv</h1>
 <p>This is a library is aimed at providing fast CSV parsing. It accomplishes this by not handling some of the more complex
-edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.
-
-</p>
+edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.</p>
 <h2>Installation</h2>
-<p><code>npm install fast-csv</code>
-
-</p>
+<p><code>npm install fast-csv</code></p>
 <h2>Usage</h2>
-<p>To parse a file.
-
-</p>
+<p>To parse a file.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csv = require(&quot;fast-csv&quot;);
 
 csv(&quot;my.csv&quot;)
@@ -197,9 +195,7 @@ csv(&quot;my.csv&quot;)
      console.log(&quot;done&quot;);
  })
  .parse();</code></pre>
-<p>You may also parse a stream.
-
-</p>
+<p>You may also parse a stream.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream)
@@ -211,9 +207,7 @@ csv(stream)
  })
  .parse();</code></pre>
 <p>If you expect the first line your csv to headers you may pass a headers option in. Setting the headers option will
-cause change each row to an object rather than an array.
-
-</p>
+cause change each row to an object rather than an array.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream, {headers : true})
@@ -225,9 +219,7 @@ csv(stream, {headers : true})
  })
  .parse();</code></pre>
 <p>You may alternatively pass an array of header names which must match the order of each column in the csv, otherwise
-the data columns will not match.
-
-</p>
+the data columns will not match.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream, {headers : [&quot;firstName&quot;, &quot;lastName&quot;, &quot;address&quot;]})
@@ -238,11 +230,22 @@ csv(stream, {headers : [&quot;firstName&quot;, &quot;lastName&quot;, &quot;addre
      console.log(&quot;done&quot;);
  })
  .parse();</code></pre>
+<p>If your data may include empty rows, the sort Excel might include at the end of the file for instance, you can ignore
+these by including the <code>ignoreEmpty</code> option.</p>
+<p>Any rows consisting of nothing but empty strings and/or commas will be skipped, without emitting a &#39;data&#39; or &#39;error&#39; event.</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
+
+csv(stream, {ignoreEmpty: true})
+ .on(&quot;data&quot;, function(data){
+     console.log(data):
+ })
+ .on(&quot;end&quot;, function(){
+     console.log(&quot;done&quot;);
+ })
+ .parse();</code></pre>
 <h3>Validating</h3>
 <p>You can validate each row in the csv by providing a validate handler. If a row is invalid then a <code>data-invalid</code> event
-will be emitted with the row and the index.
-
-</p>
+will be emitted with the row and the index.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream, {headers : true})
@@ -261,9 +264,7 @@ csv(stream, {headers : true})
  .parse();</code></pre>
 <h3>Transforming</h3>
 <p>You can transform data by providing in a transform function. What is returned from the transform function will
-be provided to validate and emitted as a row.
-
-</p>
+be provided to validate and emitted as a row.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 csv(stream)
@@ -283,9 +284,7 @@ csv(stream)
 
     
   <h2>License</h2>
-<p>MIT <a href="https://github.com/C2FO/fast-csv/raw/master/LICENSE">https://github.com/C2FO/fast-csv/raw/master/LICENSE</a>
-
-</p>
+<p>MIT <a href="https://github.com/C2FO/fast-csv/raw/master/LICENSE">https://github.com/C2FO/fast-csv/raw/master/LICENSE</a></p>
 <h2>Meta</h2>
 <ul>
 <li>Code: <code>git clone git://github.com/C2FO/fast-csv.git</code></li>
