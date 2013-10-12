@@ -1,7 +1,7 @@
 {
     "name": "fast-csv-delims",
-    "version": "0.0.2",
-    "description": "CSV parser for node.js. Doug Martin is the original author. This is merely a temporary fork to support alternate cell delimiters.",
+    "version": "0.0.21",
+    "description": "CSV parser for node.js. Doug Martin is the original author. This is merely a temporary fork to support alternate cell delimiters. Please support Mr Martin and his awesome work by using his module.",
     "main": "index.js",
     "scripts": {
         "test": "grunt"
