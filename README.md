@@ -4,6 +4,8 @@
   [![build status](https://secure.travis-ci.org/C2FO/fast-csv.png)](http://travis-ci.org/C2FO/fast-csv)
 # Fast-csv
 
+*Doug Martin is the original author. This is merely a temporary fork to support alternate cell delimiters. Please support Mr Martin and his awesome work by using his module.*
+
 This is a library is aimed at providing fast CSV parsing. It accomplishes this by not handling some of the more complex
 edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.
 
@@ -34,6 +36,22 @@ You may also parse a stream.
 var stream = fs.createReadStream("my.csv");
 
 csv(stream)
+ .on("data", function(data){
+     console.log(data):
+ })
+ .on("end", function(){
+     console.log("done");
+ })
+ .parse();
+
+```
+
+You may also designate a delimiter. Defaults to comma.
+
+```javascript
+var stream = fs.createReadStream("my.csv");
+
+csv(stream, {delimiter: '\t'})
  .on("data", function(data){
      console.log(data):
  })

@@ -1,22 +1,22 @@
 {
-    "name": "fast-csv",
-    "version": "0.0.2",
-    "description": "CSV parser for node.js",
+    "name": "fast-csv-delims",
+    "version": "0.0.211",
+    "description": "CSV parser for node.js. Doug Martin is the original author. This is merely a temporary fork to support alternate cell delimiters. Please support Mr Martin and his awesome work by using his module.",
     "main": "index.js",
     "scripts": {
         "test": "grunt"
     },
     "repository": {
         "type": "git",
-        "url": "git@github.com:C2FO/fast-csv.git"
+        "url": "git@github.com:alecMint/fast-csv.git"
     },
     "keywords": [
         "csv",
         "parser",
         "fast"
     ],
-    "homepage": "http://c2fo.github.com/fast-csv/index.html",
-    "author": "Doug Martin",
+    "homepage": "https://github.com/alecMint/fast-csv",
+    "author": "Doug Martin - delims forked by fluffy bunnies",
     "license": "MIT",
     "devDependencies": {
         "it": "~0.2.6",
