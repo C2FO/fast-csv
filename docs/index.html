@@ -185,6 +185,12 @@ edge cases such as multi line rows. However it does support escaped values, embe
 <li><strong>NOTE</strong> When specifying an alternate <code>delimiter</code> you may only pass in a single character delimeter</li>
 </ul>
 </li>
+<li>The following are options for parsing only.<ul>
+<li><code>trim=false</code>: If you want to trim all values parsed set to true.</li>
+<li><code>rtrim=false</code>: If you want to right trim all values parsed set to true.</li>
+<li><code>ltrim=false</code>: If you want to left trim all values parsed set to true.</li>
+</ul>
+</li>
 </ul>
 <p><strong>events</strong></p>
 <p><code>parse-error</code>: Emitted if there was an error parsing a row.
@@ -332,61 +338,61 @@ csv
 <p>Create a readable stream to read data from.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var ws = fs.createWritableStream(&quot;my.csv&quot;);
 csv
-    .write([
-        [&quot;a&quot;, &quot;b&quot;],
-        [&quot;a1&quot;, &quot;b1&quot;],
-        [&quot;a2&quot;, &quot;b2&quot;]
-    ], {headers: true})
-    .pipe(ws);</code></pre>
+   .write([
+       [&quot;a&quot;, &quot;b&quot;],
+       [&quot;a1&quot;, &quot;b1&quot;],
+       [&quot;a2&quot;, &quot;b2&quot;]
+   ], {headers: true})
+   .pipe(ws);</code></pre>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var ws = fs.createWritableStream(&quot;my.csv&quot;);
 csv
-    .write([
-        {a: &quot;a1&quot;, b: &quot;b1&quot;},
-        {a: &quot;a2&quot;, b: &quot;b2&quot;}
-    ], {headers: true})
-    .pipe(ws);</code></pre>
+   .write([
+       {a: &quot;a1&quot;, b: &quot;b1&quot;},
+       {a: &quot;a2&quot;, b: &quot;b2&quot;}
+   ], {headers: true})
+   .pipe(ws);</code></pre>
 <p><strong><code>writeToStream(stream,arr[, options])</code></strong></p>
 <p>Write an array of values to a <code>WritableStream</code></p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-    .writeToStream(fs.createWritableStream(&quot;my.csv&quot;), [
-        [&quot;a&quot;, &quot;b&quot;],
-        [&quot;a1&quot;, &quot;b1&quot;],
-        [&quot;a2&quot;, &quot;b2&quot;]
-    ], {headers: true});</code></pre>
+   .writeToStream(fs.createWritableStream(&quot;my.csv&quot;), [
+       [&quot;a&quot;, &quot;b&quot;],
+       [&quot;a1&quot;, &quot;b1&quot;],
+       [&quot;a2&quot;, &quot;b2&quot;]
+   ], {headers: true});</code></pre>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-    .writeToStream(fs.createWritableStream(&quot;my.csv&quot;), [
-        {a: &quot;a1&quot;, b: &quot;b1&quot;},
-        {a: &quot;a2&quot;, b: &quot;b2&quot;}
-    ], {headers: true})
-    .pipe(ws);</code></pre>
+   .writeToStream(fs.createWritableStream(&quot;my.csv&quot;), [
+       {a: &quot;a1&quot;, b: &quot;b1&quot;},
+       {a: &quot;a2&quot;, b: &quot;b2&quot;}
+   ], {headers: true})
+   .pipe(ws);</code></pre>
 <p><strong><code>writeToPath(arr[, options])</code></strong></p>
 <p>Write an array of values to the specified path</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-    .writeToPath(&quot;my.csv&quot;, [
-        [&quot;a&quot;, &quot;b&quot;],
-        [&quot;a1&quot;, &quot;b1&quot;],
-        [&quot;a2&quot;, &quot;b2&quot;]
-    ], {headers: true})
-    .on(&quot;finish&quot;, function(){
-        console.log(&quot;done!&quot;);
-    });</code></pre>
+   .writeToPath(&quot;my.csv&quot;, [
+       [&quot;a&quot;, &quot;b&quot;],
+       [&quot;a1&quot;, &quot;b1&quot;],
+       [&quot;a2&quot;, &quot;b2&quot;]
+   ], {headers: true})
+   .on(&quot;finish&quot;, function(){
+       console.log(&quot;done!&quot;);
+   });</code></pre>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-    .writeToStream(&quot;my.csv&quot;, [
-        {a: &quot;a1&quot;, b: &quot;b1&quot;},
-        {a: &quot;a2&quot;, b: &quot;b2&quot;}
-    ], {headers: true})
-    .on(&quot;finish&quot;, function(){
-        console.log(&quot;done!&quot;);
-    });</code></pre>
+   .writeToStream(&quot;my.csv&quot;, [
+       {a: &quot;a1&quot;, b: &quot;b1&quot;},
+       {a: &quot;a2&quot;, b: &quot;b2&quot;}
+   ], {headers: true})
+   .on(&quot;finish&quot;, function(){
+      console.log(&quot;done!&quot;);
+   });</code></pre>
 <p><strong><code>writeToString(arr[, options])</code></strong></p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString([
-    [&quot;a&quot;, &quot;b&quot;],
-    [&quot;a1&quot;, &quot;b1&quot;],
-    [&quot;a2&quot;, &quot;b2&quot;]
+   [&quot;a&quot;, &quot;b&quot;],
+   [&quot;a1&quot;, &quot;b1&quot;],
+   [&quot;a2&quot;, &quot;b2&quot;]
 ], {headers: true}); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString([
-    {a: &quot;a1&quot;, b: &quot;b1&quot;},
-    {a: &quot;a2&quot;, b: &quot;b2&quot;}
+   {a: &quot;a1&quot;, b: &quot;b1&quot;},
+   {a: &quot;a2&quot;, b: &quot;b2&quot;}
 ], {headers: true}); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
 <h2>Benchmarks</h2>
 <p><code>Parsing 20000 records AVG over 3 runs</code></p>

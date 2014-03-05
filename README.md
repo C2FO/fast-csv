@@ -21,6 +21,11 @@ All methods accept the following `options`
 * `ignoreEmpty=false`: If you wish to ignore empty rows.
 * `delimiter=','`: If your data uses an alternate delimiter such as `;` or `\t`.
    * **NOTE** When specifying an alternate `delimiter` you may only pass in a single character delimeter
+* The following are options for parsing only.
+  * `trim=false`: If you want to trim all values parsed set to true.
+  * `rtrim=false`: If you want to right trim all values parsed set to true.
+  * `ltrim=false`: If you want to left trim all values parsed set to true.
+
 
 **events**
 
@@ -223,22 +228,22 @@ Create a readable stream to read data from.
 ```javascript
 var ws = fs.createWritableStream("my.csv");
 csv
-	.write([
-		["a", "b"],
-		["a1", "b1"],
-		["a2", "b2"]
-	], {headers: true})
-	.pipe(ws);
+   .write([
+       ["a", "b"],
+       ["a1", "b1"],
+       ["a2", "b2"]
+   ], {headers: true})
+   .pipe(ws);
 ```
 
 ```javascript
 var ws = fs.createWritableStream("my.csv");
 csv
-	.write([
-		{a: "a1", b: "b1"},
-		{a: "a2", b: "b2"}
-	], {headers: true})
-	.pipe(ws);
+   .write([
+       {a: "a1", b: "b1"},
+       {a: "a2", b: "b2"}
+   ], {headers: true})
+   .pipe(ws);
 ```
 
 **`writeToStream(stream,arr[, options])`**
@@ -247,20 +252,20 @@ Write an array of values to a `WritableStream`
 
 ```javascript
 csv
-	.writeToStream(fs.createWritableStream("my.csv"), [
-		["a", "b"],
-		["a1", "b1"],
-		["a2", "b2"]
-	], {headers: true});
+   .writeToStream(fs.createWritableStream("my.csv"), [
+       ["a", "b"],
+       ["a1", "b1"],
+       ["a2", "b2"]
+   ], {headers: true});
 ```
 
 ```javascript
 csv
-	.writeToStream(fs.createWritableStream("my.csv"), [
-		{a: "a1", b: "b1"},
-		{a: "a2", b: "b2"}
-	], {headers: true})
-	.pipe(ws);
+   .writeToStream(fs.createWritableStream("my.csv"), [
+       {a: "a1", b: "b1"},
+       {a: "a2", b: "b2"}
+   ], {headers: true})
+   .pipe(ws);
 ```
 
 **`writeToPath(arr[, options])`**
@@ -269,41 +274,41 @@ Write an array of values to the specified path
 
 ```javascript
 csv
-	.writeToPath("my.csv", [
-		["a", "b"],
-		["a1", "b1"],
-		["a2", "b2"]
-	], {headers: true})
-	.on("finish", function(){
-		console.log("done!");
-	});
+   .writeToPath("my.csv", [
+       ["a", "b"],
+       ["a1", "b1"],
+       ["a2", "b2"]
+   ], {headers: true})
+   .on("finish", function(){
+       console.log("done!");
+   });
 ```
 
 ```javascript
 csv
-	.writeToStream("my.csv", [
-		{a: "a1", b: "b1"},
-		{a: "a2", b: "b2"}
-	], {headers: true})
-	.on("finish", function(){
-		console.log("done!");
-	});
+   .writeToStream("my.csv", [
+       {a: "a1", b: "b1"},
+       {a: "a2", b: "b2"}
+   ], {headers: true})
+   .on("finish", function(){
+      console.log("done!");
+   });
 ```
 
 **`writeToString(arr[, options])`**
 
 ```javascript
 csv.writeToString([
-	["a", "b"],
-	["a1", "b1"],
-	["a2", "b2"]
+   ["a", "b"],
+   ["a1", "b1"],
+   ["a2", "b2"]
 ], {headers: true}); //"a,b\na1,b1\na2,b2\n"
 ```
 
 ```javascript
 csv.writeToString([
-	{a: "a1", b: "b1"},
-	{a: "a2", b: "b2"}
+   {a: "a1", b: "b1"},
+   {a: "a2", b: "b2"}
 ], {headers: true}); //"a,b\na1,b1\na2,b2\n"
 ```
 

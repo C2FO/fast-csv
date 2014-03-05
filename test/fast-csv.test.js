@@ -442,6 +442,63 @@ it.describe("fast-csv parser", function (it) {
         });
     });
 
+    it.should("ignore leading white space in front of a quoted value", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test17.csv"), {headers: true})
+            .on("record",function (data, index) {
+                actual[index] = data;
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("accept a ltrim parameter", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test18.csv"), {ltrim: true, trim: false, headers: true})
+            .on("record",function (data, index) {
+                actual[index] = data;
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+
+    it.should("accept a rtrim parameter", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test19.csv"), {rtrim: true, trim: false, headers: true})
+            .on("record",function (data, index) {
+                actual[index] = data;
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("accept a trim parameter", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test20.csv"), {trim: true, headers: true})
+            .on("record",function (data, index) {
+                actual[index] = data;
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
 
     it.should("throw an error if an invalid path or stream is passed in", function () {
         assert.throws(function () {
@@ -535,7 +592,6 @@ it.describe("fast-csv parser", function (it) {
         });
     });
 
-
     it.describe(".writeToPath", function (it) {
 
         it.should("write an array of arrays", function (next) {
@@ -565,8 +621,4 @@ it.describe("fast-csv parser", function (it) {
                 });
         });
     });
-
-
 });
-
-it.run();
