@@ -1,6 +1,6 @@
 {
     "name": "fast-csv",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "description": "CSV parser for node.js",
     "main": "index.js",
     "scripts": {
@@ -27,6 +27,10 @@
     "dependencies": {
         "is-extended": "0.0.8",
         "object-extended": "0.0.5",
-        "extended": "0.0.4"
+        "extended": "0.0.4",
+        "string-extended": "0.0.7"
+    },
+    "engines": {
+        "node": ">=0.10"
     }
 }
