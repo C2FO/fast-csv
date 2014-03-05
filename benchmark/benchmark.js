@@ -1,7 +1,7 @@
 var fastCsv = require("../lib"),
     csv = require("csv"),
     path = require("path"),
-    COUNT = 1000000,
+    COUNT = 20000,
     TEST_FILE = path.resolve(__dirname, "./assets/" + COUNT + ".csv");
 
 
