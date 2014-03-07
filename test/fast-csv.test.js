@@ -523,7 +523,7 @@ it.describe("fast-csv parser", function (it) {
         it.should("write an array of arrays", function (next) {
             var ws = new stream.Writable();
             ws._write = function (data) {
-                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2\n");
+                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2");
                 next();
             };
             csv.writeToStream(ws, [
@@ -536,7 +536,7 @@ it.describe("fast-csv parser", function (it) {
         it.should("write an array of objects", function (next) {
             var ws = new stream.Writable();
             ws._write = function (data) {
-                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2\n");
+                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2");
                 next();
             };
             csv.writeToStream(ws, [
@@ -553,14 +553,14 @@ it.describe("fast-csv parser", function (it) {
                 ["a", "b"],
                 ["a1", "b1"],
                 ["a2", "b2"]
-            ], {headers: true}), "a,b\na1,b1\na2,b2\n");
+            ], {headers: true}), "a,b\na1,b1\na2,b2");
         });
 
         it.should("write an array of objects", function () {
             assert.equal(csv.writeToString([
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
-            ], {headers: true}), "a,b\na1,b1\na2,b2\n");
+            ], {headers: true}), "a,b\na1,b1\na2,b2");
         });
     });
 
@@ -569,7 +569,7 @@ it.describe("fast-csv parser", function (it) {
         it.should("write an array of arrays", function (next) {
             var ws = new stream.Writable();
             ws._write = function (data) {
-                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2\n");
+                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2");
                 next();
             };
             csv.write([
@@ -582,7 +582,7 @@ it.describe("fast-csv parser", function (it) {
         it.should("write an array of objects", function (next) {
             var ws = new stream.Writable();
             ws._write = function (data) {
-                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2\n");
+                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2");
                 next();
             };
             csv.write([
@@ -602,7 +602,7 @@ it.describe("fast-csv parser", function (it) {
                 ["a2", "b2"]
             ], {headers: true})
                 .on("finish", function () {
-                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2\n");
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
                     fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
                     next();
                 });
@@ -615,10 +615,12 @@ it.describe("fast-csv parser", function (it) {
                 {a: "a2", b: "b2"}
             ], {headers: true})
                 .on("finish", function () {
-                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2\n");
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
                     fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
                     next();
                 });
         });
     });
 });
+
+it.run();
