@@ -1,7 +1,7 @@
 {
     "name": "fast-csv",
-    "version": "0.1.2",
-    "description": "CSV parser for node.js",
+    "version": "0.2.0",
+    "description": "CSV parser and writer",
     "main": "index.js",
     "scripts": {
         "test": "grunt"
@@ -13,7 +13,10 @@
     "keywords": [
         "csv",
         "parser",
-        "fast"
+        "fast",
+        "writer",
+        "csv writer",
+        "CSV"
     ],
     "homepage": "http://c2fo.github.com/fast-csv/index.html",
     "author": "Doug Martin",

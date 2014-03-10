@@ -171,8 +171,8 @@
 
   <p><a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a></p>
 <h1>Fast-csv</h1>
-<p>This is a library is aimed at providing fast CSV parsing. It accomplishes this by not handling some of the more complex
-edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.</p>
+<p>This is a library that provides CSV parsing and formatting.</p>
+<p><strong>NOTE</strong> As of v0.2.0 <code>fast-csv</code> supports multi-line values.</p>
 <h2>Installation</h2>
 <p><code>npm install fast-csv</code></p>
 <h2>Usage</h2>
@@ -183,6 +183,11 @@ edge cases such as multi line rows. However it does support escaped values, embe
 <li><code>ignoreEmpty=false</code>: If you wish to ignore empty rows.</li>
 <li><code>delimiter=&#39;,&#39;</code>: If your data uses an alternate delimiter such as <code>;</code> or <code>\t</code>.<ul>
 <li><strong>NOTE</strong> When specifying an alternate <code>delimiter</code> you may only pass in a single character delimeter</li>
+</ul>
+</li>
+<li><code>quote=&#39;&quot;&#39;</code>: The character to use to escape values that contain a delimeter.</li>
+<li><code>escape=&#39;&quot;&#39;</code>: The character to use when escaping a value that is <code>quoted</code> and contains a <code>quote</code> character.<ul>
+<li><code>i.e</code>: &#39;First,&quot;Name&quot;&#39; =&gt; &#39;&quot;First,&quot;&quot;name&quot;&quot;&quot;&#39;</li>
 </ul>
 </li>
 <li>The following are options for parsing only.<ul>
@@ -324,15 +329,9 @@ csv
  });</code></pre>
 <h3>Formatting</h3>
 <p><code>fast-csv</code> also allows to you to create create a <code>CSV</code> from data.</p>
-<p>In addition to the options for parsing you can specify the following additional options.</p>
-<ul>
-<li><code>quote=&#39;&quot;&#39;</code>: The character to use to escape values that contain a delimeter.</li>
-<li><code>escape=&#39;&quot;&#39;</code>: The character to use when escaping a value that is <code>quoted</code> and constains a <code>quote</code> character.<ul>
-<li><code>i.e</code>: &#39;First,&quot;Name&quot;&#39; =&gt; &#39;&quot;First,&quot;&quot;name&quot;&quot;&quot;&#39;</li>
-</ul>
-</li>
-</ul>
-<p><strong>Writing Data</strong></p>
+<p>Formatting accepts the same options as parsing.
+<em>
+<em>*Writing Data</em></em></p>
 <p>Each of the following methods accept an array of values to be written, however each value must be an <code>array</code> of <code>array</code>s or <code>object</code>s.</p>
 <p><strong><code>write(arr[, options])</code></strong></p>
 <p>Create a readable stream to read data from.</p>
