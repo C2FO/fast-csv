@@ -1,7 +1,7 @@
 var fastCsv = require("../lib"),
     csv = require("csv"),
     path = require("path"),
-    COUNT = 20000,
+    COUNT = 100000,
     TEST_FILE = path.resolve(__dirname, "./assets/" + COUNT + ".csv");
 
 
@@ -23,7 +23,7 @@ function benchmarkFastCsv(done) {
             ret.address = data.address;
             return ret;
         })
-        .on("record", function (record) {
+        .on("record", function () {
             count++;
         })
         .on("end", function () {
@@ -48,7 +48,7 @@ function benchmarkCsv(done) {
             ["first_name", "last_name", "email_address"].forEach(function (prop, i) {
                 ret[camelize(prop)] = data[i];
             });
-            ret.address = data[4];
+            ret.address = data[3];
             return ret;
         })
         .on('record', function () {
@@ -67,20 +67,25 @@ function benchmarkCsv(done) {
 }
 
 function benchmark(title, m, done) {
-    var start = new Date();
+    var start = new Date(), runStart = start;
     m(function (err) {
         if (err) {
             done(err);
         } else {
+            console.log("%s: RUN 1 %dms", title, (new Date() - runStart));
+            runStart = new Date();
             m(function (err) {
                 if (err) {
                     done(err);
                 } else {
+                    console.log("%s: RUN 2 %dms", title, (new Date() - runStart));
+                    runStart = new Date();
                     m(function (err) {
                         if (err) {
                             done(err);
                         } else {
-                            console.log("%s: %dms", title, (new Date() - start) / 3);
+                            console.log("%s: RUN 3 %dms", title, (new Date() - runStart));
+                            console.log("%s: 3xAVG %dms", title, (new Date() - start) / 3);
                             done();
                         }
 

@@ -16,7 +16,7 @@ module.exports = function (grunt) {
                 src: 'test/**/*.test.js',
                 options: {
                     timeout: 3000, // not fully supported yet
-                    reporter: 'dotmatrix'
+                    reporter: 'spec'
                 }
             }
         },

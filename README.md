@@ -4,8 +4,9 @@
   [![build status](https://secure.travis-ci.org/C2FO/fast-csv.png)](http://travis-ci.org/C2FO/fast-csv)
 # Fast-csv
 
-This is a library is aimed at providing fast CSV parsing. It accomplishes this by not handling some of the more complex
-edge cases such as multi line rows. However it does support escaped values, embedded commas, double and single quotes.
+This is a library that provides CSV parsing and formatting.
+
+**NOTE** As of v0.2.0 `fast-csv` supports multi-line values.
 
 ## Installation
 
@@ -21,6 +22,9 @@ All methods accept the following `options`
 * `ignoreEmpty=false`: If you wish to ignore empty rows.
 * `delimiter=','`: If your data uses an alternate delimiter such as `;` or `\t`.
    * **NOTE** When specifying an alternate `delimiter` you may only pass in a single character delimeter
+* `quote='"'`: The character to use to escape values that contain a delimeter.
+* `escape='"'`: The character to use when escaping a value that is `quoted` and contains a `quote` character.
+    * `i.e`: 'First,"Name"' => '"First,""name"""'
 * The following are options for parsing only.
   * `trim=false`: If you want to trim all values parsed set to true.
   * `rtrim=false`: If you want to right trim all values parsed set to true.
@@ -211,12 +215,8 @@ csv
 
 `fast-csv` also allows to you to create create a `CSV` from data.
 
-In addition to the options for parsing you can specify the following additional options.
-
-* `quote='"'`: The character to use to escape values that contain a delimeter.
-* `escape='"'`: The character to use when escaping a value that is `quoted` and constains a `quote` character.
-    * `i.e`: 'First,"Name"' => '"First,""name"""'
-
+Formatting accepts the same options as parsing.
+*
 **Writing Data**
 
 Each of the following methods accept an array of values to be written, however each value must be an `array` of `array`s or `object`s.

@@ -139,7 +139,12 @@ var expected14 = [
     {"first_name": "First'7", "last_name": "Last7", "email_address": "email7@email.com", address: "7 Street St, State ST, 88888"}
 ];
 
-it.describe("fast-csv parser", function (it) {
+var expected21 = [
+    {"first_name": "First\n1", "last_name": "Last\n1", "email_address": "email1@email.com", address: "1 Street St,\nState ST, 88888"},
+    {"first_name": "First\n2", "last_name": "Last\n2", "email_address": "email2@email.com", address: "2 Street St,\nState ST, 88888"},
+]
+
+it.describe("fast-csv", function (it) {
 
     it.timeout(60000);
 
@@ -216,11 +221,12 @@ it.describe("fast-csv parser", function (it) {
     it.should("parse a csv with ' escapes", function (next) {
         var actual = [];
         csv
-            .fromPath(path.resolve(__dirname, "./assets/test3.csv"), {headers: true})
+            .fromPath(path.resolve(__dirname, "./assets/test3.csv"), {headers: true, quote: "'"})
             .on("record",function (data, index) {
                 actual[index] = data;
-            }).
-            on("end", function (count) {
+            })
+            .on("error", next)
+            .on("end", function (count) {
                 assert.deepEqual(actual, expected3);
                 assert.equal(count, actual.length);
                 next();
@@ -233,8 +239,9 @@ it.describe("fast-csv parser", function (it) {
             .fromPath(path.resolve(__dirname, "./assets/test2.csv"), {headers: ["first_name", "last_name", "email_address", "address"]})
             .on("record",function (data, index) {
                 actual[index] = data;
-            }).
-            on("end", function (count) {
+            })
+            .on("error", next)
+            .on("end", function (count) {
                 assert.deepEqual(actual, expected1);
                 assert.equal(count, actual.length);
                 next();
@@ -254,6 +261,7 @@ it.describe("fast-csv parser", function (it) {
             .on("data-invalid", function (data, index) {
                 invalid.push(data);
             })
+            .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(invalid, expectedInvalid);
                 assert.deepEqual(actual, expectedValid);
@@ -275,8 +283,9 @@ it.describe("fast-csv parser", function (it) {
             })
             .on("record",function (data, index) {
                 actual[index] = data;
-            }).
-            on("end", function (count) {
+            })
+            .on("error", next)
+            .on("end", function (count) {
                 assert.deepEqual(actual, expectedCamelCase);
                 assert.equal(count, actual.length);
                 next();
@@ -289,8 +298,9 @@ it.describe("fast-csv parser", function (it) {
             .fromStream(fs.createReadStream(path.resolve(__dirname, "./assets/test4.csv")), {headers: true})
             .on("record",function (data, index) {
                 actual[index] = data;
-            }).
-            on("end", function () {
+            })
+            .on("error", next)
+            .on("end", function () {
                 assert.deepEqual(actual, expected4);
                 next();
             });
@@ -303,10 +313,13 @@ it.describe("fast-csv parser", function (it) {
             .on("record", function (data) {
                 actual.push(data);
             })
+            .on("error", function (err) {
+                next();
+            })
             .on("end", function () {
                 assert.deepEqual(actual, expected1.slice(1));
                 assert.isTrue(parseErrorCalled);
-                next();
+                next(new Error("unexpected end call"));
             })
             .on("parse-error", function (error) {
                 parseErrorCalled = true;
@@ -321,6 +334,7 @@ it.describe("fast-csv parser", function (it) {
             .on("record", function (data, index) {
                 actual.push(data);
             })
+            .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected7);
                 assert.equal(count, actual.length);
@@ -335,6 +349,7 @@ it.describe("fast-csv parser", function (it) {
             .on("record", function (data, index) {
                 actual.push(data);
             })
+            .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected8);
                 assert.equal(count, actual.length);
@@ -349,6 +364,7 @@ it.describe("fast-csv parser", function (it) {
             .on("record", function (data) {
                 actual.push(data);
             })
+            .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected9);
                 assert.equal(count, actual.length);
@@ -359,10 +375,11 @@ it.describe("fast-csv parser", function (it) {
     it.should("handle double quotes inside of single quotes", function (next) {
         var actual = [];
         csv
-            .fromPath(path.resolve(__dirname, "./assets/test10.csv"), {headers: true})
+            .fromPath(path.resolve(__dirname, "./assets/test10.csv"), {headers: true, quote: "'"})
             .on("record", function (data) {
                 actual.push(data);
             })
+            .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected10);
                 assert.equal(count, actual.length);
@@ -373,10 +390,11 @@ it.describe("fast-csv parser", function (it) {
     it.should("handle escaped double quotes inside of double quotes", function (next) {
         var actual = [];
         csv
-            .fromPath(path.resolve(__dirname, "./assets/test11.csv"), {headers: true})
+            .fromPath(path.resolve(__dirname, "./assets/test11.csv"), {headers: true, escape: "\\"})
             .on("record", function (data) {
                 actual.push(data);
             })
+            .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected10);
                 assert.equal(count, actual.length);
@@ -387,10 +405,11 @@ it.describe("fast-csv parser", function (it) {
     it.should("handle escaped single quotes inside of single quotes", function (next) {
         var actual = [];
         csv
-            .fromPath(path.resolve(__dirname, "./assets/test12.csv"), {headers: true})
+            .fromPath(path.resolve(__dirname, "./assets/test12.csv"), {headers: true, quote: "'", escape: "\\"})
             .on("record", function (data) {
                 actual.push(data);
             })
+            .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected9);
                 assert.equal(count, actual.length);
@@ -405,8 +424,9 @@ it.describe("fast-csv parser", function (it) {
                 .fromPath(path.resolve(__dirname, "./assets/test14.txt"), {headers: true, delimiter: "\t"})
                 .on("record",function (data, index) {
                     actual[index] = data;
-                }).
-                on("end", function (count) {
+                })
+                .on("error", next)
+                .on("end", function (count) {
                     assert.deepEqual(actual, expected14);
                     assert.equal(count, actual.length);
                     next();
@@ -419,8 +439,9 @@ it.describe("fast-csv parser", function (it) {
                 .fromPath(path.resolve(__dirname, "./assets/test15.txt"), {headers: true, delimiter: "|"})
                 .on("record",function (data, index) {
                     actual[index] = data;
-                }).
-                on("end", function (count) {
+                })
+                .on("error", next)
+                .on("end", function (count) {
                     assert.deepEqual(actual, expected14);
                     assert.equal(count, actual.length);
                     next();
@@ -433,8 +454,9 @@ it.describe("fast-csv parser", function (it) {
                 .fromPath(path.resolve(__dirname, "./assets/test16.txt"), {headers: true, delimiter: ";"})
                 .on("record",function (data, index) {
                     actual[index] = data;
-                }).
-                on("end", function (count) {
+                })
+                .on("error", next)
+                .on("end", function (count) {
                     assert.deepEqual(actual, expected14);
                     assert.equal(count, actual.length);
                     next();
@@ -499,6 +521,20 @@ it.describe("fast-csv parser", function (it) {
             });
     });
 
+    it.should("handle CSVs with new lines", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test21.csv"), {headers: true, ignoreEmpty: true})
+            .on("record",function (data, index) {
+                actual[index] = data;
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected21);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
 
     it.should("throw an error if an invalid path or stream is passed in", function () {
         assert.throws(function () {
@@ -530,7 +566,7 @@ it.describe("fast-csv parser", function (it) {
                 ["a", "b"],
                 ["a1", "b1"],
                 ["a2", "b2"]
-            ], {headers: true});
+            ], {headers: true}).on("error", next);
         });
 
         it.should("write an array of objects", function (next) {
@@ -542,7 +578,7 @@ it.describe("fast-csv parser", function (it) {
             csv.writeToStream(ws, [
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
-            ], {headers: true});
+            ], {headers: true}).on("error", next);
         });
     });
 
@@ -576,7 +612,7 @@ it.describe("fast-csv parser", function (it) {
                 ["a", "b"],
                 ["a1", "b1"],
                 ["a2", "b2"]
-            ], {headers: true}).pipe(ws);
+            ], {headers: true}).on("error", next).pipe(ws);
         });
 
         it.should("write an array of objects", function (next) {
@@ -588,7 +624,7 @@ it.describe("fast-csv parser", function (it) {
             csv.write([
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
-            ], {headers: true}).pipe(ws);
+            ], {headers: true}).on("error", next).pipe(ws);
         });
     });
 
@@ -601,6 +637,7 @@ it.describe("fast-csv parser", function (it) {
                 ["a1", "b1"],
                 ["a2", "b2"]
             ], {headers: true})
+                .on("error", next)
                 .on("finish", function () {
                     assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
                     fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
@@ -614,6 +651,7 @@ it.describe("fast-csv parser", function (it) {
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
             ], {headers: true})
+                .on("error", next)
                 .on("finish", function () {
                     assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
                     fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
@@ -622,5 +660,3 @@ it.describe("fast-csv parser", function (it) {
         });
     });
 });
-
-it.run();
