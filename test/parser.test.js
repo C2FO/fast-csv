@@ -4,199 +4,402 @@ var it = require("it"),
 
 it.describe("fast-csv parser", function (it) {
 
-    it.describe("unescaped data", function (it) {
+    it.describe("with \\n", function (it) {
 
-        it.should("parse a block of CSV text", function () {
-            var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com";
-            var myParser = parser({delimiter: ","});
-            assert.deepEqual(myParser(data, false), {"line": "", "rows": [
-                ["first_name", "last_name", "email_address"],
-                ["First1", "Last1", "email1@email.com"]
-            ]});
-        });
+        it.describe("unescaped data", function (it) {
 
-        it.should("return the rest of the line if there is more data", function () {
-            var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com";
-            var myParser = parser({delimiter: ","});
-            assert.deepEqual(myParser(data, true), {
-                "line": "First1,Last1,email1@email.com",
-                "rows": [
-                    ["first_name", "last_name", "email_address"]
-                ]
+            it.should("parse a block of CSV text", function () {
+                var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com";
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First1", "Last1", "email1@email.com"]
+                ]});
             });
-        });
 
-        it.should("accept new data and return the result", function () {
-            var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com,";
-            var myParser = parser({delimiter: ","});
-            var parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": "First1,Last1,email1@email.com,",
-                "rows": [
-                    ["first_name", "last_name", "email_address"]
-                ]
+            it.should("return the rest of the line if there is more data", function () {
+                var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com";
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, true), {
+                    "line": "First1,Last1,email1@email.com",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
             });
-            assert.deepEqual(myParser(parsedData.line + "\nFirst2,Last2,email2@email.com", false), {"line": "", "rows": [
-                ["First1", "Last1", "email1@email.com"],
-                ["First2", "Last2", "email2@email.com"]
-            ]});
-        });
 
-        it.should("not parse a row if a new line is not found and there is more data", function () {
-            var data = "first_name,last_name,email_address";
-            var myParser = parser({delimiter: ","});
-            var parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": "first_name,last_name,email_address",
-                "rows": []
+            it.should("accept new data and return the result", function () {
+                var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com,";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "First1,Last1,email1@email.com,",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+                assert.deepEqual(myParser(parsedData.line + "\nFirst2,Last2,email2@email.com", false), {"line": "", "rows": [
+                    ["First1", "Last1", "email1@email.com"],
+                    ["First2", "Last2", "email2@email.com"]
+                ]});
             });
-        });
 
-        it.should("not parse a row if there is a trailing delimiter and there is more data", function () {
-            var data = "first_name,last_name,email_address,";
-            var myParser = parser({delimiter: ","});
-            var parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": "first_name,last_name,email_address,",
-                "rows": []
+            it.should("not parse a row if a new line is not found and there is more data", function () {
+                var data = "first_name,last_name,email_address";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "first_name,last_name,email_address",
+                    "rows": []
+                });
             });
-        });
 
-        it.should("parse a row if a new line is found and there is more data", function () {
-            var data = "first_name,last_name,email_address\n";
-            var myParser = parser({delimiter: ","});
-            var parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": "",
-                "rows": [
-                    ["first_name", "last_name", "email_address"]
-                ]
+            it.should("not parse a row if there is a trailing delimiter and there is more data", function () {
+                var data = "first_name,last_name,email_address,";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "first_name,last_name,email_address,",
+                    "rows": []
+                });
             });
-        });
 
-    });
-
-    it.describe("escaped values", function (it) {
-
-        it.should("parse a block of CSV text", function () {
-            var data = 'first_name,last_name,email_address\n"First,1","Last,1","email1@email.com"';
-            var myParser = parser({delimiter: ","});
-            assert.deepEqual(myParser(data, false), {"line": "", "rows": [
-                ["first_name", "last_name", "email_address"],
-                ["First,1", "Last,1", "email1@email.com"]
-            ]});
-        });
-
-        it.should("parse a block of CSV text with escaped escaped char", function () {
-            var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com"';
-            var myParser = parser({delimiter: ","});
-            assert.deepEqual(myParser(data, false), {"line": "", "rows": [
-                ["first_name", "last_name", "email_address"],
-                ["First,\"1\"", "Last,\"1\"", "email1@email.com"]
-            ]});
-        });
-
-        it.should("parse a block of CSV text with alternate escape char", function () {
-            var data = 'first_name,last_name,email_address\n"First,\\"1\\"","Last,\\"1\\"","email1@email.com"';
-            var myParser = parser({delimiter: ",", escape: "\\"});
-            assert.deepEqual(myParser(data, false), {"line": "", "rows": [
-                ["first_name", "last_name", "email_address"],
-                ["First,\"1\"", "Last,\"1\"", "email1@email.com"]
-            ]});
-        });
-
-        it.should("return the rest of the line if a complete value is not found", function () {
-            var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com';
-            var myParser = parser({delimiter: ","});
-            assert.deepEqual(myParser(data, true), {
-                "line": '"First,""1""","Last,""1""","email1@email.com',
-                "rows": [
-                    ["first_name", "last_name", "email_address"]
-                ]
+            it.should("parse a row if a new line is found and there is more data", function () {
+                var data = "first_name,last_name,email_address\n";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
             });
+
         });
 
-        it.should("accept more data appended to the returned line with escaped values", function () {
-            var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com';
-            var myParser = parser({delimiter: ","}),
-                parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": '"First,""1""","Last,""1""","email1@email.com',
-                "rows": [
-                    ["first_name", "last_name", "email_address"]
-                ]
-            });
-            assert.deepEqual(myParser(parsedData.line + '"\n"First,""2""","Last,""2""","email2@email.com"', false), {
-                line: "",
-                rows: [
-                    ["First,\"1\"", "Last,\"1\"", "email1@email.com"],
-                    ["First,\"2\"", "Last,\"2\"", "email2@email.com"]
-                ]
-            });
-        });
+        it.describe("escaped values", function (it) {
 
-        it.should("throw an error if there is not more data and there is an invalid escape sequence", function () {
-            var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com';
-            var myParser = parser({delimiter: ","}),
-                parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": '"First,""1""","Last,""1""","email1@email.com',
-                "rows": [
-                    ["first_name", "last_name", "email_address"]
-                ]
+            it.should("parse a block of CSV text", function () {
+                var data = 'first_name,last_name,email_address\n"First,1","Last,1","email1@email.com"';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First,1", "Last,1", "email1@email.com"]
+                ]});
             });
-            assert.throws(function () {
-                assert.deepEqual(myParser(parsedData.line + '\n"First,"",2""","Last""2""","email2@email.com"', false), {
+
+            it.should("parse a block of CSV text with escaped escaped char", function () {
+                var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com"';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First,\"1\"", "Last,\"1\"", "email1@email.com"]
+                ]});
+            });
+
+            it.should("parse a block of CSV text with alternate escape char", function () {
+                var data = 'first_name,last_name,email_address\n"First,\\"1\\"","Last,\\"1\\"","email1@email.com"';
+                var myParser = parser({delimiter: ",", escape: "\\"});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First,\"1\"", "Last,\"1\"", "email1@email.com"]
+                ]});
+            });
+
+            it.should("return the rest of the line if a complete value is not found", function () {
+                var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, true), {
+                    "line": '"First,""1""","Last,""1""","email1@email.com',
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+            });
+
+            it.should("accept more data appended to the returned line with escaped values", function () {
+                var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com';
+                var myParser = parser({delimiter: ","}),
+                    parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"First,""1""","Last,""1""","email1@email.com',
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+                assert.deepEqual(myParser(parsedData.line + '"\n"First,""2""","Last,""2""","email2@email.com"', false), {
                     line: "",
                     rows: [
                         ["First,\"1\"", "Last,\"1\"", "email1@email.com"],
                         ["First,\"2\"", "Last,\"2\"", "email2@email.com"]
                     ]
                 });
-            }, Error, ' Parse Error: expected: \'"\' got: \'F\'. at \'First,""2""","Last""2""","email2@email.com"');
-        });
+            });
 
-        it.should("handle empty values properly", function () {
-            var data = '"","",""\n,Last4,email4@email.com';
-            var myParser = parser({delimiter: ","}),
-                parsedData = myParser(data, false);
-            assert.deepEqual(parsedData, {"line": "", "rows": [
-                ["", "", ""],
-                ["", "Last4", "email4@email.com"]
-            ]});
-        });
+            it.should("throw an error if there is not more data and there is an invalid escape sequence", function () {
+                var data = 'first_name,last_name,email_address\n"First,""1""","Last,""1""","email1@email.com';
+                var myParser = parser({delimiter: ","}),
+                    parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"First,""1""","Last,""1""","email1@email.com',
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+                assert.throws(function () {
+                    assert.deepEqual(myParser(parsedData.line + '\n"First,"",2""","Last""2""","email2@email.com"', false), {
+                        line: "",
+                        rows: [
+                            ["First,\"1\"", "Last,\"1\"", "email1@email.com"],
+                            ["First,\"2\"", "Last,\"2\"", "email2@email.com"]
+                        ]
+                    });
+                }, Error, ' Parse Error: expected: \'"\' got: \'F\'. at \'First,""2""","Last""2""","email2@email.com"');
+            });
 
-        it.should("not parse a row if a new line is not found and there is more data", function () {
-            var data = '"first_name","last_name","email_address"';
-            var myParser = parser({delimiter: ","});
-            var parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": '"first_name","last_name","email_address"',
-                "rows": []
+            it.should("handle empty values properly", function () {
+                var data = '"","",""\n,Last4,email4@email.com';
+                var myParser = parser({delimiter: ","}),
+                    parsedData = myParser(data, false);
+                assert.deepEqual(parsedData, {"line": "", "rows": [
+                    ["", "", ""],
+                    ["", "Last4", "email4@email.com"]
+                ]});
+            });
+
+            it.should("not parse a row if a new line is not found and there is more data", function () {
+                var data = '"first_name","last_name","email_address"';
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"first_name","last_name","email_address"',
+                    "rows": []
+                });
+            });
+
+            it.should("not parse a row if there is a trailing delimiter and there is more data", function () {
+                var data = '"first_name","last_name","email_address",';
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"first_name","last_name","email_address",',
+                    "rows": []
+                });
+            });
+
+            it.should("parse a row if a new line is found and there is more data", function () {
+                var data = '"first_name","last_name","email_address"\n';
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
             });
         });
 
-        it.should("not parse a row if there is a trailing delimiter and there is more data", function () {
-            var data = '"first_name","last_name","email_address",';
-            var myParser = parser({delimiter: ","});
-            var parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": '"first_name","last_name","email_address",',
-                "rows": []
+    });
+
+    it.describe("with \\r", function (it) {
+
+        it.describe("unescaped data", function (it) {
+
+            it.should("parse a block of CSV text", function () {
+                var data = "first_name,last_name,email_address\rFirst1,Last1,email1@email.com";
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First1", "Last1", "email1@email.com"]
+                ]});
+            });
+
+            it.should("return the rest of the line if there is more data", function () {
+                var data = "first_name,last_name,email_address\rFirst1,Last1,email1@email.com";
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, true), {
+                    "line": "First1,Last1,email1@email.com",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+            });
+
+            it.should("accept new data and return the result", function () {
+                var data = "first_name,last_name,email_address\rFirst1,Last1,email1@email.com,";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "First1,Last1,email1@email.com,",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+                assert.deepEqual(myParser(parsedData.line + "\rFirst2,Last2,email2@email.com", false), {"line": "", "rows": [
+                    ["First1", "Last1", "email1@email.com"],
+                    ["First2", "Last2", "email2@email.com"]
+                ]});
+            });
+
+            it.should("not parse a row if a new line is not found and there is more data", function () {
+                var data = "first_name,last_name,email_address";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "first_name,last_name,email_address",
+                    "rows": []
+                });
+            });
+
+            it.should("not parse a row if there is a trailing delimiter and there is more data", function () {
+                var data = "first_name,last_name,email_address,";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "first_name,last_name,email_address,",
+                    "rows": []
+                });
+            });
+
+            it.should("parse a row if a new line is found and there is more data", function () {
+                var data = "first_name,last_name,email_address\r";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+            });
+
+        });
+
+        it.describe("escaped values", function (it) {
+
+            it.should("parse a block of CSV text", function () {
+                var data = 'first_name,last_name,email_address\r"First,1","Last,1","email1@email.com"';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First,1", "Last,1", "email1@email.com"]
+                ]});
+            });
+
+            it.should("parse a block of CSV text with escaped escaped char", function () {
+                var data = 'first_name,last_name,email_address\r"First,""1""","Last,""1""","email1@email.com"';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First,\"1\"", "Last,\"1\"", "email1@email.com"]
+                ]});
+            });
+
+            it.should("parse a block of CSV text with alternate escape char", function () {
+                var data = 'first_name,last_name,email_address\r"First,\\"1\\"","Last,\\"1\\"","email1@email.com"';
+                var myParser = parser({delimiter: ",", escape: "\\"});
+                assert.deepEqual(myParser(data, false), {"line": "", "rows": [
+                    ["first_name", "last_name", "email_address"],
+                    ["First,\"1\"", "Last,\"1\"", "email1@email.com"]
+                ]});
+            });
+
+            it.should("return the rest of the line if a complete value is not found", function () {
+                var data = 'first_name,last_name,email_address\r"First,""1""","Last,""1""","email1@email.com';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, true), {
+                    "line": '"First,""1""","Last,""1""","email1@email.com',
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+            });
+
+            it.should("accept more data appended to the returned line with escaped values", function () {
+                var data = 'first_name,last_name,email_address\r"First,""1""","Last,""1""","email1@email.com';
+                var myParser = parser({delimiter: ","}),
+                    parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"First,""1""","Last,""1""","email1@email.com',
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+                assert.deepEqual(myParser(parsedData.line + '"\r"First,""2""","Last,""2""","email2@email.com"', false), {
+                    line: "",
+                    rows: [
+                        ["First,\"1\"", "Last,\"1\"", "email1@email.com"],
+                        ["First,\"2\"", "Last,\"2\"", "email2@email.com"]
+                    ]
+                });
+            });
+
+            it.should("throw an error if there is not more data and there is an invalid escape sequence", function () {
+                var data = 'first_name,last_name,email_address\r"First,""1""","Last,""1""","email1@email.com';
+                var myParser = parser({delimiter: ","}),
+                    parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"First,""1""","Last,""1""","email1@email.com',
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
+                assert.throws(function () {
+                    assert.deepEqual(myParser(parsedData.line + '\r"First,"",2""","Last""2""","email2@email.com"', false), {
+                        line: "",
+                        rows: [
+                            ["First,\"1\"", "Last,\"1\"", "email1@email.com"],
+                            ["First,\"2\"", "Last,\"2\"", "email2@email.com"]
+                        ]
+                    });
+                }, Error, ' Parse Error: expected: \'"\' got: \'F\'. at \'First,""2""","Last""2""","email2@email.com"');
+            });
+
+            it.should("handle empty values properly", function () {
+                var data = '"","",""\r,Last4,email4@email.com';
+                var myParser = parser({delimiter: ","}),
+                    parsedData = myParser(data, false);
+                assert.deepEqual(parsedData, {"line": "", "rows": [
+                    ["", "", ""],
+                    ["", "Last4", "email4@email.com"]
+                ]});
+            });
+
+            it.should("not parse a row if a new line is not found and there is more data", function () {
+                var data = '"first_name","last_name","email_address"';
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"first_name","last_name","email_address"',
+                    "rows": []
+                });
+            });
+
+            it.should("not parse a row if there is a trailing delimiter and there is more data", function () {
+                var data = '"first_name","last_name","email_address",';
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": '"first_name","last_name","email_address",',
+                    "rows": []
+                });
+            });
+
+            it.should("parse a row if a new line is found and there is more data", function () {
+                var data = '"first_name","last_name","email_address"\r';
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "",
+                    "rows": [
+                        ["first_name", "last_name", "email_address"]
+                    ]
+                });
             });
         });
 
-        it.should("parse a row if a new line is found and there is more data", function () {
-            var data = '"first_name","last_name","email_address"\n';
-            var myParser = parser({delimiter: ","});
-            var parsedData = myParser(data, true);
-            assert.deepEqual(parsedData, {
-                "line": "",
-                "rows": [
-                    ["first_name", "last_name", "email_address"]
-                ]
-            });
-        });
     });
 
 });
