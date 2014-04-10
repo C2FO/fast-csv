@@ -216,7 +216,28 @@ csv
 `fast-csv` also allows to you to create create a `CSV` from data.
 
 Formatting accepts the same options as parsing.
-*
+
+**`createWriteStream(options)`**
+
+This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.
+
+```javascript
+var csvStream = csv.createWriteStream({headers: true}),
+    writableStream = fs.createWritableStream("my.csv");
+
+writableStream.on("finish", function(){
+  console.log("DONE!");
+});
+
+csvSream.pipe(writableStream);
+csvStream.write({a: "a0", b: "b0"});
+csvStream.write({a: "a1", b: "b1"});
+csvStream.write({a: "a2", b: "b2"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write(null);
+```
+
 **Writing Data**
 
 Each of the following methods accept an array of values to be written, however each value must be an `array` of `array`s or `object`s.
@@ -358,12 +379,3 @@ MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 
 
 ##Classes
-
-
-
-
-
-
-
-
-

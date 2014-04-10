@@ -144,6 +144,14 @@
             <div class="nav-collapse">
                 <ul class="nav">
                     
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Docs<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./History.html">Change Log</a></li>
+                            
+                        </ul>
+                        
 
                         
                     
@@ -169,7 +177,8 @@
 
 
 
-  <p><a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a></p>
+  <p><a name="top"></a></p>
+<p>  <a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a></p>
 <h1>Fast-csv</h1>
 <p>This is a library that provides CSV parsing and formatting.</p>
 <p><strong>NOTE</strong> As of v0.2.0 <code>fast-csv</code> supports multi-line values.</p>
@@ -329,9 +338,24 @@ csv
  });</code></pre>
 <h3>Formatting</h3>
 <p><code>fast-csv</code> also allows to you to create create a <code>CSV</code> from data.</p>
-<p>Formatting accepts the same options as parsing.
-<em>
-<em>*Writing Data</em></em></p>
+<p>Formatting accepts the same options as parsing.</p>
+<p><strong><code>createWriteStream(options)</code></strong></p>
+<p>This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv.createWriteStream({headers: true}),
+    writableStream = fs.createWritableStream(&quot;my.csv&quot;);
+
+writableStream.on(&quot;finish&quot;, function(){
+  console.log(&quot;DONE!&quot;);
+});
+
+csvSream.pipe(writableStream);
+csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
+csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
+csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write(null);</code></pre>
+<p><strong>Writing Data</strong></p>
 <p>Each of the following methods accept an array of values to be written, however each value must be an <code>array</code> of <code>array</code>s or <code>object</code>s.</p>
 <p><strong><code>write(arr[, options])</code></strong></p>
 <p>Create a readable stream to read data from.</p>
@@ -414,6 +438,8 @@ csv:      30030.67ms</code></pre>
 <li>Website: <a href="http://c2fo.com">http://c2fo.com</a></li>
 <li>Twitter: <a href="http://twitter.com/c2fo"><a href="http://twitter.com/c2fo">http://twitter.com/c2fo</a></a> - 877.465.4045</li>
 </ul>
+<h2>Namespaces</h2>
+<h2>Classes</h2>
 
 
 <hr>

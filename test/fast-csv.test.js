@@ -152,7 +152,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test4.csv"), {headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -165,7 +165,7 @@ it.describe("fast-csv", function (it) {
     it.should("allow piping from a stream", function (next) {
         var actual = [];
         var stream = csv({headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -181,7 +181,7 @@ it.describe("fast-csv", function (it) {
         var data = fs.readFileSync(path.resolve(__dirname, "./assets/test4.csv"), {encoding: "utf8"});
         csv
             .fromString(data, {headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -195,7 +195,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test1.csv"), {headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -208,7 +208,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test2.csv"))
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -222,7 +222,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test3.csv"), {headers: true, quote: "'"})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             })
             .on("error", next)
@@ -237,7 +237,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test2.csv"), {headers: ["first_name", "last_name", "email_address", "address"]})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             })
             .on("error", next)
@@ -281,7 +281,7 @@ it.describe("fast-csv", function (it) {
                 });
                 return ret;
             })
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             })
             .on("error", next)
@@ -296,7 +296,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromStream(fs.createReadStream(path.resolve(__dirname, "./assets/test4.csv")), {headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             })
             .on("error", next)
@@ -422,7 +422,7 @@ it.describe("fast-csv", function (it) {
             var actual = [];
             csv
                 .fromPath(path.resolve(__dirname, "./assets/test14.txt"), {headers: true, delimiter: "\t"})
-                .on("record",function (data, index) {
+                .on("record", function (data, index) {
                     actual[index] = data;
                 })
                 .on("error", next)
@@ -437,7 +437,7 @@ it.describe("fast-csv", function (it) {
             var actual = [];
             csv
                 .fromPath(path.resolve(__dirname, "./assets/test15.txt"), {headers: true, delimiter: "|"})
-                .on("record",function (data, index) {
+                .on("record", function (data, index) {
                     actual[index] = data;
                 })
                 .on("error", next)
@@ -452,7 +452,7 @@ it.describe("fast-csv", function (it) {
             var actual = [];
             csv
                 .fromPath(path.resolve(__dirname, "./assets/test16.txt"), {headers: true, delimiter: ";"})
-                .on("record",function (data, index) {
+                .on("record", function (data, index) {
                     actual[index] = data;
                 })
                 .on("error", next)
@@ -468,7 +468,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test17.csv"), {headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -482,7 +482,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test18.csv"), {ltrim: true, trim: false, headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -497,7 +497,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test19.csv"), {rtrim: true, trim: false, headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -511,7 +511,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test20.csv"), {trim: true, headers: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -525,7 +525,7 @@ it.describe("fast-csv", function (it) {
         var actual = [];
         csv
             .fromPath(path.resolve(__dirname, "./assets/test21.csv"), {headers: true, ignoreEmpty: true})
-            .on("record",function (data, index) {
+            .on("record", function (data, index) {
                 actual[index] = data;
             }).
             on("end", function (count) {
@@ -633,10 +633,10 @@ it.describe("fast-csv", function (it) {
         it.should("write an array of arrays", function (next) {
             csv
                 .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
-                ["a", "b"],
-                ["a1", "b1"],
-                ["a2", "b2"]
-            ], {headers: true})
+                    ["a", "b"],
+                    ["a1", "b1"],
+                    ["a2", "b2"]
+                ], {headers: true})
                 .on("error", next)
                 .on("finish", function () {
                     assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
@@ -648,9 +648,9 @@ it.describe("fast-csv", function (it) {
         it.should("write an array of objects", function (next) {
             csv
                 .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
-                {a: "a1", b: "b1"},
-                {a: "a2", b: "b2"}
-            ], {headers: true})
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ], {headers: true})
                 .on("error", next)
                 .on("finish", function () {
                     assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
@@ -659,4 +659,55 @@ it.describe("fast-csv", function (it) {
                 });
         });
     });
+
+    it.describe(".createWriteStream", function (it) {
+
+        it.should("write an array of arrays", function (next) {
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            var stream = csv
+                .createWriteStream({headers: true})
+                .on("error", next);
+            writable
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
+            stream.pipe(writable);
+            var vals = [
+                ["a", "b"],
+                ["a1", "b1"],
+                ["a2", "b2"]
+            ];
+            vals.forEach(function (item) {
+                stream.write(item);
+            });
+            stream.write(null);
+
+        });
+
+        it.should("write an array of objects", function (next) {
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            var stream = csv
+                .createWriteStream({headers: true})
+                .on("error", next);
+            writable
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
+            stream.pipe(writable);
+            var vals = [
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ];
+            vals.forEach(function (item) {
+                stream.write(item);
+            });
+            stream.write(null);
+        });
+    });
 });
+
+it.run().both(process.exit);
