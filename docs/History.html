@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fast-csv</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/prettify.css">
+    <style type="text/css">
+        
+
+/*.subnav-inner {*/
+    /*width: 100%;*/
+    /*height: 36px;*/
+    /*background-color: #EEE;*/
+    /*background-repeat: repeat-x;*/
+    /*background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));*/
+    /*background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);*/
+    /*background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*-webkit-border-radius: 4px;*/
+    /*-moz-border-radius: 4px;*/
+    /*border-radius: 4px;*/
+/*}*/
+
+/*.subnav .nav > li > a:hover {*/
+    /*color: black !important;*/
+/*}*/
+
+/*.subnav .nav li.dropdown .dropdown-toggle .caret,*/
+/*.subnav .nav li.dropdown.open .caret {*/
+    /*border-top-color: #999 !important;*/
+    /*border-bottom-color: #999 !important;*/
+/*}*/
+
+/*.subnav-fixed {*/
+    /*position: fixed;*/
+    /*width : 90%;*/
+    /*margin-right: auto;*/
+    /*margin-left: auto;*/
+    /*top: 40px;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*z-index: 1020;*/
+    /*border-color: #D5D5D5;*/
+    /*border-width: 0 0 1px;*/
+    /*-webkit-border-radius: 0;*/
+    /*-moz-border-radius: 0;*/
+    /*border-radius: 0;*/
+    /*-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*-moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);*/
+/*}*/
+
+/*.navbar .nav  .dropdown-menu {*/
+    /*max-height: 500px;*/
+    /*overflow: auto;*/
+/*}​*/
+
+    </style>
+    <style type="text/css">
+        body {
+            padding: 90px;
+        }
+
+        .subnav{
+            margin-top: 40px;
+            margin-right: auto;
+            margin-left: auto;
+            z-index: 1000;
+        }
+
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        @media (max-width:979px) {
+            .subnav{
+                margin-top: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = $win.width() < 980 ? 0 : nav.offset().top - 40;
+
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                var $window = $(window);
+                //$(".subnav").affix ();
+                // fix sub nav on scroll
+//                processScroll();
+//                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"> </span>
+            </a>
+            
+            <a href="./index.html" class="brand">fast-csv</a>
+            
+            <div class="nav-collapse">
+                <ul class="nav">
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Docs<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./History.html">Change Log</a></li>
+                            
+                        </ul>
+                        
+
+                        
+                    
+                </ul>
+                
+                <ul class="nav pull-right">
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="https://github.com/C2FO/fast-csv" target="#github" class="pull-right">github</a></li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+<h1>0.2.3</h1>
+<ul>
+<li>Add new <code>createWriteStream</code> for creating a streaming csv writer</li>
+</ul>
+<h1>v0.2.2</h1>
+<ul>
+<li>Fixed issue with having line breaks containing <code>\r\n</code></li>
+</ul>
+<h1>v0.2.1</h1>
+<ul>
+<li>Fixed issue with <code>\r</code> line break in parser</li>
+</ul>
+<h1>v0.2.0</h1>
+<ul>
+<li>Added multiline value support</li>
+<li>Updated escaping logic</li>
+<li>More performance enhancements</li>
+<li>More robusts test cases</li>
+<li>Removed support for having two quote types instead it just supports a single quote and escape sequence.
+Source code (zip)</li>
+</ul>
+<h1>v0.1.2</h1>
+<ul>
+<li>Fixed issue with formatter handling undefined or null values.</li>
+<li>Changed formatter not not include a new line at the end of a CSV.</li>
+<li>Added pause and resume functionality to ParserStream</li>
+</ul>
+<h1>v0.1.1</h1>
+<ul>
+<li>Added trim, ltrim, and rtrim to parsing options</li>
+</ul>
+<h1>v0.1.0</h1>
+
+<hr>
+
+Documentation generated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./assets/js/prettify.js"></script>
+
+</body>
+</html>
