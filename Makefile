@@ -1,11 +1,10 @@
 DOC_COMMAND=coddoc -f multi-html -d ./lib --dir ./docs
-MD_COMMAND=coddoc -f markdown -d ./lib > README.md
 
 test:
 	export NODE_PATH=$NODE_PATH:lib && ./node_modules/it/bin/it -r dotmatrix
 
 docs: docclean
-	$(DOC_COMMAND) && $(MD_COMMAND)
+	$(DOC_COMMAND)
 
 docclean :
 	rm -rf docs/*

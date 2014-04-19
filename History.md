@@ -1,3 +1,8 @@
+#0.2.4
+
+* Added more fine grained control to `.pause` and `.resume`
+   * You can now pause resume between chunks
+
 # 0.2.3
 
 * Add new `createWriteStream` for creating a streaming csv writer

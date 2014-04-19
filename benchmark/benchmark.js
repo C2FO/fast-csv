@@ -13,7 +13,7 @@ function camelize(str) {
 
 function benchmarkFastCsv(done) {
     var count = 0;
-    fastCsv
+    var stream = fastCsv
         .fromPath(TEST_FILE, {headers: true})
         .transform(function (data) {
             var ret = {};
@@ -23,12 +23,12 @@ function benchmarkFastCsv(done) {
             ret.address = data.address;
             return ret;
         })
-        .on("record", function () {
-            count++;
+        .on("record", function (data, i) {
+            count = i + 1;
         })
         .on("end", function () {
             if (count !== COUNT) {
-                done(new Error("Error expected %d got %d", COUNT, count));
+                done(new Error("Error expected " + COUNT + " got " + count));
             } else {
                 done();
             }
@@ -51,7 +51,7 @@ function benchmarkCsv(done) {
             ret.address = data[3];
             return ret;
         })
-        .on('record', function () {
+        .on('record', function (data) {
             count++;
         })
         .on('end', function () {
