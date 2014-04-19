@@ -1,7 +1,12 @@
 test
 node_modules
 docs
+docs-md
 support
 lib-cov
 Makefile
+benchmark
 .travis.yml
+Gruntfile.js
+History.md
+
