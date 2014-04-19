@@ -535,6 +535,33 @@ it.describe("fast-csv", function (it) {
             });
     });
 
+    it.describe("pause/resume", function () {
+
+        it.should("support pausing a stream", function (next) {
+            var actual = [], paused = false;
+            var stream = csv
+                .fromPath(path.resolve(__dirname, "./assets/test4.csv"), {headers: true})
+                .on("record", function (data, index) {
+                    assert.isFalse(paused);
+                    actual[index] = data;
+                    paused = true;
+                    stream.pause();
+                    setTimeout(function () {
+                        assert.isTrue(paused);
+                        paused = false;
+                        stream.resume();
+                    }, 100);
+                })
+                .on("error", next)
+                .on("end", function (count) {
+                    assert.deepEqual(actual, expected4);
+                    assert.equal(count, actual.length);
+                    next();
+                });
+        });
+
+    });
+
 
     it.should("throw an error if an invalid path or stream is passed in", function () {
         assert.throws(function () {
@@ -709,5 +736,3 @@ it.describe("fast-csv", function (it) {
         });
     });
 });
-
-it.run().both(process.exit);
