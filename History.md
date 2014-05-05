@@ -1,9 +1,13 @@
-#0.2.4
+# v0.2.5
+
+* Fixed issue where not all rows are emitted when using `pause` and `resume`
+
+# v0.2.4
 
 * Added more fine grained control to `.pause` and `.resume`
    * You can now pause resume between chunks
 
-# 0.2.3
+# v0.2.3
 
 * Add new `createWriteStream` for creating a streaming csv writer
 
