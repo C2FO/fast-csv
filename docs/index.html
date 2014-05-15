@@ -177,8 +177,7 @@
 
 
 
-  <p><a name="top"></a></p>
-<p>  <a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a></p>
+  <p><a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a></p>
 <h1>Fast-csv</h1>
 <p>This is a library that provides CSV parsing and formatting.</p>
 <p><strong>NOTE</strong> As of v0.2.0 <code>fast-csv</code> supports multi-line values.</p>
@@ -188,6 +187,7 @@
 <h3>Parsing</h3>
 <p>All methods accept the following <code>options</code></p>
 <ul>
+<li><code>objectMode=true</code>: Ensure that <code>data</code> events have an object emitted rather than the stringified version set to false to have a stringified buffer.</li>
 <li><code>headers=false</code>: Ste to true if you expect the first line of your <code>CSV</code> to contain headers, alternatly you can specify an array of headers to use.</li>
 <li><code>ignoreEmpty=false</code>: If you wish to ignore empty rows.</li>
 <li><code>delimiter=&#39;,&#39;</code>: If your data uses an alternate delimiter such as <code>;</code> or <code>\t</code>.<ul>
@@ -207,8 +207,7 @@
 </li>
 </ul>
 <p><strong>events</strong></p>
-<p><code>parse-error</code>: Emitted if there was an error parsing a row.
-<code>record</code>: Emitted when a record is parsed.
+<p><code>record</code>: Emitted when a record is parsed.
 <code>data-invalid</code>: Emitted if there was invalid row encounted, <strong>only emitted if the <code>validate</code> function is used</strong>.
 <code>data</code>: Emitted with the <code>stringified</code> version of a record.</p>
 <p><strong>([options])</strong></p>
@@ -224,7 +223,7 @@ var csvStream = csv()
  });
 
 stream.pipe(csvStream);</code></pre>
-<p><strong>`.fromPath(path[, options])</strong></p>
+<p><strong><code>.fromPath(path[, options])</code></strong></p>
 <p>This method parses a file from the specified path.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csv = require(&quot;fast-csv&quot;);
 
@@ -236,7 +235,7 @@ csv
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
  });</code></pre>
-<p><strong>`.fromString(string[, options])</strong></p>
+<p><strong><code>.fromString(string[, options])</code></strong></p>
 <p>This method parses a string</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csv = require(&quot;fast-csv&quot;);
 
@@ -252,7 +251,7 @@ csv
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
  });</code></pre>
-<p><strong>`.fromStream(stream[, options])</strong></p>
+<p><strong><code>.fromStream(stream[, options])</code></strong></p>
 <p>This accepted a readable stream to parse data from.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
@@ -342,7 +341,7 @@ csv
 <p><strong><code>createWriteStream(options)</code></strong></p>
 <p>This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv.createWriteStream({headers: true}),
-    writableStream = fs.createWritableStream(&quot;my.csv&quot;);
+    writableStream = fs.createWriteStream(&quot;my.csv&quot;);
 
 writableStream.on(&quot;finish&quot;, function(){
   console.log(&quot;DONE!&quot;);
@@ -417,6 +416,26 @@ csv
    {a: &quot;a1&quot;, b: &quot;b1&quot;},
    {a: &quot;a2&quot;, b: &quot;b2&quot;}
 ], {headers: true}); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
+<h2>Piping from Parser to Writer</h2>
+<p>You can use <code>fast-csv</code> to pipe the output from a parsed CSV to a transformed CSV by setting the parser to <code>objectMode</code> and using <code>createWriteStream</code>.</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
+   .fromPath(&quot;in.csv&quot;, {headers: true})
+   .pipe(csv.createWriteStream({headers: true}))
+   .pipe(fs.createWriteStream(&quot;out.csv&quot;, {encoding: &quot;utf8&quot;}));</code></pre>
+<p>When piping from a parser to a formatter the transforms are maintained also.</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
+   .fromPath(&quot;in.csv&quot;, {headers: true})
+   .transform(function(obj){
+        return {
+            name: obj.Name,
+            address: obj.Address,
+            emailAddress: obj.Email_Address,
+            verified: obj.Verified
+        };
+   })
+   .pipe(csv.createWriteStream({headers: true}))
+   .pipe(fs.createWriteStream(&quot;out.csv&quot;, {encoding: &quot;utf8&quot;}));</code></pre>
+<p>The output will contain formatted result from the transform function.</p>
 <h2>Benchmarks</h2>
 <p><code>Parsing 20000 records AVG over 3 runs</code></p>
 <pre class='prettyprint linenums lang-js'><code>fast-csv: 198.67ms
@@ -438,8 +457,6 @@ csv:      30030.67ms</code></pre>
 <li>Website: <a href="http://c2fo.com">http://c2fo.com</a></li>
 <li>Twitter: <a href="http://twitter.com/c2fo"><a href="http://twitter.com/c2fo">http://twitter.com/c2fo</a></a> - 877.465.4045</li>
 </ul>
-<h2>Namespaces</h2>
-<h2>Classes</h2>
 
 
 <hr>

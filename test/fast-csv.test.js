@@ -162,6 +162,50 @@ it.describe("fast-csv", function (it) {
             });
     });
 
+
+    it.should("emit data as a buffer if objectMode is false", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test4.csv"), {headers: true, objectMode: false})
+            .on("data", function (data) {
+                actual.push(JSON.parse(data + ""));
+            }).
+            on("end", function () {
+                assert.deepEqual(actual, expected4);
+                assert.equal(9, actual.length);
+                next();
+            });
+    });
+
+    it.should("emit data as an object if objectMode is true", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test4.csv"), {headers: true, objectMode: true})
+            .on("data", function (data) {
+                actual.push(data);
+            })
+            .on("end", function (count) {
+                assert.deepEqual(actual, expected4);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("emit data as an object if objectMode is not specified", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test4.csv"), {headers: true, objectMode: true})
+            .on("data", function (data) {
+                actual.push(data);
+            })
+            .on("end", function (count) {
+                assert.deepEqual(actual, expected4);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+
     it.should("allow piping from a stream", function (next) {
         var actual = [];
         var stream = csv({headers: true})
@@ -733,6 +777,50 @@ it.describe("fast-csv", function (it) {
                 stream.write(item);
             });
             stream.write(null);
+        });
+    });
+
+    it.describe("piping from parser to formatter", function (it) {
+
+        it.should("allow piping from a parser to a formatter", function (next) {
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            csv
+                .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true, objectMode: true})
+                .on("error", next)
+                .pipe(csv.createWriteStream({headers: true}))
+                .on("error", next)
+                .pipe(writable)
+                .on("error", next);
+
+            writable
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
+        });
+
+        it.should("preserve transforms", function (next) {
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            csv
+                .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true})
+                .transform(function (obj) {
+                    obj.a = obj.a + "-parsed";
+                    obj.b = obj.b + "-parsed";
+                    return obj;
+                })
+                .on("error", next)
+                .pipe(csv.createWriteStream({headers: true}))
+                .on("error", next)
+                .pipe(writable)
+                .on("error", next);
+
+            writable
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1-parsed,b1-parsed\na2-parsed,b2-parsed");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
         });
     });
 });

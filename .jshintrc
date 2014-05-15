@@ -33,7 +33,6 @@
     "boss": false,
     "debug": false,
     "eqnull": true,
-    "es5": true,
     "esnext": true,
     "evil": false,
     "expr": true,

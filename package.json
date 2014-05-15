@@ -1,6 +1,6 @@
 {
     "name": "fast-csv",
-    "version": "0.2.5",
+    "version": "0.3.0",
     "description": "CSV parser and writer",
     "main": "index.js",
     "scripts": {
@@ -25,15 +25,15 @@
         "it": "~0.2.6",
         "grunt-it": "~0.3.1",
         "grunt": "~0.4.1",
-        "grunt-contrib-jshint": "~0.4.3"
-    },
-    "dependencies": {
-        "is-extended": "0.0.8",
-        "object-extended": "0.0.5",
-        "extended": "0.0.4",
-        "string-extended": "0.0.7"
+        "grunt-contrib-jshint": "~0.10.0"
     },
     "engines": {
         "node": ">=0.10"
+    },
+    "dependencies": {
+        "is-extended": "0.0.10",
+        "object-extended": "0.0.7",
+        "extended": "0.0.6",
+        "string-extended": "0.0.8"
     }
 }

@@ -1,3 +1,9 @@
+# v0.3.0
+
+* You can now specify `objectMode` when parsing a csv which will cause `data` events to have an object emitted.
+* You can now pipe directly to the stream returned from `createWriteStream`
+* You can now transform csvs by piping output from parsing into a formatter.
+
 # v0.2.5
 
 * Fixed issue where not all rows are emitted when using `pause` and `resume`
