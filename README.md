@@ -244,7 +244,7 @@ Each of the following methods accept an array of values to be written, however e
 Create a readable stream to read data from.
 
 ```javascript
-var ws = fs.createWritableStream("my.csv");
+var ws = fs.createWriteStream("my.csv");
 csv
    .write([
        ["a", "b"],
@@ -255,7 +255,7 @@ csv
 ```
 
 ```javascript
-var ws = fs.createWritableStream("my.csv");
+var ws = fs.createWriteStream("my.csv");
 csv
    .write([
        {a: "a1", b: "b1"},
@@ -270,7 +270,7 @@ Write an array of values to a `WritableStream`
 
 ```javascript
 csv
-   .writeToStream(fs.createWritableStream("my.csv"), [
+   .writeToStream(fs.createWriteStream("my.csv"), [
        ["a", "b"],
        ["a1", "b1"],
        ["a2", "b2"]
@@ -279,7 +279,7 @@ csv
 
 ```javascript
 csv
-   .writeToStream(fs.createWritableStream("my.csv"), [
+   .writeToStream(fs.createWriteStream("my.csv"), [
        {a: "a1", b: "b1"},
        {a: "a2", b: "b2"}
    ], {headers: true})
