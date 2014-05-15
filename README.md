@@ -31,9 +31,9 @@ All methods accept the following `options`
 
 **events**
 
-`record`: Emitted when a record is parsed.
-`data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used**.
-`data`: Emitted with the `stringified` version of a record.
+* `record`: Emitted when a record is parsed.
+* `data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used**.
+* `data`: Emitted with the object or `stringified` version if the `objectMode` is set to `false`.
 
 **([options])**
 
