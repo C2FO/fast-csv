@@ -358,7 +358,7 @@ csvStream.write(null);</code></pre>
 <p>Each of the following methods accept an array of values to be written, however each value must be an <code>array</code> of <code>array</code>s or <code>object</code>s.</p>
 <p><strong><code>write(arr[, options])</code></strong></p>
 <p>Create a readable stream to read data from.</p>
-<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var ws = fs.createWritableStream(&quot;my.csv&quot;);
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var ws = fs.createWriteStream(&quot;my.csv&quot;);
 csv
    .write([
        [&quot;a&quot;, &quot;b&quot;],
@@ -366,7 +366,7 @@ csv
        [&quot;a2&quot;, &quot;b2&quot;]
    ], {headers: true})
    .pipe(ws);</code></pre>
-<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var ws = fs.createWritableStream(&quot;my.csv&quot;);
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var ws = fs.createWriteStream(&quot;my.csv&quot;);
 csv
    .write([
        {a: &quot;a1&quot;, b: &quot;b1&quot;},
@@ -376,13 +376,13 @@ csv
 <p><strong><code>writeToStream(stream,arr[, options])</code></strong></p>
 <p>Write an array of values to a <code>WritableStream</code></p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-   .writeToStream(fs.createWritableStream(&quot;my.csv&quot;), [
+   .writeToStream(fs.createWriteStream(&quot;my.csv&quot;), [
        [&quot;a&quot;, &quot;b&quot;],
        [&quot;a1&quot;, &quot;b1&quot;],
        [&quot;a2&quot;, &quot;b2&quot;]
    ], {headers: true});</code></pre>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-   .writeToStream(fs.createWritableStream(&quot;my.csv&quot;), [
+   .writeToStream(fs.createWriteStream(&quot;my.csv&quot;), [
        {a: &quot;a1&quot;, b: &quot;b1&quot;},
        {a: &quot;a2&quot;, b: &quot;b2&quot;}
    ], {headers: true})
