@@ -1,7 +1,4 @@
-<a name="top"></a>
-
-
-  [![build status](https://secure.travis-ci.org/C2FO/fast-csv.png)](http://travis-ci.org/C2FO/fast-csv)
+[![build status](https://secure.travis-ci.org/C2FO/fast-csv.png)](http://travis-ci.org/C2FO/fast-csv)
 # Fast-csv
 
 This is a library that provides CSV parsing and formatting.
@@ -18,6 +15,7 @@ This is a library that provides CSV parsing and formatting.
 
 All methods accept the following `options`
 
+* `objectMode=true`: Ensure that `data` events have an object emitted rather than the stringified version set to false to have a stringified buffer.
 * `headers=false`: Ste to true if you expect the first line of your `CSV` to contain headers, alternatly you can specify an array of headers to use.
 * `ignoreEmpty=false`: If you wish to ignore empty rows.
 * `delimiter=','`: If your data uses an alternate delimiter such as `;` or `\t`.
@@ -33,7 +31,6 @@ All methods accept the following `options`
 
 **events**
 
-`parse-error`: Emitted if there was an error parsing a row.
 `record`: Emitted when a record is parsed.
 `data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used**.
 `data`: Emitted with the `stringified` version of a record.
@@ -56,7 +53,7 @@ var csvStream = csv()
 stream.pipe(csvStream);
 ```
 
-**`.fromPath(path[, options])**
+**`.fromPath(path[, options])`**
 
 This method parses a file from the specified path.
 
@@ -73,7 +70,7 @@ csv
  });
 ```
 
-**`.fromString(string[, options])**
+**`.fromString(string[, options])`**
 
 This method parses a string
 
@@ -94,7 +91,7 @@ csv
  });
 ```
 
-**`.fromStream(stream[, options])**
+**`.fromStream(stream[, options])`**
 
 This accepted a readable stream to parse data from.
 
@@ -223,7 +220,7 @@ This is the lowest level of the write methods, it creates a stream that can be u
 
 ```javascript
 var csvStream = csv.createWriteStream({headers: true}),
-    writableStream = fs.createWritableStream("my.csv");
+    writableStream = fs.createWriteStream("my.csv");
 
 writableStream.on("finish", function(){
   console.log("DONE!");
@@ -333,6 +330,37 @@ csv.writeToString([
 ], {headers: true}); //"a,b\na1,b1\na2,b2\n"
 ```
 
+## Piping from Parser to Writer
+
+You can use `fast-csv` to pipe the output from a parsed CSV to a transformed CSV by setting the parser to `objectMode` and using `createWriteStream`.
+
+```javascript
+csv
+   .fromPath("in.csv", {headers: true})
+   .pipe(csv.createWriteStream({headers: true}))
+   .pipe(fs.createWriteStream("out.csv", {encoding: "utf8"}));
+```
+
+When piping from a parser to a formatter the transforms are maintained also.
+
+
+```javascript
+csv
+   .fromPath("in.csv", {headers: true})
+   .transform(function(obj){
+        return {
+            name: obj.Name,
+            address: obj.Address,
+            emailAddress: obj.Email_Address,
+            verified: obj.Verified
+        };
+   })
+   .pipe(csv.createWriteStream({headers: true}))
+   .pipe(fs.createWriteStream("out.csv", {encoding: "utf8"}));
+```
+
+The output will contain formatted result from the transform function.
+
 ## Benchmarks
 
 `Parsing 20000 records AVG over 3 runs`
@@ -371,11 +399,3 @@ MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 * Code: `git clone git://github.com/C2FO/fast-csv.git`
 * Website: <http://c2fo.com>
 * Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
-
-##Namespaces
-
-
-
-
-
-##Classes

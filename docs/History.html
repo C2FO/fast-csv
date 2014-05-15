@@ -176,6 +176,12 @@
 
 
 
+<h1>v0.3.0</h1>
+<ul>
+<li>You can now specify <code>objectMode</code> when parsing a csv which will cause <code>data</code> events to have an object emitted.</li>
+<li>You can now pipe directly to the stream returned from <code>createWriteStream</code></li>
+<li>You can now transform csvs by piping output from parsing into a formatter.</li>
+</ul>
 <h1>v0.2.5</h1>
 <ul>
 <li>Fixed issue where not all rows are emitted when using <code>pause</code> and <code>resume</code></li>
