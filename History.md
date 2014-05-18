@@ -1,3 +1,9 @@
+# v0.3.1
+
+* Added transform support to formatters
+   * When using `createWriteStream` you can now you the `transform` method to specify a row transformer.
+   * When using other transform methods you can specify a `transform` option.
+
 # v0.3.0
 
 * You can now specify `objectMode` when parsing a csv which will cause `data` events to have an object emitted.

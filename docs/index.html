@@ -207,9 +207,11 @@
 </li>
 </ul>
 <p><strong>events</strong></p>
-<p><code>record</code>: Emitted when a record is parsed.
-<code>data-invalid</code>: Emitted if there was invalid row encounted, <strong>only emitted if the <code>validate</code> function is used</strong>.
-<code>data</code>: Emitted with the <code>stringified</code> version of a record.</p>
+<ul>
+<li><code>record</code>: Emitted when a record is parsed.</li>
+<li><code>data-invalid</code>: Emitted if there was invalid row encounted, <strong>only emitted if the <code>validate</code> function is used</strong>.</li>
+<li><code>data</code>: Emitted with the object or <code>stringified</code> version if the <code>objectMode</code> is set to <code>false</code>.</li>
+</ul>
 <p><strong>([options])</strong></p>
 <p>If you use <code>fast-csv</code> as a function it returns a transform stream that can be piped into.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
@@ -337,10 +339,35 @@ csv
  });</code></pre>
 <h3>Formatting</h3>
 <p><code>fast-csv</code> also allows to you to create create a <code>CSV</code> from data.</p>
-<p>Formatting accepts the same options as parsing.</p>
+<p>Formatting accepts the same options as parsing with an additional <code>transform</code> option.</p>
+<ul>
+<li><code>transform(row)</code>: A function that accepts a row and returns a transformed one to be written.</li>
+</ul>
 <p><strong><code>createWriteStream(options)</code></strong></p>
 <p>This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv.createWriteStream({headers: true}),
+    writableStream = fs.createWriteStream(&quot;my.csv&quot;);
+
+writableStream.on(&quot;finish&quot;, function(){
+  console.log(&quot;DONE!&quot;);
+});
+
+csvSream.pipe(writableStream);
+csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
+csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
+csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write(null);</code></pre>
+<p>If you wish to transform rows as writing then you can use the <code>.transform</code> method.</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv
+    .createWriteStream({headers: true})
+    .transform(function(row){
+        return {
+           A: row.a,
+           B: row.b
+        };
+    }),
     writableStream = fs.createWriteStream(&quot;my.csv&quot;);
 
 writableStream.on(&quot;finish&quot;, function(){
@@ -373,6 +400,21 @@ csv
        {a: &quot;a2&quot;, b: &quot;b2&quot;}
    ], {headers: true})
    .pipe(ws);</code></pre>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var ws = fs.createWriteStream(&quot;my.csv&quot;);
+csv
+   .write([
+       {a: &quot;a1&quot;, b: &quot;b1&quot;},
+       {a: &quot;a2&quot;, b: &quot;b2&quot;}
+   ], {
+        headers: true
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   })
+   .pipe(ws);</code></pre>
 <p><strong><code>writeToStream(stream,arr[, options])</code></strong></p>
 <p>Write an array of values to a <code>WritableStream</code></p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
@@ -386,6 +428,20 @@ csv
        {a: &quot;a1&quot;, b: &quot;b1&quot;},
        {a: &quot;a2&quot;, b: &quot;b2&quot;}
    ], {headers: true})
+   .pipe(ws);</code></pre>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
+   .writeToStream(fs.createWriteStream(&quot;my.csv&quot;), [
+       {a: &quot;a1&quot;, b: &quot;b1&quot;},
+       {a: &quot;a2&quot;, b: &quot;b2&quot;}
+   ], {
+        headers: true,
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   })
    .pipe(ws);</code></pre>
 <p><strong><code>writeToPath(arr[, options])</code></strong></p>
 <p>Write an array of values to the specified path</p>
@@ -406,6 +462,22 @@ csv
    .on(&quot;finish&quot;, function(){
       console.log(&quot;done!&quot;);
    });</code></pre>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
+   .writeToStream(&quot;my.csv&quot;, [
+       {a: &quot;a1&quot;, b: &quot;b1&quot;},
+       {a: &quot;a2&quot;, b: &quot;b2&quot;}
+   ], {
+        headers: true,
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   })
+   .on(&quot;finish&quot;, function(){
+      console.log(&quot;done!&quot;);
+   });</code></pre>
 <p><strong><code>writeToString(arr[, options])</code></strong></p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString([
    [&quot;a&quot;, &quot;b&quot;],
@@ -416,6 +488,18 @@ csv
    {a: &quot;a1&quot;, b: &quot;b1&quot;},
    {a: &quot;a2&quot;, b: &quot;b2&quot;}
 ], {headers: true}); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString([
+   {a: &quot;a1&quot;, b: &quot;b1&quot;},
+   {a: &quot;a2&quot;, b: &quot;b2&quot;}
+], {
+        headers: true,
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   }); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
 <h2>Piping from Parser to Writer</h2>
 <p>You can use <code>fast-csv</code> to pipe the output from a parsed CSV to a transformed CSV by setting the parser to <code>objectMode</code> and using <code>createWriteStream</code>.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
@@ -436,6 +520,21 @@ csv
    .pipe(csv.createWriteStream({headers: true}))
    .pipe(fs.createWriteStream(&quot;out.csv&quot;, {encoding: &quot;utf8&quot;}));</code></pre>
 <p>The output will contain formatted result from the transform function.</p>
+<p>If you want to tranform on the formatting side</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var formatStream = csv
+        .createWriteStream({headers: true})
+        .transform(function(){
+            return {
+                name: obj.Name,
+                address: obj.Address,
+                emailAddress: obj.Email_Address,
+                verified: obj.Verified
+            };
+        });  
+csv
+   .fromPath(&quot;in.csv&quot;, {headers: true})
+   .pipe(formatStream)
+   .pipe(fs.createWriteStream(&quot;out.csv&quot;, {encoding: &quot;utf8&quot;}));</code></pre>
 <h2>Benchmarks</h2>
 <p><code>Parsing 20000 records AVG over 3 runs</code></p>
 <pre class='prettyprint linenums lang-js'><code>fast-csv: 198.67ms
