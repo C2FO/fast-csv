@@ -640,6 +640,27 @@ it.describe("fast-csv", function (it) {
             ], {headers: true}).on("error", next);
         });
 
+        it.should("support transforming an array of arrays", function (next) {
+            var ws = new stream.Writable();
+            ws._write = function (data) {
+                assert.deepEqual(data.toString(), "A,B\nA1,B1\nA2,B2");
+                next();
+            };
+            csv.writeToStream(ws, [
+                ["a", "b"],
+                ["a1", "b1"],
+                ["a2", "b2"]
+            ], {
+                headers: true,
+                transform: function (row) {
+                    return row.map(function (entry) {
+                        return entry.toUpperCase();
+                    });
+                }
+            }).on("error", next);
+        });
+
+
         it.should("write an array of objects", function (next) {
             var ws = new stream.Writable();
             ws._write = function (data) {
@@ -650,6 +671,26 @@ it.describe("fast-csv", function (it) {
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
             ], {headers: true}).on("error", next);
+        });
+
+        it.should("support transforming an array of objects", function (next) {
+            var ws = new stream.Writable();
+            ws._write = function (data) {
+                assert.deepEqual(data.toString(), "A,B\na1,b1\na2,b2");
+                next();
+            };
+            csv.writeToStream(ws, [
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ], {
+                headers: true,
+                transform: function (row) {
+                    return {
+                        A: row.a,
+                        B: row.b
+                    };
+                }
+            }).on("error", next);
         });
     });
 
@@ -663,11 +704,34 @@ it.describe("fast-csv", function (it) {
             ], {headers: true}), "a,b\na1,b1\na2,b2");
         });
 
+        it.should("support transforming an array of arrays", function () {
+            assert.equal(csv.writeToString([
+                ["a", "b"],
+                ["a1", "b1"],
+                ["a2", "b2"]
+            ], {
+                headers: true,
+                transform: function (row) {
+                    return row.map(function (entry) {
+                        return entry.toUpperCase();
+                    });
+                }
+            }), "A,B\nA1,B1\nA2,B2");
+        });
+
         it.should("write an array of objects", function () {
             assert.equal(csv.writeToString([
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
-            ], {headers: true}), "a,b\na1,b1\na2,b2");
+            ], {
+                headers: true,
+                transform: function (row) {
+                    return {
+                        A: row.a,
+                        B: row.b
+                    };
+                }
+            }), "A,B\na1,b1\na2,b2");
         });
     });
 
@@ -686,6 +750,27 @@ it.describe("fast-csv", function (it) {
             ], {headers: true}).on("error", next).pipe(ws);
         });
 
+        it.should("support transforming an array of arrays", function (next) {
+            var ws = new stream.Writable();
+            ws._write = function (data) {
+                assert.deepEqual(data.toString(), "A,B\nA1,B1\nA2,B2");
+                next();
+            };
+            var data = [
+                ["a", "b"],
+                ["a1", "b1"],
+                ["a2", "b2"]
+            ];
+            csv.write(data, {
+                headers: true,
+                transform: function (row) {
+                    return row.map(function (entry) {
+                        return entry.toUpperCase();
+                    });
+                }
+            }).on("error", next).pipe(ws);
+        });
+
         it.should("write an array of objects", function (next) {
             var ws = new stream.Writable();
             ws._write = function (data) {
@@ -696,6 +781,27 @@ it.describe("fast-csv", function (it) {
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
             ], {headers: true}).on("error", next).pipe(ws);
+        });
+
+        it.should("support transforming an array of objects", function (next) {
+            var ws = new stream.Writable();
+            ws._write = function (data) {
+                assert.deepEqual(data.toString(), "A,B\na1,b1\na2,b2");
+                next();
+            };
+            var data = [
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ];
+            csv.write(data, {
+                headers: true,
+                transform: function (row) {
+                    return {
+                        A: row.a,
+                        B: row.b
+                    };
+                }
+            }).on("error", next).pipe(ws);
         });
     });
 
@@ -716,6 +822,29 @@ it.describe("fast-csv", function (it) {
                 });
         });
 
+        it.should("support transforming an array of arrays", function (next) {
+            var data = [
+                ["a", "b"],
+                ["a1", "b1"],
+                ["a2", "b2"]
+            ];
+            csv
+                .writeToPath(path.resolve(__dirname, "assets/test.csv"), data, {
+                    headers: true,
+                    transform: function (row) {
+                        return row.map(function (entry) {
+                            return entry.toUpperCase();
+                        });
+                    }
+                })
+                .on("error", next)
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "A,B\nA1,B1\nA2,B2");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
+        });
+
         it.should("write an array of objects", function (next) {
             csv
                 .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
@@ -729,12 +858,35 @@ it.describe("fast-csv", function (it) {
                     next();
                 });
         });
+
+        it.should("support transforming an array of objects", function (next) {
+            var data = [
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ];
+            csv
+                .writeToPath(path.resolve(__dirname, "assets/test.csv"), data, {
+                    headers: true,
+                    transform: function (row) {
+                        return {
+                            A: row.a,
+                            B: row.b
+                        };
+                    }
+                })
+                .on("error", next)
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "A,B\na1,b1\na2,b2");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
+        });
     });
 
     it.describe(".createWriteStream", function (it) {
 
         it.should("write an array of arrays", function (next) {
-            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
             var stream = csv
                 .createWriteStream({headers: true})
                 .on("error", next);
@@ -758,7 +910,7 @@ it.describe("fast-csv", function (it) {
         });
 
         it.should("write an array of objects", function (next) {
-            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
             var stream = csv
                 .createWriteStream({headers: true})
                 .on("error", next);
@@ -778,12 +930,37 @@ it.describe("fast-csv", function (it) {
             });
             stream.write(null);
         });
+
+        it.should("should support transforming objects", function (next) {
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
+            var stream = csv
+                .createWriteStream({headers: true})
+                .transform(function (obj) {
+                    return {A: obj.a, B: obj.b};
+                })
+                .on("error", next);
+            writable
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "A,B\na1,b1\na2,b2");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
+            stream.pipe(writable);
+            var vals = [
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ];
+            vals.forEach(function (item) {
+                stream.write(item);
+            });
+            stream.write(null);
+        });
     });
 
     it.describe("piping from parser to formatter", function (it) {
 
         it.should("allow piping from a parser to a formatter", function (next) {
-            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
             csv
                 .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true, objectMode: true})
                 .on("error", next)
@@ -801,7 +978,7 @@ it.describe("fast-csv", function (it) {
         });
 
         it.should("preserve transforms", function (next) {
-            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"})
+            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
             csv
                 .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true})
                 .transform(function (obj) {

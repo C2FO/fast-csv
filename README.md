@@ -212,7 +212,9 @@ csv
 
 `fast-csv` also allows to you to create create a `CSV` from data.
 
-Formatting accepts the same options as parsing.
+Formatting accepts the same options as parsing with an additional `transform` option.
+
+* `transform(row)`: A function that accepts a row and returns a transformed one to be written.
 
 **`createWriteStream(options)`**
 
@@ -220,6 +222,32 @@ This is the lowest level of the write methods, it creates a stream that can be u
 
 ```javascript
 var csvStream = csv.createWriteStream({headers: true}),
+    writableStream = fs.createWriteStream("my.csv");
+
+writableStream.on("finish", function(){
+  console.log("DONE!");
+});
+
+csvSream.pipe(writableStream);
+csvStream.write({a: "a0", b: "b0"});
+csvStream.write({a: "a1", b: "b1"});
+csvStream.write({a: "a2", b: "b2"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write(null);
+```
+
+If you wish to transform rows as writing then you can use the `.transform` method.
+
+```javascript
+var csvStream = csv
+    .createWriteStream({headers: true})
+    .transform(function(row){
+        return {
+           A: row.a,
+           B: row.b
+        };
+    }),
     writableStream = fs.createWriteStream("my.csv");
 
 writableStream.on("finish", function(){
@@ -264,6 +292,26 @@ csv
    .pipe(ws);
 ```
 
+```javascript
+var ws = fs.createWriteStream("my.csv");
+csv
+   .write([
+       {a: "a1", b: "b1"},
+       {a: "a2", b: "b2"}
+   ], {
+        headers: true
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   })
+   .pipe(ws);
+```
+
+
+
 **`writeToStream(stream,arr[, options])`**
 
 Write an array of values to a `WritableStream`
@@ -283,6 +331,23 @@ csv
        {a: "a1", b: "b1"},
        {a: "a2", b: "b2"}
    ], {headers: true})
+   .pipe(ws);
+```
+
+```javascript
+csv
+   .writeToStream(fs.createWriteStream("my.csv"), [
+       {a: "a1", b: "b1"},
+       {a: "a2", b: "b2"}
+   ], {
+        headers: true,
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   })
    .pipe(ws);
 ```
 
@@ -313,6 +378,25 @@ csv
    });
 ```
 
+```javascript
+csv
+   .writeToStream("my.csv", [
+       {a: "a1", b: "b1"},
+       {a: "a2", b: "b2"}
+   ], {
+        headers: true,
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   })
+   .on("finish", function(){
+      console.log("done!");
+   });
+```
+
 **`writeToString(arr[, options])`**
 
 ```javascript
@@ -328,6 +412,21 @@ csv.writeToString([
    {a: "a1", b: "b1"},
    {a: "a2", b: "b2"}
 ], {headers: true}); //"a,b\na1,b1\na2,b2\n"
+```
+
+```javascript
+csv.writeToString([
+   {a: "a1", b: "b1"},
+   {a: "a2", b: "b2"}
+], {
+        headers: true,
+        transform: function(row){
+            return {
+                A: row.a,
+                B: row.b
+            };
+        }
+   }); //"a,b\na1,b1\na2,b2\n"
 ```
 
 ## Piping from Parser to Writer
@@ -360,6 +459,27 @@ csv
 ```
 
 The output will contain formatted result from the transform function.
+
+If you want to tranform on the formatting side
+
+
+```javascript
+var formatStream = csv
+        .createWriteStream({headers: true})
+        .transform(function(){
+            return {
+                name: obj.Name,
+                address: obj.Address,
+                emailAddress: obj.Email_Address,
+                verified: obj.Verified
+            };
+        });  
+csv
+   .fromPath("in.csv", {headers: true})
+   .pipe(formatStream)
+   .pipe(fs.createWriteStream("out.csv", {encoding: "utf8"}));
+```
+
 
 ## Benchmarks
 

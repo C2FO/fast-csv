@@ -4,8 +4,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
+        exec: {
+            removeDocs: "rm -rf docs/*",
+            createDocs: 'coddoc -f multi-html -d ./lib --dir ./docs'
+        },
+
         jshint: {
-            file: "./lib/index.js",
+            file: "./lib/*.js",
             options: {
                 jshintrc: '.jshintrc'
             }
@@ -19,12 +24,13 @@ module.exports = function (grunt) {
                     reporter: 'spec'
                 }
             }
-        },
+        }
     });
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'it']);
+    grunt.registerTask('default', ['jshint', 'it', "exec"]);
     grunt.loadNpmTasks('grunt-it');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-exec');
 
 };
