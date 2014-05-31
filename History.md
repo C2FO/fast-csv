@@ -1,3 +1,7 @@
+# v0.4.0
+
+* Fixed misspelling of `delimiter` [#40](https://github.com/C2FO/fast-csv/issues/40)
+
 # v0.3.1
 
 * Added transform support to formatters
