@@ -82,7 +82,7 @@ var CSV_STRING = 'a,b\n' +
                  'a2,b2\n';
 
 csv
- .fromPath(CSV_STRING, {headers: true})
+ .fromString(CSV_STRING, {headers: true})
  .on("record", function(data){
      console.log(data);
  })
