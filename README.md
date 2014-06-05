@@ -44,7 +44,7 @@ var stream = fs.createReadStream("my.csv");
 
 var csvStream = csv()
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -63,7 +63,7 @@ var csv = require("fast-csv");
 csv
  .fromPath("my.csv")
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -84,7 +84,7 @@ var CSV_STRING = 'a,b\n' +
 csv
  .fromPath(CSV_STRING, {headers: true})
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -101,7 +101,7 @@ var stream = fs.createReadStream("my.csv");
 csv()
  .fromStream(stream)
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -117,7 +117,7 @@ var stream = fs.createReadStream("my.csv");
 csv()
  .fromStream(stream, {headers : true})
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -134,7 +134,7 @@ var stream = fs.createReadStream("my.csv");
 csv
  .fromStream(stream, {headers : ["firstName", "lastName", "address"]})
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -153,7 +153,7 @@ var stream = fs.createReadStream("my.csv");
 csv
  .fromStream(stream, {ignoreEmpty: true})
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -178,7 +178,7 @@ csv(
      //do something with invalid row
  })
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
@@ -200,7 +200,7 @@ csv
      return data.reverse(); //reverse each row.
  })
  .on("record", function(data){
-     console.log(data):
+     console.log(data);
  })
  .on("end", function(){
      console.log("done");
