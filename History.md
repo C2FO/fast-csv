@@ -1,3 +1,7 @@
+# v0.4.1
+
+* Fixed race condition that occured if you called pause during a flush.
+
 # v0.4.0
 
 * Fixed misspelling of `delimiter` [#40](https://github.com/C2FO/fast-csv/issues/40)
