@@ -822,6 +822,33 @@ it.describe("fast-csv", function (it) {
                 });
         });
 
+        it.should("write an array of arrays added", function (next) {
+            csv
+                .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
+                    ["a", "b"],
+                    ["a1", "b1"],
+                    ["a2", "b2"]
+                ], {headers: true})
+                .on("error", next)
+                .on("finish", function () {
+                    csv
+                        .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
+                            ["a", "b"],
+                            ["a1", "b1"],
+                            ["a2", "b2"]
+                        ], {
+                            headers: true,
+                            flags: "a"
+                        })
+                        .on("error", next)
+                        .on("finish", function () {
+                            assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2\na,b\na1,b1\na2,b2");
+                            fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                            next();
+                        });
+                });
+        });
+
         it.should("support transforming an array of arrays", function (next) {
             var data = [
                 ["a", "b"],
