@@ -228,7 +228,7 @@ writableStream.on("finish", function(){
   console.log("DONE!");
 });
 
-csvSream.pipe(writableStream);
+csvStream.pipe(writableStream);
 csvStream.write({a: "a0", b: "b0"});
 csvStream.write({a: "a1", b: "b1"});
 csvStream.write({a: "a2", b: "b2"});
@@ -254,7 +254,7 @@ writableStream.on("finish", function(){
   console.log("DONE!");
 });
 
-csvSream.pipe(writableStream);
+csvStream.pipe(writableStream);
 csvStream.write({a: "a0", b: "b0"});
 csvStream.write({a: "a1", b: "b1"});
 csvStream.write({a: "a2", b: "b2"});
