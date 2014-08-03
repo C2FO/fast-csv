@@ -190,6 +190,7 @@
 <li><code>objectMode=true</code>: Ensure that <code>data</code> events have an object emitted rather than the stringified version set to false to have a stringified buffer.</li>
 <li><code>headers=false</code>: Ste to true if you expect the first line of your <code>CSV</code> to contain headers, alternatly you can specify an array of headers to use.</li>
 <li><code>ignoreEmpty=false</code>: If you wish to ignore empty rows.</li>
+<li><code>discardUnmappedColumns=false</code>: If you want to discard columns that do not map to a header.</li>
 <li><code>delimiter=&#39;,&#39;</code>: If your data uses an alternate delimiter such as <code>;</code> or <code>\t</code>.<ul>
 <li><strong>NOTE</strong> When specifying an alternate <code>delimiter</code> you may only pass in a single character delimiter</li>
 </ul>
@@ -218,7 +219,7 @@
 
 var csvStream = csv()
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -232,7 +233,7 @@ stream.pipe(csvStream);</code></pre>
 csv
  .fromPath(&quot;my.csv&quot;)
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -246,9 +247,9 @@ var CSV_STRING = &#39;a,b\n&#39; +
                  &#39;a2,b2\n&#39;;
 
 csv
- .fromPath(CSV_STRING, {headers: true})
+ .fromString(CSV_STRING, {headers: true})
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -260,7 +261,7 @@ csv
 csv()
  .fromStream(stream)
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -272,7 +273,7 @@ cause change each row to an object rather than an array.</p>
 csv()
  .fromStream(stream, {headers : true})
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -284,7 +285,7 @@ the data columns will not match.</p>
 csv
  .fromStream(stream, {headers : [&quot;firstName&quot;, &quot;lastName&quot;, &quot;address&quot;]})
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -297,7 +298,7 @@ these by including the <code>ignoreEmpty</code> option.</p>
 csv
  .fromStream(stream, {ignoreEmpty: true})
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -316,7 +317,7 @@ csv(
      //do something with invalid row
  })
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -332,7 +333,7 @@ csv
      return data.reverse(); //reverse each row.
  })
  .on(&quot;record&quot;, function(data){
-     console.log(data):
+     console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
@@ -342,6 +343,7 @@ csv
 <p>Formatting accepts the same options as parsing with an additional <code>transform</code> option.</p>
 <ul>
 <li><code>transform(row)</code>: A function that accepts a row and returns a transformed one to be written.</li>
+<li><code>rowDelimiter=&#39;\n&#39;</code>: Specify an alternate row delimiter (i.e <code>\r\n</code>)</li>
 </ul>
 <p><strong><code>createWriteStream(options)</code></strong></p>
 <p>This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.</p>
@@ -530,7 +532,7 @@ csv
                 emailAddress: obj.Email_Address,
                 verified: obj.Verified
             };
-        });  
+        });
 csv
    .fromPath(&quot;in.csv&quot;, {headers: true})
    .pipe(formatStream)

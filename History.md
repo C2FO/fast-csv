@@ -1,6 +1,11 @@
+# v0.4.2
+
+* Added ability to specify a rowDelimiter when creating a csv.
+* Added discardUnmappedColumns option to allow the ignoring of extra data [#45](https://github.com/C2FO/fast-csv/pull/45)
+
 # v0.4.1
 
-* Fixed race condition that occured if you called pause during a flush.
+* Fixed race condition that occurred if you called pause during a flush.
 
 # v0.4.0
 

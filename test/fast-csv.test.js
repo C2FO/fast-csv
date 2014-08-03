@@ -754,6 +754,16 @@ it.describe("fast-csv", function (it) {
                 }
             }), "A,B\na1,b1\na2,b2");
         });
+
+        it.should("support specifying an alternate row delimiter", function () {
+            assert.equal(csv.writeToString([
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ], {
+                headers: true,
+                rowDelimiter: '\r\n'
+            }), "a,b\r\na1,b1\r\na2,b2");
+        });
     });
 
     it.describe(".write", function (it) {
@@ -823,6 +833,18 @@ it.describe("fast-csv", function (it) {
                     };
                 }
             }).on("error", next).pipe(ws);
+        });
+
+        it.should("support specifying an alternate row delimiter", function (next) {
+            var ws = new stream.Writable();
+            ws._write = function (data) {
+                assert.deepEqual(data.toString(), "a,b\r\na1,b1\r\na2,b2");
+                next();
+            };
+            csv.write([
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ], {headers: true, rowDelimiter: '\r\n'}).on("error", next).pipe(ws);
         });
     });
 
@@ -902,6 +924,20 @@ it.describe("fast-csv", function (it) {
                     next();
                 });
         });
+
+        it.should("support specifying an alternate row delimiter", function (next) {
+            csv
+                .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ], {headers: true, rowDelimiter: '\r\n'})
+                .on("error", next)
+                .on("finish", function () {
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\r\na1,b1\r\na2,b2");
+                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                    next();
+                });
+        });
     });
 
     it.describe(".createWriteStream", function (it) {
@@ -976,49 +1012,72 @@ it.describe("fast-csv", function (it) {
             });
             stream.write(null);
         });
-    });
 
-    it.describe("piping from parser to formatter", function (it) {
-
-        it.should("allow piping from a parser to a formatter", function (next) {
+        it.should("support specifying an alternate row delimiter", function (next) {
             var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
-            csv
-                .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true, objectMode: true})
-                .on("error", next)
-                .pipe(csv.createWriteStream({headers: true}))
-                .on("error", next)
-                .pipe(writable)
+            var stream = csv
+                .createWriteStream({headers: true, rowDelimiter: '\r\n'})
                 .on("error", next);
-
             writable
                 .on("finish", function () {
-                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\r\na1,b1\r\na2,b2");
                     fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
                     next();
                 });
+            stream.pipe(writable);
+            var vals = [
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ];
+            vals.forEach(function (item) {
+                stream.write(item);
+            });
+            stream.write(null);
         });
 
-        it.should("preserve transforms", function (next) {
-            var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
-            csv
-                .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true})
-                .transform(function (obj) {
-                    obj.a = obj.a + "-parsed";
-                    obj.b = obj.b + "-parsed";
-                    return obj;
-                })
-                .on("error", next)
-                .pipe(csv.createWriteStream({headers: true}))
-                .on("error", next)
-                .pipe(writable)
-                .on("error", next);
 
-            writable
-                .on("finish", function () {
-                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1-parsed,b1-parsed\na2-parsed,b2-parsed");
-                    fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
-                    next();
-                });
+        it.describe("piping from parser to formatter", function (it) {
+
+            it.should("allow piping from a parser to a formatter", function (next) {
+                var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
+                csv
+                    .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true, objectMode: true})
+                    .on("error", next)
+                    .pipe(csv.createWriteStream({headers: true}))
+                    .on("error", next)
+                    .pipe(writable)
+                    .on("error", next);
+
+                writable
+                    .on("finish", function () {
+                        assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2");
+                        fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                        next();
+                    });
+            });
+
+            it.should("preserve transforms", function (next) {
+                var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
+                csv
+                    .fromPath(path.resolve(__dirname, "./assets/test22.csv"), {headers: true})
+                    .transform(function (obj) {
+                        obj.a = obj.a + "-parsed";
+                        obj.b = obj.b + "-parsed";
+                        return obj;
+                    })
+                    .on("error", next)
+                    .pipe(csv.createWriteStream({headers: true}))
+                    .on("error", next)
+                    .pipe(writable)
+                    .on("error", next);
+
+                writable
+                    .on("finish", function () {
+                        assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1-parsed,b1-parsed\na2-parsed,b2-parsed");
+                        fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                        next();
+                    });
+            });
         });
     });
 });
