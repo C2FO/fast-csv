@@ -141,8 +141,14 @@ var expected14 = [
 
 var expected21 = [
     {"first_name": "First\n1", "last_name": "Last\n1", "email_address": "email1@email.com", address: "1 Street St,\nState ST, 88888"},
-    {"first_name": "First\n2", "last_name": "Last\n2", "email_address": "email2@email.com", address: "2 Street St,\nState ST, 88888"},
-]
+    {"first_name": "First\n2", "last_name": "Last\n2", "email_address": "email2@email.com", address: "2 Street St,\nState ST, 88888"}
+];
+
+var expected23 = [
+    {"first_name": "First1", "last_name": "Last1", "email_address": "email1@email.com"},
+    {"first_name": "First2", "last_name": "Last2", "email_address": "email2@email.com"},
+    {"first_name": "First3", "last_name": "Last3", "email_address": "email3@email.com"}
+];
 
 it.describe("fast-csv", function (it) {
 
@@ -456,6 +462,21 @@ it.describe("fast-csv", function (it) {
             .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected9);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("discard extra columns that do not map to a header with discardUnmappedColumns option", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test23.csv"), {headers: true, discardUnmappedColumns: true})
+            .on("record", function (data, index) {
+                actual.push(data);
+            })
+            .on("error", next)
+            .on("end", function (count) {
+                assert.deepEqual(actual, expected23);
                 assert.equal(count, actual.length);
                 next();
             });
