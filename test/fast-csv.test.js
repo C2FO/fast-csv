@@ -12,39 +12,129 @@ function camelize(str) {
 }
 
 var expected1 = [
-    {"first_name": "First1", "last_name": "Last1", "email_address": "email1@email.com", address: "1 Street St, State ST, 88888"},
-    {"first_name": "First2", "last_name": "Last2", "email_address": "email2@email.com", address: "2 Street St, State ST, 88888"},
-    {"first_name": "First3", "last_name": "Last3", "email_address": "email3@email.com", address: "3 Street St, State ST, 88888"},
-    {"first_name": "First4", "last_name": "Last4", "email_address": "email4@email.com", address: "4 Street St, State ST, 88888"},
-    {"first_name": "First5", "last_name": "Last5", "email_address": "email5@email.com", address: "5 Street St, State ST, 88888"},
-    {"first_name": "First6", "last_name": "Last6", "email_address": "email6@email.com", address: "6 Street St, State ST, 88888"},
-    {"first_name": "First7", "last_name": "Last7", "email_address": "email7@email.com", address: "7 Street St, State ST, 88888"},
-    {"first_name": "First8", "last_name": "Last8", "email_address": "email8@email.com", address: "8 Street St, State ST, 88888"},
-    {"first_name": "First9", "last_name": "Last9", "email_address": "email9@email.com", address: "9 Street St, State ST, 88888"}
+    {
+        "first_name": "First1",
+        "last_name": "Last1",
+        "email_address": "email1@email.com",
+        address: "1 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First2",
+        "last_name": "Last2",
+        "email_address": "email2@email.com",
+        address: "2 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First3",
+        "last_name": "Last3",
+        "email_address": "email3@email.com",
+        address: "3 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First4",
+        "last_name": "Last4",
+        "email_address": "email4@email.com",
+        address: "4 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First5",
+        "last_name": "Last5",
+        "email_address": "email5@email.com",
+        address: "5 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First6",
+        "last_name": "Last6",
+        "email_address": "email6@email.com",
+        address: "6 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First7",
+        "last_name": "Last7",
+        "email_address": "email7@email.com",
+        address: "7 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First8",
+        "last_name": "Last8",
+        "email_address": "email8@email.com",
+        address: "8 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First9",
+        "last_name": "Last9",
+        "email_address": "email9@email.com",
+        address: "9 Street St, State ST, 88888"
+    }
 ];
 
 var expected2 = [
-    [ 'First1', 'Last1', 'email1@email.com', '1 Street St, State ST, 88888' ],
-    [ 'First2', 'Last2', 'email2@email.com', '2 Street St, State ST, 88888' ],
-    [ 'First3', 'Last3', 'email3@email.com', '3 Street St, State ST, 88888' ],
-    [ 'First4', 'Last4', 'email4@email.com', '4 Street St, State ST, 88888' ],
-    [ 'First5', 'Last5', 'email5@email.com', '5 Street St, State ST, 88888' ],
-    [ 'First6', 'Last6', 'email6@email.com', '6 Street St, State ST, 88888' ],
-    [ 'First7', 'Last7', 'email7@email.com', '7 Street St, State ST, 88888' ],
-    [ 'First8', 'Last8', 'email8@email.com', '8 Street St, State ST, 88888' ],
-    [ 'First9', 'Last9', 'email9@email.com', '9 Street St, State ST, 88888' ]
+    ['First1', 'Last1', 'email1@email.com', '1 Street St, State ST, 88888'],
+    ['First2', 'Last2', 'email2@email.com', '2 Street St, State ST, 88888'],
+    ['First3', 'Last3', 'email3@email.com', '3 Street St, State ST, 88888'],
+    ['First4', 'Last4', 'email4@email.com', '4 Street St, State ST, 88888'],
+    ['First5', 'Last5', 'email5@email.com', '5 Street St, State ST, 88888'],
+    ['First6', 'Last6', 'email6@email.com', '6 Street St, State ST, 88888'],
+    ['First7', 'Last7', 'email7@email.com', '7 Street St, State ST, 88888'],
+    ['First8', 'Last8', 'email8@email.com', '8 Street St, State ST, 88888'],
+    ['First9', 'Last9', 'email9@email.com', '9 Street St, State ST, 88888']
 ];
 
 var expected3 = [
-    {"first_name": "First1", "last_name": "Last1", "email_address": "email1@email.com", address: '1 "Street" St, State ST, 88888'},
-    {"first_name": "First2", "last_name": "Last2", "email_address": "email2@email.com", address: '2 "Street" St, State ST, 88888'},
-    {"first_name": "First3", "last_name": "Last3", "email_address": "email3@email.com", address: '3 "Street" St, State ST, 88888'},
-    {"first_name": "First4", "last_name": "Last4", "email_address": "email4@email.com", address: '4 "Street" St, State ST, 88888'},
-    {"first_name": "First5", "last_name": "Last5", "email_address": "email5@email.com", address: '5 "Street" St, State ST, 88888'},
-    {"first_name": "First6", "last_name": "Last6", "email_address": "email6@email.com", address: '6 "Street" St, State ST, 88888'},
-    {"first_name": "First7", "last_name": "Last7", "email_address": "email7@email.com", address: '7 "Street" St, State ST, 88888'},
-    {"first_name": "First8", "last_name": "Last8", "email_address": "email8@email.com", address: '8 "Street" St, State ST, 88888'},
-    {"first_name": "First9", "last_name": "Last9", "email_address": "email9@email.com", address: '9 "Street" St, State ST, 88888'}
+    {
+        "first_name": "First1",
+        "last_name": "Last1",
+        "email_address": "email1@email.com",
+        address: '1 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First2",
+        "last_name": "Last2",
+        "email_address": "email2@email.com",
+        address: '2 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First3",
+        "last_name": "Last3",
+        "email_address": "email3@email.com",
+        address: '3 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First4",
+        "last_name": "Last4",
+        "email_address": "email4@email.com",
+        address: '4 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First5",
+        "last_name": "Last5",
+        "email_address": "email5@email.com",
+        address: '5 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First6",
+        "last_name": "Last6",
+        "email_address": "email6@email.com",
+        address: '6 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First7",
+        "last_name": "Last7",
+        "email_address": "email7@email.com",
+        address: '7 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First8",
+        "last_name": "Last8",
+        "email_address": "email8@email.com",
+        address: '8 "Street" St, State ST, 88888'
+    },
+    {
+        "first_name": "First9",
+        "last_name": "Last9",
+        "email_address": "email9@email.com",
+        address: '9 "Street" St, State ST, 88888'
+    }
 ];
 
 var expected4 = [
@@ -106,42 +196,177 @@ var expected8 = [
 ];
 
 var expected9 = [
-    {"first_name": "First'1", "last_name": "Last1", "email_address": "email1@email.com", address: "1 Street St, State ST, 88888"},
-    {"first_name": "First'2", "last_name": "Last2", "email_address": "email2@email.com", address: "2 Street St, State ST, 88888"},
-    {"first_name": "First'3", "last_name": "Last3", "email_address": "email3@email.com", address: "3 Street St, State ST, 88888"},
-    {"first_name": "First'4", "last_name": "Last4", "email_address": "email4@email.com", address: "4 Street St, State ST, 88888"},
-    {"first_name": "First'5", "last_name": "Last5", "email_address": "email5@email.com", address: "5 Street St, State ST, 88888"},
-    {"first_name": "First'6", "last_name": "Last6", "email_address": "email6@email.com", address: "6 Street St, State ST, 88888"},
-    {"first_name": "First'7", "last_name": "Last7", "email_address": "email7@email.com", address: "7 Street St, State ST, 88888"},
-    {"first_name": "First'8", "last_name": "Last8", "email_address": "email8@email.com", address: "8 Street St, State ST, 88888"},
-    {"first_name": "First'9", "last_name": "Last9", "email_address": "email9@email.com", address: "9 Street St, State ST, 88888"}
+    {
+        "first_name": "First'1",
+        "last_name": "Last1",
+        "email_address": "email1@email.com",
+        address: "1 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'2",
+        "last_name": "Last2",
+        "email_address": "email2@email.com",
+        address: "2 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'3",
+        "last_name": "Last3",
+        "email_address": "email3@email.com",
+        address: "3 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'4",
+        "last_name": "Last4",
+        "email_address": "email4@email.com",
+        address: "4 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'5",
+        "last_name": "Last5",
+        "email_address": "email5@email.com",
+        address: "5 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'6",
+        "last_name": "Last6",
+        "email_address": "email6@email.com",
+        address: "6 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'7",
+        "last_name": "Last7",
+        "email_address": "email7@email.com",
+        address: "7 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'8",
+        "last_name": "Last8",
+        "email_address": "email8@email.com",
+        address: "8 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'9",
+        "last_name": "Last9",
+        "email_address": "email9@email.com",
+        address: "9 Street St, State ST, 88888"
+    }
 ];
 
 var expected10 = [
-    {"first_name": "First\"1", "last_name": "Last1", "email_address": "email1@email.com", address: "1 Street St, State ST, 88888"},
-    {"first_name": "First\"2", "last_name": "Last2", "email_address": "email2@email.com", address: "2 Street St, State ST, 88888"},
-    {"first_name": "First\"3", "last_name": "Last3", "email_address": "email3@email.com", address: "3 Street St, State ST, 88888"},
-    {"first_name": "First\"4", "last_name": "Last4", "email_address": "email4@email.com", address: "4 Street St, State ST, 88888"},
-    {"first_name": "First\"5", "last_name": "Last5", "email_address": "email5@email.com", address: "5 Street St, State ST, 88888"},
-    {"first_name": "First\"6", "last_name": "Last6", "email_address": "email6@email.com", address: "6 Street St, State ST, 88888"},
-    {"first_name": "First\"7", "last_name": "Last7", "email_address": "email7@email.com", address: "7 Street St, State ST, 88888"},
-    {"first_name": "First\"8", "last_name": "Last8", "email_address": "email8@email.com", address: "8 Street St, State ST, 88888"},
-    {"first_name": "First\"9", "last_name": "Last9", "email_address": "email9@email.com", address: "9 Street St, State ST, 88888"}
+    {
+        "first_name": "First\"1",
+        "last_name": "Last1",
+        "email_address": "email1@email.com",
+        address: "1 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"2",
+        "last_name": "Last2",
+        "email_address": "email2@email.com",
+        address: "2 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"3",
+        "last_name": "Last3",
+        "email_address": "email3@email.com",
+        address: "3 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"4",
+        "last_name": "Last4",
+        "email_address": "email4@email.com",
+        address: "4 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"5",
+        "last_name": "Last5",
+        "email_address": "email5@email.com",
+        address: "5 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"6",
+        "last_name": "Last6",
+        "email_address": "email6@email.com",
+        address: "6 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"7",
+        "last_name": "Last7",
+        "email_address": "email7@email.com",
+        address: "7 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"8",
+        "last_name": "Last8",
+        "email_address": "email8@email.com",
+        address: "8 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"9",
+        "last_name": "Last9",
+        "email_address": "email9@email.com",
+        address: "9 Street St, State ST, 88888"
+    }
 ];
 
 var expected14 = [
-    {"first_name": "First1", "last_name": "Last1", "email_address": "email1@email.com", address: "1 Street St, State ST, 88888"},
-    {"first_name": "First2", "last_name": "Last2", "email_address": "email2@email.com", address: "2 Street St, State ST, 88888"},
-    {"first_name": "First\"3", "last_name": "Last3", "email_address": "email3@email.com", address: "3 Street St, State ST, 88888"},
-    {"first_name": "First\"4", "last_name": "Last4", "email_address": "email4@email.com", address: "4 Street St, State ST, 88888"},
-    {"first_name": "First'5", "last_name": "Last5", "email_address": "email5@email.com", address: "5 Street St, State ST, 88888"},
-    {"first_name": "First'6", "last_name": "Last6", "email_address": "email6@email.com", address: "6 Street St, State ST, 88888"},
-    {"first_name": "First'7", "last_name": "Last7", "email_address": "email7@email.com", address: "7 Street St, State ST, 88888"}
+    {
+        "first_name": "First1",
+        "last_name": "Last1",
+        "email_address": "email1@email.com",
+        address: "1 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First2",
+        "last_name": "Last2",
+        "email_address": "email2@email.com",
+        address: "2 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"3",
+        "last_name": "Last3",
+        "email_address": "email3@email.com",
+        address: "3 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First\"4",
+        "last_name": "Last4",
+        "email_address": "email4@email.com",
+        address: "4 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'5",
+        "last_name": "Last5",
+        "email_address": "email5@email.com",
+        address: "5 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'6",
+        "last_name": "Last6",
+        "email_address": "email6@email.com",
+        address: "6 Street St, State ST, 88888"
+    },
+    {
+        "first_name": "First'7",
+        "last_name": "Last7",
+        "email_address": "email7@email.com",
+        address: "7 Street St, State ST, 88888"
+    }
 ];
 
 var expected21 = [
-    {"first_name": "First\n1", "last_name": "Last\n1", "email_address": "email1@email.com", address: "1 Street St,\nState ST, 88888"},
-    {"first_name": "First\n2", "last_name": "Last\n2", "email_address": "email2@email.com", address: "2 Street St,\nState ST, 88888"}
+    {
+        "first_name": "First\n1",
+        "last_name": "Last\n1",
+        "email_address": "email1@email.com",
+        address: "1 Street St,\nState ST, 88888"
+    },
+    {
+        "first_name": "First\n2",
+        "last_name": "Last\n2",
+        "email_address": "email2@email.com",
+        address: "2 Street St,\nState ST, 88888"
+    }
 ];
 
 var expected23 = [
@@ -713,6 +938,44 @@ it.describe("fast-csv", function (it) {
                 }
             }).on("error", next);
         });
+
+        it.describe("rowDelimiter option", function (it) {
+            it.should("support specifying an alternate row delimiter", function (next) {
+                var ws = new stream.Writable();
+                ws._write = function (data) {
+                    assert.deepEqual(data.toString(), "a,b\r\na1,b1\r\na2,b2");
+                    next();
+                };
+                csv.writeToStream(ws, [
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ], {headers: true, rowDelimiter: "\r\n"}).on("error", next);
+            });
+
+            it.should("escape values that contain the alternate row delimiter", function (next) {
+                var ws = new stream.Writable();
+                ws._write = function (data) {
+                    assert.deepEqual(data.toString(), "a,b\t\"a\t1\",b1\t\"a\t2\",b2");
+                    next();
+                };
+                csv.writeToStream(ws, [
+                    {a: "a\t1", b: "b1"},
+                    {a: "a\t2", b: "b2"}
+                ], {headers: true, rowDelimiter: "\t"}).on("error", next);
+            });
+        });
+
+        it.should("add a final rowDelimiter if includeEndRowDelimiter is true", function (next) {
+            var ws = new stream.Writable();
+            ws._write = function (data) {
+                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2\n");
+                next();
+            };
+            csv.writeToStream(ws, [
+                {a: "a1", b: "b1"},
+                {a: "a2", b: "b2"}
+            ], {headers: true, includeEndRowDelimiter: true}).on("error", next);
+        });
     });
 
     it.describe(".writeToString", function (it) {
@@ -755,14 +1018,35 @@ it.describe("fast-csv", function (it) {
             }), "A,B\na1,b1\na2,b2");
         });
 
-        it.should("support specifying an alternate row delimiter", function () {
+        it.describe("rowDelimiter option", function (it) {
+            it.should("support specifying an alternate row delimiter", function () {
+                assert.equal(csv.writeToString([
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ], {
+                    headers: true,
+                    rowDelimiter: '\r\n'
+                }), "a,b\r\na1,b1\r\na2,b2");
+            });
+            it.should("escape values that contain the alternate row delimiter", function () {
+                assert.equal(csv.writeToString([
+                    {a: "a\t1", b: "b1"},
+                    {a: "a\t2", b: "b2"}
+                ], {
+                    headers: true,
+                    rowDelimiter: '\t'
+                }), "a,b\t\"a\t1\",b1\t\"a\t2\",b2");
+            });
+        });
+
+        it.should("add a final rowDelimiter if includeEndRowDelimiter is true", function () {
             assert.equal(csv.writeToString([
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
             ], {
                 headers: true,
-                rowDelimiter: '\r\n'
-            }), "a,b\r\na1,b1\r\na2,b2");
+                includeEndRowDelimiter: true
+            }), "a,b\na1,b1\na2,b2\n");
         });
     });
 
@@ -835,16 +1119,43 @@ it.describe("fast-csv", function (it) {
             }).on("error", next).pipe(ws);
         });
 
-        it.should("support specifying an alternate row delimiter", function (next) {
+        it.describe("rowDelimiter option", function (it) {
+
+            it.should("support specifying an alternate row delimiter", function (next) {
+                var ws = new stream.Writable();
+                ws._write = function (data) {
+                    assert.deepEqual(data.toString(), "a,b\r\na1,b1\r\na2,b2");
+                    next();
+                };
+                csv.write([
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ], {headers: true, rowDelimiter: '\r\n'}).on("error", next).pipe(ws);
+            });
+
+            it.should("escape values that contain the alternate row delimiter", function (next) {
+                var ws = new stream.Writable();
+                ws._write = function (data) {
+                    assert.deepEqual(data.toString(), "a,b\t\"a\t1\",b1\t\"a\t2\",b2");
+                    next();
+                };
+                csv.write([
+                    {a: "a\t1", b: "b1"},
+                    {a: "a\t2", b: "b2"}
+                ], {headers: true, rowDelimiter: '\t'}).on("error", next).pipe(ws);
+            });
+        });
+
+        it.should("add a final rowDelimiter if includeEndRowDelimiter is true", function (next) {
             var ws = new stream.Writable();
             ws._write = function (data) {
-                assert.deepEqual(data.toString(), "a,b\r\na1,b1\r\na2,b2");
+                assert.deepEqual(data.toString(), "a,b\na1,b1\na2,b2\n");
                 next();
             };
             csv.write([
                 {a: "a1", b: "b1"},
                 {a: "a2", b: "b2"}
-            ], {headers: true, rowDelimiter: '\r\n'}).on("error", next).pipe(ws);
+            ], {headers: true, includeEndRowDelimiter: true}).on("error", next).pipe(ws);
         });
     });
 
@@ -925,15 +1236,46 @@ it.describe("fast-csv", function (it) {
                 });
         });
 
-        it.should("support specifying an alternate row delimiter", function (next) {
+        it.describe("rowDelimiter option", function (it) {
+
+            it.should("support specifying an alternate row delimiter", function (next) {
+                csv
+                    .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
+                        {a: "a1", b: "b1"},
+                        {a: "a2", b: "b2"}
+                    ], {headers: true, rowDelimiter: '\r\n'})
+                    .on("error", next)
+                    .on("finish", function () {
+                        assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\r\na1,b1\r\na2,b2");
+                        fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                        next();
+                    });
+            });
+
+            it.should("escape values that contain the alternate row delimiter", function (next) {
+                csv
+                    .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
+                        {a: "a\t1", b: "b1"},
+                        {a: "a\t2", b: "b2"}
+                    ], {headers: true, rowDelimiter: '\t'})
+                    .on("error", next)
+                    .on("finish", function () {
+                        assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\t\"a\t1\",b1\t\"a\t2\",b2");
+                        fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                        next();
+                    });
+            });
+        });
+
+        it.should("add a final rowDelimiter if includeEndRowDelimiter is true", function (next) {
             csv
                 .writeToPath(path.resolve(__dirname, "assets/test.csv"), [
                     {a: "a1", b: "b1"},
                     {a: "a2", b: "b2"}
-                ], {headers: true, rowDelimiter: '\r\n'})
+                ], {headers: true, includeEndRowDelimiter: true})
                 .on("error", next)
                 .on("finish", function () {
-                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\r\na1,b1\r\na2,b2");
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2\n");
                     fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
                     next();
                 });
@@ -1013,14 +1355,62 @@ it.describe("fast-csv", function (it) {
             stream.write(null);
         });
 
-        it.should("support specifying an alternate row delimiter", function (next) {
+        it.describe("rowDelimiter option", function (it) {
+
+            it.should("support specifying an alternate row delimiter", function (next) {
+                var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
+                var stream = csv
+                    .createWriteStream({headers: true, rowDelimiter: '\r\n'})
+                    .on("error", next);
+                writable
+                    .on("finish", function () {
+                        assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\r\na1,b1\r\na2,b2");
+                        fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                        next();
+                    });
+                stream.pipe(writable);
+                var vals = [
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ];
+                vals.forEach(function (item) {
+                    stream.write(item);
+                });
+                stream.write(null);
+            });
+
+            it.should("escape values that contain the alternate row delimiter", function (next) {
+                var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
+                var stream = csv
+                    .createWriteStream({headers: true, rowDelimiter: '\t'})
+                    .on("error", next);
+                writable
+                    .on("finish", function () {
+                        assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\t\"a\t1\",b1\t\"a\t2\",b2");
+                        fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
+                        next();
+                    });
+                stream.pipe(writable);
+                var vals = [
+                    {a: "a\t1", b: "b1"},
+                    {a: "a\t2", b: "b2"}
+                ];
+                vals.forEach(function (item) {
+                    stream.write(item);
+                });
+                stream.write(null);
+            });
+
+        });
+
+        it.should("add a final rowDelimiter if includeEndRowDelimiter is true", function (next) {
             var writable = fs.createWriteStream(path.resolve(__dirname, "assets/test.csv"), {encoding: "utf8"});
             var stream = csv
-                .createWriteStream({headers: true, rowDelimiter: '\r\n'})
+                .createWriteStream({headers: true, includeEndRowDelimiter: true})
                 .on("error", next);
             writable
                 .on("finish", function () {
-                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\r\na1,b1\r\na2,b2");
+                    assert.equal(fs.readFileSync(path.resolve(__dirname, "assets/test.csv")).toString(), "a,b\na1,b1\na2,b2\n");
                     fs.unlinkSync(path.resolve(__dirname, "assets/test.csv"));
                     next();
                 });

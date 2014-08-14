@@ -344,6 +344,7 @@ csv
 <ul>
 <li><code>transform(row)</code>: A function that accepts a row and returns a transformed one to be written.</li>
 <li><code>rowDelimiter=&#39;\n&#39;</code>: Specify an alternate row delimiter (i.e <code>\r\n</code>)</li>
+<li><code>includeEndRowDelimiter=false</code>: Set to <code>true</code> to include a row delimiter at the end of the csv.</li>
 </ul>
 <p><strong><code>createWriteStream(options)</code></strong></p>
 <p>This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.</p>

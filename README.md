@@ -217,6 +217,7 @@ Formatting accepts the same options as parsing with an additional `transform` op
 
 * `transform(row)`: A function that accepts a row and returns a transformed one to be written.
 * `rowDelimiter='\n'`: Specify an alternate row delimiter (i.e `\r\n`)
+* `includeEndRowDelimiter=false`: Set to `true` to include a row delimiter at the end of the csv.
 
 **`createWriteStream(options)`**
 
