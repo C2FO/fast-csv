@@ -825,6 +825,20 @@ it.describe("fast-csv", function (it) {
             });
     });
 
+    it.should("handle CSVs with comments", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test24.csv"), {headers: true, comment: "#"})
+            .on("record", function (data, index) {
+                actual[index] = data;
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
     it.describe("pause/resume", function () {
 
         it.should("support pausing a stream", function (next) {
