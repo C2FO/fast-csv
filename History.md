@@ -1,6 +1,10 @@
+# 0.4.4
+
+* Added support for comments. [#56](https://github.com/C2FO/fast-csv/issues/56)
+
 # v0.4.3
 
-* Added ability to include a `rowDelimiter` at the end of a csv with the `includeEndRowDelimiter` optioin [#54](https://github.com/C2FO/fast-csv/issues/54)
+* Added ability to include a `rowDelimiter` at the end of a csv with the `includeEndRowDelimiter` option [#54](https://github.com/C2FO/fast-csv/issues/54)
 * Added escaping for values that include a row delimiter
 * Added more tests for new feature and escaping row delimiter values.
 

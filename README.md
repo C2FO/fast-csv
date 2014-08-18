@@ -28,6 +28,7 @@ All methods accept the following `options`
   * `trim=false`: If you want to trim all values parsed set to true.
   * `rtrim=false`: If you want to right trim all values parsed set to true.
   * `ltrim=false`: If you want to left trim all values parsed set to true.
+  * `comment=null`: If your CSV contains comments you can use this option to ignore lines that begin with the specified character (e.g. `#`).
 
 
 **events**
