@@ -150,10 +150,15 @@ var expected23 = [
     {"first_name": "First3", "last_name": "Last3", "email_address": "email3@email.com"}
 ];
 
+var expected24 = [
+    {"first_name": "First1", "last_name": "Last1", "email_address": "email1@email.com"},
+    {"first_name": "First2", "last_name": "Last1", "email_address": ""}
+];
+
 it.describe("fast-csv", function (it) {
 
     it.timeout(60000);
-
+    
     it.should("parse a csv without quotes or escapes", function (next) {
         var actual = [];
         csv
@@ -939,7 +944,29 @@ it.describe("fast-csv", function (it) {
                 });
         });
     });
-
+    /*
+    it.should("fail with strict field validation", function(next) {
+        var actual = [];
+        var invalid = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test24.csv"), {headers:true, strictColumnHandling:true})
+            .on("record", function (data, index) {
+                actual[index] = data;
+            }).
+            on("data-invalid", function (data, index) {
+                invalid[index] = data;
+            }).
+            on("end", function (count) {
+            
+                assert.deepEqual(actual[1], expected24[1]);
+                assert.equal(count, actual.length);
+                
+                assert.equal(2, invalid.length);
+                
+                next();
+            });
+    });
+*/
     it.describe(".createWriteStream", function (it) {
 
         it.should("write an array of arrays", function (next) {
