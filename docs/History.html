@@ -176,7 +176,24 @@
 
 
 
-<h1>0.4.4</h1>
+<h1>v0.5.0</h1>
+<ul>
+<li>Added support for async transforms <a href="https://github.com/C2FO/fast-csv/issues/24">#24</a></li>
+<li>Added support for async validation</li>
+<li>Added support for new data format<pre class='prettyprint linenums lang-js'><code>[
+  [[&quot;header&quot;, &quot;value1&quot;], [&quot;header2&quot;, &quot;value2&quot;]],
+  [[&quot;header&quot;, &quot;value2&quot;], [&quot;header2&quot;, &quot;value2&quot;]]
+]</code></pre>
+</li>
+<li>Added support for forcing the quoting columns and headers<ul>
+<li><code>quoteColumns</code> - Can be a boolean, object or array to specify how quoting should be done (see README)</li>
+<li><code>quoteHeaders</code> - Can be a boolean, object or array to specify how quoting should be done (see README)</li>
+</ul>
+</li>
+<li>More tests</li>
+<li>Code refactor and clean up</li>
+</ul>
+<h1>v0.4.4</h1>
 <ul>
 <li>Added support for comments. <a href="https://github.com/C2FO/fast-csv/issues/56">#56</a></li>
 </ul>
