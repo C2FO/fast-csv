@@ -1,6 +1,6 @@
 var it = require("it"),
     assert = require("assert"),
-    parser = require("../lib/parser");
+    parser = require("../lib/parser/parser");
 
 it.describe("fast-csv parser", function (it) {
 

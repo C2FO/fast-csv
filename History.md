@@ -1,4 +1,21 @@
-# 0.4.4
+# v0.5.0
+
+* Added support for async transforms [#24](https://github.com/C2FO/fast-csv/issues/24)
+* Added support for async validation
+* Added support for new data format
+```
+[
+    [["header", "value1"], ["header2", "value2"]],
+    [["header", "value2"], ["header2", "value2"]]
+]
+```
+* Added support for forcing the quoting columns and headers
+   * `quoteColumns` - Can be a boolean, object or array to specify how quoting should be done (see README)
+   * `quoteHeaders` - Can be a boolean, object or array to specify how quoting should be done (see README)
+* More tests
+* Code refactor and clean up
+
+# v0.4.4
 
 * Added support for comments. [#56](https://github.com/C2FO/fast-csv/issues/56)
 

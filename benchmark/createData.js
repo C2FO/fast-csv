@@ -23,7 +23,6 @@ while (++i < l) {
 fastCsv
     .writeToPath(path.resolve(__dirname, "./assets/20000.csv"), lines)
     .on('finish', function () {
-
         l = 50001;
         while (++i < l) {
             lines.push(lineOptions[i % lineOptionsLength]);
@@ -44,7 +43,6 @@ fastCsv
                         while (++i < l) {
                             lines.push(lineOptions[i % lineOptionsLength]);
                         }
-
                         fastCsv.writeToPath(path.resolve(__dirname, "./assets/1000000.csv"), lines)
                             .on("finish", function () {
                                 process.exit();

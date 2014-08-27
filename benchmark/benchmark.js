@@ -1,7 +1,8 @@
 var fastCsv = require("../lib"),
     csv = require("csv"),
     path = require("path"),
-    COUNT = 100000,
+    fs = require("fs"),
+    COUNT = 10000000,
     TEST_FILE = path.resolve(__dirname, "./assets/" + COUNT + ".csv");
 
 
@@ -13,7 +14,7 @@ function camelize(str) {
 
 function benchmarkFastCsv(done) {
     var count = 0;
-    var stream = fastCsv
+    fastCsv
         .fromPath(TEST_FILE, {headers: true})
         .transform(function (data) {
             var ret = {};
@@ -23,10 +24,10 @@ function benchmarkFastCsv(done) {
             ret.address = data.address;
             return ret;
         })
-        .on("record", function (data, i) {
-            count = i + 1;
+        .on("data", function (data, i) {
+            count++;
         })
-        .on("end", function () {
+        .on("end", function (count) {
             if (count !== COUNT) {
                 done(new Error("Error expected " + COUNT + " got " + count));
             } else {
@@ -41,22 +42,22 @@ function benchmarkFastCsv(done) {
 
 function benchmarkCsv(done) {
     var count = 0;
-    csv()
-        .from.path(TEST_FILE, {headers: true})
-        .transform(function (data) {
+    fs.createReadStream(TEST_FILE)
+        .pipe(csv.parse({columns: true}))
+        .pipe(csv.transform(function (data) {
             var ret = {};
-            ["first_name", "last_name", "email_address"].forEach(function (prop, i) {
-                ret[camelize(prop)] = data[i];
+            ["first_name", "last_name", "email_address"].forEach(function (prop) {
+                ret[camelize(prop)] = data[prop];
             });
-            ret.address = data[3];
+            ret.address = data.address;
             return ret;
-        })
-        .on('record', function (data) {
+        }))
+        .on('data', function (data) {
             count++;
         })
         .on('end', function () {
-            if (count !== COUNT + 1) {
-                done(new Error("Error expected %d got %d", COUNT, count));
+            if (count !== COUNT) {
+                done(new Error("Error expected " + COUNT + " got " + count));
             } else {
                 done();
             }

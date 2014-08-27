@@ -33,11 +33,12 @@ All methods accept the following `options`
 
 **events**
 
-* `record`: Emitted when a record is parsed.
+* `data`: Emitted when a record is parsed.
+* `record`: Emitted when a record is parsed. **DEPRECATED**
 * `data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used**.
 * `data`: Emitted with the object or `stringified` version if the `objectMode` is set to `false`.
 
-**([options])**
+**`([options])` or `.parse(options)`**
 
 If you use `fast-csv` as a function it returns a transform stream that can be piped into.
 
@@ -45,15 +46,67 @@ If you use `fast-csv` as a function it returns a transform stream that can be pi
 var stream = fs.createReadStream("my.csv");
 
 var csvStream = csv()
- .on("record", function(data){
-     console.log(data);
- })
- .on("end", function(){
-     console.log("done");
- });
+    .on("data", function(data){
+         console.log(data);
+    })
+    .on("end", function(){
+         console.log("done");
+    });
+
+stream.pipe(csvStream);
+
+//or
+
+var csvStream = csv
+    .parse()
+    .on("data", function(data){
+         console.log(data);
+    })
+    .on("end", function(){
+         console.log("done");
+    });
 
 stream.pipe(csvStream);
 ```
+
+```javascript
+fs.createReadStream("my.csv")
+    .pipe(csv())
+    .on("data", function(data){
+        console.log(data);
+    })
+    .on("end", function(){
+        console.log("done");
+    });
+```
+
+```
+var fileStream = fs.createReadStream("my.csv"),
+    parser = fastCsv();
+
+fileStream
+    .on("readable", function () {
+        var data;
+        while ((data = fileStream.read()) !== null) {
+            parser.write(data);
+        }
+    })
+    .on("end", function () {
+        parser.end();
+    });
+
+parser
+    .on("readable", function () {
+        var data;
+        while ((data = parser.read()) !== null) {
+            console.log(data);
+        }
+    })
+    .on("end", function () {
+        console.log("done");
+    });
+```
+
 
 **`.fromPath(path[, options])`**
 
@@ -64,7 +117,7 @@ var csv = require("fast-csv");
 
 csv
  .fromPath("my.csv")
- .on("record", function(data){
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -85,7 +138,7 @@ var CSV_STRING = 'a,b\n' +
 
 csv
  .fromString(CSV_STRING, {headers: true})
- .on("record", function(data){
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -102,7 +155,7 @@ var stream = fs.createReadStream("my.csv");
 
 csv()
  .fromStream(stream)
- .on("record", function(data){
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -118,7 +171,7 @@ var stream = fs.createReadStream("my.csv");
 
 csv()
  .fromStream(stream, {headers : true})
- .on("record", function(data){
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -135,7 +188,7 @@ var stream = fs.createReadStream("my.csv");
 
 csv
  .fromStream(stream, {headers : ["firstName", "lastName", "address"]})
- .on("record", function(data){
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -154,7 +207,7 @@ var stream = fs.createReadStream("my.csv");
 
 csv
  .fromStream(stream, {ignoreEmpty: true})
- .on("record", function(data){
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -179,7 +232,7 @@ csv(
  .on("data-invalid", function(data){
      //do something with invalid row
  })
- .on("record", function(data){
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -188,9 +241,33 @@ csv(
 
 ```
 
+If your validation is `async` then your validation function
+
+```javascript
+var stream = fs.createReadStream("my.csv");
+
+csv
+ .fromStream(stream)
+ .validate(function(data, next){
+     MyModel.findById(data.id, function(err, model){
+        if(err){
+            next(err);
+        }else{
+            next(null, !model); //valid if the model does not exist
+        }
+     });
+ })
+ .on("data", function(data){
+     console.log(data);
+ })
+ .on("end", function(){
+     console.log("done");
+ });
+```
+
 ### Transforming
 
-You can transform data by providing in a transform function. What is returned from the transform function will
+You can transform data by providing a transform function. What is returned from the transform function will
 be provided to validate and emitted as a row.
 
 ```javascript
@@ -201,7 +278,26 @@ csv
  .transform(function(data){
      return data.reverse(); //reverse each row.
  })
- .on("record", function(data){
+ .on("data", function(data){
+     console.log(data);
+ })
+ .on("end", function(){
+     console.log("done");
+ });
+
+```
+
+If your transform function expects two arguments then a callback function will be provided and should be called once the validation is complete. This is useful when doing async validation
+
+```javascript
+var stream = fs.createReadStream("my.csv");
+
+csv
+ .fromStream(stream)
+ .transform(function(data, next){
+     MyModel.findById(data.id, next);
+ })
+ .on("data", function(data){
      console.log(data);
  })
  .on("end", function(){
@@ -216,11 +312,78 @@ csv
 
 Formatting accepts the same options as parsing with an additional `transform` option.
 
-* `transform(row)`: A function that accepts a row and returns a transformed one to be written.
+* `transform(row[, cb])`: A function that accepts a row and returns a transformed one to be written, or your function can accept an optional callback to do async transformations.
 * `rowDelimiter='\n'`: Specify an alternate row delimiter (i.e `\r\n`)
 * `includeEndRowDelimiter=false`: Set to `true` to include a row delimiter at the end of the csv.
+* `quoteHeaders=false`
+   * If `true` then all headers will be quoted.
+   * If it is an object then each key that has a true value will be quoted (see example below)
+   * If it is an array then each item in the array that is true will have the header at the corresponding index quoted (see example below)
+* `quoteColumns=false`
+   * If `true` then columns and headers will be quoted (unless `quoteHeaders` is specified).
+   * If it is an object then each key that has a true value will be quoted ((unless `quoteHeaders` is specified)
+   * If it is an array then each item in the array that is true will have the column at the corresponding index quoted (unless `quoteHeaders` is specified)
 
-**`createWriteStream(options)`**
+### Data Types
+
+When creating a CSV `fast-csv` supports a few data formats.
+
+**`Objects`**
+
+You can pass in object to any formatter function if your csv requires headers the keys of the first object will be used as the header names.
+
+```
+[
+    {
+        a: "a1",
+        b: "b1",
+        c: "c1"
+    }
+]
+
+//Generated CSV
+//a,b,c
+//a1,b1,c1
+```
+
+**`Arrays`**
+
+You can also pass in your rows as arrays. If your csv requires headers the first row passed in will be the headers used.
+
+```
+[
+    ["a", "b", "c"],
+    ["a1", "b1", "c1"]
+]
+//Generated CSV
+//a,b,c
+//a1,b1,c1
+```
+
+**`Arrays of Array`**
+
+This is the least commonly used format but can be useful if you have requirements to generate a CSV with headers with the same column name (Crazy we know but we have seen it).
+
+```
+[
+    [
+        ["a", "a1"],
+        ["a", "a2"],
+        ["b", "b1"],
+        ["b", "b2"],
+        ["c", "c1"],
+        ["c", "c2"]
+    ]
+]
+
+//Generated CSV
+//a,a,b,b,c,c
+//a1,a2,b1,b2,c1,c2
+```
+
+### Formatting Functions
+
+**`createWriteStream(options)` or `.format(options)`**
 
 This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.
 
@@ -232,13 +395,30 @@ writableStream.on("finish", function(){
   console.log("DONE!");
 });
 
-csvSream.pipe(writableStream);
+csvStream.pipe(writableStream);
 csvStream.write({a: "a0", b: "b0"});
 csvStream.write({a: "a1", b: "b1"});
 csvStream.write({a: "a2", b: "b2"});
 csvStream.write({a: "a3", b: "b4"});
 csvStream.write({a: "a3", b: "b4"});
-csvStream.write(null);
+csvStream.end();
+
+//or
+
+var csvStream = csv.format({headers: true}),
+    writableStream = fs.createWriteStream("my.csv");
+
+writableStream.on("finish", function(){
+  console.log("DONE!");
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: "a0", b: "b0"});
+csvStream.write({a: "a1", b: "b1"});
+csvStream.write({a: "a2", b: "b2"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.end();
 ```
 
 If you wish to transform rows as writing then you can use the `.transform` method.
@@ -258,13 +438,85 @@ writableStream.on("finish", function(){
   console.log("DONE!");
 });
 
-csvSream.pipe(writableStream);
+csvStream.pipe(writableStream);
 csvStream.write({a: "a0", b: "b0"});
 csvStream.write({a: "a1", b: "b1"});
 csvStream.write({a: "a2", b: "b2"});
 csvStream.write({a: "a3", b: "b4"});
 csvStream.write({a: "a3", b: "b4"});
-csvStream.write(null);
+csvStream.end();
+
+//or
+var csvStream = csv
+    .format({headers: true})
+    .transform(function(row){
+        return {
+           A: row.a,
+           B: row.b
+        };
+    }),
+    writableStream = fs.createWriteStream("my.csv");
+
+writableStream.on("finish", function(){
+  console.log("DONE!");
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: "a0", b: "b0"});
+csvStream.write({a: "a1", b: "b1"});
+csvStream.write({a: "a2", b: "b2"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.end();
+```
+
+Transform can also be async by accepting a callback.
+
+
+```javascript
+var csvStream = csv
+    .createWriteStream({headers: true})
+    .transform(function(row, next){
+        setImmediate(function(){
+            next(null, {A: row.a, B: row.b});
+        });;
+    }),
+    writableStream = fs.createWriteStream("my.csv");
+
+writableStream.on("finish", function(){
+  console.log("DONE!");
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: "a0", b: "b0"});
+csvStream.write({a: "a1", b: "b1"});
+csvStream.write({a: "a2", b: "b2"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.end();
+
+//or
+
+var csvStream = csv
+    .format({headers: true})
+    .transform(function(row, next){
+        setImmediate(function(){
+            next(null, {A: row.a, B: row.b});
+        });;
+    }),
+    writableStream = fs.createWriteStream("my.csv");
+
+writableStream.on("finish", function(){
+  console.log("DONE!");
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: "a0", b: "b0"});
+csvStream.write({a: "a1", b: "b1"});
+csvStream.write({a: "a2", b: "b2"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.write({a: "a3", b: "b4"});
+csvStream.end();
 ```
 
 **Writing Data**
@@ -401,36 +653,54 @@ csv
    });
 ```
 
-**`writeToString(arr[, options])`**
+**`writeToString(arr[, options], cb)`**
 
 ```javascript
-csv.writeToString([
-   ["a", "b"],
-   ["a1", "b1"],
-   ["a2", "b2"]
-], {headers: true}); //"a,b\na1,b1\na2,b2\n"
+csv.writeToString(
+    [
+        ["a", "b"],
+        ["a1", "b1"],
+        ["a2", "b2"]
+    ],
+    {headers: true},
+    function(err, data){
+        console.log(data); //"a,b\na1,b1\na2,b2\n"
+    }
+);
 ```
 
 ```javascript
-csv.writeToString([
-   {a: "a1", b: "b1"},
-   {a: "a2", b: "b2"}
-], {headers: true}); //"a,b\na1,b1\na2,b2\n"
+csv.writeToString(
+    [
+        {a: "a1", b: "b1"},
+        {a: "a2", b: "b2"}
+    ],
+    {headers: true},
+    function(err, data){
+        console.log(data); //"a,b\na1,b1\na2,b2\n"
+    }
+);
 ```
 
 ```javascript
-csv.writeToString([
-   {a: "a1", b: "b1"},
-   {a: "a2", b: "b2"}
-], {
+csv.writeToString(
+    [
+        {a: "a1", b: "b1"},
+        {a: "a2", b: "b2"}
+    ],
+    {
         headers: true,
-        transform: function(row){
+        transform: function (row) {
             return {
                 A: row.a,
                 B: row.b
             };
         }
-   }); //"a,b\na1,b1\na2,b2\n"
+    },
+    function (err, data) {
+        console.log(data); //"a,b\na1,b1\na2,b2\n"
+    }
+);
 ```
 
 ## Piping from Parser to Writer
@@ -464,13 +734,13 @@ csv
 
 The output will contain formatted result from the transform function.
 
-If you want to tranform on the formatting side
+If you want to transform on the formatting side
 
 
 ```javascript
 var formatStream = csv
         .createWriteStream({headers: true})
-        .transform(function(){
+        .transform(function(obj){
             return {
                 name: obj.Name,
                 address: obj.Address,
@@ -484,35 +754,74 @@ csv
    .pipe(fs.createWriteStream("out.csv", {encoding: "utf8"}));
 ```
 
+## Quoting Columns
 
-## Benchmarks
+Sometimes you may need to quote columns is certain ways in order meet certain requirements. `fast-csv` can quote columns and headers almost anyway you may need.
 
-`Parsing 20000 records AVG over 3 runs`
+**Note** in the following example we use `writeToString` but the options option are valid for any of the formatting methods.
 
-```
-fast-csv: 198.67ms
-csv:      525.33ms
-```
-
-`Parsing 50000 records AVG over 3 runs`
+### `quoteColumns`
 
 ```
-fast-csv: 441.33ms
-csv:      1291ms
+//quote all columns including headers
+var objectData = [{a: "a1", b: "b1"}, {a: "a2", b: "b2"}],
+    arrayData = [["a", "b"], ["a1", "b1"], ["a2", "b2"]];
+csv.writeToString(objectData, {headers: true, quoteColumns: true}, function(err, data){
+    console.log(data); //"a","b"
+                       //"a1","b1"
+                       //"a2","b2"
+});
+
+//only quote the "a" column
+csv.writeToString(objectData, {headers: true, quoteColumns: {a: true}}, function(err, data){
+    console.log(data); //"a",b
+                       //"a1",b1
+                       //"a2",b2
+});
+
+//only quote the second column
+csv.writeToString(arrayData, {headers: true, quoteColumns: [false, true]}, function(err, data){
+    console.log(data); //a,"b"
+                       //a1,"b1"
+                       //a2,"b2"
+});
+
 ```
 
-`Parsing 100000 records AVG over 3 runs`
+### `quoteHeaders`
 
 ```
-fast-csv: 866ms
-csv:      2773.33ms
-```
+//quote all columns including headers
+var objectData = [{a: "a1", b: "b1"}, {a: "a2", b: "b2"}],
+    arrayData = [["a", "b"], ["a1", "b1"], ["a2", "b2"]];
+csv.writeToString(objectData, {headers: true, quoteHeaders: true}, function(err, data){
+    console.log(data); //"a","b"
+                       //a1,b1
+                       //a2,b2
+});
 
-`Parsing 1000000 records AVG over 3 runs`
+//only quote the "a" column
+csv.writeToString(objectData, {headers: true, quoteHeaders: {a: true}}, function(err, data){
+    console.log(data); //"a",b
+                       //a1,b1
+                       //a2,b2
+});
 
-```
-fast-csv: 8562.67ms
-csv:      30030.67ms
+//only quote the second column
+csv.writeToString(arrayData, {headers: true, quoteHeaders: [false, true]}, function(err, data){
+    console.log(data); //a,"b"
+                       //a1,b1
+                       //a2,b2
+});
+
+//quoting columns and not headers
+
+//only quote the second column
+csv.writeToString(arrayData, {headers: true, quoteHeaders: false, quoteColumns: true}, function(err, data){
+    console.log(data); //a,b
+                       //"a1","b1"
+                       //"a2","b2"
+});
 ```
 
 ## License
