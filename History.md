@@ -1,3 +1,7 @@
+# v0.5.1
+
+* Fixed issue where line data was not being passed between transforms in the parser_stream
+
 # v0.5.0
 
 * Added support for async transforms [#24](https://github.com/C2FO/fast-csv/issues/24)
