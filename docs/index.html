@@ -664,7 +664,7 @@ csv
         }
    })
    .pipe(ws);</code></pre>
-<p><strong><code>writeToPath(arr[, options])</code></strong></p>
+<p><strong><code>writeToPath(path, arr[, options])</code></strong></p>
 <p>Write an array of values to the specified path</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
    .writeToPath(&quot;my.csv&quot;, [
@@ -736,7 +736,7 @@ csv
         }
     },
     function (err, data) {
-        console.log(data); //&quot;a,b\na1,b1\na2,b2\n&quot;
+        console.log(data); //&quot;A,B\na1,b1\na2,b2\n&quot;
     }
 );</code></pre>
 <h2>Piping from Parser to Writer</h2>

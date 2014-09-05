@@ -1936,6 +1936,107 @@ it.describe("fast-csv", function (it) {
             });
         });
 
+        it.describe("header option", function (it) {
+
+            it.should("write an array of objects without headers", function (next) {
+                csv.writeToString([
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ], {
+                    headers: false
+                }, function (err, csv) {
+                    if (err) {
+                        next(err);
+                    } else {
+                        assert.equal(csv, "a1,b1\na2,b2");
+                        next();
+                    }
+                });
+            });
+
+            it.should("write an array of objects with headers", function (next) {
+                csv.writeToString([
+                    {a: "a1", b: "b1"},
+                    {a: "a2", b: "b2"}
+                ], {
+                    headers: true
+                }, function (err, csv) {
+                    if (err) {
+                        next(err);
+                    } else {
+                        assert.equal(csv, "a,b\na1,b1\na2,b2");
+                        next();
+                    }
+                });
+            });
+
+            it.should("write an array of arrays without headers", function (next) {
+                csv.writeToString([
+                    ["a1", "b1"],
+                    ["a2", "b2"]
+                ], {
+                    headers: false
+                }, function (err, csv) {
+                    if (err) {
+                        next(err);
+                    } else {
+                        assert.equal(csv, "a1,b1\na2,b2");
+                        next();
+                    }
+                });
+            });
+
+            it.should("write an array of arrays with headers", function (next) {
+                csv.writeToString([
+                    ["a", "b"],
+                    ["a1", "b1"],
+                    ["a2", "b2"]
+                ], {
+                    headers: true
+                }, function (err, csv) {
+                    if (err) {
+                        next(err);
+                    } else {
+                        assert.equal(csv, "a,b\na1,b1\na2,b2");
+                        next();
+                    }
+                });
+            });
+
+            it.should("write an array of multi-dimensional arrays without headers", function (next) {
+                csv.writeToString([
+                    [["a", "a1"], ["b", "b1"]],
+                    [["a", "a2"], ["b", "b2"]],
+                ], {
+                    headers: false
+                }, function (err, csv) {
+                    if (err) {
+                        next(err);
+                    } else {
+                        assert.equal(csv, "a1,b1\na2,b2");
+                        next();
+                    }
+                });
+            });
+
+            it.should("write an array of multi-dimensional arrays with headers", function (next) {
+                csv.writeToString([
+                    [["a", "a1"], ["b", "b1"]],
+                    [["a", "a2"], ["b", "b2"]],
+                ], {
+                    headers: true
+                }, function (err, csv) {
+                    if (err) {
+                        next(err);
+                    } else {
+                        assert.equal(csv, "a,b\na1,b1\na2,b2");
+                        next();
+                    }
+                });
+            });
+        });
+
+
         it.describe("rowDelimiter option", function (it) {
             it.should("support specifying an alternate row delimiter", function (next) {
                 csv.writeToString([

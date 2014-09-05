@@ -1,3 +1,8 @@
+# v0.5.2
+
+* Fixed issue with `writeToString` and `writeToPath` examples [#64](https://github.com/C2FO/fast-csv/issues/64)
+* Fixed issue with creating a csv without headers [#63](https://github.com/C2FO/fast-csv/issues/63)
+
 # v0.5.1
 
 * Fixed issue where line data was not being passed between transforms in the parser_stream
