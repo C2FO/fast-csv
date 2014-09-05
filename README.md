@@ -607,7 +607,7 @@ csv
    .pipe(ws);
 ```
 
-**`writeToPath(arr[, options])`**
+**`writeToPath(path, arr[, options])`**
 
 Write an array of values to the specified path
 
@@ -698,7 +698,7 @@ csv.writeToString(
         }
     },
     function (err, data) {
-        console.log(data); //"a,b\na1,b1\na2,b2\n"
+        console.log(data); //"A,B\na1,b1\na2,b2\n"
     }
 );
 ```
