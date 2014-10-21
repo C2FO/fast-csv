@@ -1,3 +1,10 @@
+# v0.5.3
+
+* Fixed issues with `v0.11` stream implementation [#73](https://github.com/C2FO/fast-csv/issues/73)
+* Fixed issues with `pause/resume` and data events in `v0.10` [#69](https://github.com/C2FO/fast-csv/issues/69)
+* Fixed the double invoking of done callback when parsing files [#68](https://github.com/C2FO/fast-csv/issues/68)
+* Refactored tests
+
 # v0.5.2
 
 * Fixed issue with `writeToString` and `writeToPath` examples [#64](https://github.com/C2FO/fast-csv/issues/64)

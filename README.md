@@ -153,7 +153,7 @@ This accepted a readable stream to parse data from.
 ```javascript
 var stream = fs.createReadStream("my.csv");
 
-csv()
+csv
  .fromStream(stream)
  .on("data", function(data){
      console.log(data);
@@ -169,7 +169,7 @@ cause change each row to an object rather than an array.
 ```javascript
 var stream = fs.createReadStream("my.csv");
 
-csv()
+csv
  .fromStream(stream, {headers : true})
  .on("data", function(data){
      console.log(data);
