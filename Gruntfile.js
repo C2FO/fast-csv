@@ -33,4 +33,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-exec');
 
+    grunt.registerTask("benchmark", "run benchmarks", function () {
+        var done = this.async();
+        require("./benchmark/benchmark")(function (err) {
+            if (err) {
+                grunt.log.error(err.stack);
+                done(false)
+            } else {
+                grunt.log.ok("Done running benchmarks");
+                done();
+            }
+        });
+    });
+
 };

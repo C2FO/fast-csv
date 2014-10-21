@@ -305,7 +305,7 @@ csv
 <p>This accepted a readable stream to parse data from.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
-csv()
+csv
  .fromStream(stream)
  .on(&quot;data&quot;, function(data){
      console.log(data);
@@ -317,7 +317,7 @@ csv()
 cause change each row to an object rather than an array.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
-csv()
+csv
  .fromStream(stream, {headers : true})
  .on(&quot;data&quot;, function(data){
      console.log(data);
