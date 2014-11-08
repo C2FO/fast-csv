@@ -1,3 +1,8 @@
+# v0.5.4
+
+* Fixed issues with error handling and not registering an error handler on stream [#68](https://github.com/C2FO/fast-csv/issues/68)
+* Added support for ignoring quoting while parsing [#75](https://github.com/C2FO/fast-csv/issues/75)
+
 # v0.5.3
 
 * Fixed issues with `v0.11` stream implementation [#73](https://github.com/C2FO/fast-csv/issues/73)

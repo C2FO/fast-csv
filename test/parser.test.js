@@ -212,6 +212,19 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
         });
+
+        it.describe("null quote", function (it) {
+            it("should ignore escaping if quote is null", function () {
+                var data = 'first_name,last_name,email_address\n"First1","Last1","email1@email.com"';
+                var myParser = parser({delimiter: ",", quote: null});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address"],
+                        ['"First1"', '"Last1"', '"email1@email.com"']
+                    ]
+                });
+            });
+        });
     });
 
     it.describe("with \\r", function (it) {
@@ -423,6 +436,19 @@ it.describe("fast-csv parser", function (it) {
             });
         });
 
+        it.describe("null quote", function (it) {
+            it("should ignore escaping if quote is null", function () {
+                var data = 'first_name,last_name,email_address\r"First1","Last1","email1@email.com"';
+                var myParser = parser({delimiter: ",", quote: null});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address"],
+                        ['"First1"', '"Last1"', '"email1@email.com"']
+                    ]
+                });
+            });
+        });
+
     });
 
     it.describe("with \\r\\n", function (it) {
@@ -629,6 +655,19 @@ it.describe("fast-csv parser", function (it) {
                     "line": "",
                     "rows": [
                         ["first_name", "last_name", "email_address"]
+                    ]
+                });
+            });
+        });
+
+        it.describe("null quote", function (it) {
+            it("should ignore escaping if quote is null", function () {
+                var data = 'first_name,last_name,email_address\r\n"First1","Last1","email1@email.com"';
+                var myParser = parser({delimiter: ",", quote: null});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address"],
+                        ['"First1"', '"Last1"', '"email1@email.com"']
                     ]
                 });
             });
