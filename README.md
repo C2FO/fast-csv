@@ -21,7 +21,7 @@ All methods accept the following `options`
 * `discardUnmappedColumns=false`: If you want to discard columns that do not map to a header.
 * `delimiter=','`: If your data uses an alternate delimiter such as `;` or `\t`.
    * **NOTE** When specifying an alternate `delimiter` you may only pass in a single character delimiter
-* `quote='"'`: The character to use to escape values that contain a delimiter.
+* `quote='"'`: The character to use to escape values that contain a delimiter. If you set to `null` then all quoting will be ignored
 * `escape='"'`: The character to use when escaping a value that is `quoted` and contains a `quote` character.
     * `i.e`: 'First,"Name"' => '"First,""name"""'
 * The following are options for parsing only.
