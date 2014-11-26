@@ -16,7 +16,7 @@ This is a library that provides CSV parsing and formatting.
 All methods accept the following `options`
 
 * `objectMode=true`: Ensure that `data` events have an object emitted rather than the stringified version set to false to have a stringified buffer.
-* `headers=false`: Ste to true if you expect the first line of your `CSV` to contain headers, alternatly you can specify an array of headers to use.
+* `headers=false`: Set to true if you expect the first line of your `CSV` to contain headers, alternatly you can specify an array of headers to use.
 * `ignoreEmpty=false`: If you wish to ignore empty rows.
 * `discardUnmappedColumns=false`: If you want to discard columns that do not map to a header.
 * `delimiter=','`: If your data uses an alternate delimiter such as `;` or `\t`.
