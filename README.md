@@ -224,7 +224,7 @@ will be emitted with the row and the index.
 ```javascript
 var stream = fs.createReadStream("my.csv");
 
-csv(
+csv
  .fromStream(stream, {headers : true})
  .validate(function(data){
      return data.age < 50; //all persons must be under the age of 50
