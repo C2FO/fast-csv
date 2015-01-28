@@ -176,28 +176,33 @@
 
 
 
-<h1>v0.5.4</h1>
+<h1 id="v0-5-5">v0.5.5</h1>
+<ul>
+<li>Fixed issues with ordering of headers when specifying headers in a write stream <a href="https://github.com/C2FO/fast-csv/pull/77">#77</a></li>
+<li>Fixed issue where headers were not being written if no data was supplied to write stream.</li>
+</ul>
+<h1 id="v0-5-4">v0.5.4</h1>
 <ul>
 <li>Fixed issues with error handling and not registering an error handler on stream <a href="https://github.com/C2FO/fast-csv/issues/68">#68</a></li>
 <li>Added support for ignoring quoting while parsing <a href="https://github.com/C2FO/fast-csv/issues/75">#75</a></li>
 </ul>
-<h1>v0.5.3</h1>
+<h1 id="v0-5-3">v0.5.3</h1>
 <ul>
 <li>Fixed issues with <code>v0.11</code> stream implementation <a href="https://github.com/C2FO/fast-csv/issues/73">#73</a></li>
 <li>Fixed issues with <code>pause/resume</code> and data events in <code>v0.10</code> <a href="https://github.com/C2FO/fast-csv/issues/69">#69</a></li>
 <li>Fixed the double invoking of done callback when parsing files <a href="https://github.com/C2FO/fast-csv/issues/68">#68</a></li>
 <li>Refactored tests</li>
 </ul>
-<h1>v0.5.2</h1>
+<h1 id="v0-5-2">v0.5.2</h1>
 <ul>
 <li>Fixed issue with <code>writeToString</code> and <code>writeToPath</code> examples <a href="https://github.com/C2FO/fast-csv/issues/64">#64</a></li>
 <li>Fixed issue with creating a csv without headers <a href="https://github.com/C2FO/fast-csv/issues/63">#63</a></li>
 </ul>
-<h1>v0.5.1</h1>
+<h1 id="v0-5-1">v0.5.1</h1>
 <ul>
 <li>Fixed issue where line data was not being passed between transforms in the parser_stream</li>
 </ul>
-<h1>v0.5.0</h1>
+<h1 id="v0-5-0">v0.5.0</h1>
 <ul>
 <li>Added support for async transforms <a href="https://github.com/C2FO/fast-csv/issues/24">#24</a></li>
 <li>Added support for async validation</li>
@@ -214,30 +219,30 @@
 <li>More tests</li>
 <li>Code refactor and clean up</li>
 </ul>
-<h1>v0.4.4</h1>
+<h1 id="v0-4-4">v0.4.4</h1>
 <ul>
 <li>Added support for comments. <a href="https://github.com/C2FO/fast-csv/issues/56">#56</a></li>
 </ul>
-<h1>v0.4.3</h1>
+<h1 id="v0-4-3">v0.4.3</h1>
 <ul>
 <li>Added ability to include a <code>rowDelimiter</code> at the end of a csv with the <code>includeEndRowDelimiter</code> option <a href="https://github.com/C2FO/fast-csv/issues/54">#54</a></li>
 <li>Added escaping for values that include a row delimiter</li>
 <li>Added more tests for new feature and escaping row delimiter values.</li>
 </ul>
-<h1>v0.4.2</h1>
+<h1 id="v0-4-2">v0.4.2</h1>
 <ul>
 <li>Added ability to specify a rowDelimiter when creating a csv.</li>
 <li>Added discardUnmappedColumns option to allow the ignoring of extra data <a href="https://github.com/C2FO/fast-csv/pull/45">#45</a></li>
 </ul>
-<h1>v0.4.1</h1>
+<h1 id="v0-4-1">v0.4.1</h1>
 <ul>
 <li>Fixed race condition that occurred if you called pause during a flush.</li>
 </ul>
-<h1>v0.4.0</h1>
+<h1 id="v0-4-0">v0.4.0</h1>
 <ul>
 <li>Fixed misspelling of <code>delimiter</code> <a href="https://github.com/C2FO/fast-csv/issues/40">#40</a></li>
 </ul>
-<h1>v0.3.1</h1>
+<h1 id="v0-3-1">v0.3.1</h1>
 <ul>
 <li>Added transform support to formatters<ul>
 <li>When using <code>createWriteStream</code> you can now you the <code>transform</code> method to specify a row transformer.</li>
@@ -245,36 +250,36 @@
 </ul>
 </li>
 </ul>
-<h1>v0.3.0</h1>
+<h1 id="v0-3-0">v0.3.0</h1>
 <ul>
 <li>You can now specify <code>objectMode</code> when parsing a csv which will cause <code>data</code> events to have an object emitted.</li>
 <li>You can now pipe directly to the stream returned from <code>createWriteStream</code></li>
 <li>You can now transform csvs by piping output from parsing into a formatter.</li>
 </ul>
-<h1>v0.2.5</h1>
+<h1 id="v0-2-5">v0.2.5</h1>
 <ul>
 <li>Fixed issue where not all rows are emitted when using <code>pause</code> and <code>resume</code></li>
 </ul>
-<h1>v0.2.4</h1>
+<h1 id="v0-2-4">v0.2.4</h1>
 <ul>
 <li>Added more fine grained control to <code>.pause</code> and <code>.resume</code><ul>
 <li>You can now pause resume between chunks</li>
 </ul>
 </li>
 </ul>
-<h1>v0.2.3</h1>
+<h1 id="v0-2-3">v0.2.3</h1>
 <ul>
 <li>Add new <code>createWriteStream</code> for creating a streaming csv writer</li>
 </ul>
-<h1>v0.2.2</h1>
+<h1 id="v0-2-2">v0.2.2</h1>
 <ul>
 <li>Fixed issue with having line breaks containing <code>\r\n</code></li>
 </ul>
-<h1>v0.2.1</h1>
+<h1 id="v0-2-1">v0.2.1</h1>
 <ul>
 <li>Fixed issue with <code>\r</code> line break in parser</li>
 </ul>
-<h1>v0.2.0</h1>
+<h1 id="v0-2-0">v0.2.0</h1>
 <ul>
 <li>Added multiline value support</li>
 <li>Updated escaping logic</li>
@@ -283,17 +288,17 @@
 <li>Removed support for having two quote types instead it just supports a single quote and escape sequence.
 Source code (zip)</li>
 </ul>
-<h1>v0.1.2</h1>
+<h1 id="v0-1-2">v0.1.2</h1>
 <ul>
 <li>Fixed issue with formatter handling undefined or null values.</li>
 <li>Changed formatter not not include a new line at the end of a CSV.</li>
 <li>Added pause and resume functionality to ParserStream</li>
 </ul>
-<h1>v0.1.1</h1>
+<h1 id="v0-1-1">v0.1.1</h1>
 <ul>
 <li>Added trim, ltrim, and rtrim to parsing options</li>
 </ul>
-<h1>v0.1.0</h1>
+<h1 id="v0-1-0">v0.1.0</h1>
 
 <hr>
 
