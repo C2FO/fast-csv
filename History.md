@@ -1,3 +1,7 @@
+# v0.5.5
+* Fixed issues with ordering of headers when specifying headers in a write stream [#77](https://github.com/C2FO/fast-csv/pull/77)
+* Fixed issue where headers were not being written if no data was supplied to write stream.
+
 # v0.5.4
 
 * Fixed issues with error handling and not registering an error handler on stream [#68](https://github.com/C2FO/fast-csv/issues/68)
