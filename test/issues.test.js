@@ -3,7 +3,8 @@ var it = require("it"),
     fs = require("fs"),
     csv = require("../index"),
     path = require("path"),
-    stream = require("stream");
+    stream = require("stream"),
+    utils = require("util");
 
 
 it.describe("github issues", function (it) {
@@ -69,6 +70,46 @@ it.describe("github issues", function (it) {
 
             stream.end();
 
+        });
+    });
+
+    it.describe("#87", function (it) {
+
+        var MyStream = function MyStream() {
+            stream.Transform.call(this, {objectMode: true, highWaterMark: 16});
+            this.rowCount = 0;
+        };
+        utils.inherits(MyStream, stream.Transform);
+
+        MyStream.prototype._transform = function (data, encoding, done) {
+            this.rowCount++;
+            if (this.rowCount % 2 === 0) {
+                setTimeout(function(){
+                    done();
+                }, 10);
+            } else {
+                done();
+            }
+        };
+
+        MyStream.prototype._flush = function (done) {
+            done();
+        };
+
+
+        it.should("not emit end until data is flushed from source", function (next) {
+            var myStream = new MyStream();
+
+            fs
+                .createReadStream(path.resolve(__dirname, "./assets/issue87.csv"))
+                .pipe(csv({headers: true}))
+                .on("error", next)
+                .pipe(myStream)
+                .on("error", next)
+                .on("finish", function () {
+                    assert.equal(myStream.rowCount, 99);
+                    next();
+                });
         });
     });
 });

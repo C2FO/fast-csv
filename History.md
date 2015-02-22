@@ -1,3 +1,10 @@
+# v0.5.6
+
+* Fixed issue where parser_stream was emitting end early [#87](https://github.com/C2FO/fast-csv/issues/87)
+  * Changed to not emit end during flush
+  * Changed catch errors on emit and emit as "error" event
+* Added support for node `v0.12`
+
 # v0.5.5
 * Fixed issues with ordering of headers when specifying headers in a write stream [#77](https://github.com/C2FO/fast-csv/pull/77)
 * Fixed issue where headers were not being written if no data was supplied to write stream.
