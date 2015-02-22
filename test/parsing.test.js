@@ -1120,9 +1120,8 @@ it.describe("fast-csv parsing", function (it) {
 
         it.should("support pausing a stream", function (next) {
             var actual = [], paused = false;
-            var stream = csv
-                .fromPath(path.resolve(__dirname, "./assets/test4.csv"), {headers: true})
-                .on("record", function (data) {
+            var stream = csv.fromPath(path.resolve(__dirname, "./assets/test4.csv"), {headers: true});
+                stream.on("data", function (data) {
                     assert.isFalse(paused);
                     actual.push(data);
                     paused = true;
