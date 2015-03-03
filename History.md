@@ -1,3 +1,62 @@
+# v0.5.6
+
+* Fixed issue where parser_stream was emitting end early [#87](https://github.com/C2FO/fast-csv/issues/87)
+  * Changed to not emit end during flush
+  * Changed catch errors on emit and emit as "error" event
+* Added support for node `v0.12`
+
+# v0.5.5
+* Fixed issues with ordering of headers when specifying headers in a write stream [#77](https://github.com/C2FO/fast-csv/pull/77)
+* Fixed issue where headers were not being written if no data was supplied to write stream.
+
+# v0.5.4
+
+* Fixed issues with error handling and not registering an error handler on stream [#68](https://github.com/C2FO/fast-csv/issues/68)
+* Added support for ignoring quoting while parsing [#75](https://github.com/C2FO/fast-csv/issues/75)
+
+# v0.5.3
+
+* Fixed issues with `v0.11` stream implementation [#73](https://github.com/C2FO/fast-csv/issues/73)
+* Fixed issues with `pause/resume` and data events in `v0.10` [#69](https://github.com/C2FO/fast-csv/issues/69)
+* Fixed the double invoking of done callback when parsing files [#68](https://github.com/C2FO/fast-csv/issues/68)
+* Refactored tests
+
+# v0.5.2
+
+* Fixed issue with `writeToString` and `writeToPath` examples [#64](https://github.com/C2FO/fast-csv/issues/64)
+* Fixed issue with creating a csv without headers [#63](https://github.com/C2FO/fast-csv/issues/63)
+
+# v0.5.1
+
+* Fixed issue where line data was not being passed between transforms in the parser_stream
+
+# v0.5.0
+
+* Added support for async transforms [#24](https://github.com/C2FO/fast-csv/issues/24)
+* Added support for async validation
+* Added support for new data format
+```
+[
+    [["header", "value1"], ["header2", "value2"]],
+    [["header", "value2"], ["header2", "value2"]]
+]
+```
+* Added support for forcing the quoting columns and headers
+   * `quoteColumns` - Can be a boolean, object or array to specify how quoting should be done (see README)
+   * `quoteHeaders` - Can be a boolean, object or array to specify how quoting should be done (see README)
+* More tests
+* Code refactor and clean up
+
+# v0.4.4
+
+* Added support for comments. [#56](https://github.com/C2FO/fast-csv/issues/56)
+
+# v0.4.3
+
+* Added ability to include a `rowDelimiter` at the end of a csv with the `includeEndRowDelimiter` option [#54](https://github.com/C2FO/fast-csv/issues/54)
+* Added escaping for values that include a row delimiter
+* Added more tests for new feature and escaping row delimiter values.
+
 # v0.4.2
 
 * Added ability to specify a rowDelimiter when creating a csv.

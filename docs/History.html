@@ -176,6 +176,68 @@
 
 
 
+<h1>v0.5.6</h1>
+<ul>
+<li>Fixed issue where parser_stream was emitting end early <a href="https://github.com/C2FO/fast-csv/issues/87">#87</a><ul>
+<li>Changed to not emit end during flush</li>
+<li>Changed catch errors on emit and emit as &quot;error&quot; event</li>
+</ul>
+</li>
+<li>Added support for node <code>v0.12</code></li>
+</ul>
+<h1>v0.5.5</h1>
+<ul>
+<li>Fixed issues with ordering of headers when specifying headers in a write stream <a href="https://github.com/C2FO/fast-csv/pull/77">#77</a></li>
+<li>Fixed issue where headers were not being written if no data was supplied to write stream.</li>
+</ul>
+<h1>v0.5.4</h1>
+<ul>
+<li>Fixed issues with error handling and not registering an error handler on stream <a href="https://github.com/C2FO/fast-csv/issues/68">#68</a></li>
+<li>Added support for ignoring quoting while parsing <a href="https://github.com/C2FO/fast-csv/issues/75">#75</a></li>
+</ul>
+<h1>v0.5.3</h1>
+<ul>
+<li>Fixed issues with <code>v0.11</code> stream implementation <a href="https://github.com/C2FO/fast-csv/issues/73">#73</a></li>
+<li>Fixed issues with <code>pause/resume</code> and data events in <code>v0.10</code> <a href="https://github.com/C2FO/fast-csv/issues/69">#69</a></li>
+<li>Fixed the double invoking of done callback when parsing files <a href="https://github.com/C2FO/fast-csv/issues/68">#68</a></li>
+<li>Refactored tests</li>
+</ul>
+<h1>v0.5.2</h1>
+<ul>
+<li>Fixed issue with <code>writeToString</code> and <code>writeToPath</code> examples <a href="https://github.com/C2FO/fast-csv/issues/64">#64</a></li>
+<li>Fixed issue with creating a csv without headers <a href="https://github.com/C2FO/fast-csv/issues/63">#63</a></li>
+</ul>
+<h1>v0.5.1</h1>
+<ul>
+<li>Fixed issue where line data was not being passed between transforms in the parser_stream</li>
+</ul>
+<h1>v0.5.0</h1>
+<ul>
+<li>Added support for async transforms <a href="https://github.com/C2FO/fast-csv/issues/24">#24</a></li>
+<li>Added support for async validation</li>
+<li>Added support for new data format<pre class='prettyprint linenums lang-js'><code>[
+  [[&quot;header&quot;, &quot;value1&quot;], [&quot;header2&quot;, &quot;value2&quot;]],
+  [[&quot;header&quot;, &quot;value2&quot;], [&quot;header2&quot;, &quot;value2&quot;]]
+]</code></pre>
+</li>
+<li>Added support for forcing the quoting columns and headers<ul>
+<li><code>quoteColumns</code> - Can be a boolean, object or array to specify how quoting should be done (see README)</li>
+<li><code>quoteHeaders</code> - Can be a boolean, object or array to specify how quoting should be done (see README)</li>
+</ul>
+</li>
+<li>More tests</li>
+<li>Code refactor and clean up</li>
+</ul>
+<h1>v0.4.4</h1>
+<ul>
+<li>Added support for comments. <a href="https://github.com/C2FO/fast-csv/issues/56">#56</a></li>
+</ul>
+<h1>v0.4.3</h1>
+<ul>
+<li>Added ability to include a <code>rowDelimiter</code> at the end of a csv with the <code>includeEndRowDelimiter</code> option <a href="https://github.com/C2FO/fast-csv/issues/54">#54</a></li>
+<li>Added escaping for values that include a row delimiter</li>
+<li>Added more tests for new feature and escaping row delimiter values.</li>
+</ul>
 <h1>v0.4.2</h1>
 <ul>
 <li>Added ability to specify a rowDelimiter when creating a csv.</li>

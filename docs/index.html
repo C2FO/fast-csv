@@ -188,14 +188,14 @@
 <p>All methods accept the following <code>options</code></p>
 <ul>
 <li><code>objectMode=true</code>: Ensure that <code>data</code> events have an object emitted rather than the stringified version set to false to have a stringified buffer.</li>
-<li><code>headers=false</code>: Ste to true if you expect the first line of your <code>CSV</code> to contain headers, alternatly you can specify an array of headers to use.</li>
+<li><code>headers=false</code>: Set to true if you expect the first line of your <code>CSV</code> to contain headers, alternatly you can specify an array of headers to use.</li>
 <li><code>ignoreEmpty=false</code>: If you wish to ignore empty rows.</li>
 <li><code>discardUnmappedColumns=false</code>: If you want to discard columns that do not map to a header.</li>
 <li><code>delimiter=&#39;,&#39;</code>: If your data uses an alternate delimiter such as <code>;</code> or <code>\t</code>.<ul>
 <li><strong>NOTE</strong> When specifying an alternate <code>delimiter</code> you may only pass in a single character delimiter</li>
 </ul>
 </li>
-<li><code>quote=&#39;&quot;&#39;</code>: The character to use to escape values that contain a delimiter.</li>
+<li><code>quote=&#39;&quot;&#39;</code>: The character to use to escape values that contain a delimiter. If you set to <code>null</code> then all quoting will be ignored</li>
 <li><code>escape=&#39;&quot;&#39;</code>: The character to use when escaping a value that is <code>quoted</code> and contains a <code>quote</code> character.<ul>
 <li><code>i.e</code>: &#39;First,&quot;Name&quot;&#39; =&gt; &#39;&quot;First,&quot;&quot;name&quot;&quot;&quot;&#39;</li>
 </ul>
@@ -204,35 +204,82 @@
 <li><code>trim=false</code>: If you want to trim all values parsed set to true.</li>
 <li><code>rtrim=false</code>: If you want to right trim all values parsed set to true.</li>
 <li><code>ltrim=false</code>: If you want to left trim all values parsed set to true.</li>
+<li><code>comment=null</code>: If your CSV contains comments you can use this option to ignore lines that begin with the specified character (e.g. <code>#</code>).</li>
 </ul>
 </li>
 </ul>
 <p><strong>events</strong></p>
 <ul>
-<li><code>record</code>: Emitted when a record is parsed.</li>
+<li><code>data</code>: Emitted when a record is parsed.</li>
+<li><code>record</code>: Emitted when a record is parsed. <strong>DEPRECATED</strong></li>
 <li><code>data-invalid</code>: Emitted if there was invalid row encounted, <strong>only emitted if the <code>validate</code> function is used</strong>.</li>
 <li><code>data</code>: Emitted with the object or <code>stringified</code> version if the <code>objectMode</code> is set to <code>false</code>.</li>
 </ul>
-<p><strong>([options])</strong></p>
+<p><strong><code>([options])</code> or <code>.parse(options)</code></strong></p>
 <p>If you use <code>fast-csv</code> as a function it returns a transform stream that can be piped into.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
 var csvStream = csv()
- .on(&quot;record&quot;, function(data){
-     console.log(data);
- })
- .on(&quot;end&quot;, function(){
-     console.log(&quot;done&quot;);
- });
+    .on(&quot;data&quot;, function(data){
+         console.log(data);
+    })
+    .on(&quot;end&quot;, function(){
+         console.log(&quot;done&quot;);
+    });
+
+stream.pipe(csvStream);
+
+//or
+
+var csvStream = csv
+    .parse()
+    .on(&quot;data&quot;, function(data){
+         console.log(data);
+    })
+    .on(&quot;end&quot;, function(){
+         console.log(&quot;done&quot;);
+    });
 
 stream.pipe(csvStream);</code></pre>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">fs.createReadStream(&quot;my.csv&quot;)
+    .pipe(csv())
+    .on(&quot;data&quot;, function(data){
+        console.log(data);
+    })
+    .on(&quot;end&quot;, function(){
+        console.log(&quot;done&quot;);
+    });</code></pre>
+<pre class='prettyprint linenums lang-js'><code>var fileStream = fs.createReadStream(&quot;my.csv&quot;),
+    parser = fastCsv();
+
+fileStream
+    .on(&quot;readable&quot;, function () {
+        var data;
+        while ((data = fileStream.read()) !== null) {
+            parser.write(data);
+        }
+    })
+    .on(&quot;end&quot;, function () {
+        parser.end();
+    });
+
+parser
+    .on(&quot;readable&quot;, function () {
+        var data;
+        while ((data = parser.read()) !== null) {
+            console.log(data);
+        }
+    })
+    .on(&quot;end&quot;, function () {
+        console.log(&quot;done&quot;);
+    });</code></pre>
 <p><strong><code>.fromPath(path[, options])</code></strong></p>
 <p>This method parses a file from the specified path.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csv = require(&quot;fast-csv&quot;);
 
 csv
  .fromPath(&quot;my.csv&quot;)
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
@@ -248,7 +295,7 @@ var CSV_STRING = &#39;a,b\n&#39; +
 
 csv
  .fromString(CSV_STRING, {headers: true})
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
@@ -258,9 +305,9 @@ csv
 <p>This accepted a readable stream to parse data from.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
-csv()
+csv
  .fromStream(stream)
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
@@ -270,9 +317,9 @@ csv()
 cause change each row to an object rather than an array.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
-csv()
+csv
  .fromStream(stream, {headers : true})
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
@@ -284,7 +331,7 @@ the data columns will not match.</p>
 
 csv
  .fromStream(stream, {headers : [&quot;firstName&quot;, &quot;lastName&quot;, &quot;address&quot;]})
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
@@ -297,7 +344,7 @@ these by including the <code>ignoreEmpty</code> option.</p>
 
 csv
  .fromStream(stream, {ignoreEmpty: true})
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
@@ -308,7 +355,7 @@ csv
 will be emitted with the row and the index.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
-csv(
+csv
  .fromStream(stream, {headers : true})
  .validate(function(data){
      return data.age &lt; 50; //all persons must be under the age of 50
@@ -316,14 +363,34 @@ csv(
  .on(&quot;data-invalid&quot;, function(data){
      //do something with invalid row
  })
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
+     console.log(data);
+ })
+ .on(&quot;end&quot;, function(){
+     console.log(&quot;done&quot;);
+ });</code></pre>
+<p>If your validation is <code>async</code> then your validation function</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
+
+csv
+ .fromStream(stream)
+ .validate(function(data, next){
+     MyModel.findById(data.id, function(err, model){
+        if(err){
+            next(err);
+        }else{
+            next(null, !model); //valid if the model does not exist
+        }
+     });
+ })
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
  });</code></pre>
 <h3>Transforming</h3>
-<p>You can transform data by providing in a transform function. What is returned from the transform function will
+<p>You can transform data by providing a transform function. What is returned from the transform function will
 be provided to validate and emitted as a row.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
 
@@ -332,7 +399,21 @@ csv
  .transform(function(data){
      return data.reverse(); //reverse each row.
  })
- .on(&quot;record&quot;, function(data){
+ .on(&quot;data&quot;, function(data){
+     console.log(data);
+ })
+ .on(&quot;end&quot;, function(){
+     console.log(&quot;done&quot;);
+ });</code></pre>
+<p>If your transform function expects two arguments then a callback function will be provided and should be called once the validation is complete. This is useful when doing async validation</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
+
+csv
+ .fromStream(stream)
+ .transform(function(data, next){
+     MyModel.findById(data.id, next);
+ })
+ .on(&quot;data&quot;, function(data){
      console.log(data);
  })
  .on(&quot;end&quot;, function(){
@@ -342,10 +423,64 @@ csv
 <p><code>fast-csv</code> also allows to you to create create a <code>CSV</code> from data.</p>
 <p>Formatting accepts the same options as parsing with an additional <code>transform</code> option.</p>
 <ul>
-<li><code>transform(row)</code>: A function that accepts a row and returns a transformed one to be written.</li>
+<li><code>transform(row[, cb])</code>: A function that accepts a row and returns a transformed one to be written, or your function can accept an optional callback to do async transformations.</li>
 <li><code>rowDelimiter=&#39;\n&#39;</code>: Specify an alternate row delimiter (i.e <code>\r\n</code>)</li>
+<li><code>includeEndRowDelimiter=false</code>: Set to <code>true</code> to include a row delimiter at the end of the csv.</li>
+<li><code>quoteHeaders=false</code><ul>
+<li>If <code>true</code> then all headers will be quoted.</li>
+<li>If it is an object then each key that has a true value will be quoted (see example below)</li>
+<li>If it is an array then each item in the array that is true will have the header at the corresponding index quoted (see example below)</li>
 </ul>
-<p><strong><code>createWriteStream(options)</code></strong></p>
+</li>
+<li><code>quoteColumns=false</code><ul>
+<li>If <code>true</code> then columns and headers will be quoted (unless <code>quoteHeaders</code> is specified).</li>
+<li>If it is an object then each key that has a true value will be quoted ((unless <code>quoteHeaders</code> is specified)</li>
+<li>If it is an array then each item in the array that is true will have the column at the corresponding index quoted (unless <code>quoteHeaders</code> is specified)</li>
+</ul>
+</li>
+</ul>
+<h3>Data Types</h3>
+<p>When creating a CSV <code>fast-csv</code> supports a few data formats.</p>
+<p><strong><code>Objects</code></strong></p>
+<p>You can pass in object to any formatter function if your csv requires headers the keys of the first object will be used as the header names.</p>
+<pre class='prettyprint linenums lang-js'><code>[
+    {
+        a: &quot;a1&quot;,
+        b: &quot;b1&quot;,
+        c: &quot;c1&quot;
+    }
+]
+
+//Generated CSV
+//a,b,c
+//a1,b1,c1</code></pre>
+<p><strong><code>Arrays</code></strong></p>
+<p>You can also pass in your rows as arrays. If your csv requires headers the first row passed in will be the headers used.</p>
+<pre class='prettyprint linenums lang-js'><code>[
+    [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],
+    [&quot;a1&quot;, &quot;b1&quot;, &quot;c1&quot;]
+]
+//Generated CSV
+//a,b,c
+//a1,b1,c1</code></pre>
+<p><strong><code>Arrays of Array</code></strong></p>
+<p>This is the least commonly used format but can be useful if you have requirements to generate a CSV with headers with the same column name (Crazy we know but we have seen it).</p>
+<pre class='prettyprint linenums lang-js'><code>[
+    [
+        [&quot;a&quot;, &quot;a1&quot;],
+        [&quot;a&quot;, &quot;a2&quot;],
+        [&quot;b&quot;, &quot;b1&quot;],
+        [&quot;b&quot;, &quot;b2&quot;],
+        [&quot;c&quot;, &quot;c1&quot;],
+        [&quot;c&quot;, &quot;c2&quot;]
+    ]
+]
+
+//Generated CSV
+//a,a,b,b,c,c
+//a1,a2,b1,b2,c1,c2</code></pre>
+<h3>Formatting Functions</h3>
+<p><strong><code>createWriteStream(options)</code> or <code>.format(options)</code></strong></p>
 <p>This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv.createWriteStream({headers: true}),
     writableStream = fs.createWriteStream(&quot;my.csv&quot;);
@@ -354,13 +489,30 @@ writableStream.on(&quot;finish&quot;, function(){
   console.log(&quot;DONE!&quot;);
 });
 
-csvSream.pipe(writableStream);
+csvStream.pipe(writableStream);
 csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
 csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
 csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
 csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
 csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
-csvStream.write(null);</code></pre>
+csvStream.end();
+
+//or
+
+var csvStream = csv.format({headers: true}),
+    writableStream = fs.createWriteStream(&quot;my.csv&quot;);
+
+writableStream.on(&quot;finish&quot;, function(){
+  console.log(&quot;DONE!&quot;);
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
+csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
+csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.end();</code></pre>
 <p>If you wish to transform rows as writing then you can use the <code>.transform</code> method.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv
     .createWriteStream({headers: true})
@@ -376,13 +528,80 @@ writableStream.on(&quot;finish&quot;, function(){
   console.log(&quot;DONE!&quot;);
 });
 
-csvSream.pipe(writableStream);
+csvStream.pipe(writableStream);
 csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
 csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
 csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
 csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
 csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
-csvStream.write(null);</code></pre>
+csvStream.end();
+
+//or
+var csvStream = csv
+    .format({headers: true})
+    .transform(function(row){
+        return {
+           A: row.a,
+           B: row.b
+        };
+    }),
+    writableStream = fs.createWriteStream(&quot;my.csv&quot;);
+
+writableStream.on(&quot;finish&quot;, function(){
+  console.log(&quot;DONE!&quot;);
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
+csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
+csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.end();</code></pre>
+<p>Transform can also be async by accepting a callback.</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv
+    .createWriteStream({headers: true})
+    .transform(function(row, next){
+        setImmediate(function(){
+            next(null, {A: row.a, B: row.b});
+        });;
+    }),
+    writableStream = fs.createWriteStream(&quot;my.csv&quot;);
+
+writableStream.on(&quot;finish&quot;, function(){
+  console.log(&quot;DONE!&quot;);
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
+csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
+csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.end();
+
+//or
+
+var csvStream = csv
+    .format({headers: true})
+    .transform(function(row, next){
+        setImmediate(function(){
+            next(null, {A: row.a, B: row.b});
+        });;
+    }),
+    writableStream = fs.createWriteStream(&quot;my.csv&quot;);
+
+writableStream.on(&quot;finish&quot;, function(){
+  console.log(&quot;DONE!&quot;);
+});
+
+csvStream.pipe(writableStream);
+csvStream.write({a: &quot;a0&quot;, b: &quot;b0&quot;});
+csvStream.write({a: &quot;a1&quot;, b: &quot;b1&quot;});
+csvStream.write({a: &quot;a2&quot;, b: &quot;b2&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.write({a: &quot;a3&quot;, b: &quot;b4&quot;});
+csvStream.end();</code></pre>
 <p><strong>Writing Data</strong></p>
 <p>Each of the following methods accept an array of values to be written, however each value must be an <code>array</code> of <code>array</code>s or <code>object</code>s.</p>
 <p><strong><code>write(arr[, options])</code></strong></p>
@@ -445,7 +664,7 @@ csv
         }
    })
    .pipe(ws);</code></pre>
-<p><strong><code>writeToPath(arr[, options])</code></strong></p>
+<p><strong><code>writeToPath(path, arr[, options])</code></strong></p>
 <p>Write an array of values to the specified path</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
    .writeToPath(&quot;my.csv&quot;, [
@@ -480,28 +699,46 @@ csv
    .on(&quot;finish&quot;, function(){
       console.log(&quot;done!&quot;);
    });</code></pre>
-<p><strong><code>writeToString(arr[, options])</code></strong></p>
-<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString([
-   [&quot;a&quot;, &quot;b&quot;],
-   [&quot;a1&quot;, &quot;b1&quot;],
-   [&quot;a2&quot;, &quot;b2&quot;]
-], {headers: true}); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
-<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString([
-   {a: &quot;a1&quot;, b: &quot;b1&quot;},
-   {a: &quot;a2&quot;, b: &quot;b2&quot;}
-], {headers: true}); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
-<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString([
-   {a: &quot;a1&quot;, b: &quot;b1&quot;},
-   {a: &quot;a2&quot;, b: &quot;b2&quot;}
-], {
+<p><strong><code>writeToString(arr[, options], cb)</code></strong></p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString(
+    [
+        [&quot;a&quot;, &quot;b&quot;],
+        [&quot;a1&quot;, &quot;b1&quot;],
+        [&quot;a2&quot;, &quot;b2&quot;]
+    ],
+    {headers: true},
+    function(err, data){
+        console.log(data); //&quot;a,b\na1,b1\na2,b2\n&quot;
+    }
+);</code></pre>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString(
+    [
+        {a: &quot;a1&quot;, b: &quot;b1&quot;},
+        {a: &quot;a2&quot;, b: &quot;b2&quot;}
+    ],
+    {headers: true},
+    function(err, data){
+        console.log(data); //&quot;a,b\na1,b1\na2,b2\n&quot;
+    }
+);</code></pre>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv.writeToString(
+    [
+        {a: &quot;a1&quot;, b: &quot;b1&quot;},
+        {a: &quot;a2&quot;, b: &quot;b2&quot;}
+    ],
+    {
         headers: true,
-        transform: function(row){
+        transform: function (row) {
             return {
                 A: row.a,
                 B: row.b
             };
         }
-   }); //&quot;a,b\na1,b1\na2,b2\n&quot;</code></pre>
+    },
+    function (err, data) {
+        console.log(data); //&quot;A,B\na1,b1\na2,b2\n&quot;
+    }
+);</code></pre>
 <h2>Piping from Parser to Writer</h2>
 <p>You can use <code>fast-csv</code> to pipe the output from a parsed CSV to a transformed CSV by setting the parser to <code>objectMode</code> and using <code>createWriteStream</code>.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
@@ -522,10 +759,10 @@ csv
    .pipe(csv.createWriteStream({headers: true}))
    .pipe(fs.createWriteStream(&quot;out.csv&quot;, {encoding: &quot;utf8&quot;}));</code></pre>
 <p>The output will contain formatted result from the transform function.</p>
-<p>If you want to tranform on the formatting side</p>
+<p>If you want to transform on the formatting side</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var formatStream = csv
         .createWriteStream({headers: true})
-        .transform(function(){
+        .transform(function(obj){
             return {
                 name: obj.Name,
                 address: obj.Address,
@@ -537,19 +774,64 @@ csv
    .fromPath(&quot;in.csv&quot;, {headers: true})
    .pipe(formatStream)
    .pipe(fs.createWriteStream(&quot;out.csv&quot;, {encoding: &quot;utf8&quot;}));</code></pre>
-<h2>Benchmarks</h2>
-<p><code>Parsing 20000 records AVG over 3 runs</code></p>
-<pre class='prettyprint linenums lang-js'><code>fast-csv: 198.67ms
-csv:      525.33ms</code></pre>
-<p><code>Parsing 50000 records AVG over 3 runs</code></p>
-<pre class='prettyprint linenums lang-js'><code>fast-csv: 441.33ms
-csv:      1291ms</code></pre>
-<p><code>Parsing 100000 records AVG over 3 runs</code></p>
-<pre class='prettyprint linenums lang-js'><code>fast-csv: 866ms
-csv:      2773.33ms</code></pre>
-<p><code>Parsing 1000000 records AVG over 3 runs</code></p>
-<pre class='prettyprint linenums lang-js'><code>fast-csv: 8562.67ms
-csv:      30030.67ms</code></pre>
+<h2>Quoting Columns</h2>
+<p>Sometimes you may need to quote columns is certain ways in order meet certain requirements. <code>fast-csv</code> can quote columns and headers almost anyway you may need.</p>
+<p><strong>Note</strong> in the following example we use <code>writeToString</code> but the options option are valid for any of the formatting methods.</p>
+<h3><code>quoteColumns</code></h3>
+<pre class='prettyprint linenums lang-js'><code>//quote all columns including headers
+var objectData = [{a: &quot;a1&quot;, b: &quot;b1&quot;}, {a: &quot;a2&quot;, b: &quot;b2&quot;}],
+    arrayData = [[&quot;a&quot;, &quot;b&quot;], [&quot;a1&quot;, &quot;b1&quot;], [&quot;a2&quot;, &quot;b2&quot;]];
+csv.writeToString(objectData, {headers: true, quoteColumns: true}, function(err, data){
+    console.log(data); //&quot;a&quot;,&quot;b&quot;
+                       //&quot;a1&quot;,&quot;b1&quot;
+                       //&quot;a2&quot;,&quot;b2&quot;
+});
+
+//only quote the &quot;a&quot; column
+csv.writeToString(objectData, {headers: true, quoteColumns: {a: true}}, function(err, data){
+    console.log(data); //&quot;a&quot;,b
+                       //&quot;a1&quot;,b1
+                       //&quot;a2&quot;,b2
+});
+
+//only quote the second column
+csv.writeToString(arrayData, {headers: true, quoteColumns: [false, true]}, function(err, data){
+    console.log(data); //a,&quot;b&quot;
+                       //a1,&quot;b1&quot;
+                       //a2,&quot;b2&quot;
+});</code></pre>
+<h3><code>quoteHeaders</code></h3>
+<pre class='prettyprint linenums lang-js'><code>//quote all columns including headers
+var objectData = [{a: &quot;a1&quot;, b: &quot;b1&quot;}, {a: &quot;a2&quot;, b: &quot;b2&quot;}],
+    arrayData = [[&quot;a&quot;, &quot;b&quot;], [&quot;a1&quot;, &quot;b1&quot;], [&quot;a2&quot;, &quot;b2&quot;]];
+csv.writeToString(objectData, {headers: true, quoteHeaders: true}, function(err, data){
+    console.log(data); //&quot;a&quot;,&quot;b&quot;
+                       //a1,b1
+                       //a2,b2
+});
+
+//only quote the &quot;a&quot; column
+csv.writeToString(objectData, {headers: true, quoteHeaders: {a: true}}, function(err, data){
+    console.log(data); //&quot;a&quot;,b
+                       //a1,b1
+                       //a2,b2
+});
+
+//only quote the second column
+csv.writeToString(arrayData, {headers: true, quoteHeaders: [false, true]}, function(err, data){
+    console.log(data); //a,&quot;b&quot;
+                       //a1,b1
+                       //a2,b2
+});
+
+//quoting columns and not headers
+
+//only quote the second column
+csv.writeToString(arrayData, {headers: true, quoteHeaders: false, quoteColumns: true}, function(err, data){
+    console.log(data); //a,b
+                       //&quot;a1&quot;,&quot;b1&quot;
+                       //&quot;a2&quot;,&quot;b2&quot;
+});</code></pre>
 <h2>License</h2>
 <p>MIT <a href="https://github.com/C2FO/fast-csv/raw/master/LICENSE">https://github.com/C2FO/fast-csv/raw/master/LICENSE</a></p>
 <h2>Meta</h2>
