@@ -1,3 +1,7 @@
+# v0.5.7
+
+* Strict record handling [#53](https://github.com/C2FO/fast-csv/pull/53) - [@derjust](https://github.com/derjust)
+
 # v0.5.6
 
 * Fixed issue where parser_stream was emitting end early [#87](https://github.com/C2FO/fast-csv/issues/87)
