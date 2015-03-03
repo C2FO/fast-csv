@@ -191,6 +191,7 @@
 <li><code>headers=false</code>: Set to true if you expect the first line of your <code>CSV</code> to contain headers, alternatly you can specify an array of headers to use.</li>
 <li><code>ignoreEmpty=false</code>: If you wish to ignore empty rows.</li>
 <li><code>discardUnmappedColumns=false</code>: If you want to discard columns that do not map to a header.</li>
+<li><code>strictColumnHandling=false</code>: If you want to consider empty lines/lines with too few fields as errors - Only to be used with <code>headers=true</code></li>
 <li><code>delimiter=&#39;,&#39;</code>: If your data uses an alternate delimiter such as <code>;</code> or <code>\t</code>.<ul>
 <li><strong>NOTE</strong> When specifying an alternate <code>delimiter</code> you may only pass in a single character delimiter</li>
 </ul>
@@ -212,7 +213,7 @@
 <ul>
 <li><code>data</code>: Emitted when a record is parsed.</li>
 <li><code>record</code>: Emitted when a record is parsed. <strong>DEPRECATED</strong></li>
-<li><code>data-invalid</code>: Emitted if there was invalid row encounted, <strong>only emitted if the <code>validate</code> function is used</strong>.</li>
+<li><code>data-invalid</code>: Emitted if there was invalid row encounted, <strong>only emitted if the <code>validate</code> function is used or <code>strictColumnHandling=true</code></strong>.</li>
 <li><code>data</code>: Emitted with the object or <code>stringified</code> version if the <code>objectMode</code> is set to <code>false</code>.</li>
 </ul>
 <p><strong><code>([options])</code> or <code>.parse(options)</code></strong></p>
