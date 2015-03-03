@@ -1004,7 +1004,7 @@ it.describe("fast-csv parsing", function (it) {
                 assert.deepEqual(actual, expected25_invalid);
                 reachedInvalid = true;
             })
-            .on("error", function(e){console.log(e)})
+            .on("error", next)
             .on("end", function (count) {
                 assert.equal(true, reachedInvalid);
                 assert.deepEqual(actual, expected25);
