@@ -19,6 +19,7 @@ All methods accept the following `options`
 * `headers=false`: Set to true if you expect the first line of your `CSV` to contain headers, alternatly you can specify an array of headers to use.
 * `ignoreEmpty=false`: If you wish to ignore empty rows.
 * `discardUnmappedColumns=false`: If you want to discard columns that do not map to a header.
+* `strictColumnHandling=false`: If you want to consider empty lines/lines with too few fields as errors - Only to be used with `headers=true`
 * `delimiter=','`: If your data uses an alternate delimiter such as `;` or `\t`.
    * **NOTE** When specifying an alternate `delimiter` you may only pass in a single character delimiter
 * `quote='"'`: The character to use to escape values that contain a delimiter. If you set to `null` then all quoting will be ignored
@@ -35,7 +36,7 @@ All methods accept the following `options`
 
 * `data`: Emitted when a record is parsed.
 * `record`: Emitted when a record is parsed. **DEPRECATED**
-* `data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used**.
+* `data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used or `strictColumnHandling=true`**.
 * `data`: Emitted with the object or `stringified` version if the `objectMode` is set to `false`.
 
 **`([options])` or `.parse(options)`**

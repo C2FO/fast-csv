@@ -375,6 +375,13 @@ var expected23 = [
     {"first_name": "First3", "last_name": "Last3", "email_address": "email3@email.com"}
 ];
 
+var expected25 = [
+    {"first_name": "First1", "last_name": "Last1", "email_address": "email1@email.com", "extra": "Extra1"},
+    {"first_name": "First3", "last_name": "Last3", "email_address": "email3@email.com", "extra": "Extra2"}
+];
+
+var expected25_invalid = [ 'First2', 'Last2', 'email2@email.com' ];
+
 it.describe("fast-csv parsing", function (it) {
 
     it.timeout(60000);
@@ -980,6 +987,27 @@ it.describe("fast-csv parsing", function (it) {
             .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected23);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("report missing columns that do not exist but have a header with strictColumnHandling option", function (next) {
+        var actual = [];
+        var reachedInvalid = false;
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test25.csv"), {headers: true, strictColumnHandling: true})
+            .on("data", function (data) {
+                actual.push(data);
+            })
+            .on("data-invalid", function(actual) {
+                assert.deepEqual(actual, expected25_invalid);
+                reachedInvalid = true;
+            })
+            .on("error", next)
+            .on("end", function (count) {
+                assert.equal(true, reachedInvalid);
+                assert.deepEqual(actual, expected25);
                 assert.equal(count, actual.length);
                 next();
             });
