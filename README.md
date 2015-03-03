@@ -36,7 +36,7 @@ All methods accept the following `options`
 
 * `data`: Emitted when a record is parsed.
 * `record`: Emitted when a record is parsed. **DEPRECATED**
-* `data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used**.
+* `data-invalid`: Emitted if there was invalid row encounted, **only emitted if the `validate` function is used or `strictColumnHandling=true`**.
 * `data`: Emitted with the object or `stringified` version if the `objectMode` is set to `false`.
 
 **`([options])` or `.parse(options)`**
