@@ -4,7 +4,8 @@ var it = require("it"),
     csv = require("../index"),
     path = require("path"),
     stream = require("stream"),
-    utils = require("util");
+    utils = require("util"),
+    domain = require('domain');
 
 
 it.describe("github issues", function (it) {
@@ -12,21 +13,50 @@ it.describe("github issues", function (it) {
     it.timeout(60000);
 
     it.describe("#68", function (it) {
-        it.should("handle parse errors properly", function (next) {
-            var actual = [];
-            csv
-                .fromPath(path.resolve(__dirname, "./assets/issue68.csv"), {headers: true, delimiter: "\t"})
-                .on("error", function (err) {
-                    assert.equal(err.message, "End error");
+        it.should("handle bubble up parse errors properly", function (next) {
+            var d = domain.create(), called = false;
+            d.on("error", function (err) {
+                if(!called) {
+                    called = true;
+                    assert.equal(/^Parse Error/.test(err.message), true);
                     next();
-                })
-                .on("data", function (data) {
-                    actual.push(data);
-                })
-                .on("end", function (count) {
-                    assert.equal(count, 20000);
-                    throw new Error("End error");
-                });
+                }
+            });
+            d.run(function () {
+                var actual = [];
+                csv
+                    .fromPath(path.resolve(__dirname, "./assets/issue68-invalid.tsv"), {headers: true, delimiter: "\t"})
+                    .on("data", function (data) {
+                        actual.push(data);
+                    })
+                    .on("end", function (count) {
+                        assert.equal(count, 20000);
+                        throw new Error("End error");
+                    });
+            });
+        });
+
+        it.should("handle bubble up data errors properly", function (next) {
+            var d = domain.create(), called = false;
+            d.on("error", function (err) {
+                if(!called) {
+                    called = true;
+                    assert.equal(err.message, "Data error");
+                    next();
+                }else{
+                    throw err;
+                }
+            });
+            d.run(function () {
+                var actual = [], count = 0;
+                csv
+                    .fromPath(path.resolve(__dirname, "./assets/issue68.tsv"), {headers: true, delimiter: "\t"})
+                    .on("data", function () {
+                        if ((count++ % 1001) === 0) {
+                            throw new Error("Data error");
+                        }
+                    });
+            });
         });
     });
 
@@ -84,7 +114,7 @@ it.describe("github issues", function (it) {
         MyStream.prototype._transform = function (data, encoding, done) {
             this.rowCount++;
             if (this.rowCount % 2 === 0) {
-                setTimeout(function(){
+                setTimeout(function () {
                     done();
                 }, 10);
             } else {
@@ -110,6 +140,33 @@ it.describe("github issues", function (it) {
                     assert.equal(myStream.rowCount, 99);
                     next();
                 });
+        });
+    });
+
+    it.describe("#93", function (it) {
+        it.should("handle bubble up errors thrown in end properly", function (next) {
+            var d = domain.create(), called = false;
+            d.on("error", function (err) {
+                if(!called) {
+                    called = true;
+                    assert.equal(err.message, "End error");
+                    next();
+                }else{
+                    throw err;
+                }
+            });
+            d.run(function () {
+                var actual = [];
+                csv
+                    .fromPath(path.resolve(__dirname, "./assets/issue93.csv"), {headers: true, delimiter: "\t"})
+                    .on("error", function(){
+                        next(new Error("Should not get here!"));
+                    })
+                    .on("data", function (data) {})
+                    .on("end", function () {
+                        throw new Error("End error");
+                    });
+            });
         });
     });
 });

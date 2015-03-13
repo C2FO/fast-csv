@@ -176,6 +176,14 @@
 
 
 
+<h1>v0.6.0</h1>
+<ul>
+<li>Removed try catch from emit to allow bubbling up of errors to process, if one is thrown <a href="https://github.com/C2FO/fast-csv/issues/93">#93</a><ul>
+<li>This also fixed issue <a href="https://github.com/C2FO/fast-csv/issues/92">#92</a> where a loop was entered when <code>this.emit(&quot;error&quot;)</code> was called.</li>
+</ul>
+</li>
+<li>Added new tests</li>
+</ul>
 <h1>v0.5.7</h1>
 <ul>
 <li>Strict record handling <a href="https://github.com/C2FO/fast-csv/pull/53">#53</a> - <a href="https://github.com/derjust">@derjust</a></li>
