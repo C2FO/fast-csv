@@ -626,7 +626,7 @@ csv
 
 ```javascript
 csv
-   .writeToStream("my.csv", [
+   .writeToPath("my.csv", [
        {a: "a1", b: "b1"},
        {a: "a2", b: "b2"}
    ], {headers: true})
@@ -637,7 +637,7 @@ csv
 
 ```javascript
 csv
-   .writeToStream("my.csv", [
+   .writeToPath("my.csv", [
        {a: "a1", b: "b1"},
        {a: "a2", b: "b2"}
    ], {
