@@ -68,6 +68,16 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
+            it.should("not parse a row if there is a trailing delimiter with a space, and there is more data", function () {
+                var data = "first_name,last_name,email_address, ";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "first_name,last_name,email_address, ",
+                    "rows": []
+                });
+            });
+
             it.should("parse a row if a new line is found and there is more data", function () {
                 var data = "first_name,last_name,email_address\n";
                 var myParser = parser({delimiter: ","});
