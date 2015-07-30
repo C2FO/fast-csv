@@ -1187,4 +1187,23 @@ it.describe("fast-csv parsing", function (it) {
         });
     });
 
+    it.should("handle parsing errors if parseErrorHandler is set", function (next) {
+        var actual = [], errors = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test26.csv"), {
+                headers: true,
+                handleError: function(err) {
+                    errors.push(err);
+                }
+            })
+            .on("data", function (data) {
+                actual.push(data);
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
+                assert.equal(1, errors.length);
+                next();
+            });
+    });
 });
