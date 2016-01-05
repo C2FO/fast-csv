@@ -460,57 +460,6 @@ it.describe("fast-csv formatting", function (it) {
                 });
             });
 
-            it.describe("if quoteColumns object and quoteHeaders is false it should only quote the specified column and not the header", function (it) {
-                it.should("work with objects", function (next) {
-                    var ws = new stream.Writable(), written = [];
-                    ws._write = function (data, enc, cb) {
-                        written.push(data + "");
-                        cb();
-                    };
-                    ws.on("finish", function () {
-                        assert.deepEqual(written.join(""), 'a,b\n"a1",b1\n"a2",b2');
-                        next();
-                    });
-                    csv.writeToStream(ws, [
-                        {a: "a1", b: "b1"},
-                        {a: "a2", b: "b2"}
-                    ], {headers: true, quoteColumns: {a: true}, quoteHeaders: false}).on("error", next);
-                });
-
-                it.should("work with arrays", function (next) {
-                    var ws = new stream.Writable(), written = [];
-                    ws._write = function (data, enc, cb) {
-                        written.push(data + "");
-                        cb();
-                    };
-                    ws.on("finish", function () {
-                        assert.deepEqual(written.join(""), 'a,b\n"a1",b1\n"a2",b2');
-                        next();
-                    });
-                    csv.writeToStream(ws, [
-                        ["a", "b"],
-                        ["a1", "b1"],
-                        ["a2", "b2"]
-                    ], {headers: true, quoteColumns: {a: true}, quoteHeaders: false}).on("error", next);
-                });
-
-                it.should("work with multidimenional", function (next) {
-                    var ws = new stream.Writable(), written = [];
-                    ws._write = function (data, enc, cb) {
-                        written.push(data + "");
-                        cb();
-                    };
-                    ws.on("finish", function () {
-                        assert.deepEqual(written.join(""), 'a,b\n"a1",b1\n"a2",b2');
-                        next();
-                    });
-                    csv.writeToStream(ws, [
-                        [["a", "a1"], ["b", "b1"]],
-                        [["a", "a2"], ["b", "b2"]]
-                    ], {headers: true, quoteColumns: {a: true}, quoteHeaders: false}).on("error", next);
-                });
-            });
-
             it.describe("if quoteColumns is false and quoteHeaders is an object it should only quote the specified header and not the column", function (it) {
                 it.should("work with object", function (next) {
                     var ws = new stream.Writable(), written = [];

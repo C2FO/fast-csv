@@ -178,13 +178,13 @@
 
 
   <p><a href="http://travis-ci.org/C2FO/fast-csv"><img src="https://secure.travis-ci.org/C2FO/fast-csv.png" alt="build status"></a></p>
-<h1>Fast-csv</h1>
+<h1 id="fast-csv">Fast-csv</h1>
 <p>This is a library that provides CSV parsing and formatting.</p>
 <p><strong>NOTE</strong> As of v0.2.0 <code>fast-csv</code> supports multi-line values.</p>
-<h2>Installation</h2>
+<h2 id="installation">Installation</h2>
 <p><code>npm install fast-csv</code></p>
-<h2>Usage</h2>
-<h3>Parsing</h3>
+<h2 id="usage">Usage</h2>
+<h3 id="parsing">Parsing</h3>
 <p>All methods accept the following <code>options</code></p>
 <ul>
 <li><code>objectMode=true</code>: Ensure that <code>data</code> events have an object emitted rather than the stringified version set to false to have a stringified buffer.</li>
@@ -212,7 +212,6 @@
 <p><strong>events</strong></p>
 <ul>
 <li><code>data</code>: Emitted when a record is parsed.</li>
-<li><code>record</code>: Emitted when a record is parsed. <strong>DEPRECATED</strong></li>
 <li><code>data-invalid</code>: Emitted if there was invalid row encounted, <strong>only emitted if the <code>validate</code> function is used or <code>strictColumnHandling=true</code></strong>.</li>
 <li><code>data</code>: Emitted with the object or <code>stringified</code> version if the <code>objectMode</code> is set to <code>false</code>.</li>
 </ul>
@@ -351,7 +350,7 @@ csv
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
  });</code></pre>
-<h3>Validating</h3>
+<h3 id="validating">Validating</h3>
 <p>You can validate each row in the csv by providing a validate handler. If a row is invalid then a <code>data-invalid</code> event
 will be emitted with the row and the index.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
@@ -390,7 +389,7 @@ csv
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
  });</code></pre>
-<h3>Transforming</h3>
+<h3 id="transforming">Transforming</h3>
 <p>You can transform data by providing a transform function. What is returned from the transform function will
 be provided to validate and emitted as a row.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
@@ -420,7 +419,7 @@ csv
  .on(&quot;end&quot;, function(){
      console.log(&quot;done&quot;);
  });</code></pre>
-<h3>Formatting</h3>
+<h3 id="formatting">Formatting</h3>
 <p><code>fast-csv</code> also allows to you to create create a <code>CSV</code> from data.</p>
 <p>Formatting accepts the same options as parsing with an additional <code>transform</code> option.</p>
 <ul>
@@ -440,7 +439,7 @@ csv
 </ul>
 </li>
 </ul>
-<h3>Data Types</h3>
+<h3 id="data-types">Data Types</h3>
 <p>When creating a CSV <code>fast-csv</code> supports a few data formats.</p>
 <p><strong><code>Objects</code></strong></p>
 <p>You can pass in object to any formatter function if your csv requires headers the keys of the first object will be used as the header names.</p>
@@ -480,7 +479,7 @@ csv
 //Generated CSV
 //a,a,b,b,c,c
 //a1,a2,b1,b2,c1,c2</code></pre>
-<h3>Formatting Functions</h3>
+<h3 id="formatting-functions">Formatting Functions</h3>
 <p><strong><code>createWriteStream(options)</code> or <code>.format(options)</code></strong></p>
 <p>This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">var csvStream = csv.createWriteStream({headers: true}),
@@ -677,7 +676,7 @@ csv
        console.log(&quot;done!&quot;);
    });</code></pre>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-   .writeToStream(&quot;my.csv&quot;, [
+   .writeToPath(&quot;my.csv&quot;, [
        {a: &quot;a1&quot;, b: &quot;b1&quot;},
        {a: &quot;a2&quot;, b: &quot;b2&quot;}
    ], {headers: true})
@@ -685,7 +684,7 @@ csv
       console.log(&quot;done!&quot;);
    });</code></pre>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
-   .writeToStream(&quot;my.csv&quot;, [
+   .writeToPath(&quot;my.csv&quot;, [
        {a: &quot;a1&quot;, b: &quot;b1&quot;},
        {a: &quot;a2&quot;, b: &quot;b2&quot;}
    ], {
@@ -740,7 +739,7 @@ csv
         console.log(data); //&quot;A,B\na1,b1\na2,b2\n&quot;
     }
 );</code></pre>
-<h2>Piping from Parser to Writer</h2>
+<h2 id="piping-from-parser-to-writer">Piping from Parser to Writer</h2>
 <p>You can use <code>fast-csv</code> to pipe the output from a parsed CSV to a transformed CSV by setting the parser to <code>objectMode</code> and using <code>createWriteStream</code>.</p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
    .fromPath(&quot;in.csv&quot;, {headers: true})
@@ -775,10 +774,10 @@ csv
    .fromPath(&quot;in.csv&quot;, {headers: true})
    .pipe(formatStream)
    .pipe(fs.createWriteStream(&quot;out.csv&quot;, {encoding: &quot;utf8&quot;}));</code></pre>
-<h2>Quoting Columns</h2>
+<h2 id="quoting-columns">Quoting Columns</h2>
 <p>Sometimes you may need to quote columns is certain ways in order meet certain requirements. <code>fast-csv</code> can quote columns and headers almost anyway you may need.</p>
 <p><strong>Note</strong> in the following example we use <code>writeToString</code> but the options option are valid for any of the formatting methods.</p>
-<h3><code>quoteColumns</code></h3>
+<h3 id="-quotecolumns-"><code>quoteColumns</code></h3>
 <pre class='prettyprint linenums lang-js'><code>//quote all columns including headers
 var objectData = [{a: &quot;a1&quot;, b: &quot;b1&quot;}, {a: &quot;a2&quot;, b: &quot;b2&quot;}],
     arrayData = [[&quot;a&quot;, &quot;b&quot;], [&quot;a1&quot;, &quot;b1&quot;], [&quot;a2&quot;, &quot;b2&quot;]];
@@ -801,7 +800,7 @@ csv.writeToString(arrayData, {headers: true, quoteColumns: [false, true]}, funct
                        //a1,&quot;b1&quot;
                        //a2,&quot;b2&quot;
 });</code></pre>
-<h3><code>quoteHeaders</code></h3>
+<h3 id="-quoteheaders-"><code>quoteHeaders</code></h3>
 <pre class='prettyprint linenums lang-js'><code>//quote all columns including headers
 var objectData = [{a: &quot;a1&quot;, b: &quot;b1&quot;}, {a: &quot;a2&quot;, b: &quot;b2&quot;}],
     arrayData = [[&quot;a&quot;, &quot;b&quot;], [&quot;a1&quot;, &quot;b1&quot;], [&quot;a2&quot;, &quot;b2&quot;]];
@@ -833,9 +832,9 @@ csv.writeToString(arrayData, {headers: true, quoteHeaders: false, quoteColumns: 
                        //&quot;a1&quot;,&quot;b1&quot;
                        //&quot;a2&quot;,&quot;b2&quot;
 });</code></pre>
-<h2>License</h2>
+<h2 id="license">License</h2>
 <p>MIT <a href="https://github.com/C2FO/fast-csv/raw/master/LICENSE">https://github.com/C2FO/fast-csv/raw/master/LICENSE</a></p>
-<h2>Meta</h2>
+<h2 id="meta">Meta</h2>
 <ul>
 <li>Code: <code>git clone git://github.com/C2FO/fast-csv.git</code></li>
 <li>Website: <a href="http://c2fo.com">http://c2fo.com</a></li>

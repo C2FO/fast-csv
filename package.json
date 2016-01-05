@@ -1,6 +1,6 @@
 {
     "name": "fast-csv",
-    "version": "0.6.0",
+    "version": "1.0.0",
     "description": "CSV parser and writer",
     "main": "index.js",
     "scripts": {
@@ -22,14 +22,14 @@
     "author": "Doug Martin",
     "license": "MIT",
     "devDependencies": {
-        "it": "~0.2.6",
-        "grunt-it": "~0.3.1",
+        "it": "^1.0.1",
+        "grunt-it": "^1.0.0",
         "grunt": "~0.4.1",
         "grunt-contrib-jshint": "~0.10.0",
         "grunt-exec": "^0.4.5"
     },
     "engines": {
-        "node": ">=0.10"
+        "node": ">=4.0.0"
     },
     "dependencies": {
         "is-extended": "0.0.10",
