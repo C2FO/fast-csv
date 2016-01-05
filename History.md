@@ -1,3 +1,8 @@
+# v1.0.0
+
+* Node 4 and 5 support.
+* Deprecating the `record` event.
+
 # v0.6.0
 
 * Removed try catch from emit to allow bubbling up of errors to process, if one is thrown [#93](https://github.com/C2FO/fast-csv/issues/93)
@@ -133,4 +138,3 @@
 * Added trim, ltrim, and rtrim to parsing options
 
 # v0.1.0
-
