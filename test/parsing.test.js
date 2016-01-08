@@ -68,6 +68,45 @@ var expected1 = [
     }
 ];
 
+var expected1_sparse = [
+    {
+        "first_name": "First1",
+        "email_address": "email1@email.com",
+    },
+    {
+        "first_name": "First2",
+        "email_address": "email2@email.com",
+    },
+    {
+        "first_name": "First3",
+        "email_address": "email3@email.com",
+    },
+    {
+        "first_name": "First4",
+        "email_address": "email4@email.com",
+    },
+    {
+        "first_name": "First5",
+        "email_address": "email5@email.com",
+    },
+    {
+        "first_name": "First6",
+        "email_address": "email6@email.com",
+    },
+    {
+        "first_name": "First7",
+        "email_address": "email7@email.com",
+    },
+    {
+        "first_name": "First8",
+        "email_address": "email8@email.com",
+    },
+    {
+        "first_name": "First9",
+        "email_address": "email9@email.com",
+    }
+];
+
 var expected2 = [
     ['First1', 'Last1', 'email1@email.com', '1 Street St, State ST, 88888'],
     ['First2', 'Last2', 'email2@email.com', '2 Street St, State ST, 88888'],
@@ -542,6 +581,21 @@ it.describe("fast-csv parsing", function (it) {
             .on("error", next)
             .on("end", function (count) {
                 assert.deepEqual(actual, expected1);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("allow specifying of columns as a sparse array", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test2.csv"), {headers: ["first_name" , , "email_address" , , ]})
+            .on("data", function (data, index) {
+                actual.push(data);
+            })
+            .on("error", next)
+            .on("end", function (count) {
+                assert.deepEqual(actual, expected1_sparse);
                 assert.equal(count, actual.length);
                 next();
             });
