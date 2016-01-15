@@ -16,7 +16,7 @@ This is a library that provides CSV parsing and formatting.
 All methods accept the following `options`
 
 * `objectMode=true`: Ensure that `data` events have an object emitted rather than the stringified version set to false to have a stringified buffer.
-* `headers=false`: Set to true if you expect the first line of your `CSV` to contain headers, alternatly you can specify an array of headers to use.
+* `headers=false`: Set to true if you expect the first line of your `CSV` to contain headers, alternatly you can specify an array of headers to use. You can also specify a sparse array to omit some of the columns.
 * `ignoreEmpty=false`: If you wish to ignore empty rows.
 * `discardUnmappedColumns=false`: If you want to discard columns that do not map to a header.
 * `strictColumnHandling=false`: If you want to consider empty lines/lines with too few fields as errors - Only to be used with `headers=true`
@@ -188,6 +188,22 @@ var stream = fs.createReadStream("my.csv");
 
 csv
  .fromStream(stream, {headers : ["firstName", "lastName", "address"]})
+ .on("data", function(data){
+     console.log(data);
+ })
+ .on("end", function(){
+     console.log("done");
+ });
+
+```
+
+To omit some of the data columns you may not need, pass a sparse array as `headers`.
+
+```javascript
+var stream = fs.createReadStream("my.csv");
+
+csv
+ .fromStream(stream, {headers : ["firstName" , , "address"]})
  .on("data", function(data){
      console.log(data);
  })
