@@ -1,3 +1,10 @@
+# v1.1.0
+
+* Fix for when chunk returned by transform to the parser ends with a space
+* Functionality to give a reason when invalid data
+* Fix problem with utf8 encoded streams that have multi-byte characters
+* Allow passing sparse array of headers
+
 # v1.0.0
 
 * Node 4 and 5 support.

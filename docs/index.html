@@ -188,7 +188,7 @@
 <p>All methods accept the following <code>options</code></p>
 <ul>
 <li><code>objectMode=true</code>: Ensure that <code>data</code> events have an object emitted rather than the stringified version set to false to have a stringified buffer.</li>
-<li><code>headers=false</code>: Set to true if you expect the first line of your <code>CSV</code> to contain headers, alternatly you can specify an array of headers to use.</li>
+<li><code>headers=false</code>: Set to true if you expect the first line of your <code>CSV</code> to contain headers, alternatly you can specify an array of headers to use. You can also specify a sparse array to omit some of the columns.</li>
 <li><code>ignoreEmpty=false</code>: If you wish to ignore empty rows.</li>
 <li><code>discardUnmappedColumns=false</code>: If you want to discard columns that do not map to a header.</li>
 <li><code>strictColumnHandling=false</code>: If you want to consider empty lines/lines with too few fields as errors - Only to be used with <code>headers=true</code></li>
@@ -331,6 +331,17 @@ the data columns will not match.</p>
 
 csv
  .fromStream(stream, {headers : [&quot;firstName&quot;, &quot;lastName&quot;, &quot;address&quot;]})
+ .on(&quot;data&quot;, function(data){
+     console.log(data);
+ })
+ .on(&quot;end&quot;, function(){
+     console.log(&quot;done&quot;);
+ });</code></pre>
+<p>To omit some of the data columns you may not need, pass a sparse array as <code>headers</code>.</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var stream = fs.createReadStream(&quot;my.csv&quot;);
+
+csv
+ .fromStream(stream, {headers : [&quot;firstName&quot; , , &quot;address&quot;]})
  .on(&quot;data&quot;, function(data){
      console.log(data);
  })
