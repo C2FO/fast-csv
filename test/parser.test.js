@@ -19,6 +19,17 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
+            it.should("parse a block of CSV text with a trailing delimiter", function () {
+                var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n";
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address", "empty"],
+                        ["First1", "Last1", "email1@email.com", ""]
+                    ]
+                });
+            });
+
             it.should("return the rest of the line if there is more data", function () {
                 var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com";
                 var myParser = parser({delimiter: ","});
@@ -31,11 +42,11 @@ it.describe("fast-csv parser", function (it) {
             });
 
             it.should("accept new data and return the result", function () {
-                var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com,";
+                var data = "first_name,last_name,email_address\nFirst1,Last1,email1@email.com";
                 var myParser = parser({delimiter: ","});
                 var parsedData = myParser(data, true);
                 assert.deepEqual(parsedData, {
-                    "line": "First1,Last1,email1@email.com,",
+                    "line": "First1,Last1,email1@email.com",
                     "rows": [
                         ["first_name", "last_name", "email_address"]
                     ]
@@ -101,6 +112,17 @@ it.describe("fast-csv parser", function (it) {
                     "line": "", "rows": [
                         ["first_name", "last_name", "email_address"],
                         ["First,1", "Last,1", "email1@email.com"]
+                    ]
+                });
+            });
+
+            it.should("parse a block of CSV text with a trailing delimiter", function () {
+                var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n";
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address", "empty"],
+                        ["First1", "Last1", "email1@email.com", ""]
                     ]
                 });
             });
@@ -252,6 +274,17 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
+            it.should("parse a block of CSV text with a trailing delimiter", function () {
+                var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n";
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address", "empty"],
+                        ["First1", "Last1", "email1@email.com", ""]
+                    ]
+                });
+            });
+
             it.should("return the rest of the line if there is more data", function () {
                 var data = "first_name,last_name,email_address\rFirst1,Last1,email1@email.com";
                 var myParser = parser({delimiter: ","});
@@ -264,11 +297,11 @@ it.describe("fast-csv parser", function (it) {
             });
 
             it.should("accept new data and return the result", function () {
-                var data = "first_name,last_name,email_address\rFirst1,Last1,email1@email.com,";
+                var data = "first_name,last_name,email_address\rFirst1,Last1,email1@email.com";
                 var myParser = parser({delimiter: ","});
                 var parsedData = myParser(data, true);
                 assert.deepEqual(parsedData, {
-                    "line": "First1,Last1,email1@email.com,",
+                    "line": "First1,Last1,email1@email.com",
                     "rows": [
                         ["first_name", "last_name", "email_address"]
                     ]
@@ -488,11 +521,11 @@ it.describe("fast-csv parser", function (it) {
             });
 
             it.should("accept new data and return the result", function () {
-                var data = "first_name,last_name,email_address\r\nFirst1,Last1,email1@email.com,";
+                var data = "first_name,last_name,email_address\r\nFirst1,Last1,email1@email.com";
                 var myParser = parser({delimiter: ","});
                 var parsedData = myParser(data, true);
                 assert.deepEqual(parsedData, {
-                    "line": "First1,Last1,email1@email.com,",
+                    "line": "First1,Last1,email1@email.com",
                     "rows": [
                         ["first_name", "last_name", "email_address"]
                     ]

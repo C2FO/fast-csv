@@ -2,6 +2,7 @@ var it = require("it"),
     assert = require("assert"),
     fs = require("fs"),
     csv = require("../index"),
+    parser = require("../lib/parser/parser"),
     path = require("path"),
     stream = require("stream"),
     utils = require("util"),
@@ -168,5 +169,42 @@ it.describe("github issues", function (it) {
                     });
             });
         });
+    });
+
+    it.describe("#111", function (it) {
+
+		it.should("parse a block of CSV text with a trailing delimiter", function () {
+			var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n";
+			var myParser = parser({delimiter: ","});
+			assert.deepEqual(myParser(data, false), {
+				"line": "", "rows": [
+					["first_name", "last_name", "email_address", "empty"],
+					["First1", "Last1", "email1@email.com", ""]
+				]
+			});
+        });
+
+		it.should("parse a block of CSV text with a delimiter at file end", function () {
+			var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,";
+			var myParser = parser({delimiter: ","});
+			assert.deepEqual(myParser(data, false), {
+				"line": "", "rows": [
+					["first_name", "last_name", "email_address", "empty"],
+					["First1", "Last1", "email1@email.com", ""]
+				]
+			});
+        });
+
+		it.should("parse a block of CSV text with two delimiters at file end", function () {
+			var data = "first_name,last_name,email_address,empty1,empty2\nFirst1,Last1,email1@email.com,,";
+			var myParser = parser({delimiter: ","});
+			assert.deepEqual(myParser(data, false), {
+				"line": "", "rows": [
+					["first_name", "last_name", "email_address", "empty1", "empty2"],
+					["First1", "Last1", "email1@email.com", "", ""]
+				]
+			});
+        });
+
     });
 });
