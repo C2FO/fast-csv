@@ -206,5 +206,37 @@ it.describe("github issues", function (it) {
 			});
         });
 
+        it.should("parse a block of CSV text with a trailing delimiter followed by a space", function() {
+            var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com, \n";
+            var myParser = parser({ delimiter: "," });
+            assert.deepEqual(myParser(data, false), {
+                "line": "", "rows": [
+                    ["first_name", "last_name", "email_address", "empty"],
+                    ["First1", "Last1", "email1@email.com", " "]
+                ]
+            });
+        });
+
+        it.should("parse a block of Space Separated Value text with a trailing delimiter", function() {
+            var data = "first_name last_name email_address empty\nFirst1 Last1 email1@email.com \n";
+            var myParser = parser({ delimiter: " " });
+            assert.deepEqual(myParser(data, false), {
+                "line": "", "rows": [
+                    ["first_name", "last_name", "email_address", "empty"],
+                    ["First1", "Last1", "email1@email.com", ""]
+                ]
+            });
+                });
+
+        it.should("parse a block of Space Separated Values with two delimiters at file end", function() {
+            var data = "first_name last_name email_address empty empty2\nFirst1 Last1 email1@email.com  \n";
+            var myParser = parser({ delimiter: " " });
+            assert.deepEqual(myParser(data, false), {
+                "line": "", "rows": [
+                    ["first_name", "last_name", "email_address", "empty", "empty2"],
+                    ["First1", "Last1", "email1@email.com", "", ""]
+                ]
+            });
+        });
     });
 });
