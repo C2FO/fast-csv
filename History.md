@@ -1,3 +1,11 @@
+# v2.0.1
+
+* Fix for last column empty when line end with a delimiter.
+
+# v2.0.0
+
+* Fast CSV will now handles the last column being empty.
+
 # v1.1.0
 
 * Fix for when chunk returned by transform to the parser ends with a space
