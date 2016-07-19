@@ -1,4 +1,4 @@
-# v2.1.1
+# v2.1.0
 
 * Now handles tab delimited CSVs with only spaces for field values
 * Handles CSVs with only spaces for field values
