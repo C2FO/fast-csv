@@ -1,3 +1,8 @@
+# v2.1.1
+
+* Now handles tab delimited CSVs with only spaces for field values
+* Handles CSVs with only spaces for field values
+
 # v2.0.1
 
 * Fix for last column empty when line end with a delimiter.
