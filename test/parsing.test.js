@@ -421,6 +421,25 @@ var expected25 = [
 
 var expected25_invalid = [ 'First2', 'Last2', 'email2@email.com' ];
 
+var expected26 = [
+    {
+        "Model" : "058B",
+        "Last_Change_Date" : "09/09/2003",
+        "Region" : "GL",
+        "Make" : "ARONCA",
+        "Aircraft_Group" : "58",
+        "Regis_Code" : "0191006",
+        "Design_Character" : "1H7",
+        "No_Engines" : "1",
+        "Type_Engine" : "",
+        "Type_Landing_Gear" : "",
+        "TC_Data_Sheet_Number" : "A751",
+        "TC_Model": "AERONCA058B"
+    }
+];
+
+var expected27 = expected26;
+
 it.describe("fast-csv parsing", function (it) {
 
     it.timeout(60000);
@@ -1239,6 +1258,34 @@ it.describe("fast-csv parsing", function (it) {
         assert.throws(function () {
             csv({headers: true}).fromPath(path.resolve(__dirname, "./assets/test7.csv")).transform("hello");
         });
+    });
+
+    it.should("handle tab delimited CSVs with only spaces for field values", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test26.csv"), {headers: true, delimiter: '\t', trim: true})
+            .on("data", function (data) {
+                actual.push(data);
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected26);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("handle CSVs with only spaces for field values", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test27.csv"), {headers: true, trim: true})
+            .on("data", function (data) {
+                actual.push(data);
+            }).
+            on("end", function (count) {
+                assert.deepEqual(actual, expected27);
+                assert.equal(count, actual.length);
+                next();
+            });
     });
 
 });
