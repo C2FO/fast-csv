@@ -324,7 +324,7 @@ csv
 
 ### Formatting
 
-`fast-csv` also allows to you to create create a `CSV` from data.
+`fast-csv` also allows you to create a `CSV` from data.
 
 Formatting accepts the same options as parsing with an additional `transform` option.
 
@@ -584,7 +584,7 @@ csv
 
 
 
-**`writeToStream(stream,arr[, options])`**
+**`writeToStream(stream, arr[, options])`**
 
 Write an array of values to a `WritableStream`
 
