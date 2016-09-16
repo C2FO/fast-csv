@@ -80,7 +80,7 @@ fs.createReadStream("my.csv")
     });
 ```
 
-```
+```javascript
 var fileStream = fs.createReadStream("my.csv"),
     parser = fastCsv();
 
@@ -348,7 +348,7 @@ When creating a CSV `fast-csv` supports a few data formats.
 
 You can pass in object to any formatter function if your csv requires headers the keys of the first object will be used as the header names.
 
-```
+```javascript
 [
     {
         a: "a1",
@@ -366,7 +366,7 @@ You can pass in object to any formatter function if your csv requires headers th
 
 You can also pass in your rows as arrays. If your csv requires headers the first row passed in will be the headers used.
 
-```
+```javascript
 [
     ["a", "b", "c"],
     ["a1", "b1", "c1"]
@@ -380,7 +380,7 @@ You can also pass in your rows as arrays. If your csv requires headers the first
 
 This is the least commonly used format but can be useful if you have requirements to generate a CSV with headers with the same column name (Crazy we know but we have seen it).
 
-```
+```javascript
 [
     [
         ["a", "a1"],
@@ -778,7 +778,7 @@ Sometimes you may need to quote columns is certain ways in order meet certain re
 
 ### `quoteColumns`
 
-```
+```javascript
 //quote all columns including headers
 var objectData = [{a: "a1", b: "b1"}, {a: "a2", b: "b2"}],
     arrayData = [["a", "b"], ["a1", "b1"], ["a2", "b2"]];
@@ -806,7 +806,7 @@ csv.writeToString(arrayData, {headers: true, quoteColumns: [false, true]}, funct
 
 ### `quoteHeaders`
 
-```
+```javascript
 //quote all columns including headers
 var objectData = [{a: "a1", b: "b1"}, {a: "a2", b: "b2"}],
     arrayData = [["a", "b"], ["a1", "b1"], ["a2", "b2"]];
