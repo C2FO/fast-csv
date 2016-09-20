@@ -319,7 +319,7 @@ it.describe("fast-csv parser", function (it) {
             });
 
             it.should("parse a block of CSV text with a trailing delimiter", function () {
-                var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n";
+                var data = "first_name,last_name,email_address,empty\rFirst1,Last1,email1@email.com,\r";
                 var myParser = parser({delimiter: ","});
                 assert.deepEqual(myParser(data, false), {
                     "line": "", "rows": [
@@ -330,7 +330,7 @@ it.describe("fast-csv parser", function (it) {
             });
 
             it.should("parse a block of CSV text with a trailing delimiter followed by a space", function() {
-                var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com, \n";
+                var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com, \r";
                 var myParser = parser({ delimiter: "," });
                 assert.deepEqual(myParser(data, false), {
                     "line": "", "rows": [
@@ -341,7 +341,7 @@ it.describe("fast-csv parser", function (it) {
             });
 
             it.should("parse a block of Space Separated Value text with a trailing delimiter", function() {
-                var data = "first_name last_name email_address empty\nFirst1 Last1 email1@email.com \n";
+                var data = "first_name last_name email_address empty\rFirst1 Last1 email1@email.com \r";
                 var myParser = parser({ delimiter: " " });
                 assert.deepEqual(myParser(data, false), {
                     "line": "", "rows": [
@@ -610,6 +610,16 @@ it.describe("fast-csv parser", function (it) {
                 var parsedData = myParser(data, true);
                 assert.deepEqual(parsedData, {
                     "line": "first_name,last_name,email_address",
+                    "rows": []
+                });
+            });
+
+            it.skip("not parse a row if a new line is incomplete and there is more data", function () {
+                var data = "first_name,last_name,email_address\r";
+                var myParser = parser({delimiter: ","});
+                var parsedData = myParser(data, true);
+                assert.deepEqual(parsedData, {
+                    "line": "first_name,last_name,email_address\r",
                     "rows": []
                 });
             });
