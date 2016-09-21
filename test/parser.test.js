@@ -400,7 +400,7 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
-            it.skip("not parse a row if an ambiguous new line is found and there is more data", function () {
+            it.should("not parse a row if an ambiguous new line is found and there is more data", function () {
                 var data = "first_name,last_name,email_address\r";
                 var myParser = parser({delimiter: ","});
                 var parsedData = myParser(data, true);
@@ -530,7 +530,7 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
-            it.skip("not parse a row if an ambiguous new line is found and there is more data", function () {
+            it.should("not parse a row if an ambiguous new line is found and there is more data", function () {
                 var data = '"first_name","last_name","email_address"\r';
                 var myParser = parser({delimiter: ","});
                 var parsedData = myParser(data, true);
@@ -610,7 +610,7 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
-            it.skip("not parse a row if a new line is incomplete and there is more data", function () {
+            it.should("not parse a row if a new line is incomplete and there is more data", function () {
                 var data = "first_name,last_name,email_address\r";
                 var myParser = parser({delimiter: ","});
                 var parsedData = myParser(data, true);
