@@ -239,4 +239,16 @@ it.describe("github issues", function (it) {
             });
         });
     });
+
+    it.skip("#150", function (it) {
+        it.should("not parse a row if a new line is ambiguous and there is more data", function () {
+            var data = "first_name,last_name,email_address\r";
+            var myParser = parser({delimiter: ","});
+            var parsedData = myParser(data, true);
+            assert.deepEqual(parsedData, {
+                "line": "first_name,last_name,email_address\r",
+                "rows": []
+            });
+        });
+    });
 });
