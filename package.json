@@ -1,40 +1,41 @@
 {
-    "name": "fast-csv",
-    "version": "2.2.0",
-    "description": "CSV parser and writer",
-    "main": "index.js",
-    "scripts": {
-        "test": "grunt jshint it"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:C2FO/fast-csv.git"
-    },
-    "keywords": [
-        "csv",
-        "parser",
-        "fast",
-        "writer",
-        "csv writer",
-        "CSV"
-    ],
-    "homepage": "http://c2fo.github.com/fast-csv/index.html",
-    "author": "Doug Martin",
-    "license": "MIT",
-    "devDependencies": {
-        "it": "^1.0.1",
-        "grunt-it": "^1.0.0",
-        "grunt": "~0.4.1",
-        "grunt-contrib-jshint": "~0.10.0",
-        "grunt-exec": "^0.4.5"
-    },
-    "engines": {
-        "node": ">=4.0.0"
-    },
-    "dependencies": {
-        "is-extended": "0.0.10",
-        "object-extended": "0.0.7",
-        "extended": "0.0.6",
-        "string-extended": "0.0.8"
-    }
+  "name": "fast-csv",
+  "version": "2.2.0",
+  "description": "CSV parser and writer",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt jshint it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:C2FO/fast-csv.git"
+  },
+  "keywords": [
+    "csv",
+    "parser",
+    "fast",
+    "writer",
+    "csv writer",
+    "CSV"
+  ],
+  "homepage": "http://c2fo.github.com/fast-csv/index.html",
+  "author": "Doug Martin",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-exec": "^0.4.5",
+    "grunt-gh-pages": "^2.0.0",
+    "grunt-it": "^1.0.0",
+    "it": "^1.0.1"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "dependencies": {
+    "is-extended": "0.0.10",
+    "object-extended": "0.0.7",
+    "extended": "0.0.6",
+    "string-extended": "0.0.8"
+  }
 }

@@ -24,6 +24,12 @@ module.exports = function (grunt) {
                     reporter: 'spec'
                 }
             }
+        },
+        'gh-pages': {
+            options: {
+                base: 'docs'
+            },
+            src: ['**']
         }
     });
 
@@ -32,6 +38,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-it');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-gh-pages');
 
     grunt.registerTask("benchmark", "run benchmarks", function () {
         var done = this.async();

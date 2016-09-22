@@ -3,4 +3,5 @@ node_modules
 .DS_Store
 lib-cov
 .idea
+.grunt
 atlassian-ide-plugin.xml
