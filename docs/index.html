@@ -249,7 +249,7 @@ stream.pipe(csvStream);</code></pre>
     .on(&quot;end&quot;, function(){
         console.log(&quot;done&quot;);
     });</code></pre>
-<pre class='prettyprint linenums lang-js'><code>var fileStream = fs.createReadStream(&quot;my.csv&quot;),
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">var fileStream = fs.createReadStream(&quot;my.csv&quot;),
     parser = fastCsv();
 
 fileStream
@@ -431,7 +431,7 @@ csv
      console.log(&quot;done&quot;);
  });</code></pre>
 <h3 id="formatting">Formatting</h3>
-<p><code>fast-csv</code> also allows to you to create create a <code>CSV</code> from data.</p>
+<p><code>fast-csv</code> also allows you to create a <code>CSV</code> from data.</p>
 <p>Formatting accepts the same options as parsing with an additional <code>transform</code> option.</p>
 <ul>
 <li><code>transform(row[, cb])</code>: A function that accepts a row and returns a transformed one to be written, or your function can accept an optional callback to do async transformations.</li>
@@ -454,7 +454,7 @@ csv
 <p>When creating a CSV <code>fast-csv</code> supports a few data formats.</p>
 <p><strong><code>Objects</code></strong></p>
 <p>You can pass in object to any formatter function if your csv requires headers the keys of the first object will be used as the header names.</p>
-<pre class='prettyprint linenums lang-js'><code>[
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">[
     {
         a: &quot;a1&quot;,
         b: &quot;b1&quot;,
@@ -467,7 +467,7 @@ csv
 //a1,b1,c1</code></pre>
 <p><strong><code>Arrays</code></strong></p>
 <p>You can also pass in your rows as arrays. If your csv requires headers the first row passed in will be the headers used.</p>
-<pre class='prettyprint linenums lang-js'><code>[
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">[
     [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],
     [&quot;a1&quot;, &quot;b1&quot;, &quot;c1&quot;]
 ]
@@ -476,7 +476,7 @@ csv
 //a1,b1,c1</code></pre>
 <p><strong><code>Arrays of Array</code></strong></p>
 <p>This is the least commonly used format but can be useful if you have requirements to generate a CSV with headers with the same column name (Crazy we know but we have seen it).</p>
-<pre class='prettyprint linenums lang-js'><code>[
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">[
     [
         [&quot;a&quot;, &quot;a1&quot;],
         [&quot;a&quot;, &quot;a2&quot;],
@@ -647,7 +647,7 @@ csv
         }
    })
    .pipe(ws);</code></pre>
-<p><strong><code>writeToStream(stream,arr[, options])</code></strong></p>
+<p><strong><code>writeToStream(stream, arr[, options])</code></strong></p>
 <p>Write an array of values to a <code>WritableStream</code></p>
 <pre class='prettyprint linenums lang-js'><code class="lang-javascript">csv
    .writeToStream(fs.createWriteStream(&quot;my.csv&quot;), [
@@ -789,7 +789,7 @@ csv
 <p>Sometimes you may need to quote columns is certain ways in order meet certain requirements. <code>fast-csv</code> can quote columns and headers almost anyway you may need.</p>
 <p><strong>Note</strong> in the following example we use <code>writeToString</code> but the options option are valid for any of the formatting methods.</p>
 <h3 id="-quotecolumns-"><code>quoteColumns</code></h3>
-<pre class='prettyprint linenums lang-js'><code>//quote all columns including headers
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">//quote all columns including headers
 var objectData = [{a: &quot;a1&quot;, b: &quot;b1&quot;}, {a: &quot;a2&quot;, b: &quot;b2&quot;}],
     arrayData = [[&quot;a&quot;, &quot;b&quot;], [&quot;a1&quot;, &quot;b1&quot;], [&quot;a2&quot;, &quot;b2&quot;]];
 csv.writeToString(objectData, {headers: true, quoteColumns: true}, function(err, data){
@@ -812,7 +812,7 @@ csv.writeToString(arrayData, {headers: true, quoteColumns: [false, true]}, funct
                        //a2,&quot;b2&quot;
 });</code></pre>
 <h3 id="-quoteheaders-"><code>quoteHeaders</code></h3>
-<pre class='prettyprint linenums lang-js'><code>//quote all columns including headers
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript">//quote all columns including headers
 var objectData = [{a: &quot;a1&quot;, b: &quot;b1&quot;}, {a: &quot;a2&quot;, b: &quot;b2&quot;}],
     arrayData = [[&quot;a&quot;, &quot;b&quot;], [&quot;a1&quot;, &quot;b1&quot;], [&quot;a2&quot;, &quot;b2&quot;]];
 csv.writeToString(objectData, {headers: true, quoteHeaders: true}, function(err, data){
