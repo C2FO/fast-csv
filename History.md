@@ -1,3 +1,7 @@
+# v2.2.0
+
+* Handle split CRLF [#156](https://github.com/C2FO/fast-csv/pull/156) - [@alexeits](https://github.com/alexeits)
+
 # v2.1.0
 
 * Now handles tab delimited CSVs with only spaces for field values
