@@ -1,3 +1,7 @@
+# v2.3.0
+
+* Writing object ends up with function definitions [#158](https://github.com/C2FO/fast-csv/pull/158)
+
 # v2.2.0
 
 * Handle split CRLF [#156](https://github.com/C2FO/fast-csv/pull/156) - [@alexeits](https://github.com/alexeits)
