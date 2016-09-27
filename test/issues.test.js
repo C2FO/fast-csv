@@ -17,7 +17,7 @@ it.describe("github issues", function (it) {
         it.should("handle bubble up parse errors properly", function (next) {
             var d = domain.create(), called = false;
             d.on("error", function (err) {
-                if(!called) {
+                if (!called) {
                     called = true;
                     assert.equal(/^Parse Error/.test(err.message), true);
                     next();
@@ -40,11 +40,11 @@ it.describe("github issues", function (it) {
         it.should("handle bubble up data errors properly", function (next) {
             var d = domain.create(), called = false;
             d.on("error", function (err) {
-                if(!called) {
+                if (!called) {
                     called = true;
                     assert.equal(err.message, "Data error");
                     next();
-                }else{
+                } else {
                     throw err;
                 }
             });
@@ -148,11 +148,11 @@ it.describe("github issues", function (it) {
         it.should("handle bubble up errors thrown in end properly", function (next) {
             var d = domain.create(), called = false;
             d.on("error", function (err) {
-                if(!called) {
+                if (!called) {
                     called = true;
                     assert.equal(err.message, "End error");
                     next();
-                }else{
+                } else {
                     throw err;
                 }
             });
@@ -160,10 +160,11 @@ it.describe("github issues", function (it) {
                 var actual = [];
                 csv
                     .fromPath(path.resolve(__dirname, "./assets/issue93.csv"), {headers: true, delimiter: "\t"})
-                    .on("error", function(){
+                    .on("error", function () {
                         next(new Error("Should not get here!"));
                     })
-                    .on("data", function (data) {})
+                    .on("data", function (data) {
+                    })
                     .on("end", function () {
                         throw new Error("End error");
                     });
@@ -173,42 +174,42 @@ it.describe("github issues", function (it) {
 
     it.describe("#111", function (it) {
 
-		it.should("parse a block of CSV text with a trailing delimiter", function () {
-			var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n";
-			var myParser = parser({delimiter: ","});
-			assert.deepEqual(myParser(data, false), {
-				"line": "", "rows": [
-					["first_name", "last_name", "email_address", "empty"],
-					["First1", "Last1", "email1@email.com", ""]
-				]
-			});
+        it.should("parse a block of CSV text with a trailing delimiter", function () {
+            var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n";
+            var myParser = parser({delimiter: ","});
+            assert.deepEqual(myParser(data, false), {
+                "line": "", "rows": [
+                    ["first_name", "last_name", "email_address", "empty"],
+                    ["First1", "Last1", "email1@email.com", ""]
+                ]
+            });
         });
 
-		it.should("parse a block of CSV text with a delimiter at file end", function () {
-			var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,";
-			var myParser = parser({delimiter: ","});
-			assert.deepEqual(myParser(data, false), {
-				"line": "", "rows": [
-					["first_name", "last_name", "email_address", "empty"],
-					["First1", "Last1", "email1@email.com", ""]
-				]
-			});
+        it.should("parse a block of CSV text with a delimiter at file end", function () {
+            var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,";
+            var myParser = parser({delimiter: ","});
+            assert.deepEqual(myParser(data, false), {
+                "line": "", "rows": [
+                    ["first_name", "last_name", "email_address", "empty"],
+                    ["First1", "Last1", "email1@email.com", ""]
+                ]
+            });
         });
 
-		it.should("parse a block of CSV text with two delimiters at file end", function () {
-			var data = "first_name,last_name,email_address,empty1,empty2\nFirst1,Last1,email1@email.com,,";
-			var myParser = parser({delimiter: ","});
-			assert.deepEqual(myParser(data, false), {
-				"line": "", "rows": [
-					["first_name", "last_name", "email_address", "empty1", "empty2"],
-					["First1", "Last1", "email1@email.com", "", ""]
-				]
-			});
+        it.should("parse a block of CSV text with two delimiters at file end", function () {
+            var data = "first_name,last_name,email_address,empty1,empty2\nFirst1,Last1,email1@email.com,,";
+            var myParser = parser({delimiter: ","});
+            assert.deepEqual(myParser(data, false), {
+                "line": "", "rows": [
+                    ["first_name", "last_name", "email_address", "empty1", "empty2"],
+                    ["First1", "Last1", "email1@email.com", "", ""]
+                ]
+            });
         });
 
-        it.should("parse a block of CSV text with a trailing delimiter followed by a space", function() {
+        it.should("parse a block of CSV text with a trailing delimiter followed by a space", function () {
             var data = "first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com, \n";
-            var myParser = parser({ delimiter: "," });
+            var myParser = parser({delimiter: ","});
             assert.deepEqual(myParser(data, false), {
                 "line": "", "rows": [
                     ["first_name", "last_name", "email_address", "empty"],
@@ -217,20 +218,20 @@ it.describe("github issues", function (it) {
             });
         });
 
-        it.should("parse a block of Space Separated Value text with a trailing delimiter", function() {
+        it.should("parse a block of Space Separated Value text with a trailing delimiter", function () {
             var data = "first_name last_name email_address empty\nFirst1 Last1 email1@email.com \n";
-            var myParser = parser({ delimiter: " " });
+            var myParser = parser({delimiter: " "});
             assert.deepEqual(myParser(data, false), {
                 "line": "", "rows": [
                     ["first_name", "last_name", "email_address", "empty"],
                     ["First1", "Last1", "email1@email.com", ""]
                 ]
             });
-                });
+        });
 
-        it.should("parse a block of Space Separated Values with two delimiters at file end", function() {
+        it.should("parse a block of Space Separated Values with two delimiters at file end", function () {
             var data = "first_name last_name email_address empty empty2\nFirst1 Last1 email1@email.com  \n";
-            var myParser = parser({ delimiter: " " });
+            var myParser = parser({delimiter: " "});
             assert.deepEqual(myParser(data, false), {
                 "line": "", "rows": [
                     ["first_name", "last_name", "email_address", "empty", "empty2"],
@@ -250,5 +251,36 @@ it.describe("github issues", function (it) {
                 "rows": []
             });
         });
+    });
+
+    it.describe("#158", function (it) {
+        function Place(id, name) {
+            this.id = id;
+            this.name = name;
+            this.calculatedValue = 0;
+        }
+
+        Place.prototype.calculateSomething = function () {
+            this.calculatedValue = this.id * 2;
+            return this;
+        };
+
+        it.should("not write prototype methods in csv", function (next) {
+            var ws = new stream.Writable(), written = [];
+            ws._write = function (data, enc, cb) {
+                written.push(data + "");
+                cb();
+            };
+            ws.on("finish", function () {
+                assert.deepEqual(written.join(""), "id,name,calculatedValue\n1,a,2\n2,b,4\n3,c,6");
+                next();
+            });
+            csv.writeToStream(ws, [
+                new Place(1, "a").calculateSomething(),
+                new Place(2, "b").calculateSomething(),
+                new Place(3, "c").calculateSomething()
+            ], {headers: true}).on("error", next);
+        });
+
     });
 });
