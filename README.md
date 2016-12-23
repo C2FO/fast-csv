@@ -1,4 +1,4 @@
-[![build status](https://secure.travis-ci.org/C2FO/fast-csv.png)](http://travis-ci.org/C2FO/fast-csv)
+[![build status](https://secure.travis-ci.org/C2FO/fast-csv.svg)](http://travis-ci.org/C2FO/fast-csv)
 # Fast-csv
 
 This is a library that provides CSV parsing and formatting.
@@ -163,7 +163,7 @@ csv
  });
 ```
 
-If you expect the first line your csv to headers you may pass a headers option in. Setting the headers option will
+If you expect the first line your CSV to be headers you may pass in a `headers` option. Setting the `headers` option will
 cause change each row to an object rather than an array.
 
 ```javascript
@@ -180,7 +180,7 @@ csv
 
 ```
 
-You may alternatively pass an array of header names which must match the order of each column in the csv, otherwise
+You may alternatively pass an array of header names which must match the order of each column in the CSV, otherwise
 the data columns will not match.
 
 ```javascript
@@ -234,7 +234,7 @@ csv
 
 ### Validating
 
-You can validate each row in the csv by providing a validate handler. If a row is invalid then a `data-invalid` event
+You can validate each row in the CSV by providing a validate handler. If a row is invalid then a `data-invalid` event
 will be emitted with the row and the index.
 
 ```javascript
@@ -346,7 +346,7 @@ When creating a CSV `fast-csv` supports a few data formats.
 
 **`Objects`**
 
-You can pass in object to any formatter function if your csv requires headers the keys of the first object will be used as the header names.
+You can pass in object to any formatter function if your CSV requires headers the keys of the first object will be used as the header names.
 
 ```javascript
 [
@@ -364,7 +364,7 @@ You can pass in object to any formatter function if your csv requires headers th
 
 **`Arrays`**
 
-You can also pass in your rows as arrays. If your csv requires headers the first row passed in will be the headers used.
+You can also pass in your rows as arrays. If your CSV requires headers the first row passed in will be the headers used.
 
 ```javascript
 [
@@ -401,7 +401,7 @@ This is the least commonly used format but can be useful if you have requirement
 
 **`createWriteStream(options)` or `.format(options)`**
 
-This is the lowest level of the write methods, it creates a stream that can be used to create a csv of unknown size and pipe to an output csv.
+This is the lowest level of the write methods, it creates a stream that can be used to create a CSV of unknown size and pipe to an output CSV.
 
 ```javascript
 var csvStream = csv.createWriteStream({headers: true}),
