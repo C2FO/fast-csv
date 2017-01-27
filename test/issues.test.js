@@ -283,4 +283,21 @@ it.describe("github issues", function (it) {
         });
 
     });
+
+    it.describe("#131", function (it) {
+
+        it.should("parse a csv with a UTF-8 Byte Order Mark", function (next) {
+            var actual = [];
+            csv
+              .fromPath(path.resolve(__dirname, "./assets/test28.csv"), {headers: true})
+              .on("data", function (data, index) {
+                  actual.push(data);
+              }).
+              on("end", function (count) {
+                  assert.deepEqual(actual[0]["first_name"], "First1");
+                  assert.equal(count, actual.length);
+                  next();
+              });
+        });
+    });
 });
