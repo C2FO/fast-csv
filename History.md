@@ -1,3 +1,7 @@
+# v2.3.1
+
+* Now removes the byte order mark from a UTF-8 file if this is present. [#170](https://github.com/C2FO/fast-csv/pull/170)
+
 # v2.3.0
 
 * Writing object ends up with function definitions [#158](https://github.com/C2FO/fast-csv/pull/158)
