@@ -440,6 +440,12 @@ var expected26 = [
 
 var expected27 = expected26;
 
+var expected29 = [
+    {"f1": "1", "f2": "text", "f3": " a1"},
+    {"f1": "2", "f2": "text", "f3": " a2"},
+];
+
+
 it.describe("fast-csv parsing", function (it) {
 
     it.timeout(60000);
@@ -768,6 +774,21 @@ it.describe("fast-csv parsing", function (it) {
                 })
                 .on("end", function (count) {
                     next(new Error("Validation error not propagated"));
+                });
+        });
+
+        it.should("parse a csv with surrounding spaces without final newline", function (next) {
+            var actual = [];
+            csv
+                .fromPath(path.resolve(__dirname, "./assets/test29.csv"), {headers: true})
+                .on("data", function (data) {
+                    actual.push(data);
+                })
+                .on("error", next)
+                .on("end", function (count) {
+                    assert.deepEqual(actual, expected29);
+                    assert.equal(count, actual.length);
+                    next();
                 });
         });
     });
