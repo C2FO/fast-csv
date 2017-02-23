@@ -440,6 +440,63 @@ var expected26 = [
 
 var expected27 = expected26;
 
+var expectedRenameHeaders = [
+    {
+        "firstName": "First1",
+        "lastName": "Last1",
+        "emailAddress": "email1@email.com",
+        address: "1 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First2",
+        "lastName": "Last2",
+        "emailAddress": "email2@email.com",
+        address: "2 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First3",
+        "lastName": "Last3",
+        "emailAddress": "email3@email.com",
+        address: "3 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First4",
+        "lastName": "Last4",
+        "emailAddress": "email4@email.com",
+        address: "4 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First5",
+        "lastName": "Last5",
+        "emailAddress": "email5@email.com",
+        address: "5 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First6",
+        "lastName": "Last6",
+        "emailAddress": "email6@email.com",
+        address: "6 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First7",
+        "lastName": "Last7",
+        "emailAddress": "email7@email.com",
+        address: "7 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First8",
+        "lastName": "Last8",
+        "emailAddress": "email8@email.com",
+        address: "8 Street St, State ST, 88888"
+    },
+    {
+        "firstName": "First9",
+        "lastName": "Last9",
+        "emailAddress": "email9@email.com",
+        address: "9 Street St, State ST, 88888"
+    }
+];
+
 it.describe("fast-csv parsing", function (it) {
 
     it.timeout(60000);
@@ -602,6 +659,53 @@ it.describe("fast-csv parsing", function (it) {
                 assert.deepEqual(actual, expected1);
                 assert.equal(count, actual.length);
                 next();
+            });
+    });
+
+    it.should("allow renaming columns", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test1.csv"), { headers: ["firstName", "lastName", "emailAddress", "address"], renameHeaders: true })
+            .on("data", function (data, index) {
+                actual.push(data);
+            })
+            .on("error", next)
+            .on("end", function (count) {
+                assert.deepEqual(actual, expectedRenameHeaders);
+                assert.equal(count, actual.length);
+                next();
+            });
+    });
+
+    it.should("propagate an error when trying to rename headers without providing new ones", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test1.csv"), { renameHeaders: true })
+            .on("data", function (data, index) {
+                actual.push(data);
+            })
+            .on("error", function (err) {
+                assert.equal(err.message, "Error renaming headers: new headers must be provided in an array");
+                next();
+            })
+            .on("end", function (count) {
+                next(new Error("Rename headers without headers error not propagated"));
+            });
+    });
+
+    it.should("propagate an error when trying to rename headers without providing proper ones", function (next) {
+        var actual = [];
+        csv
+            .fromPath(path.resolve(__dirname, "./assets/test1.csv"), { renameHeaders: true, headers: true })
+            .on("data", function (data, index) {
+                actual.push(data);
+            })
+            .on("error", function (err) {
+                assert.equal(err.message, "Error renaming headers: new headers must be provided in an array");
+                next();
+            })
+            .on("end", function (count) {
+                next(new Error("Rename headers without headers error not propagated"));
             });
     });
 
