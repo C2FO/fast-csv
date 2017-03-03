@@ -1,3 +1,7 @@
+# v2.4.0
+
+* Allow renaming headers. [#175](https://github.com/C2FO/fast-csv/pull/175)
+
 # v2.3.1
 
 * Now removes the byte order mark from a UTF-8 file if this is present. [#170](https://github.com/C2FO/fast-csv/pull/170)
