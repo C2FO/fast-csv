@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
-        
+
 
 /*.subnav-inner {*/
     /*width: 100%;*/
@@ -138,31 +138,31 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"> </span>
             </a>
-            
+
             <a href="./index.html" class="brand">fast-csv</a>
-            
+
             <div class="nav-collapse">
                 <ul class="nav">
-                    
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Docs<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            
-                            <li><a href="./History.html">Change Log</a></li>
-                            
-                        </ul>
-                        
 
-                        
-                    
+                            <li><a href="./History.html">Change Log</a></li>
+
+                        </ul>
+
+
+
+
                 </ul>
-                
+
                 <ul class="nav pull-right">
 
                     <li class="divider-vertical"></li>
                     <li><a href="https://github.com/C2FO/fast-csv" target="#github" class="pull-right">github</a></li>
                 </ul>
-                
+
             </div>
         </div>
     </div>
@@ -192,6 +192,7 @@
 <li><code>ignoreEmpty=false</code>: If you wish to ignore empty rows.</li>
 <li><code>discardUnmappedColumns=false</code>: If you want to discard columns that do not map to a header.</li>
 <li><code>strictColumnHandling=false</code>: If you want to consider empty lines/lines with too few fields as errors - Only to be used with <code>headers=true</code></li>
+<li><code>renameHeaders=false</code>: If you want the first line of the file to be removed and replaced by the one provided in the <code>headers</code> option - Only to be used with <code>headers=[String]</code></li>
 <li><code>delimiter=&#39;,&#39;</code>: If your data uses an alternate delimiter such as <code>;</code> or <code>\t</code>.<ul>
 <li><strong>NOTE</strong> When specifying an alternate <code>delimiter</code> you may only pass in a single character delimiter</li>
 </ul>
@@ -866,4 +867,3 @@ Documentation generated using <a href="https://github.com/doug-martin/coddoc">co
 
 </body>
 </html>
-
