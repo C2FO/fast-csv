@@ -20,6 +20,7 @@ All methods accept the following `options`
 * `ignoreEmpty=false`: If you wish to ignore empty rows.
 * `discardUnmappedColumns=false`: If you want to discard columns that do not map to a header.
 * `strictColumnHandling=false`: If you want to consider empty lines/lines with too few fields as errors - Only to be used with `headers=true`
+* `renameHeaders=false`: If you want the first line of the file to be removed and replaced by the one provided in the `headers` option - Only to be used with `headers=[String]`
 * `delimiter=','`: If your data uses an alternate delimiter such as `;` or `\t`.
    * **NOTE** When specifying an alternate `delimiter` you may only pass in a single character delimiter
 * `quote='"'`: The character to use to escape values that contain a delimiter. If you set to `null` then all quoting will be ignored
