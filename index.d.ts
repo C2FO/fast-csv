@@ -38,13 +38,13 @@ declare namespace fast_csv {
 
     function write(arr: any[], options: FormattingOptions | undefined, ws?: NodeJS.WritableStream): CsvTransformStream;
 
-    function writeToBuffer(arr: Buffer, options: FormattingOptions | undefined, cb: ((error: any, next?: any) => void)): void;
+    function writeToBuffer(arr: Buffer, options: FormattingOptions | undefined, cb: ((error: any, result: Buffer) => void)): void;
 
     function writeToPath(path: string, arr: any[], options?: FormattingOptions): stream.Writable;
 
     function writeToStream<T extends NodeJS.WritableStream>(ws: T, arr: any[], options?: FormattingOptions): T;
 
-    function writeToString(arr: any[], options: FormattingOptions | undefined, cb: ((error: any, next?: any) => void)): void;
+    function writeToString(arr: any[], options: FormattingOptions | undefined, cb: ((error: any, result: string) => void)): void;
 }
 
 declare class ParserStream extends stream.Transform {
