@@ -15,11 +15,11 @@ import * as stream from 'stream';
 
 export = fast_csv;
 
-declare function fast_csv(): ParserStream;
+declare function fast_csv(options?: ParsingOptions): ParserStream;
 
 declare namespace fast_csv {
     // Circular reference from fast_csv
-    function parse(): ParserStream;
+    function parse(options?: ParsingOptions): ParserStream;
 
     /* Intentionally omitted, because it is not documented by the project and
      * the implementation currently creates a FormattingStream
