@@ -1,3 +1,7 @@
+# v2.4.1
+
+* Adding TypeScript declaration file. [#190](https://github.com/C2FO/fast-csv/pull/190)
+
 # v2.4.0
 
 * Allow renaming headers. [#175](https://github.com/C2FO/fast-csv/pull/175)
