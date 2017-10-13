@@ -542,7 +542,7 @@ Each of the following methods accept an array of values to be written, however e
 
 **`write(arr[, options])`**
 
-Create a readable stream to read data from.
+Create a writable stream to write data to.
 
 ```javascript
 var ws = fs.createWriteStream("my.csv");
