@@ -282,6 +282,51 @@ csv
  });
 ```
 
+Using validation reasons.
+
+```javascript
+
+var stream = fs.createReadStream("my.csv");
+
+var MODEL1_DOES_NOT_EXISTS = 'model1DoesNotExists';
+var MODEL2_DOES_NOT_EXISTS = 'model2DoesNotExists';
+
+csv
+ .fromStream(stream)
+ .validate(function(data, next){
+    var reasons = [];
+    MyModel1.findById(data.id, function(err, model){
+      if(err){
+        next(err);
+      }
+      if (!model)  { // if the model does not exist
+        reasons.push(MODEL1_DOES_NOT_EXISTS);
+      }
+    });
+    MyModel2.findById(data.id, function(err, model){
+      if(err){
+         next(err);
+      }
+       if (!model)  { // if the model does not exist
+        reasons.push(MODEL2_DOES_NOT_EXISTS);
+      }
+    });
+    if (reasons.length > 0) { 
+      next(null, false, reasons); //valid if the model does not exist
+    } 
+    next(null, true)
+ })
+.on("data-invalid", function(line, index, reasons){
+    if(reasons.includes(MODEL1_DOES_NOT_EXISTS)) {
+      // create model 1
+    }
+    if(reasons.includes(MODEL2_DOES_NOT_EXISTS)) {
+      // create model 2
+    }
+ })
+
+```
+
 ### Transforming
 
 You can transform data by providing a transform function. What is returned from the transform function will
