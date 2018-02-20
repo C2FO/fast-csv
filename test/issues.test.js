@@ -300,4 +300,20 @@ it.describe("github issues", function (it) {
               });
         });
     });
+
+    it.describe("#214", function (it) {
+        it.timeout(100);
+
+        it.should("emit data when on called", function (next) {
+            var stream = csv.fromPath(path.resolve(__dirname, "./assets/test1.csv"));
+
+            stream.on("data", function () { next() });
+        });
+
+        it.should("emit data when addListener called", function (next) {
+            var stream = csv.fromPath(path.resolve(__dirname, "./assets/test1.csv"));
+
+            stream.addListener("data", function () { next() });
+        });
+    })
 });
