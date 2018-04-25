@@ -256,6 +256,17 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
+            it.should("skip trailing spaces after a quoted value", function () {
+                var data = 'first_name,last_name,email_address\n"First,1"  ,"Last,1" ,"email1@email.com"';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address"],
+                        ["First,1", "Last,1", "email1@email.com"]
+                    ]
+                });
+			});
+
             it.should("not parse a row if a new line is not found and there is more data", function () {
                 var data = '"first_name","last_name","email_address"';
                 var myParser = parser({delimiter: ","});
@@ -510,6 +521,17 @@ it.describe("fast-csv parser", function (it) {
                 });
             });
 
+            it.should("skip trailing spaces after a quoted value", function () {
+                var data = 'first_name,last_name,email_address\r"First,1"  ,"Last,1" ,"email1@email.com"';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address"],
+                        ["First,1", "Last,1", "email1@email.com"]
+                    ]
+                });
+			});
+
             it.should("not parse a row if a new line is not found and there is more data", function () {
                 var data = '"first_name","last_name","email_address"';
                 var myParser = parser({delimiter: ","});
@@ -741,6 +763,17 @@ it.describe("fast-csv parser", function (it) {
                     ]
                 });
             });
+
+            it.should("skip trailing spaces after a quoted value", function () {
+                var data = 'first_name,last_name,email_address\r\n"First,1"  ,"Last,1" ,"email1@email.com"';
+                var myParser = parser({delimiter: ","});
+                assert.deepEqual(myParser(data, false), {
+                    "line": "", "rows": [
+                        ["first_name", "last_name", "email_address"],
+                        ["First,1", "Last,1", "email1@email.com"]
+                    ]
+                });
+			});
 
             it.should("not parse a row if a new line is not found and there is more data", function () {
                 var data = '"first_name","last_name","email_address"';
