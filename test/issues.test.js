@@ -300,4 +300,32 @@ it.describe("github issues", function (it) {
               });
         });
     });
+
+    it.describe("#227", function (it) {
+
+        it.should("allow consecutive parsing with the same options", function (next) {
+            var options = {
+                delimiter: '|'
+            };
+            csv
+                .fromPath(path.resolve(__dirname, "./assets/issue252.1.csv"), options)
+                .on('data', function () {})
+                .on('end', function () {
+                    csv
+                      .fromPath(path.resolve(__dirname, "./assets/issue252.2.csv"), options)
+                      .on("data", function () {})
+                      .on("error", function () {
+                          next("Should not get here!");
+                      })
+                      .on("end", function() {
+                          next();
+                      });
+                })
+                .on("error", function () {
+                    next("Should not get here!");
+                })
+           
+        })
+    })
+
 });
