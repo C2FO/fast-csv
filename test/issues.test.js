@@ -239,6 +239,19 @@ it.describe("github issues", function (it) {
                 ]
             });
         });
+
+        it.should("not add a space when a blank column is found on the last line", function () {
+            var data = "channel,paid,name\nVMG,  ,Chris\nVMG,  ,David";
+            var myParser = parser({delimiter: ","});
+            assert.deepEqual(myParser(data, false), {
+                "line": "", "rows": [
+                    ["channel", "paid", "name"],
+                    ["VMG", "  ", "Chris"],
+                    ["VMG", "  ", "David"],
+                ]
+            });
+        });
+
     });
 
     it.describe("#150", function (it) {
