@@ -149,7 +149,7 @@ csv
 
 **`.fromStream(stream[, options])`**
 
-This accepted a readable stream to parse data from.
+This accepts a readable stream to parse data from.
 
 ```javascript
 var stream = fs.createReadStream("my.csv");
