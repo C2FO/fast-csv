@@ -1,3 +1,7 @@
+# v2.5.0
+
+* Use safer-buffer polyfill to support node >= 8.
+
 # v2.4.1
 
 * Adding TypeScript declaration file. [#190](https://github.com/C2FO/fast-csv/pull/190)

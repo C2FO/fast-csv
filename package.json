@@ -1,6 +1,6 @@
 {
   "name": "fast-csv",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "description": "CSV parser and writer",
   "main": "index.js",
   "types": "index.d.ts",
