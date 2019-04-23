@@ -1,3 +1,7 @@
+# v1.2.0
+
+* Use `safer-buffer` polyfill to support node >= 8.
+
 # v1.1.0
 
 * Fix for when chunk returned by transform to the parser ends with a space
