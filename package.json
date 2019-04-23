@@ -34,9 +34,10 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
+    "extended": "0.0.6",
     "is-extended": "0.0.10",
     "object-extended": "0.0.7",
-    "extended": "0.0.6",
+    "safer-buffer": "^2.1.2",
     "string-extended": "0.0.8"
   }
 }
