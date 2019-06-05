@@ -1,0 +1,20 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "all": true,
+  "check-coverage": true,
+  "exclude": [
+    "**/*.d.ts",
+    "coverage/**",
+    "packages/*/test/**",
+    "test/**",
+    "test{,-*}.ts",
+    "**/*{.,-}{test,spec}.ts",
+    "**/__tests__/**",
+    "**/node_modules/**",
+    "benchmark/**/*",
+    "examples/**/*",
+    "docs/**/*",
+    ".eslintrc.js",
+    ".mocharc.js"
+  ]
+}

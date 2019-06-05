@@ -1,56 +1,44 @@
-var fastCsv = require("../lib"),
-    path = require("path");
+const path = require('path');
+const fastCsv = require('..');
 
-var lines = [
-    ["first_name", "last_name", "email_address", "address"]
+const headers = [
+    [ 'first_name', 'last_name', 'email_address', 'address' ],
 ];
 
-var lineOptions = [
-    ["First1", "Last1", "email1@email.com", "1 Street St, State ST, 88888"],
-    ["First1", "Last1", "email1@email.com", '1 "Street" St, State ST, 88888'],
-    ["First1", "Last1", "email1@email.com", ""],
-    ["", "", "", ""],
-    ["First'1", "Last1", "email1@email.com", "1 Street St, State ST, 88888"],
-    ['First"1', "Last1", "email1@email.com", "1 Street St, State ST, 88888"],
-    ['First"1', "Last1", "email1@email.com", "1 Street St, State ST, 88888"]
+const nonQuotedLines = [
+    [ 'First1', 'Last1', 'email1@email.com', '1 Street St State ST 88888' ],
+    [ 'First1', 'Last1', 'email1@email.com', '' ],
+    [ 'First1', 'Last1', '', '' ],
+    [ 'First1', '', '', '' ],
+    [ '', '', '', '' ],
 ];
 
-var i = -1, l = 20000, lineOptionsLength = lineOptions.length;
-while (++i < l) {
-    lines.push(lineOptions[i % lineOptionsLength]);
-}
+const quotedLines = [
+    [ "First'1", '"Last1"', '"email1@email.com"', '1 Street St, State ST, 88888' ],
+    [ "First'1", '"Last1"', '"email1@email.com"', '""' ],
+    [ "First'1", '"Last1"', '""', '""' ],
+    [ "First'1", '""', '""', '""' ],
+    [ '""', '""', '""', '""' ],
+];
 
-console.log("writing %d lines to  %d.csv", l, l);
-fastCsv
-    .writeToPath(path.resolve(__dirname, "./assets/20000.csv"), lines)
-    .on('finish', function () {
-        l = 50001;
-        while (++i < l) {
-            lines.push(lineOptions[i % lineOptionsLength]);
-        }
-
-        console.log("writing %d lines to  %d.csv", l - 1, l - 1);
+const writeCsv = (count, lineOptions, filename) => {
+    console.log(`Writing ${filename}...`);
+    const rows = [ ...headers ];
+    const lineOptionLength = lineOptions.length;
+    for (let i = 0; i < count; i += 1) {
+        rows.push(lineOptions[i % lineOptionLength]);
+    }
+    return new Promise((res, rej) => {
         fastCsv
-            .writeToPath(path.resolve(__dirname, "./assets/50000.csv"), lines)
-            .on('finish', function () {
-                l = 100002;
-                while (++i < l) {
-                    lines.push(lineOptions[i % lineOptionsLength]);
-                }
-                console.log("writing %d lines to  %d.csv", l - 2, l - 2);
-                fastCsv
-                    .writeToPath(path.resolve(__dirname, "./assets/100000.csv"), lines)
-                    .on('finish', function () {
-                        l = 1000003;
-                        while (++i < l) {
-                            lines.push(lineOptions[i % lineOptionsLength]);
-                        }
-                        console.log("writing %d lines to  %d.csv", l - 3, l - 3);
-                        fastCsv.writeToPath(path.resolve(__dirname, "./assets/1000000.csv"), lines)
-                            .on("finish", function () {
-                                process.exit();
-                            });
-                    });
-            });
+            .writeToPath(path.resolve(__dirname, `./assets/${filename}`), rows)
+            .on('finish', res)
+            .on('error', rej);
     });
+};
 
+writeCsv(20000, nonQuotedLines, '20000.nonquoted.csv')
+    .then(() => writeCsv(50000, nonQuotedLines, '50000.nonquoted.csv'))
+    .then(() => writeCsv(100000, nonQuotedLines, '100000.nonquoted.csv'))
+    .then(() => writeCsv(20000, quotedLines, '20000.quoted.csv'))
+    .then(() => writeCsv(50000, quotedLines, '50000.quoted.csv'))
+    .then(() => writeCsv(100000, quotedLines, '100000.quoted.csv'));
