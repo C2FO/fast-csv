@@ -42,6 +42,9 @@ someStream
 
 For more in depth formatting examples and docs check out the [formatting docs](./docs/formatting.md)
 
+### Migrating from older versions
+
+* [From `v2.x` to `v3.x`](./docs/migration_guide.md#from-v2x-to-v3x) 
 
 ## License
 
