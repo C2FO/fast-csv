@@ -1,3 +1,7 @@
+# v3.0.1
+
+* Update `.npmignore` to not exclude build directory
+
 # v3.0.0
 
 * Updated to Node 8
