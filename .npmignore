@@ -1,6 +1,5 @@
 benchmark
 test
-src
 node_modules
 .travis.yml
 History.md
