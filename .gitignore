@@ -1,7 +1,8 @@
 node_modules
 *.iml
 .DS_Store
-lib-cov
 .idea
-.grunt
-atlassian-ide-plugin.xml
+benchmark/results
+.nyc_output
+build
+**/tmp
