@@ -1,13 +1,8 @@
-test
-node_modules
-docs
-docs-md
-support
-lib-cov
-Makefile
 benchmark
+test
+src
+node_modules
 .travis.yml
-Gruntfile.js
 History.md
 examples
-
+.nyc_output
