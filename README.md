@@ -24,8 +24,8 @@ To read a csv with headers create a read stream and pipe it to parser.
 
 ```javascript
 fs.createReadStream('path/to/my.csv')
-  .pipe(csv.parse({ headers: true })
-  .on('data' row => console.log(row))
+  .pipe(csv.parse({ headers: true }))
+  .on('data', row => console.log(row))
 ```
 
 For more in depth parsing examples and docs check out the [parsing docs](./docs/parsing.md)
