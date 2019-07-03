@@ -12,7 +12,9 @@
     "eslint": "eslint --ext=.js,.ts src/ test/ examples/",
     "eslint-fix": "eslint --ext=.js,.ts src/ test/ examples/",
     "benchmark": "node ./benchmark",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -53,6 +55,8 @@
   "dependencies": {
     "@types/lodash": "^4.14.132",
     "@types/node": "^12.0.2",
-    "lodash": "^4.17.11"
-  }
+    "lodash": "^4.17.11",
+    "snyk": "^1.189.0"
+  },
+  "snyk": true
 }
