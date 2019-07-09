@@ -1,3 +1,7 @@
+# v3.0.2
+
+* Update lodash to address [#260](https://github.com/C2FO/fast-csv/pull/260)
+
 # v3.0.1
 
 * Update `.npmignore` to not exclude build directory
