@@ -1,6 +1,6 @@
 {
   "name": "fast-csv",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "CSV parser and writer",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
@@ -53,6 +53,6 @@
   "dependencies": {
     "@types/lodash": "^4.14.132",
     "@types/node": "^12.0.2",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.12"
   }
 }
