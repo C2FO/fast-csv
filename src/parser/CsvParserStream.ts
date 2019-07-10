@@ -11,7 +11,7 @@ import {
 export default class CsvParserStream extends Transform {
     private readonly parserOptions: ParserOptions;
 
-    private readonly decoder: NodeStringDecoder = new StringDecoder();
+    private readonly decoder: NodeStringDecoder;
 
     private readonly parser: Parser;
 
@@ -31,6 +31,7 @@ export default class CsvParserStream extends Transform {
         this.parserOptions = parserOptions;
         this.parser = new Parser(parserOptions);
         this.headerTransformer = new HeaderTransformer(parserOptions);
+        this.decoder = new StringDecoder(parserOptions.encoding);
         this.rowTransformerValidator = new RowTransformerValidator();
     }
 
@@ -70,7 +71,8 @@ export default class CsvParserStream extends Transform {
 
     public _flush(done: TransformCallback): void {
         try {
-            const rows = this.parse(this.lines, false);
+            const newLine = (this.lines + this.decoder.end());
+            const rows = this.parse(newLine, false);
             this.processRows(rows, done);
         } catch (e) {
             done(e);

@@ -70,7 +70,7 @@ export default class Parser {
     }
 
     private parseRow(scanner: Scanner, rows: RowArray[]): boolean {
-        const nextToken = scanner.nextCharacterToken;
+        const nextToken = scanner.nextNonSpaceToken;
         if (!nextToken) {
             return false;
         }
