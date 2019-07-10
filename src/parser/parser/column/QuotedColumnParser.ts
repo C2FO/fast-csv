@@ -85,16 +85,19 @@ export default class QuotedColumnParser {
 
     private checkForMalformedColumn(scanner: Scanner): void {
         const { parserOptions } = this;
-        const { nextCharacterToken } = scanner;
-        if (nextCharacterToken) {
-            const isNextTokenADelimiter = isTokenDelimiter(nextCharacterToken, parserOptions);
-            const isNextTokenARowDelimiter = isTokenRowDelimiter(nextCharacterToken);
+        const { nextNonSpaceToken } = scanner;
+        if (nextNonSpaceToken) {
+            const isNextTokenADelimiter = isTokenDelimiter(nextNonSpaceToken, parserOptions);
+            const isNextTokenARowDelimiter = isTokenRowDelimiter(nextNonSpaceToken);
             if (!(isNextTokenADelimiter || isNextTokenARowDelimiter)) {
                 // if the final quote was NOT followed by a column (,) or row(\n) delimiter then its a bad column
                 // tldr: only part of the column was quoted
                 const linePreview = scanner.lineFromCursor.substr(0, 10).replace(/[\r\n]/g, "\\n'");
-                throw new Error(`Parse Error: expected: '${parserOptions.escapedDelimiter}' OR new line got: '${nextCharacterToken.token}'. at '${linePreview}`);
+                throw new Error(`Parse Error: expected: '${parserOptions.escapedDelimiter}' OR new line got: '${nextNonSpaceToken.token}'. at '${linePreview}`);
             }
+            scanner.advanceToToken(nextNonSpaceToken);
+        } else if (!scanner.hasMoreData) {
+            scanner.advancePastLine();
         }
     }
 }
