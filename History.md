@@ -1,6 +1,7 @@
 # v3.1.0
 
 * Skip trailing whitespace after a quoted field [#223](https://github.com/C2FO/fast-csv/pull/223) - [@peet](https://github.com/peet)
+* Add support for passing in encoding. [#185](https://github.com/C2FO/fast-csv/pull/185) - [@pierrelouisd4j](https://github.com/pierrelouisd4j)
 
 # v3.0.2
 
