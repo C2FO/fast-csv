@@ -1,7 +1,7 @@
 import { EOL } from 'os';
 import * as assert from 'assert';
 import * as csv from '../../src';
-import { RowMap } from '../../build/src/parser';
+import { RowMap } from '../../src/parser';
 
 
 describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
