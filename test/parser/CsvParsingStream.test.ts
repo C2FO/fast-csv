@@ -169,6 +169,12 @@ describe('CsvParserStream', () => {
             });
     });
 
+    it('should parse data with an alternate encoding', () => parseContentAndCollect(assets.alternateEncoding, { headers: true, encoding: 'utf16le' })
+        .then(({ count, rows }) => {
+            assert.deepStrictEqual(rows, assets.alternateEncoding.parsed);
+            assert.strictEqual(count, rows.length);
+        }));
+
     it('should propagate an error when trying to rename headers without providing new ones', (next) => {
         const stream = csv.parse({ renameHeaders: true });
         listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);

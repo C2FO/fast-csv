@@ -27,6 +27,7 @@ describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
             .on('error', next)
             .on('end', (count: number) => {
                 assert.deepStrictEqual(rows, expectedRows);
+                assert.strictEqual(count, expectedRows.length);
                 next();
             });
     });
@@ -38,6 +39,7 @@ describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
             .on('error', next)
             .on('end', (count: number) => {
                 assert.deepStrictEqual(rows, expectedRows);
+                assert.strictEqual(count, expectedRows.length);
                 next();
             });
     });

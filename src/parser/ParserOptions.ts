@@ -14,6 +14,7 @@ export interface ParserOptionsArgs{
     trim?: boolean;
     ltrim?: boolean;
     rtrim?: boolean;
+    encoding?: string;
 }
 
 export class ParserOptions {
@@ -52,6 +53,8 @@ export class ParserOptions {
     public readonly carriageReturn: string = '\r';
 
     public readonly NEXT_TOKEN_REGEXP: RegExp;
+
+    public readonly encoding: string = 'utf8';
 
     public constructor(opts?: ParserOptionsArgs) {
         Object.assign(this, opts || {});
