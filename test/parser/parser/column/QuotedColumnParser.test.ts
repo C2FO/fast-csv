@@ -126,11 +126,47 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(scanner.lineFromCursor, '\r\n"world"');
             });
 
-            it('should include all white space up to a column delimiter', () => {
-                const line = '"    "\t"    "';
-                const { scanner, col } = parse(line, true, { delimiter: '\t' });
+            it('should skip white space after a quote up to the column delimiter', () => {
+                const line = '"Hello"    ,"World"';
+                const { scanner, col } = parse(line, true);
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, ',"World"');
+            });
+
+            it('should skip white space after a quote up to a LF', () => {
+                const line = '"Hello"    \n';
+                const { scanner, col } = parse(line, true);
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '\n');
+            });
+
+            it('should skip white space after a quote up to a CR', () => {
+                const line = '"Hello"    \r';
+                const { scanner, col } = parse(line, true);
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '\r');
+            });
+
+            it('should skip white space after a quote up to a CRLF', () => {
+                const line = '"Hello"    \r\n';
+                const { scanner, col } = parse(line, true);
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '\r\n');
+            });
+
+            it('should skip white space after a quote if has more data is false and there is no new line', () => {
+                const line = '"Hello"    ';
+                const { scanner, col } = parse(line, false);
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '');
+            });
+
+
+            it('should include all quoted white space up to a column delimiter', () => {
+                const line = '"    ","    "';
+                const { scanner, col } = parse(line, true);
                 assert.strictEqual(col, '    ');
-                assert.strictEqual(scanner.lineFromCursor, '\t"    "');
+                assert.strictEqual(scanner.lineFromCursor, ',"    "');
             });
 
 
@@ -237,6 +273,48 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(scanner.lineFromCursor, '\r\n"world"');
             });
 
+            it('should skip white space after a quote up to the column delimiter', () => {
+                const line = '"Hello"    \t"World"';
+                const { scanner, col } = parse(line, true, { delimiter: '\t' });
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '\t"World"');
+            });
+
+            it('should skip white space after a quote up to a LF', () => {
+                const line = '"Hello"    \n';
+                const { scanner, col } = parse(line, true, { delimiter: '\t' });
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '\n');
+            });
+
+            it('should skip white space after a quote up to a CR', () => {
+                const line = '"Hello"    \r';
+                const { scanner, col } = parse(line, true, { delimiter: '\t' });
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '\r');
+            });
+
+            it('should skip white space after a quote up to a CRLF', () => {
+                const line = '"Hello"    \r\n';
+                const { scanner, col } = parse(line, true, { delimiter: '\t' });
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '\r\n');
+            });
+
+            it('should skip white space after a quote if has more data is false and there is no new line', () => {
+                const line = '"Hello"    ';
+                const { scanner, col } = parse(line, false, { delimiter: '\t' });
+                assert.strictEqual(col, 'Hello');
+                assert.strictEqual(scanner.lineFromCursor, '');
+            });
+
+
+            it('should include all quoted white space up to a column delimiter', () => {
+                const line = '"    "\t"    "';
+                const { scanner, col } = parse(line, true, { delimiter: '\t' });
+                assert.strictEqual(col, '    ');
+                assert.strictEqual(scanner.lineFromCursor, '\t"    "');
+            });
 
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '"hello\n"First';

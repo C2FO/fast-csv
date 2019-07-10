@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import * as path from 'path';
+import alternateEncoding from './alternateEncoding';
 import noHeadersAndQuotes from './noHeadersAndQuotes';
 import withHeaders from './withHeaders';
 import withHeadersAndQuotes from './withHeadersAndQuotes';
@@ -13,7 +14,7 @@ import emptyRows from './emptyRows';
 
 export interface PathAndContent {
     path: string;
-    content: string;
+    content: string | Buffer;
 }
 
 const mkDirIfNotExists = (filePath: string) => {
@@ -30,6 +31,7 @@ const write = (opts: PathAndContent) => {
 
 export default {
     write,
+    alternateEncoding,
     withHeaders,
     withHeadersAndQuotes,
     withHeadersAndAlternateQuote,
