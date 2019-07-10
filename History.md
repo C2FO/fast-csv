@@ -1,3 +1,7 @@
+# v3.1.0
+
+* Skip trailing whitespace after a quoted field [#223](https://github.com/C2FO/fast-csv/pull/223) - [@peet](https://github.com/peet)
+
 # v3.0.2
 
 * Update lodash to address [#260](https://github.com/C2FO/fast-csv/pull/260)
