@@ -106,7 +106,6 @@ export default class CsvParserStream extends Transform {
                     return cb(new Error('expected transform result'));
                 }
                 if (!transformResult.isValid) {
-                    this.rowCount -= 1;
                     this.emit('data-invalid', transformResult.row, nextRowCount, transformResult.reason);
                 } else if (!transformResult.row) {
                     this.rowCount -= 1;
