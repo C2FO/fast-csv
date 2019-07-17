@@ -211,7 +211,7 @@ describe('CsvParserStream', () => {
             .then(({ count, rows, invalidRows }) => {
                 assert.deepStrictEqual(rows, expectedRows);
                 assert.deepStrictEqual(invalidRows, expectedInvalidRows);
-                assert.strictEqual(count, rows.length);
+                assert.strictEqual(count, rows.length + invalidRows.length);
             });
     });
 
@@ -280,7 +280,7 @@ describe('CsvParserStream', () => {
                 .then(({ count, rows, invalidRows }) => {
                     assert.deepStrictEqual(invalidRows, invalidValid[1]);
                     assert.deepStrictEqual(rows, invalidValid[0]);
-                    assert.strictEqual(count, invalidValid[0].length);
+                    assert.strictEqual(count, invalidValid[0].length + invalidValid[1].length);
                 });
         });
 
@@ -294,7 +294,7 @@ describe('CsvParserStream', () => {
                 .then(({ count, rows, invalidRows }) => {
                     assert.deepStrictEqual(invalidRows, invalidValid[1]);
                     assert.deepStrictEqual(rows, invalidValid[0]);
-                    assert.strictEqual(count, invalidValid[0].length);
+                    assert.strictEqual(count, invalidValid[0].length + invalidValid[1].length);
                 });
         });
 
