@@ -1,3 +1,7 @@
+# v3.2.0
+
+* [FIXED] Invalid row index doesn't reflect original row count [#130](https://github.com/C2FO/fast-csv/issues/130) [#266](https://github.com/C2FO/fast-csv/pull/266) - [@chrwnsk](https://github.com/chrwnsk) 
+
 # v3.1.0
 
 * Skip trailing whitespace after a quoted field [#223](https://github.com/C2FO/fast-csv/pull/223) - [@peet](https://github.com/peet)
