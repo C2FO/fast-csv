@@ -44,6 +44,14 @@ describe('FormatterOptions', () => {
         it('should accept an alternate quote', () => {
             assert.strictEqual(createOptions({ quote: '$' }).quote, '$');
         });
+
+        it('if the set to true the default quote should be used', () => {
+            assert.strictEqual(createOptions({ quote: true }).quote, '"');
+        });
+
+        it('if the set to false the quote should be empty', () => {
+            assert.strictEqual(createOptions({ quote: false }).quote, '');
+        });
     });
 
 

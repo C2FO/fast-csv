@@ -42,11 +42,13 @@ export default class FieldFormatter {
     public format(field: string, fieldIndex: number, isHeader: boolean): string {
         const preparedField = `${isNil(field) ? '' : field}`.replace(/\0/g, '');
         const { formatterOptions } = this;
-        const shouldEscape = preparedField.indexOf(formatterOptions.quote) !== -1;
-        if (shouldEscape) {
-            return this.quoteField(
-                preparedField.replace(this.REPLACE_REGEXP, formatterOptions.escapedQuote)
-            );
+        if (formatterOptions.quote !== '') {
+            const shouldEscape = preparedField.indexOf(formatterOptions.quote) !== -1;
+            if (shouldEscape) {
+                return this.quoteField(
+                    preparedField.replace(this.REPLACE_REGEXP, formatterOptions.escapedQuote)
+                );
+            }
         }
         const hasEscapeCharacters = preparedField.search(this.ESCAPE_REGEXP) !== -1;
         if (hasEscapeCharacters || this.shouldQuote(fieldIndex, isHeader)) {

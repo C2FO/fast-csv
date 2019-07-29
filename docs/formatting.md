@@ -33,8 +33,13 @@
 * `delimiter: {string} = ','`: Specify an alternate field delimiter such as `;` or `\t`.
    * **NOTE** When specifying an alternate `delimiter` you may only pass in a single character delimiter
 * `rowDelimiter: {string} = '\n'`: Specify an alternate row delimiter (i.e `\r\n`)
-* `quote: {string} = '"'`: The character to use to quote fields that contain a delimiter. If you set to `null` then all quoting will be ignored.
-  * `"first,name",last name`
+* `quote: {string|boolean} = '"'`: 
+  * If provided as a string it will be used to quote fields that contain a delimiter.
+    * `"first,name",last name`
+  * If `quote` is set to `true` the default quote will be used. 
+    * **NOTE** This is the same as not providing the option
+  * If `quote` false then quoting will be disabled 
+    * **CAUTION** If your field could contain a delimiter then you may end up with extra columns         
 * `escape: {string} = '"'`: The character to use when escaping a value that is `quoted` and contains a `quote` character that is not the end of the field.
     * `i.e`: `First,"Name"' => '"First,""Name"""`
 * `includeEndRowDelimiter: {boolean} = false`: Set to `true` to include a row delimiter at the end of the csv.
