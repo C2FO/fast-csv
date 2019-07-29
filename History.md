@@ -1,3 +1,7 @@
+# v3.3.0
+
+* [FIXED] First row of CSV is removed when headers array is provided [#252](https://github.com/C2FO/fast-csv/issues/252)
+
 # v3.2.0
 
 * [FIXED] Invalid row index doesn't reflect original row count [#130](https://github.com/C2FO/fast-csv/issues/130) [#266](https://github.com/C2FO/fast-csv/pull/266) - [@chrwnsk](https://github.com/chrwnsk) 

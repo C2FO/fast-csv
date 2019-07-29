@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash';
+import { isFunction, isEqual } from 'lodash';
 import { FormatterOptions } from '../FormatterOptions';
 import FieldFormatter from './FieldFormatter';
 import {
@@ -57,7 +57,7 @@ export default class RowFormatter {
 
     private headers: string[] | null;
 
-    private parsedHeaders: boolean;
+    private shouldWriteHeaders: boolean;
 
     private hasWrittenHeaders: boolean;
 
@@ -68,10 +68,11 @@ export default class RowFormatter {
         this.formatterOptions = formatterOptions;
         this.fieldFormatter = new FieldFormatter(formatterOptions);
         this._rowTransform = null;
+
         this.headers = formatterOptions.headers;
-        this.parsedHeaders = formatterOptions.hasProvidedHeaders && Array.isArray(formatterOptions.headers);
-        this.hasWrittenHeaders = !formatterOptions.hasProvidedHeaders;
-        if (this.parsedHeaders && this.headers !== null) {
+        this.shouldWriteHeaders = formatterOptions.shouldWriteHeaders;
+        this.hasWrittenHeaders = false;
+        if (this.headers !== null) {
             this.fieldFormatter.headers = this.headers;
         }
         if (formatterOptions.transform !== null) {
@@ -97,8 +98,9 @@ export default class RowFormatter {
             const rows = [];
             if (transformedRow) {
                 const { shouldFormatColumns, headers } = this.checkHeaders(transformedRow);
-                if (headers) {
+                if (this.shouldWriteHeaders && headers && !this.hasWrittenHeaders) {
                     rows.push(this.formatColumns(headers, true));
+                    this.hasWrittenHeaders = true;
                 }
                 if (shouldFormatColumns) {
                     const columns = this.gatherColumns(transformedRow);
@@ -112,30 +114,40 @@ export default class RowFormatter {
     // check if we need to write header return true if we should also write a row
     // could be false if headers is true and the header row(first item) is passed in
     private checkHeaders(row: Row): { headers?: string[] | null; shouldFormatColumns: boolean } {
-        if (!this.parsedHeaders) {
-            this.parsedHeaders = true;
-            this.headers = RowFormatter.gatherHeaders(row);
-            this.fieldFormatter.headers = this.headers;
+        if (this.headers) {
+            // either the headers were provided by the user or we have already gathered them.
+            return { shouldFormatColumns: true, headers: this.headers };
         }
-        if (this.hasWrittenHeaders) {
+
+        const headers = RowFormatter.gatherHeaders(row);
+        this.headers = headers;
+        this.fieldFormatter.headers = headers;
+        if (!this.shouldWriteHeaders) {
+            // if we are not supposed to write the headers then
+            // alwyas format the columns
             return { shouldFormatColumns: true, headers: null };
         }
-        this.hasWrittenHeaders = true;
-        const shouldFormatColumns = RowFormatter.isHashArray(row) || !Array.isArray(row);
-        return { shouldFormatColumns, headers: this.headers };
+        // if the row is equal to headers dont format
+        return { shouldFormatColumns: !isEqual(headers, row), headers };
     }
 
     private gatherColumns(row: Row): string[] {
+        if (this.headers === null) {
+            throw new Error('Headers is currently null');
+        }
         if (!Array.isArray(row)) {
-            if (this.headers === null) {
-                throw new Error('Headers is currently null');
-            }
             return this.headers.map((header): string => row[header]);
         }
         if (RowFormatter.isHashArray(row)) {
-            return row.map((col): string => col[1]);
+            return this.headers.map((header, i): string => {
+                const col = row[i];
+                if (col) {
+                    return col[1];
+                }
+                return '';
+            });
         }
-        return row;
+        return this.headers.map((header, i): string => row[i]);
     }
 
     private callTransformer(row: Row, cb: RowCallback): void {

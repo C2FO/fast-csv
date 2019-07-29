@@ -14,6 +14,15 @@
     * [Alternate `rowDelimiter`](#examples-alternate-row-delimiter)
     * [Alternate `quote`](#examples-alternate-quote)
     * [Alternate `escape`](#examples-alternate-escape)
+    * [Headers](#examples-headers)
+      * Auto Discovery
+        * [Object Rows](#headers-auto-discover-object)
+        * [Hash Array Rows](#headers-auto-discover-hash-array)
+      * Provide Headers
+        * [Array Rows](#headers-provided-array)
+        * [Hash Array Rows](#headers-provided-hash-array)
+        * [Object Rows - Reorder Columns](#headers-provided-object)
+        * [Object Rows - Remove Columns](#headers-provided-object-remove-column)
     * [`quoteColumns`](#examples-quote-columns)
     * [`quoteHeaders`](#examples-quote-headers)
     * [Transforming Rows](#examples-transforming)
@@ -31,9 +40,12 @@
 * `includeEndRowDelimiter: {boolean} = false`: Set to `true` to include a row delimiter at the end of the csv.
 * `headers: {null|boolean|string[]} = null`:
   *  If true then the headers will be auto detected from the first row. 
-    * If the row is an object then the keys will be used.
-    * If the row is an array of two element arrays (`[ ['header', 'column'], ['header2', 'column2'] ]`) then the first element in each array will be used.
+      * If the row is a one-dimensional array then headers is a no-op
+      * If the row is an object then the keys will be used.
+      * If the row is an array of two element arrays (`[ ['header', 'column'], ['header2', 'column2'] ]`) then the first element in each array will be used.
   *  If there is not a headers row and you want to provide one then set to a `string[]`
+      * **NOTE** If the row is an object the headers must match fields in the object, otherwise you will end up with empty fields
+      * **NOTE** If there are more headers than columns then additional empty columns will be added
 * `quoteColumns: {boolean|boolean[]|{[string]: boolean} = false`
    * If `true` then columns and headers will be quoted (unless `quoteHeaders` is specified).
    * If it is an object then each key that has a true value will be quoted ((unless `quoteHeaders` is specified)
@@ -329,6 +341,195 @@ Expected output
 "'"a'"","'"b'""
 "'"a1'"","'"b1'""
 "'"a2'"","'"b2'""
+```
+
+<a name="examples-headers"></a>
+
+### Headers
+
+#### Auto Discovery
+
+`fast-csv` will auto-discover headers when the `headers` option is set to `true`.
+
+**NOTE** When working is one-dimensional array rows (e.g. `[ 'a', 'b', 'c' ]`) this is a no-op.
+
+<a name="headers-auto-discover-object"></a>
+[`examples/formatting/headers_auto_discovery_object.example.js`](../examples/formatting/headers_auto_discovery_object.example.js)
+
+In this example the headers are auto-discovered from the objects passed in.
+
+```js
+const csvStream = csv.format({ headers: true});
+
+csvStream
+    .pipe(process.stdout)
+    .on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+Expected Output: 
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+<a name="headers-auto-discover-hash-array"></a>
+[`examples/formatting/headers_auto_discovery_hash_array.example.js`](../examples/formatting/headers_auto_discovery_hash_array.example.js)
+
+In this example the headers are auto-discovered from the hash arrays passed in.
+
+```js
+const csvStream = csv.format({ headers: true });
+
+csvStream
+    .pipe(process.stdout)
+    .on('end', process.exit);
+
+csvStream.write([ [ 'header1', 'value1a' ], [ 'header2', 'value1b' ] ]);
+csvStream.write([ [ 'header1', 'value2a' ], [ 'header2', 'value2b' ] ]);
+csvStream.write([ [ 'header1', 'value3a' ], [ 'header2', 'value3b' ] ]);
+csvStream.write([ [ 'header1', 'value4a' ], [ 'header2', 'value4b' ] ]);
+csvStream.end();
+```
+
+Expected Output: 
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+### Provided Headers
+
+You can also provide a set of `headers` by providing an array. This allows you to 
+
+* Reorder and/or exclude columns when working when object rows.
+* Rename  and/or exclude columns when working with hash array rows.
+* Specify headers or remove columns when working with array rows.
+
+**NOTE** When working with objects the header names should match keys. The headers option allows you to specify column order.
+
+<a name="headers-provided-array"></a>
+[`examples/formatting/headers_provided_array.example.js`](../examples/formatting/headers_provided_array.example.js)
+
+In this example a custom set of headers is provided for rows that are arrays.
+
+```js
+const csvStream = csv.format({ headers: [ 'header1', 'header2' ] });
+
+csvStream
+    .pipe(process.stdout)
+    .on('end', process.exit);
+
+csvStream.write([ 'value1a', 'value1b' ]);
+csvStream.write([ 'value2a', 'value2b' ]);
+csvStream.write([ 'value3a', 'value3b' ]);
+csvStream.write([ 'value4a', 'value4b' ]);
+csvStream.end();
+```
+
+Expected Output: 
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+<a name="headers-provided-hash-array"></a>
+[`examples/formatting/headers_provided_hash_array.example.js`](../examples/formatting/headers_provided_hash_array.example.js)
+
+In this example the headers are overridden with a custom set of headers
+
+```js
+const csvStream = csv.format({ headers: [ 'header1', 'header2' ] });
+
+csvStream
+    .pipe(process.stdout)
+    .on('end', process.exit);
+
+csvStream.write([ [ 'h1', 'value1a' ], [ 'h2', 'value1b' ] ]);
+csvStream.write([ [ 'h1', 'value2a' ], [ 'h2', 'value2b' ] ]);
+csvStream.write([ [ 'h1', 'value3a' ], [ 'h2', 'value3b' ] ]);
+csvStream.write([ [ 'h1', 'value4a' ], [ 'h2', 'value4b' ] ]);
+csvStream.end();
+```
+
+Expected Output: 
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+<a name="headers-provided-object"></a>
+[`examples/formatting/headers_provided_object.example.js`](../examples/formatting/headers_provided_object.example.js)
+
+In this example the columns are reordered.
+
+```js
+const csvStream = csv.format({ headers: [ 'header2', 'header1' ] });
+
+csvStream
+    .pipe(process.stdout)
+    .on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+
+```
+
+Expected Output: 
+```
+header2,header1
+value1b,value1a
+value2b,value2a
+value3b,value3a
+value4b,value4a
+```
+
+<a name="headers-provided-object-remove-column"></a>
+[`examples/formatting/headers_provided_object_remove_column.example.js`](../examples/formatting/headers_provided_object_remove_column.example.js)
+
+In this example the one of the columns is removed.
+
+```js
+const csvStream = csv.format({ headers: [ 'header2' ] });
+
+csvStream
+    .pipe(process.stdout)
+    .on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+Expected Output: 
+```
+header2
+value1b
+value2b
+value3b
+value4b
 ```
 
 <a name="examples-quote-columns"></a>
