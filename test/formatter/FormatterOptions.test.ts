@@ -117,11 +117,11 @@ describe('FormatterOptions', () => {
         });
 
         it('should set hasHeaders provided to true if headers is provided as an array', () => {
-            assert.deepStrictEqual(createOptions({ headers: [ '1', '2', '3' ] }).hasProvidedHeaders, true);
+            assert.deepStrictEqual(createOptions({ headers: [ '1', '2', '3' ] }).shouldWriteHeaders, true);
         });
 
         it('should set hasHeaders provided to false if headers is provided as a boolean', () => {
-            assert.deepStrictEqual(createOptions({ headers: true }).hasProvidedHeaders, true);
+            assert.deepStrictEqual(createOptions({ headers: true }).shouldWriteHeaders, true);
         });
     });
 

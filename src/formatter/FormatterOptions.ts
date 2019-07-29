@@ -40,7 +40,7 @@ export class FormatterOptions {
 
     public readonly transform: RowTransformFunction | null = null;
 
-    public readonly hasProvidedHeaders: boolean;
+    public readonly shouldWriteHeaders: boolean;
 
     public readonly escapedQuote: string;
 
@@ -54,7 +54,7 @@ export class FormatterOptions {
                 this.escape = this.quote;
             }
         }
-        this.hasProvidedHeaders = !!this.headers;
+        this.shouldWriteHeaders = !!this.headers;
         this.headers = Array.isArray(this.headers) ? this.headers : null;
         this.escapedQuote = `${this.escape}${this.quote}`;
     }

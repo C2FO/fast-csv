@@ -71,6 +71,44 @@ describe('RowFormatter', () => {
                     .catch(err => assert.strictEqual(err.message, 'Expected Error'));
             });
 
+            describe('headers option', () => {
+                describe('with headers=false', () => {
+                    it('should still write the first row', () => {
+                        const formatter = createFormatter({ headers: false });
+                        return formatRow(headerRow, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ headerRow.join(',') ]));
+                    });
+                });
+
+                describe('with headers=true', () => {
+                    it('should only write the first row', () => {
+                        const formatter = createFormatter({ headers: true });
+                        return formatRow(headerRow, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ headerRow.join(',') ]));
+                    });
+                });
+
+                describe('with headers provided', () => {
+                    it('should only write the first row', () => {
+                        const formatter = createFormatter({ headers: headerRow });
+                        return formatRow(columnsRow, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ headerRow.join(','), `\n${columnsRow.join(',')}` ]));
+                    });
+
+                    it('should append an additional column for new fields', () => {
+                        const formatter = createFormatter({ headers: [ 'A', 'B', 'no_field' ] });
+                        return formatRow(columnsRow, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'A,B,no_field', '\na1,b1,' ]));
+                    });
+
+                    it('should exclude columns that do not have a header', () => {
+                        const formatter = createFormatter({ headers: [ 'A' ] });
+                        return formatRow(columnsRow, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'A', '\na1' ]));
+                    });
+                });
+            });
+
             describe('rowDelimiter option', () => {
                 it('should support specifying an alternate row delimiter', () => {
                     const formatter = createFormatter({ headers: true, rowDelimiter: '\r\n' });
@@ -133,6 +171,44 @@ describe('RowFormatter', () => {
                     .catch(err => assert.strictEqual(err.message, 'Expected Error'));
             });
 
+            describe('headers option', () => {
+                describe('with headers=false', () => {
+                    it('should still write the first row', () => {
+                        const formatter = createFormatter({ headers: false });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'a1,b1' ]));
+                    });
+                });
+
+                describe('with headers=true', () => {
+                    it('should only write the first row', () => {
+                        const formatter = createFormatter({ headers: true });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'a,b', '\na1,b1' ]));
+                    });
+                });
+
+                describe('with headers provided', () => {
+                    it('should write the headers and first row', () => {
+                        const formatter = createFormatter({ headers: [ 'A', 'B' ] });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'A,B', '\na1,b1' ]));
+                    });
+
+                    it('should append an additional column for new fields', () => {
+                        const formatter = createFormatter({ headers: [ 'A', 'B', 'no_field' ] });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'A,B,no_field', '\na1,b1,' ]));
+                    });
+
+                    it('should exclude columns that do not have a header', () => {
+                        const formatter = createFormatter({ headers: [ 'A' ] });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'A', '\na1' ]));
+                    });
+                });
+            });
+
             describe('rowDelimiter option', () => {
                 it('should support specifying an alternate row delimiter', () => {
                     const formatter = createFormatter({ headers: true, rowDelimiter: '\r\n' });
@@ -190,6 +266,45 @@ describe('RowFormatter', () => {
                 const formatter = createFormatter({ headers: true, transform: asyncErrorTransform });
                 return formatRow(row, formatter)
                     .catch(err => assert.strictEqual(err.message, 'Expected Error'));
+            });
+
+            describe('headers option', () => {
+                describe('with headers=false', () => {
+                    it('should still write the first row', () => {
+                        const formatter = createFormatter({ headers: false });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'a1,b1' ]));
+                    });
+                });
+
+                describe('with headers=true', () => {
+                    it('should only write the first row', () => {
+                        const formatter = createFormatter({ headers: true });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'a,b', '\na1,b1' ]));
+                    });
+                });
+
+                describe('with headers provided', () => {
+                    it('should the new headers and the row', () => {
+                        const formatter = createFormatter({ headers: [ 'a', 'b' ] });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'a,b', '\na1,b1' ]));
+                    });
+
+                    it('should respect the order of the columns', () => {
+                        const formatter = createFormatter({ headers: [ 'b', 'a' ] });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'b,a', '\nb1,a1' ]));
+                    });
+
+
+                    it('should append an additional column for new fields', () => {
+                        const formatter = createFormatter({ headers: [ 'a', 'b', 'no_field' ] });
+                        return formatRow(row, formatter)
+                            .then(rows => assert.deepStrictEqual(rows, [ 'a,b,no_field', '\na1,b1,' ]));
+                    });
+                });
             });
 
             describe('rowDelimiter option', () => {
