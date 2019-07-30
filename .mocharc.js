@@ -5,7 +5,7 @@ module.exports = {
   package: './package.json',
   reporter: 'spec',
   slow: 75,
-  timeout: 2000,
+  timeout: 5000,
   recursive: true,
   ui: 'bdd'
 };
