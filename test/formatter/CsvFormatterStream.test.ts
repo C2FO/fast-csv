@@ -226,6 +226,9 @@ describe('CsvFormatterStream', () => {
     it('should add a final rowDelimiter if includeEndRowDelimiter is true', () => formatRows(objectRows, { headers: true, includeEndRowDelimiter: true })
         .then(written => assert.deepStrictEqual(written, [ 'a,b', '\na1,b1', '\na2,b2', '\n' ])));
 
+    it('should write a BOM character if writeBOM is true', () => formatRows(objectRows, { headers: true, writeBOM: true })
+        .then(written => assert.deepStrictEqual(written, [ '\ufeff', 'a,b', '\na1,b1', '\na2,b2' ])));
+
     describe('.writeToString', () => {
         it('should write an array of arrays', () => csv.writeToString(arrayRows, { headers: true })
             .then(formatted => assert.strictEqual(formatted, 'a,b\na1,b1\na2,b2')));

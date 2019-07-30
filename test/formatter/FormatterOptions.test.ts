@@ -69,6 +69,7 @@ describe('FormatterOptions', () => {
         });
     });
 
+
     describe('#quoteColumns', () => {
         it('should set the quoteColumns to false', () => {
             assert.strictEqual(createOptions().quoteColumns, false);
@@ -139,8 +140,18 @@ describe('FormatterOptions', () => {
             assert.strictEqual(createOptions().includeEndRowDelimiter, false);
         });
 
-        it('should set to true if the comment character is specified', () => {
+        it('should set to true if the includeEndRowDelimiter is specified', () => {
             assert.strictEqual(createOptions({ includeEndRowDelimiter: true }).includeEndRowDelimiter, true);
+        });
+    });
+
+    describe('#writeBOM', () => {
+        it('should set includeEndRowDelimiter to false by default', () => {
+            assert.strictEqual(createOptions().writeBOM, false);
+        });
+
+        it('should set to true if the writeBOM is specified', () => {
+            assert.strictEqual(createOptions({ writeBOM: true }).writeBOM, true);
         });
     });
 });
