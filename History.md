@@ -2,7 +2,9 @@
 
 * [FIXED] formatter.js: Disabling quote doesn't work [#97](https://github.com/C2FO/fast-csv/issues/97)
     * Changed to allow the `quote` option to be provided as a boolean so when set to false all quoting is ignored.
+* [ADDED] `writeBOM` option when formatting a csv [#180](https://github.com/C2FO/fast-csv/issues/180)    
 * Added tests for [#102](https://github.com/C2FO/fast-csv/issues/102)
+
 
 # v3.3.0
 

@@ -43,6 +43,7 @@
 * `escape: {string} = '"'`: The character to use when escaping a value that is `quoted` and contains a `quote` character that is not the end of the field.
     * `i.e`: `First,"Name"' => '"First,""Name"""`
 * `includeEndRowDelimiter: {boolean} = false`: Set to `true` to include a row delimiter at the end of the csv.
+* `writeBOM: {boolean} = false`: Set to true if you want the first character written to the stream to be a utf-8 BOM character.
 * `headers: {null|boolean|string[]} = null`:
   *  If true then the headers will be auto detected from the first row. 
       * If the row is a one-dimensional array then headers is a no-op

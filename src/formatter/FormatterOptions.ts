@@ -16,6 +16,7 @@ export interface FormatterOptionsArgs {
     quoteHeaders?: QuoteColumns;
     headers?: null | boolean | string[];
     includeEndRowDelimiter?: boolean;
+    writeBOM?: boolean;
     transform?: RowTransformFunction;
 }
 
@@ -42,7 +43,11 @@ export class FormatterOptions {
 
     public readonly shouldWriteHeaders: boolean;
 
+    public readonly writeBOM: boolean = false;
+
     public readonly escapedQuote: string;
+
+    public readonly BOM: string = '\ufeff';
 
     public constructor(opts: FormatterOptionsArgs = {}) {
         if (opts) {

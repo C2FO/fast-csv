@@ -12,7 +12,7 @@ export const parse = (args?: ParserOptionsArgs): CsvParserStream => new CsvParse
 export const parseStream = (stream: NodeJS.ReadableStream, options?: ParserOptionsArgs): CsvParserStream => stream
     .pipe(new CsvParserStream(new ParserOptions(options)));
 
-export const parseFile = (location: string, options = {}): CsvParserStream => fs
+export const parseFile = (location: string, options: ParserOptionsArgs = {}): CsvParserStream => fs
     .createReadStream(location)
     .pipe(new CsvParserStream(new ParserOptions(options)));
 

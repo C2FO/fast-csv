@@ -8,10 +8,15 @@ export default class CsvFormatterStream extends Transform {
 
     private rowFormatter: RowFormatter;
 
+    private hasWrittenBOM: boolean = false;
+
     public constructor(formatterOptions: FormatterOptions) {
         super({ objectMode: formatterOptions.objectMode });
         this.formatterOptions = formatterOptions;
         this.rowFormatter = new RowFormatter(formatterOptions);
+        // if writeBOM is false then set to true
+        // if writeBOM is true then set to false by default so it is written out
+        this.hasWrittenBOM = !formatterOptions.writeBOM;
     }
 
     public transform(transformFunction: RowTransformFunction): CsvFormatterStream {
@@ -22,6 +27,10 @@ export default class CsvFormatterStream extends Transform {
     public _transform(row: Row, encoding: string, cb: TransformCallback): void {
         let cbCalled = false;
         try {
+            if (!this.hasWrittenBOM) {
+                this.push(this.formatterOptions.BOM);
+                this.hasWrittenBOM = true;
+            }
             this.rowFormatter.format(row, (err, rows): void => {
                 if (err) {
                     cbCalled = true;
