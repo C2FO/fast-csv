@@ -1,3 +1,8 @@
+# v3.4.0
+
+* [FIXED] formatter.js: Disabling quote doesn't work [#97](https://github.com/C2FO/fast-csv/issues/97)
+    * Changed to allow the `quote` option to be provided as a boolean so when set to false all quoting is ignored.
+
 # v3.3.0
 
 * [FIXED] First row of CSV is removed when headers array is provided [#252](https://github.com/C2FO/fast-csv/issues/252)

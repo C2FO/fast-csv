@@ -10,7 +10,7 @@ export interface FormatterOptionsArgs {
     objectMode?: boolean;
     delimiter?: string;
     rowDelimiter?: string;
-    quote?: string;
+    quote?: string | boolean;
     escape?: string;
     quoteColumns?: QuoteColumns;
     quoteHeaders?: QuoteColumns;
@@ -49,6 +49,11 @@ export class FormatterOptions {
             Object.assign(this, opts);
             if (typeof opts.quoteHeaders === 'undefined') {
                 this.quoteHeaders = this.quoteColumns;
+            }
+            if (opts.quote === true) {
+                this.quote = '"';
+            } else if (opts.quote === false) {
+                this.quote = '';
             }
             if (typeof opts.escape !== 'string') {
                 this.escape = this.quote;
