@@ -46,6 +46,7 @@
 * `rtrim: {boolean} = false`: Set to `true` to right trim all fields.
 * `ltrim: {boolean} = false`: Set to `true` to left trim all fields.
 * `encoding: {string} = 'utf8'`: Passed to [StringDecoder](https://nodejs.org/api/string_decoder.html#string_decoder_new_stringdecoder_encoding) when decoding incoming buffers. Change if incoming content is not 'utf8' encoded.
+- `maxRows: {number}`: Up to the given number of rows will be returned if set to a number greater than 0 (e.g., `100` would return the first 100 rows of data).
 
 <a name="parsing-events"></a>
 ## Events

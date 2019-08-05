@@ -69,9 +69,11 @@ export default class Parser {
         return { line: scanner.line, rows };
     }
 
+    private rowCount: number = 0;
+
     private parseRow(scanner: Scanner, rows: RowArray[]): boolean {
         const nextToken = scanner.nextNonSpaceToken;
-        if (!nextToken) {
+        if (!nextToken || (this.parserOptions.limitRows && this.rowCount >= this.parserOptions.maxRows)) {
             return false;
         }
         const row = this.rowParser.parse(scanner);
@@ -82,6 +84,7 @@ export default class Parser {
             return true;
         }
         rows.push(row);
+        this.rowCount += 1;
         return true;
     }
 }
