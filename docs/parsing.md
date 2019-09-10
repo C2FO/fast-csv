@@ -155,7 +155,7 @@ const CSV_STRING = [
 ].join(EOL);
 
 csv
-    .fromString(CSV_STRING, { headers: true })
+    .parseString(CSV_STRING, { headers: true })
     .on('error', error => console.error(error))
     .on('data', row => console.log(row))
     .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
