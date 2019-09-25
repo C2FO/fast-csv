@@ -39,7 +39,6 @@
 * `comment: {string} = null`: If your CSV contains comments you can use this option to ignore lines that begin with the specified character (e.g. `#`).
 * `discardUnmappedColumns: {boolean} = false`: If you want to discard columns that do not map to a header.
   * **NOTE** this is only valid in the case that there are headers and the number of fields parsed is greater than the number of header fields.
-* `comment:  
 * `strictColumnHandling: {boolean} = false`: If you want to consider empty lines/lines with too few fields as invalid and emit a `data-invalid` event 
   * **NOTE** This option is only considered when `headers` are present.
 * `trim: {boolean} = false`: Set to `true` to trim all fields
