@@ -5,3 +5,4 @@ node_modules
 History.md
 examples
 .nyc_output
+coverage
