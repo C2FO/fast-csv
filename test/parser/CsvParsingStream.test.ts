@@ -1,13 +1,11 @@
 /* eslint-disable no-cond-assign,@typescript-eslint/camelcase */
 import * as assert from 'assert';
-import * as _ from 'lodash';
 import * as fs from 'fs';
 import * as domain from 'domain';
+import partition from 'lodash.partition';
 import * as csv from '../../src';
 import assets, { PathAndContent } from './assets';
-import {
-    CsvParserStream, ParserOptionsArgs, Row, RowMap, RowValidateCallback,
-} from '../../src/parser';
+import { CsvParserStream, ParserOptionsArgs, Row, RowMap, RowValidateCallback } from '../../src/parser';
 
 import Done = Mocha.Done;
 
@@ -25,68 +23,70 @@ describe('CsvParserStream', () => {
             .on('end', () => next(new Error(`Expected and error to occur [expectedMessage=${message}]`)));
     };
 
-
     interface ParseResults {
         count: number;
         rows: Row[];
         invalidRows: Row[];
     }
 
-    const collectData = (stream: CsvParserStream): Promise<ParseResults> => new Promise((res, rej) => {
-        const rows: Row[] = [];
-        const invalidRows: Row[] = [];
-        stream
-            .on('data', (row: Row) => rows.push(row))
-            .on('data-invalid', (row: Row) => invalidRows.push(row))
-            .on('error', rej)
-            .on('end', (count: number) => {
-                res({ count, rows, invalidRows });
-            });
-    });
+    const collectData = (stream: CsvParserStream): Promise<ParseResults> =>
+        new Promise((res, rej) => {
+            const rows: Row[] = [];
+            const invalidRows: Row[] = [];
+            stream
+                .on('data', (row: Row) => rows.push(row))
+                .on('data-invalid', (row: Row) => invalidRows.push(row))
+                .on('error', rej)
+                .on('end', (count: number) => {
+                    res({ count, rows, invalidRows });
+                });
+        });
 
-    const parseContentAndCollectFromStream = (data: PathAndContent, parser: CsvParserStream): Promise<ParseResults> => new Promise((res, rej) => {
-        const rows: Row[] = [];
-        const invalidRows: Row[] = [];
-        parser
-            .on('data', row => rows.push(row))
-            .on('data-invalid', row => invalidRows.push(row))
-            .on('error', rej)
-            .on('end', (count: number) => {
-                res({ count, rows, invalidRows });
-            });
-        parser.write(data.content);
-        parser.end();
-    });
+    const parseContentAndCollectFromStream = (data: PathAndContent, parser: CsvParserStream): Promise<ParseResults> =>
+        new Promise((res, rej) => {
+            const rows: Row[] = [];
+            const invalidRows: Row[] = [];
+            parser
+                .on('data', row => rows.push(row))
+                .on('data-invalid', row => invalidRows.push(row))
+                .on('error', rej)
+                .on('end', (count: number) => {
+                    res({ count, rows, invalidRows });
+                });
+            parser.write(data.content);
+            parser.end();
+        });
 
-    const parseContentAndCollect = (data: PathAndContent, options: ParserOptionsArgs = {}): Promise<ParseResults> => new Promise((res, rej) => {
-        const rows: Row[] = [];
-        const invalidRows: Row[] = [];
-        const parser = csv.parse(options)
-            .on('data', row => rows.push(row))
-            .on('data-invalid', row => invalidRows.push(row))
-            .on('error', rej)
-            .on('end', (count: number) => {
-                res({ count, rows, invalidRows });
-            });
-        parser.write(data.content);
-        parser.end();
-    });
+    const parseContentAndCollect = (data: PathAndContent, options: ParserOptionsArgs = {}): Promise<ParseResults> =>
+        new Promise((res, rej) => {
+            const rows: Row[] = [];
+            const invalidRows: Row[] = [];
+            const parser = csv
+                .parse(options)
+                .on('data', row => rows.push(row))
+                .on('data-invalid', row => invalidRows.push(row))
+                .on('error', rej)
+                .on('end', (count: number) => {
+                    res({ count, rows, invalidRows });
+                });
+            parser.write(data.content);
+            parser.end();
+        });
 
-    it('should parse a csv without quotes or escapes', () => parseContentAndCollect(assets.withHeaders, { headers: true })
-        .then(({ count, rows }) => {
+    it('should parse a csv without quotes or escapes', () =>
+        parseContentAndCollect(assets.withHeaders, { headers: true }).then(({ count, rows }) => {
             assert.deepStrictEqual(rows, assets.withHeaders.parsed);
             assert.strictEqual(count, rows.length);
         }));
 
-    it('should emit a readable event ', (next) => {
+    it('should emit a readable event ', next => {
         const actual: Row[] = [];
         const parser = csv.parse({ headers: true });
-        const stream = parser.on('error', next)
-            .on('end', (count: number) => {
-                assert.deepStrictEqual(actual, assets.withHeaders.parsed);
-                assert.strictEqual(count, actual.length);
-                next();
-            });
+        const stream = parser.on('error', next).on('end', (count: number) => {
+            assert.deepStrictEqual(actual, assets.withHeaders.parsed);
+            assert.strictEqual(count, actual.length);
+            next();
+        });
         let index = 0;
         stream.on('readable', () => {
             for (let data = stream.read(); data !== null; data = stream.read()) {
@@ -100,41 +100,45 @@ describe('CsvParserStream', () => {
 
     it('should emit data as a buffer if objectMode is false', () => {
         const expected = assets.withHeaders.parsed.map(r => Buffer.from(JSON.stringify(r)));
-        return parseContentAndCollect(assets.withHeaders, { headers: true, objectMode: false })
-            .then(({ count, rows }) => {
+        return parseContentAndCollect(assets.withHeaders, { headers: true, objectMode: false }).then(
+            ({ count, rows }) => {
                 assert.deepStrictEqual(rows, expected);
                 assert.strictEqual(count, rows.length);
-            });
+            },
+        );
     });
 
-    it('should emit data as an object if objectMode is true', () => parseContentAndCollect(assets.withHeaders, { headers: true, objectMode: true })
-        .then(({ count, rows }) => {
+    it('should emit data as an object if objectMode is true', () =>
+        parseContentAndCollect(assets.withHeaders, { headers: true, objectMode: true }).then(({ count, rows }) => {
             assert.deepStrictEqual(rows, assets.withHeaders.parsed);
             assert.strictEqual(count, rows.length);
         }));
 
-    it('should emit data as an object if objectMode is not specified', () => parseContentAndCollect(assets.withHeaders, { headers: true })
-        .then(({ count, rows }) => {
+    it('should emit data as an object if objectMode is not specified', () =>
+        parseContentAndCollect(assets.withHeaders, { headers: true }).then(({ count, rows }) => {
             assert.deepStrictEqual(rows, assets.withHeaders.parsed);
             assert.strictEqual(count, rows.length);
         }));
 
-    it('should parse a csv with quotes', () => parseContentAndCollect(assets.withHeadersAndQuotes, { headers: true })
-        .then(({ count, rows }) => {
+    it('should parse a csv with quotes', () =>
+        parseContentAndCollect(assets.withHeadersAndQuotes, { headers: true }).then(({ count, rows }) => {
             assert.deepStrictEqual(rows, assets.withHeadersAndQuotes.parsed);
             assert.strictEqual(count, rows.length);
         }));
 
-    it('should parse a csv with without headers', () => parseContentAndCollect(assets.noHeadersAndQuotes).then(({ count, rows }) => {
-        assert.deepStrictEqual(rows, assets.noHeadersAndQuotes.parsed);
-        assert.strictEqual(count, rows.length);
-    }));
-
-    it("should parse a csv with ' escapes", () => parseContentAndCollect(assets.withHeadersAndAlternateQuote, { headers: true, quote: "'" })
-        .then(({ count, rows }) => {
-            assert.deepStrictEqual(rows, assets.withHeadersAndAlternateQuote.parsed);
+    it('should parse a csv with without headers', () =>
+        parseContentAndCollect(assets.noHeadersAndQuotes).then(({ count, rows }) => {
+            assert.deepStrictEqual(rows, assets.noHeadersAndQuotes.parsed);
             assert.strictEqual(count, rows.length);
         }));
+
+    it("should parse a csv with ' escapes", () =>
+        parseContentAndCollect(assets.withHeadersAndAlternateQuote, { headers: true, quote: "'" }).then(
+            ({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeadersAndAlternateQuote.parsed);
+                assert.strictEqual(count, rows.length);
+            },
+        ));
 
     it('should allow specifying of columns', () => {
         const expected = assets.noHeadersAndQuotes.parsed.map(r => ({
@@ -144,12 +148,11 @@ describe('CsvParserStream', () => {
             address: r[3],
         }));
         return parseContentAndCollect(assets.noHeadersAndQuotes, {
-            headers: [ 'first_name', 'last_name', 'email_address', 'address' ],
-        })
-            .then(({ count, rows }) => {
-                assert.deepStrictEqual(rows, expected);
-                assert.strictEqual(count, rows.length);
-            });
+            headers: ['first_name', 'last_name', 'email_address', 'address'],
+        }).then(({ count, rows }) => {
+            assert.deepStrictEqual(rows, expected);
+            assert.strictEqual(count, rows.length);
+        });
     });
 
     it('should allow renaming columns', () => {
@@ -160,145 +163,148 @@ describe('CsvParserStream', () => {
             address: r.address,
         }));
         return parseContentAndCollect(assets.withHeadersAndQuotes, {
-            headers: [ 'firstName', 'lastName', 'emailAddress', 'address' ],
+            headers: ['firstName', 'lastName', 'emailAddress', 'address'],
             renameHeaders: true,
-        })
-            .then(({ count, rows }) => {
-                assert.deepStrictEqual(rows, expected);
-                assert.strictEqual(count, rows.length);
-            });
+        }).then(({ count, rows }) => {
+            assert.deepStrictEqual(rows, expected);
+            assert.strictEqual(count, rows.length);
+        });
     });
 
-    it('should parse data with an alternate encoding', () => parseContentAndCollect(assets.alternateEncoding, { headers: true, encoding: 'utf16le' })
-        .then(({ count, rows }) => {
-            assert.deepStrictEqual(rows, assets.alternateEncoding.parsed);
-            assert.strictEqual(count, rows.length);
-        }));
+    it('should parse data with an alternate encoding', () =>
+        parseContentAndCollect(assets.alternateEncoding, { headers: true, encoding: 'utf16le' }).then(
+            ({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.alternateEncoding.parsed);
+                assert.strictEqual(count, rows.length);
+            },
+        ));
 
-    it('should propagate an error when trying to rename headers without providing new ones', (next) => {
+    it('should propagate an error when trying to rename headers without providing new ones', next => {
         const stream = csv.parse({ renameHeaders: true });
         listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
         stream.write(assets.withHeadersAndQuotes.content);
         stream.end();
     });
 
-    it('should propagate an error when trying to rename headers without providing proper ones', (next) => {
+    it('should propagate an error when trying to rename headers without providing proper ones', next => {
         const stream = csv.parse({ renameHeaders: true, headers: true });
         listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
         stream.write(assets.withHeadersAndQuotes.content);
         stream.end();
     });
 
-    it('should propagate an error header length does not match column length', (next) => {
+    it('should propagate an error header length does not match column length', next => {
         const stream = csv.parse({ headers: true });
         listenForError(stream, 'Unexpected Error: column header mismatch expected: 4 columns got: 5', next);
         stream.write(assets.headerColumnMismatch.content);
         stream.end();
     });
 
-    it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () => parseContentAndCollect(assets.headerColumnMismatch, { headers: true, discardUnmappedColumns: true })
-        .then(({ count, rows }) => {
-            assert.deepStrictEqual(rows, assets.headerColumnMismatch.parsed);
-            assert.strictEqual(count, rows.length);
-        }));
+    it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () =>
+        parseContentAndCollect(assets.headerColumnMismatch, { headers: true, discardUnmappedColumns: true }).then(
+            ({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.headerColumnMismatch.parsed);
+                assert.strictEqual(count, rows.length);
+            },
+        ));
 
     it('should report missing columns that do not exist but have a header with strictColumnHandling option', () => {
         const expectedRows = assets.withHeadersAndMissingColumns.parsed.filter(r => r.address !== null);
         const expectedInvalidRows = assets.withHeadersAndMissingColumns.parsed
             .filter(r => r.address === null)
             .map(r => Object.values(r).filter(v => !!v));
-        return parseContentAndCollect(assets.withHeadersAndMissingColumns, { headers: true, strictColumnHandling: true })
-            .then(({ count, rows, invalidRows }) => {
-                assert.deepStrictEqual(rows, expectedRows);
-                assert.deepStrictEqual(invalidRows, expectedInvalidRows);
-                assert.strictEqual(count, rows.length + invalidRows.length);
-            });
+        return parseContentAndCollect(assets.withHeadersAndMissingColumns, {
+            headers: true,
+            strictColumnHandling: true,
+        }).then(({ count, rows, invalidRows }) => {
+            assert.deepStrictEqual(rows, expectedRows);
+            assert.deepStrictEqual(invalidRows, expectedInvalidRows);
+            assert.strictEqual(count, rows.length + invalidRows.length);
+        });
     });
-
 
     it('should allow specifying of columns as a sparse array', () => {
         const expected = assets.noHeadersAndQuotes.parsed.map(r => ({
             first_name: r[0],
             email_address: r[2],
         }));
-        return parseContentAndCollect(assets.noHeadersAndQuotes, { headers: [ 'first_name', undefined, 'email_address', undefined ] })
-            .then(({ count, rows }) => {
-                assert.deepStrictEqual(rows, expected);
-                assert.strictEqual(count, rows.length);
-            });
+        return parseContentAndCollect(assets.noHeadersAndQuotes, {
+            headers: ['first_name', undefined, 'email_address', undefined],
+        }).then(({ count, rows }) => {
+            assert.deepStrictEqual(rows, expected);
+            assert.strictEqual(count, rows.length);
+        });
     });
 
-    it('should handle a trailing comma', () => parseContentAndCollect(assets.trailingComma, { headers: true })
-        .then(({ count, rows }) => {
+    it('should handle a trailing comma', () =>
+        parseContentAndCollect(assets.trailingComma, { headers: true }).then(({ count, rows }) => {
             assert.deepStrictEqual(rows, assets.trailingComma.parsed);
             assert.strictEqual(count, rows.length);
         }));
 
-    it('should skip valid, but empty rows when ignoreEmpty is true', () => parseContentAndCollect(assets.emptyRows, { headers: true, ignoreEmpty: true })
-        .then(({ count, rows, invalidRows }) => {
-            assert.strictEqual(count, 0);
-            assert.deepStrictEqual(rows, []);
-            assert.deepStrictEqual(invalidRows, []);
-        }));
+    it('should skip valid, but empty rows when ignoreEmpty is true', () =>
+        parseContentAndCollect(assets.emptyRows, { headers: true, ignoreEmpty: true }).then(
+            ({ count, rows, invalidRows }) => {
+                assert.strictEqual(count, 0);
+                assert.deepStrictEqual(rows, []);
+                assert.deepStrictEqual(invalidRows, []);
+            },
+        ));
 
     describe('alternate delimiters', () => {
-        [ '\t', '|', ';' ].forEach((delimiter) => {
+        ['\t', '|', ';'].forEach(delimiter => {
             it(`should support '${delimiter.replace(/\t/, '\\t')}' delimiters`, () => {
                 const { path: assetPath, content } = assets.withHeadersAlternateDelimiter;
                 const data = {
                     path: assetPath,
                     content: content(delimiter),
                 };
-                return parseContentAndCollect(data, { headers: true, delimiter })
-                    .then(({ count, rows }) => {
-                        assert.deepStrictEqual(rows, assets.withHeadersAlternateDelimiter.parsed);
-                        assert.strictEqual(count, rows.length);
-                    });
+                return parseContentAndCollect(data, { headers: true, delimiter }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, assets.withHeadersAlternateDelimiter.parsed);
+                    assert.strictEqual(count, rows.length);
+                });
             });
         });
     });
 
-    it('should emit an error for malformed rows', (next) => {
+    it('should emit an error for malformed rows', next => {
         assets.write(assets.malformed);
-        const stream = csv
-            .parseFile(assets.malformed.path, { headers: true });
+        const stream = csv.parseFile(assets.malformed.path, { headers: true });
         listenForError(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las", next);
     });
 
     describe('#validate', () => {
-        const syncValidator = (row: Row): boolean => parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 === 1;
+        const syncValidator = (row: Row): boolean =>
+            parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 === 1;
         const asyncValidator = (row: Row, cb: RowValidateCallback) => {
             cb(null, syncValidator(row));
         };
 
         it('should allow validation of rows', () => {
-            const invalidValid = _.partition(assets.withHeaders.parsed, syncValidator);
-            const parser = csv.parse({ headers: true })
-                .validate(syncValidator);
+            const invalidValid = partition(assets.withHeaders.parsed, syncValidator);
+            const parser = csv.parse({ headers: true }).validate(syncValidator);
 
-            return parseContentAndCollectFromStream(assets.withHeaders, parser)
-                .then(({ count, rows, invalidRows }) => {
-                    assert.deepStrictEqual(invalidRows, invalidValid[1]);
-                    assert.deepStrictEqual(rows, invalidValid[0]);
-                    assert.strictEqual(count, invalidValid[0].length + invalidValid[1].length);
-                });
+            return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows, invalidRows }) => {
+                assert.deepStrictEqual(invalidRows, invalidValid[1]);
+                assert.deepStrictEqual(rows, invalidValid[0]);
+                assert.strictEqual(count, invalidValid[0].length + invalidValid[1].length);
+            });
         });
 
         it('should allow async validation of rows', () => {
-            const validator = (row: Row): boolean => parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 !== 0;
-            const invalidValid = _.partition(assets.withHeaders.parsed, validator);
-            const parser = csv.parse({ headers: true })
-                .validate(asyncValidator);
+            const validator = (row: Row): boolean =>
+                parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 !== 0;
+            const invalidValid = partition(assets.withHeaders.parsed, validator);
+            const parser = csv.parse({ headers: true }).validate(asyncValidator);
 
-            return parseContentAndCollectFromStream(assets.withHeaders, parser)
-                .then(({ count, rows, invalidRows }) => {
-                    assert.deepStrictEqual(invalidRows, invalidValid[1]);
-                    assert.deepStrictEqual(rows, invalidValid[0]);
-                    assert.strictEqual(count, invalidValid[0].length + invalidValid[1].length);
-                });
+            return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows, invalidRows }) => {
+                assert.deepStrictEqual(invalidRows, invalidValid[1]);
+                assert.deepStrictEqual(rows, invalidValid[0]);
+                assert.strictEqual(count, invalidValid[0].length + invalidValid[1].length);
+            });
         });
 
-        it('should propagate errors from async validation', (next) => {
+        it('should propagate errors from async validation', next => {
             assets.write(assets.withHeaders);
             let index = -1;
             const stream = csv
@@ -316,7 +322,7 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
-        it('should propagate async errors at the beginning', (next) => {
+        it('should propagate async errors at the beginning', next => {
             assets.write(assets.withHeaders);
             const stream = csv
                 .parseFile(assets.withHeaders.path, { headers: true })
@@ -324,29 +330,25 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
-        it('should propagate thrown errors', (next) => {
+        it('should propagate thrown errors', next => {
             assets.write(assets.withHeaders);
             let index = -1;
-            const stream = csv
-                .parseFile(assets.withHeaders.path, { headers: true })
-                .validate((data, validateNext) => {
-                    index += 1;
-                    if (index === 8) {
-                        throw new Error('Validation ERROR!!!!');
-                    } else {
-                        setImmediate(() => validateNext(null, true));
-                    }
-                });
+            const stream = csv.parseFile(assets.withHeaders.path, { headers: true }).validate((data, validateNext) => {
+                index += 1;
+                if (index === 8) {
+                    throw new Error('Validation ERROR!!!!');
+                } else {
+                    setImmediate(() => validateNext(null, true));
+                }
+            });
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
-        it('should propagate thrown errors at the beginning', (next) => {
+        it('should propagate thrown errors at the beginning', next => {
             assets.write(assets.withHeaders);
-            const stream = csv
-                .parseFile(assets.withHeaders.path, { headers: true })
-                .validate(() => {
-                    throw new Error('Validation ERROR!!!!');
-                });
+            const stream = csv.parseFile(assets.withHeaders.path, { headers: true }).validate(() => {
+                throw new Error('Validation ERROR!!!!');
+            });
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
@@ -368,8 +370,7 @@ describe('CsvParserStream', () => {
 
         it('should allow transforming of data', () => {
             const expected = assets.withHeaders.parsed.map(transformer);
-            const parser = csv.parse({ headers: true })
-                .transform(transformer);
+            const parser = csv.parse({ headers: true }).transform(transformer);
             return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows }) => {
                 assert.deepStrictEqual(rows, expected);
                 assert.strictEqual(count, expected.length);
@@ -378,7 +379,8 @@ describe('CsvParserStream', () => {
 
         it('should async transformation of data', () => {
             const expected = assets.withHeaders.parsed.map(transformer);
-            const parser = csv.parse({ headers: true })
+            const parser = csv
+                .parse({ headers: true })
                 .transform((row, next) => setImmediate(() => next(null, transformer(row))));
             return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows }) => {
                 assert.deepStrictEqual(rows, expected);
@@ -386,23 +388,23 @@ describe('CsvParserStream', () => {
             });
         });
 
-        it('should propogate errors when transformation of data', (next) => {
+        it('should propogate errors when transformation of data', next => {
             assets.write(assets.withHeaders);
             let index = -1;
-            const stream = csv
-                .parseFile(assets.withHeaders.path, { headers: true })
-                .transform((data, cb) => setImmediate(() => {
+            const stream = csv.parseFile(assets.withHeaders.path, { headers: true }).transform((data, cb) =>
+                setImmediate(() => {
                     index += 1;
                     if (index === 8) {
                         cb(new Error('transformation ERROR!!!!'));
                     } else {
                         cb(null, transformer(data));
                     }
-                }));
+                }),
+            );
             listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
-        it('should propogate errors when transformation of data at the beginning', (next) => {
+        it('should propogate errors when transformation of data at the beginning', next => {
             assets.write(assets.withHeaders);
             const stream = csv
                 .parseFile(assets.withHeaders.path, { headers: true })
@@ -410,30 +412,25 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
-
-        it('should propagate thrown errors at the end', (next) => {
+        it('should propagate thrown errors at the end', next => {
             assets.write(assets.withHeaders);
             let index = -1;
-            const stream = csv
-                .parseFile(assets.withHeaders.path, { headers: true })
-                .transform((data, cb) => {
-                    index += 1;
-                    if (index === 8) {
-                        throw new Error('transformation ERROR!!!!');
-                    } else {
-                        setImmediate(() => cb(null, data));
-                    }
-                });
+            const stream = csv.parseFile(assets.withHeaders.path, { headers: true }).transform((data, cb) => {
+                index += 1;
+                if (index === 8) {
+                    throw new Error('transformation ERROR!!!!');
+                } else {
+                    setImmediate(() => cb(null, data));
+                }
+            });
             listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
-        it('should propagate thrown errors at the beginning', (next) => {
+        it('should propagate thrown errors at the beginning', next => {
             assets.write(assets.withHeaders);
-            const stream = csv
-                .parseFile(assets.withHeaders.path, { headers: true })
-                .transform(() => {
-                    throw new Error('transformation ERROR!!!!');
-                });
+            const stream = csv.parseFile(assets.withHeaders.path, { headers: true }).transform(() => {
+                throw new Error('transformation ERROR!!!!');
+            });
             listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
@@ -455,13 +452,13 @@ describe('CsvParserStream', () => {
                 fs.createReadStream(assets.withHeaders.path)
                     .on('error', rej)
                     .pipe(stream)
-                    .on('data', (row) => {
-                        assert(!paused);
+                    .on('data', row => {
+                        assert.ok(!paused);
                         rows.push(row);
                         paused = true;
                         stream.pause();
                         setTimeout(() => {
-                            assert(paused);
+                            assert.ok(paused);
                             paused = false;
                             stream.resume();
                         }, 100);
@@ -476,11 +473,11 @@ describe('CsvParserStream', () => {
         });
     });
 
-    it('should not catch errors thrown in end', (next) => {
+    it('should not catch errors thrown in end', next => {
         assets.write(assets.withHeaders);
         const d = domain.create();
         let called = false;
-        d.on('error', (err) => {
+        d.on('error', err => {
             d.exit();
             if (called) {
                 throw err;
@@ -489,17 +486,19 @@ describe('CsvParserStream', () => {
             assert.strictEqual(err.message, 'End error');
             next();
         });
-        d.run(() => fs.createReadStream(assets.withHeaders.path)
-            .on('error', next)
-            .pipe(csv.parse({ headers: true }))
-            .on('error', () => next(new Error('Should not get here!')))
-            .on('data', () => {
-            })
-            .on('end', () => {
-                throw new Error('End error');
-            }));
+        d.run(() =>
+            fs
+                .createReadStream(assets.withHeaders.path)
+                .on('error', next)
+                .pipe(csv.parse({ headers: true }))
+                .on('error', () => next(new Error('Should not get here!')))
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                .on('data', () => {})
+                .on('end', () => {
+                    throw new Error('End error');
+                }),
+        );
     });
-
 
     describe('.parseStream', () => {
         it('should accept a stream', () => {
@@ -524,10 +523,9 @@ describe('CsvParserStream', () => {
     });
 
     describe('.parseString', () => {
-        it('should accept a csv string', (next) => {
+        it('should accept a csv string', next => {
             const actual: Row[] = [];
-            csv
-                .parseString(assets.withHeaders.content, { headers: true })
+            csv.parseString(assets.withHeaders.content, { headers: true })
                 .on('data', data => actual.push(data))
                 .on('end', (count: number) => {
                     assert.deepStrictEqual(actual, assets.withHeaders.parsed);

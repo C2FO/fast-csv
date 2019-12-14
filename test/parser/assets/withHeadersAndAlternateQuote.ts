@@ -2,7 +2,6 @@
 import { resolve } from 'path';
 import { EOL } from 'os';
 
-
 export default {
     path: resolve(__dirname, 'tmp', 'no_headers_and_quotes.csv'),
 

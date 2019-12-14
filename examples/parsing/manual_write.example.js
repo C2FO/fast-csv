@@ -1,6 +1,7 @@
 const csv = require('../../');
 
-const stream = csv.parse({ headers: true })
+const stream = csv
+    .parse({ headers: true })
     .on('error', error => console.error(error))
     .on('data', row => console.log(row))
     .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));

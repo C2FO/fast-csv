@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash';
+import isFunction from 'lodash.isfunction';
 import {
     Row,
     RowTransformFunction,
@@ -10,7 +10,6 @@ import {
     AsyncRowTransform,
     RowTransformCallback,
 } from '../types';
-
 
 type RowValidator = (row: Row, cb: RowValidatorCallback) => void;
 

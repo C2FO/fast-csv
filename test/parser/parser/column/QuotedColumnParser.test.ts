@@ -4,11 +4,7 @@ import { QuotedColumnParser } from '../../../../src/parser/parser/column';
 import { Scanner } from '../../../../src/parser/parser/Scanner';
 
 describe('QuotedColumnParser', () => {
-    const parse = (
-        line: string,
-        hasMoreData = false,
-        parserOpts: ParserOptionsArgs = { }
-    ) => {
+    const parse = (line: string, hasMoreData = false, parserOpts: ParserOptionsArgs = {}) => {
         const parserOptions = new ParserOptions(parserOpts);
         const columnParser = new QuotedColumnParser(parserOptions);
         const scanner = new Scanner({ line, parserOptions, hasMoreData });
@@ -32,7 +28,6 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(col, 'hello');
                 assert.strictEqual(scanner.lineFromCursor, '');
             });
-
 
             it('should not parse a quoted col when not followed by any characters', () => {
                 const line = '"hello,';
@@ -68,7 +63,6 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(col, 'hel\r\nlo');
                 assert.strictEqual(scanner.lineFromCursor, ',"world"');
             });
-
 
             it('should parse a quoted col up to a LF', () => {
                 const line = '"hello"\n"world"';
@@ -161,14 +155,12 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(scanner.lineFromCursor, '');
             });
 
-
             it('should include all quoted white space up to a column delimiter', () => {
                 const line = '"    ","    "';
                 const { scanner, col } = parse(line, true);
                 assert.strictEqual(col, '    ');
                 assert.strictEqual(scanner.lineFromCursor, ',"    "');
             });
-
 
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '"hello\n"First';
@@ -308,7 +300,6 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(scanner.lineFromCursor, '');
             });
 
-
             it('should include all quoted white space up to a column delimiter', () => {
                 const line = '"    "\t"    "';
                 const { scanner, col } = parse(line, true, { delimiter: '\t' });
@@ -318,8 +309,14 @@ describe('QuotedColumnParser', () => {
 
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '"hello\n"First';
-                assert.throws(() => parse(line, true, { delimiter: '\t' }), /Parse Error: expected: '\t' OR new line got: 'F'. at 'First/);
-                assert.throws(() => parse(line, false, { delimiter: '\t' }), /Parse Error: expected: '\t' OR new line got: 'F'. at 'First/);
+                assert.throws(
+                    () => parse(line, true, { delimiter: '\t' }),
+                    /Parse Error: expected: '\t' OR new line got: 'F'. at 'First/,
+                );
+                assert.throws(
+                    () => parse(line, false, { delimiter: '\t' }),
+                    /Parse Error: expected: '\t' OR new line got: 'F'. at 'First/,
+                );
             });
 
             describe('hasMoreData is true', () => {
@@ -334,7 +331,10 @@ describe('QuotedColumnParser', () => {
             describe('hasMoreData is false', () => {
                 it('should not parse a column without a closing quote', () => {
                     const line = '"hell""o';
-                    assert.throws(() => parse(line, false, { delimiter: '\t' }), /Parse Error: missing closing: '"' in line: at '"hell""o'/);
+                    assert.throws(
+                        () => parse(line, false, { delimiter: '\t' }),
+                        /Parse Error: missing closing: '"' in line: at '"hell""o'/,
+                    );
                 });
             });
         });
@@ -419,11 +419,16 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(scanner.lineFromCursor, '\r\n$world$');
             });
 
-
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '$hello\n$First';
-                assert.throws(() => parse(line, true, { quote: '$' }), /Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
-                assert.throws(() => parse(line, false, { quote: '$' }), /Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
+                assert.throws(
+                    () => parse(line, true, { quote: '$' }),
+                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
+                );
+                assert.throws(
+                    () => parse(line, false, { quote: '$' }),
+                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
+                );
             });
 
             describe('hasMoreData is true', () => {
@@ -438,7 +443,10 @@ describe('QuotedColumnParser', () => {
             describe('hasMoreData is false', () => {
                 it('should not parse a column without a closing quote', () => {
                     const line = '$hell$$o';
-                    assert.throws(() => parse(line, false, { quote: '$' }), /Parse Error: missing closing: '\$' in line: at '\$hell\$\$o'/);
+                    assert.throws(
+                        () => parse(line, false, { quote: '$' }),
+                        /Parse Error: missing closing: '\$' in line: at '\$hell\$\$o'/,
+                    );
                 });
             });
         });
@@ -473,7 +481,6 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(col, 'hell$o');
                 assert.strictEqual(scanner.lineFromCursor, ',"world"');
             });
-
 
             it('should parse a quoted col up to a LF', () => {
                 const line = '"hello"\n"world"';
@@ -531,11 +538,16 @@ describe('QuotedColumnParser', () => {
                 assert.strictEqual(scanner.lineFromCursor, '\r\n"world"');
             });
 
-
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '"hello\n"First';
-                assert.throws(() => parse(line, true, { escape: '$' }), /Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
-                assert.throws(() => parse(line, false, { escape: '$' }), /Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
+                assert.throws(
+                    () => parse(line, true, { escape: '$' }),
+                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
+                );
+                assert.throws(
+                    () => parse(line, false, { escape: '$' }),
+                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
+                );
             });
 
             describe('hasMoreData is true', () => {
@@ -550,7 +562,10 @@ describe('QuotedColumnParser', () => {
             describe('hasMoreData is false', () => {
                 it('should not parse a column without a closing quote', () => {
                     const line = '"hell$"o';
-                    assert.throws(() => parse(line, false, { escape: '$' }), /Parse Error: missing closing: '"' in line: at '"hell\$"o'/);
+                    assert.throws(
+                        () => parse(line, false, { escape: '$' }),
+                        /Parse Error: missing closing: '"' in line: at '"hell\$"o'/,
+                    );
                 });
             });
         });

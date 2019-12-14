@@ -1,10 +1,10 @@
 import { RowTransformFunction } from './types';
 
-interface QuoteColumnMap{
+interface QuoteColumnMap {
     [s: string]: boolean;
 }
 
-type QuoteColumns = boolean | boolean[] | QuoteColumnMap
+type QuoteColumns = boolean | boolean[] | QuoteColumnMap;
 
 export interface FormatterOptionsArgs {
     objectMode?: boolean;
@@ -50,19 +50,18 @@ export class FormatterOptions {
     public readonly BOM: string = '\ufeff';
 
     public constructor(opts: FormatterOptionsArgs = {}) {
-        if (opts) {
-            Object.assign(this, opts);
-            if (typeof opts.quoteHeaders === 'undefined') {
-                this.quoteHeaders = this.quoteColumns;
-            }
-            if (opts.quote === true) {
-                this.quote = '"';
-            } else if (opts.quote === false) {
-                this.quote = '';
-            }
-            if (typeof opts.escape !== 'string') {
-                this.escape = this.quote;
-            }
+        Object.assign(this, opts || {});
+
+        if (typeof opts?.quoteHeaders === 'undefined') {
+            this.quoteHeaders = this.quoteColumns;
+        }
+        if (opts?.quote === true) {
+            this.quote = '"';
+        } else if (opts?.quote === false) {
+            this.quote = '';
+        }
+        if (typeof opts?.escape !== 'string') {
+            this.escape = this.quote;
         }
         this.shouldWriteHeaders = !!this.headers;
         this.headers = Array.isArray(this.headers) ? this.headers : null;

@@ -12,8 +12,8 @@ describe('FieldFormatter', () => {
             return formatter;
         };
 
-        const formatField = (field: string, fieldIndex: number, isHeader: boolean, fieldFormatter: FieldFormatter) => fieldFormatter
-            .format(field, fieldIndex, isHeader);
+        const formatField = (field: string, fieldIndex: number, isHeader: boolean, fieldFormatter: FieldFormatter) =>
+            fieldFormatter.format(field, fieldIndex, isHeader);
 
         describe('header columns', () => {
             it('should return the field not quoted if it contains no quotes', () => {
@@ -37,27 +37,27 @@ describe('FieldFormatter', () => {
             });
 
             it('should quote the header if quote headers is an array and the index of the header is true in the quoteHeaders array', () => {
-                const formatter = createFormatter({ quoteHeaders: [ true ] });
+                const formatter = createFormatter({ quoteHeaders: [true] });
                 assert.strictEqual(formatField('header', 0, true, formatter), '"header"');
             });
 
             it('should not quote the header if quote headers is an array and the index of the header is false in the quoteHeaders array', () => {
-                const formatter = createFormatter({ quoteHeaders: [ false ] });
+                const formatter = createFormatter({ quoteHeaders: [false] });
                 assert.strictEqual(formatField('header', 0, true, formatter), 'header');
             });
 
             it('should quote the header if quoteHeaders is an object and quoteHeaders object has true for the column name', () => {
-                const formatter = createFormatter({ quoteHeaders: { header: true } }, [ 'header' ]);
+                const formatter = createFormatter({ quoteHeaders: { header: true } }, ['header']);
                 assert.strictEqual(formatField('header', 0, true, formatter), '"header"');
             });
 
             it('should not quote the header if quoteHeaders is an object and quoteHeaders object has false for the column nam', () => {
-                const formatter = createFormatter({ quoteHeaders: { header: false } }, [ 'header' ]);
+                const formatter = createFormatter({ quoteHeaders: { header: false } }, ['header']);
                 assert.strictEqual(formatField('header', 0, true, formatter), 'header');
             });
 
             it('should not quote the header if quoteHeaders is an object and quoteHeaders object does not contain the header', () => {
-                const formatter = createFormatter({ quoteHeaders: { header2: true } }, [ 'header' ]);
+                const formatter = createFormatter({ quoteHeaders: { header2: true } }, ['header']);
                 assert.strictEqual(formatField('header', 0, true, formatter), 'header');
             });
         });
@@ -84,27 +84,27 @@ describe('FieldFormatter', () => {
             });
 
             it('should quote the header if quote headers is an array and the index of the header is true in the quoteColumns array', () => {
-                const formatter = createFormatter({ quoteColumns: [ true ] });
+                const formatter = createFormatter({ quoteColumns: [true] });
                 assert.strictEqual(formatField('col', 0, false, formatter), '"col"');
             });
 
             it('should not quote the header if quote headers is an array and the index of the header is false in the quoteColumns array', () => {
-                const formatter = createFormatter({ quoteColumns: [ false ] });
+                const formatter = createFormatter({ quoteColumns: [false] });
                 assert.strictEqual(formatField('col', 0, false, formatter), 'col');
             });
 
             it('should quote the header if quoteColumns is an object and quoteColumns object has true for the column name', () => {
-                const formatter = createFormatter({ quoteColumns: { header: true } }, [ 'header' ]);
+                const formatter = createFormatter({ quoteColumns: { header: true } }, ['header']);
                 assert.strictEqual(formatField('col', 0, false, formatter), '"col"');
             });
 
             it('should not quote the header if quoteColumns is an object and quoteColumns object has false for the column nam', () => {
-                const formatter = createFormatter({ quoteColumns: { header: false } }, [ 'header' ]);
+                const formatter = createFormatter({ quoteColumns: { header: false } }, ['header']);
                 assert.strictEqual(formatField('col', 0, false, formatter), 'col');
             });
 
             it('should not quote the header if quoteColumns is an object and quoteColumns object does not contain the header', () => {
-                const formatter = createFormatter({ quoteColumns: { header2: true } }, [ 'header' ]);
+                const formatter = createFormatter({ quoteColumns: { header2: true } }, ['header']);
                 assert.strictEqual(formatField('col', 0, false, formatter), 'col');
             });
         });

@@ -1,7 +1,6 @@
 import { resolve } from 'path';
 import { EOL } from 'os';
 
-
 export default {
     path: resolve(__dirname, 'tmp', 'malformed.csv'),
 

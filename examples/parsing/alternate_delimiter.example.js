@@ -1,10 +1,7 @@
 const { EOL } = require('os');
 const csv = require('../../');
 
-const CSV_STRING = [
-    'a1\tb1',
-    'a2\tb2',
-].join(EOL);
+const CSV_STRING = ['a1\tb1', 'a2\tb2'].join(EOL);
 
 const stream = csv
     .parse({ delimiter: '\t' })

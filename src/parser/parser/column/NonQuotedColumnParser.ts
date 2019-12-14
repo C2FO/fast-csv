@@ -1,7 +1,7 @@
 import { ParserOptions } from '../../ParserOptions';
 import ColumnFormatter from './ColumnFormatter';
-import { Scanner, Token } from '../Scanner';
-
+import { Scanner } from '../Scanner';
+import { Token } from '../Token';
 
 const { isTokenDelimiter, isTokenRowDelimiter } = Token;
 

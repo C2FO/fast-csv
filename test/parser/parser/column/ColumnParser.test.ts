@@ -14,7 +14,10 @@ describe('ColumnParser', () => {
                 const scanner = new Scanner({ line, parserOptions, hasMoreData: true });
                 const expectedResult = { scanner, items: [] };
                 const mock = sinon.mock(lineParser.nonQuotedColumnParser);
-                mock.expects('parse').once().withArgs(scanner).returns(expectedResult);
+                mock.expects('parse')
+                    .once()
+                    .withArgs(scanner)
+                    .returns(expectedResult);
                 assert.deepStrictEqual(lineParser.parse(scanner), expectedResult);
                 mock.verify();
             });
@@ -27,7 +30,10 @@ describe('ColumnParser', () => {
                 const scanner = new Scanner({ line, parserOptions, hasMoreData: true });
                 const expectedResult = { scanner, items: [] };
                 const mock = sinon.mock(lineParser.quotedColumnParser);
-                mock.expects('parse').once().withArgs(scanner).returns(expectedResult);
+                mock.expects('parse')
+                    .once()
+                    .withArgs(scanner)
+                    .returns(expectedResult);
                 assert.deepStrictEqual(lineParser.parse(scanner), expectedResult);
                 mock.verify();
             });

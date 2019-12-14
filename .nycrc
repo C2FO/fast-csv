@@ -2,6 +2,10 @@
   "extends": "@istanbuljs/nyc-config-typescript",
   "all": true,
   "check-coverage": true,
+  "lines": 90,
+  "functions": 90,
+  "branches": 90,
+  "statements": 90,
   "exclude": [
     "**/*.d.ts",
     "coverage/**",

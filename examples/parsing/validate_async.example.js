@@ -1,14 +1,10 @@
 const { EOL } = require('os');
 const csv = require('../../');
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
-const stream = csv.parse({ headers: true })
+const stream = csv
+    .parse({ headers: true })
     .validate((row, cb) => {
         setImmediate(() => cb(null, row.firstName !== 'bob'));
     })

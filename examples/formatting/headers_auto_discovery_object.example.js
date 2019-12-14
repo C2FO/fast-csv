@@ -2,9 +2,7 @@ const csv = require('../../');
 
 const csvStream = csv.format({ headers: true });
 
-csvStream
-    .pipe(process.stdout)
-    .on('end', process.exit);
+csvStream.pipe(process.stdout).on('end', process.exit);
 
 csvStream.write({ header1: 'value1a', header2: 'value1b' });
 csvStream.write({ header1: 'value2a', header2: 'value2b' });

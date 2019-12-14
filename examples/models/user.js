@@ -7,9 +7,9 @@ class User {
 
     constructor(id) {
         this.id = id;
-        this.isVerified = (id % 2) === 0;
-        this.hasLoggedIn = this.isVerified ? (id % 4) === 0 : false;
-        this.age = +(id) + 10;
+        this.isVerified = id % 2 === 0;
+        this.hasLoggedIn = this.isVerified ? id % 4 === 0 : false;
+        this.age = +id + 10;
     }
 }
 

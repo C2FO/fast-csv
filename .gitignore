@@ -6,3 +6,4 @@ benchmark/results
 .nyc_output
 build
 **/tmp
+coverage

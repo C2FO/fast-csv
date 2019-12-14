@@ -10,7 +10,6 @@ const transform = row => ({
     B: row.b,
 });
 
-csv
-    .writeToString(data, { headers: true, transform })
+csv.writeToString(data, { headers: true, transform })
     .then(formattedCsv => console.log(formattedCsv))
     .catch(err => console.error(err.stack));

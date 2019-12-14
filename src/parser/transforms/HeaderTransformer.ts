@@ -1,8 +1,6 @@
-import { isUndefined } from 'lodash';
+import isUndefined from 'lodash.isundefined';
 import { ParserOptions } from '../ParserOptions';
-import {
-    Row, RowArray, RowMap, RowValidationResult, RowValidatorCallback,
-} from '../types';
+import { Row, RowArray, RowMap, RowValidationResult, RowValidatorCallback } from '../types';
 
 export default class HeaderTransformer {
     private readonly parserOptions: ParserOptions;
@@ -13,9 +11,9 @@ export default class HeaderTransformer {
 
     private readonly shouldUseFirstRow: boolean;
 
-    private processedFirstRow: boolean = false;
+    private processedFirstRow = false;
 
-    private headersLength: number = 0;
+    private headersLength = 0;
 
     public constructor(parserOptions: ParserOptions) {
         this.parserOptions = parserOptions;
@@ -59,11 +57,17 @@ export default class HeaderTransformer {
         const { parserOptions } = this;
         if (!parserOptions.discardUnmappedColumns && row.length > this.headersLength) {
             if (!parserOptions.strictColumnHandling) {
-                throw new Error(`Unexpected Error: column header mismatch expected: ${this.headersLength} columns got: ${row.length}`);
+                throw new Error(
+                    `Unexpected Error: column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
+                );
             }
-            return { row, isValid: false, reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}` };
+            return {
+                row,
+                isValid: false,
+                reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
+            };
         }
-        if (parserOptions.strictColumnHandling && (row.length < this.headersLength)) {
+        if (parserOptions.strictColumnHandling && row.length < this.headersLength) {
             return {
                 row,
                 isValid: false,
@@ -72,7 +76,6 @@ export default class HeaderTransformer {
         }
         return { row: this.mapHeaders(row), isValid: true };
     }
-
 
     private mapHeaders(row: RowArray): Row {
         const rowMap: RowMap = {};

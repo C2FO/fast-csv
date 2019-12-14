@@ -1,55 +1,9 @@
 import { ParserOptions } from '../ParserOptions';
+import { MaybeToken, Token } from './Token';
 
 const ROW_DELIMITER = /((?:\r\n)|\n|\r)/;
 
-interface TokenArgs{
-    token: string;
-    startCursor: number;
-    endCursor: number;
-}
-
-export type MaybeToken = Token | null;
-
-export class Token {
-    public static isTokenRowDelimiter(token: Token): boolean {
-        const content = token.token;
-        return content === '\r' || content === '\n' || content === '\r\n';
-    }
-
-    public static isTokenCarriageReturn(token: Token, parserOptions: ParserOptions): boolean {
-        return token.token === parserOptions.carriageReturn;
-    }
-
-    public static isTokenComment(token: Token, parserOptions: ParserOptions): boolean {
-        return parserOptions.supportsComments && !!token && token.token === parserOptions.comment;
-    }
-
-    public static isTokenEscapeCharacter(token: Token, parserOptions: ParserOptions): boolean {
-        return token.token === parserOptions.escapeChar;
-    }
-
-    public static isTokenQuote(token: Token, parserOptions: ParserOptions): boolean {
-        return token.token === parserOptions.quote;
-    }
-
-    public static isTokenDelimiter(token: Token, parserOptions: ParserOptions): boolean {
-        return token.token === parserOptions.delimiter;
-    }
-
-    public readonly token: string;
-
-    public readonly startCursor: number;
-
-    public readonly endCursor: number;
-
-    public constructor(tokenArgs: TokenArgs) {
-        this.token = tokenArgs.token;
-        this.startCursor = tokenArgs.startCursor;
-        this.endCursor = tokenArgs.endCursor;
-    }
-}
-
-interface ScannerArgs{
+export interface ScannerArgs {
     line: string;
     parserOptions: ParserOptions;
     hasMoreData: boolean;
@@ -65,7 +19,7 @@ export class Scanner {
 
     public readonly hasMoreData: boolean;
 
-    public cursor: number = 0;
+    public cursor = 0;
 
     public constructor(args: ScannerArgs) {
         this.line = args.line;

@@ -12,9 +12,7 @@ describe('Parser', () => {
         const myParser = createParser({ delimiter: ',' });
         assert.deepStrictEqual(parse(data, false, myParser), {
             line: '',
-            rows: [
-                [ 'first_name', 'last_name', 'email_address' ],
-            ],
+            rows: [['first_name', 'last_name', 'email_address']],
         });
     });
 
@@ -26,8 +24,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First1', 'Last1', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First1', 'Last1', 'email1@email.com'],
                     ],
                 });
             });
@@ -38,8 +36,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First1', 'Last1', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First1', 'Last1', 'email1@email.com'],
                     ],
                 });
             });
@@ -50,9 +48,9 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First1', 'Last1', 'email1@email.com' ],
-                        [ '', '', '' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First1', 'Last1', 'email1@email.com'],
+                        ['', '', ''],
                     ],
                 });
             });
@@ -63,8 +61,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', '' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ''],
                     ],
                 });
             });
@@ -75,8 +73,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', '' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ''],
                     ],
                 });
             });
@@ -87,8 +85,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', ' ' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ' '],
                     ],
                 });
             });
@@ -99,8 +97,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', '' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ''],
                     ],
                 });
             });
@@ -110,9 +108,7 @@ describe('Parser', () => {
                 const myParser = createParser({ delimiter: ',' });
                 assert.deepStrictEqual(parse(data, true, myParser), {
                     line: 'First1,Last1,email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
 
@@ -122,15 +118,13 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: 'First1,Last1,email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
                 assert.deepStrictEqual(parse(`${parsedData.line}\nFirst2,Last2,email2@email.com`, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'First1', 'Last1', 'email1@email.com' ],
-                        [ 'First2', 'Last2', 'email2@email.com' ],
+                        ['First1', 'Last1', 'email1@email.com'],
+                        ['First2', 'Last2', 'email2@email.com'],
                     ],
                 });
             });
@@ -171,9 +165,7 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
         });
@@ -185,8 +177,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,1', 'Last,1', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,1', 'Last,1', 'email1@email.com'],
                     ],
                 });
             });
@@ -197,8 +189,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', '' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ''],
                     ],
                 });
             });
@@ -209,8 +201,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', ' ' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ' '],
                     ],
                 });
             });
@@ -221,8 +213,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', '' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ''],
                     ],
                 });
             });
@@ -233,8 +225,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,"1"', 'Last,"1"', 'email1@email.com'],
                     ],
                 });
             });
@@ -245,8 +237,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,"1"', 'Last,"1"', 'email1@email.com'],
                     ],
                 });
             });
@@ -256,9 +248,7 @@ describe('Parser', () => {
                 const myParser = createParser({ delimiter: ',' });
                 assert.deepStrictEqual(parse(data, true, myParser), {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
 
@@ -268,17 +258,18 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
-                assert.deepStrictEqual(parse(`${parsedData.line}"\n"First,""2""","Last,""2""","email2@email.com"`, false, myParser), {
-                    line: '',
-                    rows: [
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
-                        [ 'First,"2"', 'Last,"2"', 'email2@email.com' ],
-                    ],
-                });
+                assert.deepStrictEqual(
+                    parse(`${parsedData.line}"\n"First,""2""","Last,""2""","email2@email.com"`, false, myParser),
+                    {
+                        line: '',
+                        rows: [
+                            ['First,"1"', 'Last,"1"', 'email1@email.com'],
+                            ['First,"2"', 'Last,"2"', 'email2@email.com'],
+                        ],
+                    },
+                );
             });
 
             it('should throw an error if there is not more data and there is an invalid escape sequence', () => {
@@ -287,9 +278,7 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
                 assert.throws(() => {
                     myParser.parse(`${parsedData.line}\n"First,"",2""","Last""2""","email2@email.com"`, false);
@@ -303,8 +292,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parsedData, {
                     line: '',
                     rows: [
-                        [ '', '', '' ],
-                        [ '', 'Last4', 'email4@email.com' ],
+                        ['', '', ''],
+                        ['', 'Last4', 'email4@email.com'],
                     ],
                 });
             });
@@ -335,9 +324,7 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
         });
@@ -349,8 +336,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ '"First1"', '"Last1"', '"email1@email.com"' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['"First1"', '"Last1"', '"email1@email.com"'],
                     ],
                 });
             });
@@ -365,8 +352,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First1', 'Last1', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First1', 'Last1', 'email1@email.com'],
                     ],
                 });
             });
@@ -377,8 +364,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', '' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ''],
                     ],
                 });
             });
@@ -389,8 +376,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', ' ' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ' '],
                     ],
                 });
             });
@@ -401,8 +388,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                        [ 'First1', 'Last1', 'email1@email.com', '' ],
+                        ['first_name', 'last_name', 'email_address', 'empty'],
+                        ['First1', 'Last1', 'email1@email.com', ''],
                     ],
                 });
             });
@@ -412,9 +399,7 @@ describe('Parser', () => {
                 const myParser = createParser({ delimiter: ',' });
                 assert.deepStrictEqual(parse(data, true, myParser), {
                     line: 'First1,Last1,email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
 
@@ -424,15 +409,13 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: 'First1,Last1,email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
                 assert.deepStrictEqual(parse(`${parsedData.line}\rFirst2,Last2,email2@email.com`, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'First1', 'Last1', 'email1@email.com' ],
-                        [ 'First2', 'Last2', 'email2@email.com' ],
+                        ['First1', 'Last1', 'email1@email.com'],
+                        ['First2', 'Last2', 'email2@email.com'],
                     ],
                 });
             });
@@ -475,8 +458,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,1', 'Last,1', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,1', 'Last,1', 'email1@email.com'],
                     ],
                 });
             });
@@ -487,8 +470,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,"1"', 'Last,"1"', 'email1@email.com'],
                     ],
                 });
             });
@@ -499,8 +482,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,"1"', 'Last,"1"', 'email1@email.com'],
                     ],
                 });
             });
@@ -510,9 +493,7 @@ describe('Parser', () => {
                 const myParser = createParser({ delimiter: ',' });
                 assert.deepStrictEqual(parse(data, true, myParser), {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
 
@@ -522,17 +503,18 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
-                assert.deepStrictEqual(parse(`${parsedData.line}"\r"First,""2""","Last,""2""","email2@email.com"`, false, myParser), {
-                    line: '',
-                    rows: [
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
-                        [ 'First,"2"', 'Last,"2"', 'email2@email.com' ],
-                    ],
-                });
+                assert.deepStrictEqual(
+                    parse(`${parsedData.line}"\r"First,""2""","Last,""2""","email2@email.com"`, false, myParser),
+                    {
+                        line: '',
+                        rows: [
+                            ['First,"1"', 'Last,"1"', 'email1@email.com'],
+                            ['First,"2"', 'Last,"2"', 'email2@email.com'],
+                        ],
+                    },
+                );
             });
 
             it('should throw an error if there is not more data and there is an invalid escape sequence', () => {
@@ -541,9 +523,7 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
                 assert.throws(() => {
                     myParser.parse(`${parsedData.line}\r"First,"",2""","Last""2""","email2@email.com"`, false);
@@ -557,8 +537,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parsedData, {
                     line: '',
                     rows: [
-                        [ '', '', '' ],
-                        [ '', 'Last4', 'email4@email.com' ],
+                        ['', '', ''],
+                        ['', 'Last4', 'email4@email.com'],
                     ],
                 });
             });
@@ -601,8 +581,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ '"First1"', '"Last1"', '"email1@email.com"' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['"First1"', '"Last1"', '"email1@email.com"'],
                     ],
                 });
             });
@@ -617,8 +597,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First1', 'Last1', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First1', 'Last1', 'email1@email.com'],
                     ],
                 });
             });
@@ -628,9 +608,7 @@ describe('Parser', () => {
                 const myParser = createParser({ delimiter: ',' });
                 assert.deepStrictEqual(parse(data, true, myParser), {
                     line: 'First1,Last1,email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
 
@@ -640,15 +618,13 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: 'First1,Last1,email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
                 assert.deepStrictEqual(parse(`${parsedData.line}\r\nFirst2,Last2,email2@email.com`, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'First1', 'Last1', 'email1@email.com' ],
-                        [ 'First2', 'Last2', 'email2@email.com' ],
+                        ['First1', 'Last1', 'email1@email.com'],
+                        ['First2', 'Last2', 'email2@email.com'],
                     ],
                 });
             });
@@ -689,9 +665,7 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
         });
@@ -703,8 +677,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,1', 'Last,1', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,1', 'Last,1', 'email1@email.com'],
                     ],
                 });
             });
@@ -715,8 +689,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,"1"', 'Last,"1"', 'email1@email.com'],
                     ],
                 });
             });
@@ -727,8 +701,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['First,"1"', 'Last,"1"', 'email1@email.com'],
                     ],
                 });
             });
@@ -738,9 +712,7 @@ describe('Parser', () => {
                 const myParser = createParser({ delimiter: ',' });
                 assert.deepStrictEqual(parse(data, true, myParser), {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
 
@@ -750,17 +722,18 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
-                assert.deepStrictEqual(parse(`${parsedData.line}"\r\n"First,""2""","Last,""2""","email2@email.com"`, false, myParser), {
-                    line: '',
-                    rows: [
-                        [ 'First,"1"', 'Last,"1"', 'email1@email.com' ],
-                        [ 'First,"2"', 'Last,"2"', 'email2@email.com' ],
-                    ],
-                });
+                assert.deepStrictEqual(
+                    parse(`${parsedData.line}"\r\n"First,""2""","Last,""2""","email2@email.com"`, false, myParser),
+                    {
+                        line: '',
+                        rows: [
+                            ['First,"1"', 'Last,"1"', 'email1@email.com'],
+                            ['First,"2"', 'Last,"2"', 'email2@email.com'],
+                        ],
+                    },
+                );
             });
 
             it('should throw an error if there is not more data and there is an invalid escape sequence', () => {
@@ -769,9 +742,7 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '"First,""1""","Last,""1""","email1@email.com',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
                 assert.throws(() => {
                     myParser.parse(`${parsedData.line}\r\n"First,"",2""","Last""2""","email2@email.com"`, false);
@@ -785,8 +756,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parsedData, {
                     line: '',
                     rows: [
-                        [ '', '', '' ],
-                        [ '', 'Last4', 'email4@email.com' ],
+                        ['', '', ''],
+                        ['', 'Last4', 'email4@email.com'],
                     ],
                 });
             });
@@ -817,9 +788,7 @@ describe('Parser', () => {
                 const parsedData = parse(data, true, myParser);
                 assert.deepStrictEqual(parsedData, {
                     line: '',
-                    rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                    ],
+                    rows: [['first_name', 'last_name', 'email_address']],
                 });
             });
         });
@@ -831,8 +800,8 @@ describe('Parser', () => {
                 assert.deepStrictEqual(parse(data, false, myParser), {
                     line: '',
                     rows: [
-                        [ 'first_name', 'last_name', 'email_address' ],
-                        [ '"First1"', '"Last1"', '"email1@email.com"' ],
+                        ['first_name', 'last_name', 'email_address'],
+                        ['"First1"', '"Last1"', '"email1@email.com"'],
                     ],
                 });
             });
@@ -846,8 +815,8 @@ describe('Parser', () => {
             assert.deepStrictEqual(parse(data, false, myParser), {
                 line: '',
                 rows: [
-                    [ 'first_name', 'last_name', 'email_address' ],
-                    [ 'First1', 'Last1', 'email1@email.com' ],
+                    ['first_name', 'last_name', 'email_address'],
+                    ['First1', 'Last1', 'email1@email.com'],
                 ],
             });
         });
@@ -857,9 +826,7 @@ describe('Parser', () => {
             const myParser = createParser({ delimiter: ',', comment: '#' });
             assert.deepStrictEqual(parse(data, true, myParser), {
                 line: '#First1,Last1,email1@email.com',
-                rows: [
-                    [ 'first_name', 'last_name', 'email_address' ],
-                ],
+                rows: [['first_name', 'last_name', 'email_address']],
             });
         });
 
@@ -869,17 +836,22 @@ describe('Parser', () => {
             const parsedData = parse(data, true, myParser);
             assert.deepStrictEqual(parsedData, {
                 line: '#This is a comment',
-                rows: [
-                    [ 'first_name', 'last_name', 'email_address' ],
-                ],
+                rows: [['first_name', 'last_name', 'email_address']],
             });
-            assert.deepStrictEqual(parse(`${parsedData.line}\nFirst1,Last1,email1@email.com\nFirst2,Last2,email2@email.com`, false, myParser), {
-                line: '',
-                rows: [
-                    [ 'First1', 'Last1', 'email1@email.com' ],
-                    [ 'First2', 'Last2', 'email2@email.com' ],
-                ],
-            });
+            assert.deepStrictEqual(
+                parse(
+                    `${parsedData.line}\nFirst1,Last1,email1@email.com\nFirst2,Last2,email2@email.com`,
+                    false,
+                    myParser,
+                ),
+                {
+                    line: '',
+                    rows: [
+                        ['First1', 'Last1', 'email1@email.com'],
+                        ['First2', 'Last2', 'email2@email.com'],
+                    ],
+                },
+            );
         });
 
         it('should not parse a row if a new line is not found and there is more data', () => {
@@ -898,7 +870,7 @@ describe('Parser', () => {
             const parsedData = parse(data, false, myParser);
             assert.deepStrictEqual(parsedData, {
                 line: '',
-                rows: [ [ 'f#irst_name', 'last_name', 'email_address' ] ],
+                rows: [['f#irst_name', 'last_name', 'email_address']],
             });
         });
 
@@ -908,7 +880,7 @@ describe('Parser', () => {
             const parsedData = parse(data, false, myParser);
             assert.deepStrictEqual(parsedData, {
                 line: '',
-                rows: [ [ '#first_name', 'last_name', 'email_address' ] ],
+                rows: [['#first_name', 'last_name', 'email_address']],
             });
         });
 
