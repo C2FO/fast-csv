@@ -1,3 +1,9 @@
+# v3.5.0
+
+* Upgraded dependencies
+* Reformatted code with prettier
+* [FIXED] Entire lodash is imported, bloating dependencies [#281](https://github.com/C2FO/fast-csv/issues/281)
+
 # v3.4.0
 
 * [FIXED] formatter.js: Disabling quote doesn't work [#97](https://github.com/C2FO/fast-csv/issues/97)

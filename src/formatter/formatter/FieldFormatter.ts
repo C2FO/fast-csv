@@ -1,6 +1,7 @@
-import { isBoolean, isNil, escapeRegExp } from 'lodash';
+import isBoolean from 'lodash.isboolean';
+import isNil from 'lodash.isnil';
+import escapeRegExp from 'lodash.escaperegexp';
 import { FormatterOptions } from '../FormatterOptions';
-
 
 export default class FieldFormatter {
     private readonly formatterOptions: FormatterOptions;
@@ -45,9 +46,7 @@ export default class FieldFormatter {
         if (formatterOptions.quote !== '') {
             const shouldEscape = preparedField.indexOf(formatterOptions.quote) !== -1;
             if (shouldEscape) {
-                return this.quoteField(
-                    preparedField.replace(this.REPLACE_REGEXP, formatterOptions.escapedQuote)
-                );
+                return this.quoteField(preparedField.replace(this.REPLACE_REGEXP, formatterOptions.escapedQuote));
             }
         }
         const hasEscapeCharacters = preparedField.search(this.ESCAPE_REGEXP) !== -1;

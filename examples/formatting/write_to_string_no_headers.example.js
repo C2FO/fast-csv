@@ -4,13 +4,12 @@ const data = [
     { a: 'a1', b: 'b1' },
     { a: 'a2', b: 'b2' },
 ];
-csv
-    .writeToString(data, { headers: false })
-    .then((formattedCsv) => {
+csv.writeToString(data, { headers: false })
+    .then(formattedCsv => {
         console.log(formattedCsv);
         process.exit();
     })
-    .catch((err) => {
+    .catch(err => {
         console.error(err.stack);
         process.exit(1);
     });

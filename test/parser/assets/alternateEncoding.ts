@@ -5,12 +5,15 @@ import { EOL } from 'os';
 export default {
     path: resolve(__dirname, 'tmp', 'alternate_encoding.csv'),
 
-    content: Buffer.from([
-        'first_name,last_name,email_address',
-        'First1,Last1,email1@email.com',
-        'First2,Last2,email2@email.com',
-        'First3,Last3,email3@email.com',
-    ].join(EOL), 'utf16le'),
+    content: Buffer.from(
+        [
+            'first_name,last_name,email_address',
+            'First1,Last1,email1@email.com',
+            'First2,Last2,email2@email.com',
+            'First3,Last3,email3@email.com',
+        ].join(EOL),
+        'utf16le',
+    ),
 
     parsed: [
         {

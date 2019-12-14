@@ -1,17 +1,14 @@
-import { NodeStringDecoder, StringDecoder } from 'string_decoder';
+import { StringDecoder } from 'string_decoder';
 import { Transform, TransformCallback } from 'stream';
 import { ParserOptions } from './ParserOptions';
 import { HeaderTransformer, RowTransformerValidator } from './transforms';
 import { Parser } from './parser';
-import {
-    RowArray,
-    RowTransformFunction, RowValidate, RowValidatorCallback,
-} from './types';
+import { RowArray, RowTransformFunction, RowValidate, RowValidatorCallback } from './types';
 
 export default class CsvParserStream extends Transform {
     private readonly parserOptions: ParserOptions;
 
-    private readonly decoder: NodeStringDecoder;
+    private readonly decoder: StringDecoder;
 
     private readonly parser: Parser;
 
@@ -19,12 +16,11 @@ export default class CsvParserStream extends Transform {
 
     private readonly rowTransformerValidator: RowTransformerValidator;
 
-    private lines: string = '';
+    private lines = '';
 
-    private rowCount: number = 0;
+    private rowCount = 0;
 
-    private endEmitted: boolean = false;
-
+    private endEmitted = false;
 
     public constructor(parserOptions: ParserOptions) {
         super({ objectMode: parserOptions.objectMode });
@@ -60,7 +56,7 @@ export default class CsvParserStream extends Transform {
     public _transform(data: Buffer, encoding: string, done: TransformCallback): void {
         try {
             const { lines } = this;
-            const newLine = (lines + this.decoder.write(data));
+            const newLine = lines + this.decoder.write(data);
             const rows = this.parse(newLine, true);
             this.processRows(rows, done);
         } catch (e) {
@@ -68,10 +64,9 @@ export default class CsvParserStream extends Transform {
         }
     }
 
-
     public _flush(done: TransformCallback): void {
         try {
-            const newLine = (this.lines + this.decoder.end());
+            const newLine = this.lines + this.decoder.end();
             const rows = this.parse(newLine, false);
             this.processRows(rows, done);
         } catch (e) {
@@ -114,7 +109,7 @@ export default class CsvParserStream extends Transform {
                 } else {
                     this.push(transformResult.row);
                 }
-                if ((i % 100) === 0) {
+                if (i % 100 === 0) {
                     // incase the transform are sync insert a next tick to prevent stack overflow
                     setImmediate((): void => iterate(i + 1));
                     return undefined;

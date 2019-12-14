@@ -4,11 +4,7 @@ import { NonQuotedColumnParser } from '../../../../src/parser/parser/column';
 import { Scanner } from '../../../../src/parser/parser/Scanner';
 
 describe('NonQuotedColumnParser', () => {
-    const parse = (
-        line: string,
-        hasMoreData: boolean = false,
-        parserOpts: ParserOptionsArgs = {}
-    ) => {
+    const parse = (line: string, hasMoreData = false, parserOpts: ParserOptionsArgs = {}) => {
         const parserOptions = new ParserOptions(parserOpts);
         const columnParser = new NonQuotedColumnParser(parserOptions);
         const scanner = new Scanner({ line, parserOptions, hasMoreData });
@@ -60,7 +56,6 @@ describe('NonQuotedColumnParser', () => {
                 assert.strictEqual(scanner.lineFromCursor, '\r\nworld');
             });
 
-
             describe('trim options', () => {
                 it('should trim the item', () => {
                     const line = '   hello   ';
@@ -101,7 +96,6 @@ describe('NonQuotedColumnParser', () => {
                 assert.strictEqual(col, 'hello');
                 assert.strictEqual(scanner.lineFromCursor, '');
             });
-
 
             it('should parse a column up to the column delimiter', () => {
                 const line = 'hello\tworld';

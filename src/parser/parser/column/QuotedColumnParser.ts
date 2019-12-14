@@ -1,12 +1,11 @@
 import ColumnFormatter from './ColumnFormatter';
 import { ParserOptions } from '../../ParserOptions';
-import { Scanner, Token } from '../Scanner';
+import { Scanner } from '../Scanner';
+import { Token } from '../Token';
 
-const {
-    isTokenDelimiter, isTokenRowDelimiter, isTokenEscapeCharacter, isTokenQuote,
-} = Token;
+const { isTokenDelimiter, isTokenRowDelimiter, isTokenEscapeCharacter, isTokenQuote } = Token;
 
-interface DataBetweenQuotes{
+interface DataBetweenQuotes {
     foundClosingQuote: boolean;
     col: string;
 }
@@ -33,7 +32,11 @@ export default class QuotedColumnParser {
             // if we didnt find a closing quote but we potentially have more data then skip the parsing
             // and return the original scanner.
             if (!scanner.hasMoreData) {
-                throw new Error(`Parse Error: missing closing: '${this.parserOptions.quote}' in line: at '${scanner.lineFromCursor.replace(/[r\n]/g, "\\n'")}'`);
+                throw new Error(
+                    `Parse Error: missing closing: '${
+                        this.parserOptions.quote
+                    }' in line: at '${scanner.lineFromCursor.replace(/[r\n]/g, "\\n'")}'`,
+                );
             }
             return null;
         }
@@ -82,7 +85,6 @@ export default class QuotedColumnParser {
         return { col: this.columnFormatter.format(characters.join('')), foundClosingQuote };
     }
 
-
     private checkForMalformedColumn(scanner: Scanner): void {
         const { parserOptions } = this;
         const { nextNonSpaceToken } = scanner;
@@ -93,7 +95,9 @@ export default class QuotedColumnParser {
                 // if the final quote was NOT followed by a column (,) or row(\n) delimiter then its a bad column
                 // tldr: only part of the column was quoted
                 const linePreview = scanner.lineFromCursor.substr(0, 10).replace(/[\r\n]/g, "\\n'");
-                throw new Error(`Parse Error: expected: '${parserOptions.escapedDelimiter}' OR new line got: '${nextNonSpaceToken.token}'. at '${linePreview}`);
+                throw new Error(
+                    `Parse Error: expected: '${parserOptions.escapedDelimiter}' OR new line got: '${nextNonSpaceToken.token}'. at '${linePreview}`,
+                );
             }
             scanner.advanceToToken(nextNonSpaceToken);
         } else if (!scanner.hasMoreData) {

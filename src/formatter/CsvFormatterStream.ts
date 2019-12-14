@@ -8,7 +8,7 @@ export default class CsvFormatterStream extends Transform {
 
     private rowFormatter: RowFormatter;
 
-    private hasWrittenBOM: boolean = false;
+    private hasWrittenBOM = false;
 
     public constructor(formatterOptions: FormatterOptions) {
         super({ objectMode: formatterOptions.objectMode });

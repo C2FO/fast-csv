@@ -1,20 +1,21 @@
 import * as assert from 'assert';
 import { ParserOptions, ParserOptionsArgs } from '../../../src/parser';
-import { MaybeToken, Scanner, Token } from '../../../src/parser/parser/Scanner';
+import { Scanner } from '../../../src/parser/parser/Scanner';
+import { MaybeToken, Token } from '../../../src/parser/parser/Token';
 
 const createOptions = (opts: ParserOptionsArgs = {}) => new ParserOptions(opts);
 describe('Scanner', () => {
-    const getScanner = (line: string, hasMoreData: boolean, cursor = 0, parserOpts: ParserOptionsArgs = {}) => new Scanner({
-        line,
-        parserOptions: createOptions(parserOpts),
-        hasMoreData,
-        cursor,
-    });
+    const getScanner = (line: string, hasMoreData: boolean, cursor = 0, parserOpts: ParserOptionsArgs = {}) =>
+        new Scanner({
+            line,
+            parserOptions: createOptions(parserOpts),
+            hasMoreData,
+            cursor,
+        });
 
     const assertToken = (token: MaybeToken): token is Token => {
         if (token === null) {
             assert.fail('Expected non-null token');
-            return false;
         }
         return true;
     };

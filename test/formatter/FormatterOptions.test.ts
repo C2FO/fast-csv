@@ -35,7 +35,6 @@ describe('FormatterOptions', () => {
         });
     });
 
-
     describe('#quote', () => {
         it('should set a default quote value', () => {
             assert.strictEqual(createOptions().quote, '"');
@@ -54,7 +53,6 @@ describe('FormatterOptions', () => {
         });
     });
 
-
     describe('#escape', () => {
         it('should set the escape character to the quote value if not specified', () => {
             assert.strictEqual(createOptions().escape, '"');
@@ -69,7 +67,6 @@ describe('FormatterOptions', () => {
         });
     });
 
-
     describe('#quoteColumns', () => {
         it('should set the quoteColumns to false', () => {
             assert.strictEqual(createOptions().quoteColumns, false);
@@ -80,17 +77,31 @@ describe('FormatterOptions', () => {
         });
 
         it('should set the quoteColumns to an array if specified', () => {
-            assert.deepStrictEqual(createOptions({ quoteColumns: [ true, true, true ] }).quoteColumns, [ true, true, true ]);
+            assert.deepStrictEqual(createOptions({ quoteColumns: [true, true, true] }).quoteColumns, [
+                true,
+                true,
+                true,
+            ]);
         });
 
         it('should set the quoteColumns to an object if specified', () => {
-            assert.deepStrictEqual(createOptions({ quoteColumns: { a: true, b: false } }).quoteColumns, { a: true, b: false });
+            assert.deepStrictEqual(createOptions({ quoteColumns: { a: true, b: false } }).quoteColumns, {
+                a: true,
+                b: false,
+            });
         });
 
         it('should set quoteHeaders to quoteColumns if quoteHeaders is not specified and quoteColumns is', () => {
             assert.deepStrictEqual(createOptions({ quoteColumns: true }).quoteHeaders, true);
-            assert.deepStrictEqual(createOptions({ quoteColumns: [ true, true, true ] }).quoteHeaders, [ true, true, true ]);
-            assert.deepStrictEqual(createOptions({ quoteColumns: { a: true, b: false } }).quoteHeaders, { a: true, b: false });
+            assert.deepStrictEqual(createOptions({ quoteColumns: [true, true, true] }).quoteHeaders, [
+                true,
+                true,
+                true,
+            ]);
+            assert.deepStrictEqual(createOptions({ quoteColumns: { a: true, b: false } }).quoteHeaders, {
+                a: true,
+                b: false,
+            });
         });
     });
 
@@ -104,11 +115,18 @@ describe('FormatterOptions', () => {
         });
 
         it('should set the quoteHeaders to an array if specified', () => {
-            assert.deepStrictEqual(createOptions({ quoteHeaders: [ true, true, true ] }).quoteHeaders, [ true, true, true ]);
+            assert.deepStrictEqual(createOptions({ quoteHeaders: [true, true, true] }).quoteHeaders, [
+                true,
+                true,
+                true,
+            ]);
         });
 
         it('should set the quoteHeaders to an object if specified', () => {
-            assert.deepStrictEqual(createOptions({ quoteHeaders: { a: true, b: false } }).quoteHeaders, { a: true, b: false });
+            assert.deepStrictEqual(createOptions({ quoteHeaders: { a: true, b: false } }).quoteHeaders, {
+                a: true,
+                b: false,
+            });
         });
     });
 
@@ -118,7 +136,7 @@ describe('FormatterOptions', () => {
         });
 
         it('should accept an array of headers', () => {
-            assert.deepStrictEqual(createOptions({ headers: [ '1', '2', '3' ] }).headers, [ '1', '2', '3' ]);
+            assert.deepStrictEqual(createOptions({ headers: ['1', '2', '3'] }).headers, ['1', '2', '3']);
         });
 
         it('should accept an boolean and set headers to null', () => {
@@ -126,14 +144,13 @@ describe('FormatterOptions', () => {
         });
 
         it('should set hasHeaders provided to true if headers is provided as an array', () => {
-            assert.deepStrictEqual(createOptions({ headers: [ '1', '2', '3' ] }).shouldWriteHeaders, true);
+            assert.deepStrictEqual(createOptions({ headers: ['1', '2', '3'] }).shouldWriteHeaders, true);
         });
 
         it('should set hasHeaders provided to false if headers is provided as a boolean', () => {
             assert.deepStrictEqual(createOptions({ headers: true }).shouldWriteHeaders, true);
         });
     });
-
 
     describe('#includeEndRowDelimiter', () => {
         it('should set includeEndRowDelimiter to false by default', () => {

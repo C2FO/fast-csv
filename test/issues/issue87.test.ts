@@ -29,11 +29,10 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
         }
     }
 
-    it('should not emit end until data is flushed from source', (next) => {
+    it('should not emit end until data is flushed from source', next => {
         const myStream = new MyStream();
 
-        fs
-            .createReadStream(path.resolve(__dirname, './assets/issue87.csv'))
+        fs.createReadStream(path.resolve(__dirname, './assets/issue87.csv'))
             .pipe(csv.parse({ headers: true }))
             .on('error', next)
             .pipe(myStream)

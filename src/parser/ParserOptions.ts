@@ -1,6 +1,7 @@
-import { escapeRegExp, isString, isNil } from 'lodash';
+import escapeRegExp from 'lodash.escaperegexp';
+import isNil from 'lodash.isnil';
 
-export interface ParserOptionsArgs{
+export interface ParserOptionsArgs {
     objectMode?: boolean;
     delimiter?: string;
     quote?: string | null;
@@ -36,7 +37,7 @@ export class ParserOptions {
 
     public readonly supportsComments: boolean = false;
 
-    public readonly ltrim: boolean = false ;
+    public readonly ltrim: boolean = false;
 
     public readonly rtrim: boolean = false;
 
@@ -62,7 +63,7 @@ export class ParserOptions {
             throw new Error('delimiter option must be one character long');
         }
         this.escapedDelimiter = escapeRegExp(this.delimiter);
-        this.escapeChar = isString(this.escape) ? this.escape : this.quote;
+        this.escapeChar = this.escape ?? this.quote;
         this.supportsComments = !isNil(this.comment);
         this.NEXT_TOKEN_REGEXP = new RegExp(`([^\\s]|\\r\\n|\\n|\\r|${this.escapedDelimiter})`);
     }

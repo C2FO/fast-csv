@@ -50,7 +50,6 @@ describe('ParserOptions', () => {
         });
     });
 
-
     describe('#escapeChar', () => {
         it('should set the escape character to the quote value if not specified', () => {
             assert.strictEqual(createOptions().escapeChar, '"');
@@ -146,7 +145,7 @@ describe('ParserOptions', () => {
         });
 
         it('should accept an array of headers', () => {
-            assert.deepStrictEqual(createOptions({ headers: [ '1', '2', '3' ] }).headers, [ '1', '2', '3' ]);
+            assert.deepStrictEqual(createOptions({ headers: ['1', '2', '3'] }).headers, ['1', '2', '3']);
         });
 
         it('should accept headers as a boolean', () => {

@@ -2,7 +2,6 @@ import * as assert from 'assert';
 import * as csv from '../../src';
 import RecordingStream from '../RecordingStream';
 
-
 describe('Issue #158 - https://github.com/C2FO/fast-csv/issues/158', () => {
     class Place {
         public readonly id: number;
@@ -23,14 +22,16 @@ describe('Issue #158 - https://github.com/C2FO/fast-csv/issues/158', () => {
         }
     }
 
-
-    it('should not write prototype methods in csv', (next) => {
+    it('should not write prototype methods in csv', next => {
         const rs = new RecordingStream();
-        csv.write([
-            new Place(1, 'a').calculateSomething(),
-            new Place(2, 'b').calculateSomething(),
-            new Place(3, 'c').calculateSomething(),
-        ], { headers: true })
+        csv.write(
+            [
+                new Place(1, 'a').calculateSomething(),
+                new Place(2, 'b').calculateSomething(),
+                new Place(3, 'c').calculateSomething(),
+            ],
+            { headers: true },
+        )
             .pipe(rs)
             .on('error', next)
             .on('finish', () => {

@@ -1,7 +1,8 @@
 import { ParserOptions } from '../../ParserOptions';
 import NonQuotedColumnParser from './NonQuotedColumnParser';
 import QuotedColumnParser from './QuotedColumnParser';
-import { Scanner, Token } from '../Scanner';
+import { Scanner } from '../Scanner';
+import { Token } from '../Token';
 
 export default class ColumnParser {
     private readonly parserOptions: ParserOptions;

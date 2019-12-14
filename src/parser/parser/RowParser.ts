@@ -1,7 +1,8 @@
-import { Scanner, Token } from './Scanner';
+import { Scanner } from './Scanner';
 import { ColumnParser } from './column';
 import { ParserOptions } from '../ParserOptions';
 import { RowArray } from '../types';
+import { MaybeToken, Token } from './Token';
 
 const { isTokenRowDelimiter, isTokenCarriageReturn, isTokenDelimiter } = Token;
 
@@ -26,9 +27,11 @@ export default class RowParser {
                 currentScanner.advancePastToken(currentToken);
                 // if ends with CR and there is more data, keep unparsed due to possible
                 // coming LF in CRLF
-                if (!currentScanner.hasMoreCharacters
-                    && isTokenCarriageReturn(currentToken, parserOptions)
-                    && hasMoreData) {
+                if (
+                    !currentScanner.hasMoreCharacters &&
+                    isTokenCarriageReturn(currentToken, parserOptions) &&
+                    hasMoreData
+                ) {
                     return null;
                 }
                 currentScanner.truncateToCursor();
@@ -50,7 +53,7 @@ export default class RowParser {
         return null;
     }
 
-    private getStartToken(scanner: Scanner, columns: RowArray): Token | null {
+    private getStartToken(scanner: Scanner, columns: RowArray): MaybeToken {
         const currentToken = scanner.nextNonSpaceToken;
         if (currentToken !== null && isTokenDelimiter(currentToken, this.parserOptions)) {
             columns.push('');

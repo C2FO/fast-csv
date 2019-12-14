@@ -6,15 +6,14 @@ describe('Issue #111 - https://github.com/C2FO/fast-csv/issues/111', () => {
     const createParser = (parserOptions = {}) => new Parser(new ParserOptions(parserOptions));
     const runParser = (data: string, hasMoreData: boolean, parser: Parser) => parser.parse(data, hasMoreData);
 
-
     it('should parse a block of CSV text with a trailing delimiter', () => {
         const data = 'first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n';
         const myParser = createParser({ delimiter: ',' });
         assert.deepStrictEqual(runParser(data, false, myParser), {
             line: '',
             rows: [
-                [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                [ 'First1', 'Last1', 'email1@email.com', '' ],
+                ['first_name', 'last_name', 'email_address', 'empty'],
+                ['First1', 'Last1', 'email1@email.com', ''],
             ],
         });
     });
@@ -25,8 +24,8 @@ describe('Issue #111 - https://github.com/C2FO/fast-csv/issues/111', () => {
         assert.deepStrictEqual(runParser(data, false, myParser), {
             line: '',
             rows: [
-                [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                [ 'First1', 'Last1', 'email1@email.com', '' ],
+                ['first_name', 'last_name', 'email_address', 'empty'],
+                ['First1', 'Last1', 'email1@email.com', ''],
             ],
         });
     });
@@ -37,8 +36,8 @@ describe('Issue #111 - https://github.com/C2FO/fast-csv/issues/111', () => {
         assert.deepStrictEqual(runParser(data, false, myParser), {
             line: '',
             rows: [
-                [ 'first_name', 'last_name', 'email_address', 'empty1', 'empty2' ],
-                [ 'First1', 'Last1', 'email1@email.com', '', '' ],
+                ['first_name', 'last_name', 'email_address', 'empty1', 'empty2'],
+                ['First1', 'Last1', 'email1@email.com', '', ''],
             ],
         });
     });
@@ -49,8 +48,8 @@ describe('Issue #111 - https://github.com/C2FO/fast-csv/issues/111', () => {
         assert.deepStrictEqual(runParser(data, false, myParser), {
             line: '',
             rows: [
-                [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                [ 'First1', 'Last1', 'email1@email.com', ' ' ],
+                ['first_name', 'last_name', 'email_address', 'empty'],
+                ['First1', 'Last1', 'email1@email.com', ' '],
             ],
         });
     });
@@ -61,8 +60,8 @@ describe('Issue #111 - https://github.com/C2FO/fast-csv/issues/111', () => {
         assert.deepStrictEqual(runParser(data, false, myParser), {
             line: '',
             rows: [
-                [ 'first_name', 'last_name', 'email_address', 'empty' ],
-                [ 'First1', 'Last1', 'email1@email.com', '' ],
+                ['first_name', 'last_name', 'email_address', 'empty'],
+                ['First1', 'Last1', 'email1@email.com', ''],
             ],
         });
     });
@@ -73,8 +72,8 @@ describe('Issue #111 - https://github.com/C2FO/fast-csv/issues/111', () => {
         assert.deepStrictEqual(runParser(data, false, myParser), {
             line: '',
             rows: [
-                [ 'first_name', 'last_name', 'email_address', 'empty', 'empty2' ],
-                [ 'First1', 'Last1', 'email1@email.com', '', '' ],
+                ['first_name', 'last_name', 'email_address', 'empty', 'empty2'],
+                ['First1', 'Last1', 'email1@email.com', '', ''],
             ],
         });
     });

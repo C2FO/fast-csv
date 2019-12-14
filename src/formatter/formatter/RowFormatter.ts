@@ -1,13 +1,12 @@
-import { isFunction, isEqual } from 'lodash';
+import isFunction from 'lodash.isfunction';
+import isEqual from 'lodash.isequal';
 import { FormatterOptions } from '../FormatterOptions';
 import FieldFormatter from './FieldFormatter';
-import {
-    Row, RowHashArray, RowTransformFunction,
-} from '../types';
+import { Row, RowHashArray, RowTransformFunction } from '../types';
 
-type RowCallback = ((err?: Error | null, row?: Row) => void)
+type RowCallback = (err?: Error | null, row?: Row) => void;
 
-type RowFormatterTransform = (row: Row, cb: RowCallback) => void
+type RowFormatterTransform = (row: Row, cb: RowCallback) => void;
 
 type RowFormatterCallback = (error: Error | null, data?: string[]) => void;
 
@@ -61,8 +60,7 @@ export default class RowFormatter {
 
     private hasWrittenHeaders: boolean;
 
-    private rowCount: number = 0;
-
+    private rowCount = 0;
 
     public constructor(formatterOptions: FormatterOptions) {
         this.formatterOptions = formatterOptions;
@@ -164,7 +162,7 @@ export default class RowFormatter {
         const { rowCount } = this;
         this.rowCount += 1;
         if (rowCount) {
-            return [ this.formatterOptions.rowDelimiter, formattedCols ].join('');
+            return [this.formatterOptions.rowDelimiter, formattedCols].join('');
         }
         return formattedCols;
     }

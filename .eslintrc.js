@@ -1,18 +1,36 @@
 module.exports = {
     parser: "@typescript-eslint/parser",
-    "parserOptions": {
-        "project": "./tsconfig.json"
+    parserOptions: {
+        project: "./tsconfig.json"
     },
-    plugins: ["@typescript-eslint"],
-    extends: ["airbnb-base", "plugin:@typescript-eslint/recommended"],
+    plugins: ["@typescript-eslint", "prettier"],
+    extends: [
+        "airbnb-base",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
+    ],
     env: {
         node: true,
         mocha: true,
     },
     settings:{
+        "import/extensions": [
+            ".ts"
+        ],
+        "import/parsers": {
+            "@typescript-eslint/parser": [
+                ".ts"
+            ]
+        },
         "import/resolver": {
             node: {
                 extensions: [".ts"]
+            },
+            "typescript": {
+                "alwaysTryTypes": true
             }
         }
     },
@@ -20,20 +38,20 @@ module.exports = {
         NodeJS: 'readonly',
     },
     rules: {
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "ts": "never"
+            }
+        ],
+        "prettier/prettier": "error",
         "indent": [
             "error",
             4
         ],
-        "comma-dangle": ["error", {
-            "arrays": "always-multiline",
-            "objects": "always-multiline",
-            "imports": "always-multiline",
-            "exports": "always-multiline",
-            "functions": "never"
-        }],
         "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
         "object-curly-spacing": ["error", "always"],
-        "array-bracket-spacing": ["error", "always"],
         "no-underscore-dangle": 0,
         "max-len": ["error", 150, 2, {
             ignoreComments: false,
@@ -43,4 +61,24 @@ module.exports = {
             ignoreTemplateLiterals: true,
         }]
     },
+    overrides: [
+        {
+            "files": [
+                "*.test.ts"
+            ],
+            "rules": {
+                "@typescript-eslint/explicit-function-return-type": "off",
+                "@typescript-eslint/ban-ts-ignore": "off"
+            }
+        },
+        {
+            "files": [
+                "*.js"
+            ],
+            "rules": {
+                "@typescript-eslint/explicit-function-return-type": "off",
+                "@typescript-eslint/no-var-requires": "off"
+            }
+        }
+    ]
 };

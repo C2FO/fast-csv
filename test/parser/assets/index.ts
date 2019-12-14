@@ -17,14 +17,14 @@ export interface PathAndContent {
     content: string | Buffer;
 }
 
-const mkDirIfNotExists = (filePath: string) => {
+const mkDirIfNotExists = (filePath: string): void => {
     const dir = path.dirname(filePath);
     if (!existsSync(dir)) {
         mkdirSync(dir);
     }
 };
 
-const write = (opts: PathAndContent) => {
+const write = (opts: PathAndContent): void => {
     mkDirIfNotExists(opts.path);
     writeFileSync(opts.path, opts.content);
 };
