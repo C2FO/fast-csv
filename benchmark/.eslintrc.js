@@ -1,6 +1,8 @@
 module.exports = {
+    parserOptions: {
+        project: null,
+    },
     rules: {
         "no-console": 0,
-        "@typescript-eslint/no-var-requires": 0
     },
 };

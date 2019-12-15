@@ -163,4 +163,24 @@ describe('ParserOptions', () => {
             assert.strictEqual(createOptions({ renameHeaders: false }).renameHeaders, false);
         });
     });
+
+    describe('#maxRows', () => {
+        it('should default maxRows 0 and limitRows to false', () => {
+            const opts = createOptions();
+            assert.strictEqual(opts.maxRows, 0);
+            assert.strictEqual(opts.limitRows, false);
+        });
+
+        it('should set maxRows to the provided option and limitRows to true if maxRows > 0', () => {
+            const opts = createOptions({ maxRows: 1 });
+            assert.strictEqual(opts.maxRows, 1);
+            assert.strictEqual(opts.limitRows, true);
+        });
+
+        it('should set maxRows to the provided option and limitRows to true if maxRows === 0', () => {
+            const opts = createOptions({ maxRows: 0 });
+            assert.strictEqual(opts.maxRows, 0);
+            assert.strictEqual(opts.limitRows, false);
+        });
+    });
 });

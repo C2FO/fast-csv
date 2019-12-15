@@ -267,6 +267,24 @@ describe('CsvParserStream', () => {
         });
     });
 
+    describe('maxRows', () => {
+        it('should parse up to the specified number of maxRows', () => {
+            const maxRows = 3;
+            parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed.slice(0, maxRows));
+                assert.strictEqual(count, maxRows);
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', () => {
+            const maxRows = 0;
+            parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+    });
+
     it('should emit an error for malformed rows', next => {
         assets.write(assets.malformed);
         const stream = csv.parseFile(assets.malformed.path, { headers: true });

@@ -1,3 +1,7 @@
+# v3.5.1
+
+* [ADDED] `maxRows` option to limit the number of rows parsed. [#275](https://github.com/C2FO/fast-csv/issues/275) [#277](https://github.com/C2FO/fast-csv/pull/277) - [@cbrittingham](https://github.com/cbrittingham)
+
 # v3.5.0
 
 * Upgraded dependencies

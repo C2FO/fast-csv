@@ -17,6 +17,7 @@
     * [Ignoring Empty Rows](#csv-parse-ignoring-empty-rows)
     * [Transforming Rows](#csv-parse-transforming)
     * [Validating Rows](#csv-parse-validation)
+    * [Max Rows](#max-rows)
 
 <a name="parsing-options"></a>
 ## Options
@@ -45,6 +46,7 @@
 * `rtrim: {boolean} = false`: Set to `true` to right trim all fields.
 * `ltrim: {boolean} = false`: Set to `true` to left trim all fields.
 * `encoding: {string} = 'utf8'`: Passed to [StringDecoder](https://nodejs.org/api/string_decoder.html#string_decoder_new_stringdecoder_encoding) when decoding incoming buffers. Change if incoming content is not 'utf8' encoded.
+- `maxRows: {number}`: If number is `> 0` the specified number of rows will be parsed.(e.g. `100` would return the first 100 rows of data).
 
 <a name="parsing-events"></a>
 ## Events
@@ -583,5 +585,46 @@ Invalid [rowNumber=1] [row={"firstName":"bob","lastName":"yukon"}] [reason=Name 
 Valid [row={"firstName":"sally","lastName":"yukon"}]
 Valid [row={"firstName":"timmy","lastName":"yukon"}]
 Parsed 2 rows
+```
+
+<a name="max-rows"></a>
+[`examples/parsing/max_rows.example.example.js`](../examples/parsing/max_rows.example.js)
+
+In the following example there are 10 rows, but only 5 will be parsed because of the `maxRows` option.
+
+```javascript
+const rows = [
+    'header1,header2\n',
+    'col1,col1\n',
+    'col2,col2\n',
+    'col3,col3\n',
+    'col4,col4\n',
+    'col5,col5\n',
+    'col6,col6\n',
+    'col7,col7\n',
+    'col8,col8\n',
+    'col9,col9\n',
+    'col10,col10',
+];
+
+const stream = csv
+    .parse({ headers: true, maxRows: 5 })
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+
+rows.forEach(row => stream.write(row));
+stream.end();
+```
+
+Expected output
+
+```
+{ header1: 'col1', header2: 'col1' }
+{ header1: 'col2', header2: 'col2' }
+{ header1: 'col3', header2: 'col3' }
+{ header1: 'col4', header2: 'col4' }
+{ header1: 'col5', header2: 'col5' }
+Parsed 5 rows
 ```
 
