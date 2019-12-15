@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const fastCsv = require('..');
 
-
 function camelize(str) {
     return str.replace(/_(.)/g, (a, b) => b.toUpperCase());
 }
@@ -11,7 +10,7 @@ const promisfyStream = (stream, expectedRows) => {
     let count = 0;
     return new Promise((res, rej) => {
         stream
-            .on('data', (row) => {
+            .on('data', row => {
                 count += 1;
             })
             .on('end', () => {
@@ -25,13 +24,14 @@ const promisfyStream = (stream, expectedRows) => {
     });
 };
 
-const benchmarkFastCsv = type => (num) => {
+const benchmarkFastCsv = type => num => {
     const file = path.resolve(__dirname, `./assets/${num}.${type}.csv`);
-    const stream = fs.createReadStream(file)
-        .pipe(fastCsv.parse({ headers: true }))
-        .transform((data) => {
+    const stream = fs
+        .createReadStream(file)
+        .pipe(fastCsv.parse({ headers: true, maxRows: 10 }))
+        .transform(data => {
             const ret = {};
-            [ 'first_name', 'last_name', 'email_address' ].forEach((prop) => {
+            ['first_name', 'last_name', 'email_address'].forEach(prop => {
                 ret[camelize(prop)] = data[prop];
             });
             ret.address = data.address;
@@ -47,7 +47,7 @@ async function benchmarkRun(title, num, m) {
     for (let i = 0; i < howMany; i += 1) {
         // eslint-disable-next-line no-await-in-loop
         await m(num);
-        console.log('%s: RUN(%d lines) 1 %dms', title, num, (new Date() - runStart));
+        console.log('%s: RUN(%d lines) 1 %dms', title, num, new Date() - runStart);
         runStart = new Date();
     }
     console.log('%s: 3xAVG for %d lines %dms', title, num, (new Date() - start) / howMany);
@@ -55,7 +55,7 @@ async function benchmarkRun(title, num, m) {
 
 function runBenchmarks(num, type) {
     console.log(`\nRUNNING ${num}.${type}.csv benchmarks`, num);
-    return benchmarkRun('fast-csv', num, benchmarkFastCsv(type))
+    return benchmarkRun('fast-csv', num, benchmarkFastCsv(type));
 }
 
 function benchmarks(type) {
@@ -67,7 +67,7 @@ function benchmarks(type) {
 benchmarks('nonquoted')
     .then(() => benchmarks('quoted'))
     .then(() => process.exit())
-    .catch((e) => {
+    .catch(e => {
         console.error(e.stack);
         return process.exit(1);
     });

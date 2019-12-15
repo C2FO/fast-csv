@@ -31,6 +31,10 @@ export default class CsvParserStream extends Transform {
         this.rowTransformerValidator = new RowTransformerValidator();
     }
 
+    private get hasHitRowLimit(): boolean {
+        return this.parserOptions.limitRows && this.rowCount >= this.parserOptions.maxRows;
+    }
+
     public transform(transformFunction: RowTransformFunction): CsvParserStream {
         this.rowTransformerValidator.rowTransform = transformFunction;
         return this;
@@ -54,23 +58,31 @@ export default class CsvParserStream extends Transform {
     }
 
     public _transform(data: Buffer, encoding: string, done: TransformCallback): void {
+        // if we have hit our maxRows parsing limit then skip parsing
+        if (this.hasHitRowLimit) {
+            return done();
+        }
         try {
             const { lines } = this;
             const newLine = lines + this.decoder.write(data);
             const rows = this.parse(newLine, true);
-            this.processRows(rows, done);
+            return this.processRows(rows, done);
         } catch (e) {
-            done(e);
+            return done(e);
         }
     }
 
     public _flush(done: TransformCallback): void {
+        // if we have hit our maxRows parsing limit then skip parsing
+        if (this.hasHitRowLimit) {
+            return done();
+        }
         try {
             const newLine = this.lines + this.decoder.end();
             const rows = this.parse(newLine, false);
-            this.processRows(rows, done);
+            return this.processRows(rows, done);
         } catch (e) {
-            done(e);
+            return done(e);
         }
     }
 
@@ -86,7 +98,9 @@ export default class CsvParserStream extends Transform {
     private processRows(rows: string[][], cb: TransformCallback): void {
         const rowsLength = rows.length;
         const iterate = (i: number): void => {
-            if (i >= rowsLength) {
+            // if we have emitted all rows or we have hit the maxRows limit option
+            // then end
+            if (i >= rowsLength || this.hasHitRowLimit) {
                 return cb();
             }
             const row = rows[i];

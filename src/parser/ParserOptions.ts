@@ -60,7 +60,7 @@ export class ParserOptions {
 
     public readonly limitRows: boolean = false;
 
-    public readonly maxRows: number = -1;
+    public readonly maxRows: number = 0;
 
     public constructor(opts?: ParserOptionsArgs) {
         Object.assign(this, opts || {});
