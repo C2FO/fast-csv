@@ -16,6 +16,7 @@ export interface ParserOptionsArgs {
     ltrim?: boolean;
     rtrim?: boolean;
     encoding?: string;
+    maxRows?: number;
 }
 
 export class ParserOptions {
@@ -57,6 +58,10 @@ export class ParserOptions {
 
     public readonly encoding: string = 'utf8';
 
+    public readonly limitRows: boolean = false;
+
+    public readonly maxRows: number = -1;
+
     public constructor(opts?: ParserOptionsArgs) {
         Object.assign(this, opts || {});
         if (this.delimiter.length > 1) {
@@ -66,5 +71,9 @@ export class ParserOptions {
         this.escapeChar = this.escape ?? this.quote;
         this.supportsComments = !isNil(this.comment);
         this.NEXT_TOKEN_REGEXP = new RegExp(`([^\\s]|\\r\\n|\\n|\\r|${this.escapedDelimiter})`);
+
+        if (this.maxRows > 0) {
+            this.limitRows = true;
+        }
     }
 }
