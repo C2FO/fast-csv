@@ -267,10 +267,10 @@ describe('CsvParserStream', () => {
         });
     });
 
-    describe('maxRows', () => {
+    describe('maxRows option', () => {
         it('should parse up to the specified number of maxRows', () => {
             const maxRows = 3;
-            parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
+            return parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
                 assert.deepStrictEqual(rows, assets.withHeaders.parsed.slice(0, maxRows));
                 assert.strictEqual(count, maxRows);
             });
@@ -278,7 +278,204 @@ describe('CsvParserStream', () => {
 
         it('should parse all rows if maxRows === 0', () => {
             const maxRows = 0;
-            parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
+            return parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+    });
+
+    describe('skipLines option', () => {
+        it('should skip up to the specified number of rows using the first non-skipped line as headers', () => {
+            const skipLines = 2;
+            return parseContentAndCollect(assets.withHeadersSkippedLines, {
+                headers: true,
+                skipLines,
+            }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeadersSkippedLines.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+
+        it('should skip up to the specified number of rows not withoutHeaders', () => {
+            const skipLines = 2;
+            return parseContentAndCollect(assets.skipLines, { skipLines }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.skipLines.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+
+        describe('with transform', () => {
+            it('should not transform skipped rows', () => {
+                let transformedRows: Row[] = [];
+                const transformer = (row: Row): Row => {
+                    const transformed = {
+                        firstName: (row as RowMap).first_name,
+                        lastName: (row as RowMap).last_name,
+                        emailAddress: (row as RowMap).email_address,
+                    };
+                    transformedRows.push(transformed);
+                    return transformed;
+                };
+                const skipLines = 2;
+                const expected = assets.withHeadersSkippedLines.parsed.map(transformer);
+                transformedRows = [];
+                const parser = csv.parse({ headers: true, skipLines }).transform(transformer);
+                return parseContentAndCollectFromStream(assets.withHeadersSkippedLines, parser).then(
+                    ({ count, rows }) => {
+                        assert.deepStrictEqual(rows, expected);
+                        assert.deepStrictEqual(transformedRows, expected);
+                        assert.strictEqual(count, expected.length);
+                    },
+                );
+            });
+        });
+
+        describe('with validate', () => {
+            it('should not validate skipped rows', () => {
+                let validatedRows: Row[] = [];
+                const validator = (row: Row): boolean => {
+                    validatedRows.push(row);
+                    return (validatedRows.length - 1) % 2 === 0;
+                };
+                const skipLines = 2;
+                const nonSkippedRows = assets.withHeadersSkippedLines.parsed;
+                const expected = nonSkippedRows.filter(validator);
+                validatedRows = [];
+                const parser = csv.parse({ headers: true, skipLines }).validate(validator);
+                return parseContentAndCollectFromStream(assets.withHeadersSkippedLines, parser).then(
+                    ({ count, rows }) => {
+                        assert.deepStrictEqual(rows, expected);
+                        assert.deepStrictEqual(validatedRows, nonSkippedRows);
+                        assert.strictEqual(count, nonSkippedRows.length);
+                    },
+                );
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', () => {
+            const skipLines = 0;
+            return parseContentAndCollect(assets.withHeaders, { headers: true, skipLines }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+    });
+
+    describe('skipRows option', () => {
+        describe('with headers', () => {
+            it('should skip up to the specified number of rows not including the header row in the count', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.withHeaders, {
+                    headers: true,
+                    skipRows,
+                }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, assets.withHeaders.parsed.slice(skipRows));
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+
+            it('should skip up to the specified number of rows and allow renaming the headers', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.withHeaders, {
+                    headers: ['h1', 'h2', 'h3'],
+                    renameHeaders: true,
+                    skipRows,
+                }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(
+                        rows,
+                        assets.withHeaders.parsed.slice(skipRows).map(r => {
+                            return {
+                                h1: r.first_name,
+                                h2: r.last_name,
+                                h3: r.email_address,
+                            };
+                        }),
+                    );
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+        });
+
+        describe('without headers', () => {
+            it('should skip up to the specified number of rows without headers', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.noHeadersAndQuotes, { skipRows }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, assets.noHeadersAndQuotes.parsed.slice(skipRows));
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+
+            it('should skip up to the specified number of rows without headers and allow specifying headers', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.noHeadersAndQuotes, {
+                    headers: ['h1', 'h2', 'h3', 'h4'],
+                    skipRows,
+                }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(
+                        rows,
+                        assets.noHeadersAndQuotes.parsed.slice(skipRows).map(r => {
+                            return {
+                                h1: r[0],
+                                h2: r[1],
+                                h3: r[2],
+                                h4: r[3],
+                            };
+                        }),
+                    );
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+        });
+
+        describe('with transform', () => {
+            it('should not transform skipped rows', () => {
+                let transformedRows: Row[] = [];
+                const transformer = (row: Row): Row => {
+                    const transformed = {
+                        firstName: (row as RowMap).first_name,
+                        lastName: (row as RowMap).last_name,
+                        emailAddress: (row as RowMap).email_address,
+                        address: (row as RowMap).address,
+                    };
+                    transformedRows.push(transformed);
+                    return transformed;
+                };
+                const skipRows = 3;
+                const expected = assets.withHeaders.parsed.slice(skipRows).map(transformer);
+                transformedRows = [];
+                const parser = csv.parse({ headers: true, skipRows }).transform(transformer);
+                return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, expected);
+                    assert.deepStrictEqual(transformedRows, expected);
+                    assert.strictEqual(count, expected.length);
+                });
+            });
+        });
+
+        describe('with validate', () => {
+            it('should not validate skipped rows', () => {
+                let validatedRows: Row[] = [];
+                const validator = (row: Row): boolean => {
+                    validatedRows.push(row);
+                    return (validatedRows.length - 1) % 2 === 0;
+                };
+                const skipRows = 3;
+                const nonSkippedRows = assets.withHeaders.parsed.slice(skipRows);
+                const expected = nonSkippedRows.filter(validator);
+                validatedRows = [];
+                const parser = csv.parse({ headers: true, skipRows }).validate(validator);
+                return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, expected);
+                    assert.deepStrictEqual(validatedRows, nonSkippedRows);
+                    assert.strictEqual(count, nonSkippedRows.length);
+                });
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', () => {
+            const skipRows = 0;
+            return parseContentAndCollect(assets.withHeaders, { headers: true, skipRows }).then(({ count, rows }) => {
                 assert.deepStrictEqual(rows, assets.withHeaders.parsed);
                 assert.strictEqual(count, rows.length);
             });

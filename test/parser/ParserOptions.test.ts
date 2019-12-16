@@ -183,4 +183,28 @@ describe('ParserOptions', () => {
             assert.strictEqual(opts.limitRows, false);
         });
     });
+
+    describe('#skipLines', () => {
+        it('should default skipLines to 0', () => {
+            const opts = createOptions();
+            assert.strictEqual(opts.skipLines, 0);
+        });
+
+        it('should set skipLines to the user provided option', () => {
+            const opts = createOptions({ skipLines: 10 });
+            assert.strictEqual(opts.skipLines, 10);
+        });
+    });
+
+    describe('#skipRows', () => {
+        it('should default skipLines to 0', () => {
+            const opts = createOptions();
+            assert.strictEqual(opts.skipRows, 0);
+        });
+
+        it('should set skipLines to the user provided option', () => {
+            const opts = createOptions({ skipRows: 10 });
+            assert.strictEqual(opts.skipRows, 10);
+        });
+    });
 });

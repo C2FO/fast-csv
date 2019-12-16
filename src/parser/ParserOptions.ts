@@ -17,6 +17,8 @@ export interface ParserOptionsArgs {
     rtrim?: boolean;
     encoding?: string;
     maxRows?: number;
+    skipLines?: number;
+    skipRows?: number;
 }
 
 export class ParserOptions {
@@ -61,6 +63,10 @@ export class ParserOptions {
     public readonly limitRows: boolean = false;
 
     public readonly maxRows: number = 0;
+
+    public readonly skipLines: number = 0;
+
+    public readonly skipRows: number = 0;
 
     public constructor(opts?: ParserOptionsArgs) {
         Object.assign(this, opts || {});
