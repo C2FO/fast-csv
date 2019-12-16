@@ -2,7 +2,7 @@ export interface RowMap {
     [s: string]: string;
 }
 export type RowArray = string[];
-export type Row = string[] | object;
+export type Row = RowMap | RowArray;
 
 export interface RowValidationResult {
     row: Row | null;

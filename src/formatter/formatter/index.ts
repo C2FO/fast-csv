@@ -1,5 +1,2 @@
-import RowFormatter from './RowFormatter';
-
-export default {
-    RowFormatter,
-};
+export { default as RowFormatter } from './RowFormatter';
+export { default as FieldFormatter } from './FieldFormatter';

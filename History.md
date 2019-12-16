@@ -1,8 +1,9 @@
-# v3.5.1
+# v3.6.0
 
 * [ADDED] `maxRows` option to limit the number of rows parsed. [#275](https://github.com/C2FO/fast-csv/issues/275) [#277](https://github.com/C2FO/fast-csv/pull/277) - [@cbrittingham](https://github.com/cbrittingham)
 * [ADDED] `skipRows` to allow skipping parsed rows see [parsing.md](./docs/parsing.md)
 * [ADDED] `skipLines` to allow skipping entire lines of a csv [parsing.md](./docs/parsing.md) [#267](https://github.com/C2FO/fast-csv/issues/267)
+* Exported formatting and parsing types.
 
 # v3.5.0
 

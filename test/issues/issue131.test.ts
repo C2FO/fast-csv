@@ -1,7 +1,6 @@
 import * as assert from 'assert';
 import { EOL } from 'os';
 import * as csv from '../../src';
-import { RowMap } from '../../src/parser';
 
 describe('Issue #131 - https://github.com/C2FO/fast-csv/issues/131', () => {
     const csvWithBom = [
@@ -10,7 +9,7 @@ describe('Issue #131 - https://github.com/C2FO/fast-csv/issues/131', () => {
     ].join(EOL);
 
     it('should parse a csv with a UTF-8 Byte Order Mark', next => {
-        const actual: RowMap[] = [];
+        const actual: csv.ParserRowMap[] = [];
         csv.parseString(csvWithBom, { headers: true })
             .on('data', data => actual.push(data))
             .on('end', (count: number) => {
