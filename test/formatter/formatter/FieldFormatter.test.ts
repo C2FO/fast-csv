@@ -1,10 +1,10 @@
 import * as assert from 'assert';
-import FieldFormatter from '../../../src/formatter/formatter/FieldFormatter';
-import { FormatterOptions } from '../../../src/formatter/FormatterOptions';
+import { FormatterOptionsArgs } from '../../../src';
+import { FormatterOptions, FieldFormatter } from '../../../src/formatter';
 
 describe('FieldFormatter', () => {
     describe('#format', () => {
-        const createFormatter = (formatterOptions = {}, headers?: string[]) => {
+        const createFormatter = (formatterOptions: FormatterOptionsArgs = {}, headers?: string[]) => {
             const formatter = new FieldFormatter(new FormatterOptions(formatterOptions));
             if (headers) {
                 formatter.headers = headers;

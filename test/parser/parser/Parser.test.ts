@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import { ParserOptions, ParserOptionsArgs } from '../../../src/parser';
-import { Parser } from '../../../src/parser/parser';
+import { ParserOptionsArgs } from '../../../src';
+import { ParserOptions, Parser } from '../../../src/parser';
 
 describe('Parser', () => {
     const createParser = (parserOptions: ParserOptionsArgs = {}) => new Parser(new ParserOptions(parserOptions));

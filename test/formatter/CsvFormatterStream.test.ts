@@ -2,15 +2,7 @@ import * as assert from 'assert';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as csv from '../../src';
-import {
-    FormatterOptions,
-    CsvFormatterStream,
-    Row,
-    RowArray,
-    RowHashArray,
-    RowMap,
-    FormatterOptionsArgs,
-} from '../../src/formatter';
+import { FormatterOptions, CsvFormatterStream } from '../../src/formatter';
 import RecordingStream from '../RecordingStream';
 
 describe('CsvFormatterStream', () => {
@@ -36,7 +28,7 @@ describe('CsvFormatterStream', () => {
         ],
     ];
 
-    const pipeToRecordingStream = (formatter: CsvFormatterStream, rows: Row[]) =>
+    const pipeToRecordingStream = (formatter: CsvFormatterStream, rows: csv.FormatterRow[]) =>
         new Promise((res, rej) => {
             const rs = new RecordingStream();
             formatter
@@ -49,7 +41,7 @@ describe('CsvFormatterStream', () => {
             formatter.end();
         });
 
-    const formatRows = (rows: Row[], options: FormatterOptionsArgs = {}) =>
+    const formatRows = (rows: csv.FormatterRow[], options: csv.FormatterOptionsArgs = {}) =>
         pipeToRecordingStream(csv.format(options), rows);
 
     it('should write an array of arrays', () =>
@@ -66,16 +58,16 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of arrays', () =>
             formatRows(arrayRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowArray).map(entry => entry.toUpperCase());
                 },
             }).then(written => assert.deepStrictEqual(written, ['A,B', '\nA1,B1', '\nA2,B2'])));
 
         it('should support transforming an array of multi-dimensional arrays', () =>
             formatRows(multiDimensionalRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowHashArray).map(entry => [entry[0], entry[1].toUpperCase()]);
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowHashArray).map(entry => [entry[0], entry[1].toUpperCase()]);
                 },
             }).then(written => {
                 assert.deepStrictEqual(written, ['a,b', '\nA1,B1', '\nA2,B2']);
@@ -84,16 +76,16 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of objects', () =>
             formatRows(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: csv.FormatterRowMap) {
                     return { A: row.a, B: row.b };
                 },
             }).then(written => assert.deepStrictEqual(written, ['A,B', '\na1,b1', '\na2,b2'])));
     });
     describe('#transform', () => {
         it('should support transforming an array of arrays', () => {
-            const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform((row: Row) =>
-                (row as RowArray).map(entry => entry.toUpperCase()),
-            );
+            const formatter = new CsvFormatterStream(
+                new FormatterOptions({ headers: true }),
+            ).transform((row: csv.FormatterRow) => (row as csv.FormatterRowArray).map(entry => entry.toUpperCase()));
             return pipeToRecordingStream(formatter, arrayRows).then(written =>
                 assert.deepStrictEqual(written, ['A,B', '\nA1,B1', '\nA2,B2']),
             );
@@ -101,7 +93,8 @@ describe('CsvFormatterStream', () => {
 
         it('should support transforming an array of multi-dimensional arrays', () => {
             const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform(
-                (row: Row): Row => (row as RowHashArray).map(entry => [entry[0], entry[1].toUpperCase()]),
+                (row: csv.FormatterRow): csv.FormatterRow =>
+                    (row as csv.FormatterRowHashArray).map(entry => [entry[0], entry[1].toUpperCase()]),
             );
             return pipeToRecordingStream(formatter, multiDimensionalRows).then(written =>
                 assert.deepStrictEqual(written, ['a,b', '\nA1,B1', '\nA2,B2']),
@@ -110,7 +103,10 @@ describe('CsvFormatterStream', () => {
 
         it('should support transforming an array of objects', () => {
             const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform(
-                (row: Row): Row => ({ A: (row as RowMap).a, B: (row as RowMap).b }),
+                (row: csv.FormatterRow): csv.FormatterRow => ({
+                    A: (row as csv.FormatterRowMap).a,
+                    B: (row as csv.FormatterRowMap).b,
+                }),
             );
             return pipeToRecordingStream(formatter, objectRows).then(written =>
                 assert.deepStrictEqual(written, ['A,B', '\na1,b1', '\na2,b2']),
@@ -120,7 +116,7 @@ describe('CsvFormatterStream', () => {
         it('should error if the transform fails', () => {
             const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform(
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                (row: Row): Row => {
+                (row: csv.FormatterRow): csv.FormatterRow => {
                     throw new Error('Expected error');
                 },
             );
@@ -348,8 +344,8 @@ describe('CsvFormatterStream', () => {
             csv
                 .writeToString(arrayRows, {
                     headers: true,
-                    transform(row: Row): Row {
-                        return (row as RowArray).map(entry => entry.toUpperCase());
+                    transform(row: csv.FormatterRow): csv.FormatterRow {
+                        return (row as csv.FormatterRowArray).map(entry => entry.toUpperCase());
                     },
                 })
                 .then(formatted => assert.strictEqual(formatted, 'A,B\nA1,B1\nA2,B2')));
@@ -363,8 +359,8 @@ describe('CsvFormatterStream', () => {
             csv
                 .writeToString(multiDimensionalRows, {
                     headers: true,
-                    transform(row: Row) {
-                        return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    transform(row: csv.FormatterRow) {
+                        return (row as csv.FormatterRowHashArray).map(col => [col[0], col[1].toUpperCase()]);
                     },
                 })
                 .then(formatted => assert.strictEqual(formatted, 'a,b\nA1,B1\nA2,B2')));
@@ -373,7 +369,7 @@ describe('CsvFormatterStream', () => {
             csv
                 .writeToString(objectRows, {
                     headers: true,
-                    transform(row: RowMap) {
+                    transform(row: csv.FormatterRowMap) {
                         return {
                             A: row.a,
                             B: row.b,
@@ -451,8 +447,8 @@ describe('CsvFormatterStream', () => {
             csv
                 .writeToBuffer(arrayRows, {
                     headers: true,
-                    transform(row: Row): Row {
-                        return (row as RowArray).map(entry => entry.toUpperCase());
+                    transform(row: csv.FormatterRow): csv.FormatterRow {
+                        return (row as csv.FormatterRowArray).map(entry => entry.toUpperCase());
                     },
                 })
                 .then(formatted => assert.deepStrictEqual(formatted, Buffer.from('A,B\nA1,B1\nA2,B2'))));
@@ -466,8 +462,8 @@ describe('CsvFormatterStream', () => {
             csv
                 .writeToBuffer(multiDimensionalRows, {
                     headers: true,
-                    transform(row: Row) {
-                        return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    transform(row: csv.FormatterRow) {
+                        return (row as csv.FormatterRowHashArray).map(col => [col[0], col[1].toUpperCase()]);
                     },
                 })
                 .then(formatted => assert.deepStrictEqual(formatted, Buffer.from('a,b\nA1,B1\nA2,B2'))));
@@ -476,7 +472,7 @@ describe('CsvFormatterStream', () => {
             csv
                 .writeToBuffer(objectRows, {
                     headers: true,
-                    transform(row: RowMap): Row {
+                    transform(row: csv.FormatterRowMap): csv.FormatterRow {
                         return {
                             A: row.a,
                             B: row.b,
@@ -545,7 +541,7 @@ describe('CsvFormatterStream', () => {
     });
 
     describe('.write', () => {
-        const writeToRecordingStream = (rows: Row[], options = {}) =>
+        const writeToRecordingStream = (rows: csv.FormatterRow[], options = {}) =>
             new Promise((res, rej) => {
                 const rs = new RecordingStream();
                 csv.write(rows, options)
@@ -564,8 +560,8 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of arrays', () =>
             writeToRecordingStream(arrayRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowArray).map(entry => entry.toUpperCase());
                 },
             }).then(data => assert.deepStrictEqual(data, ['A,B', '\nA1,B1', '\nA2,B2'])));
 
@@ -577,8 +573,8 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of multi-dimensional arrays', () =>
             writeToRecordingStream(multiDimensionalRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowHashArray).map(col => [col[0], col[1].toUpperCase()]);
                 },
             }).then(data => assert.deepStrictEqual(data, ['a,b', '\nA1,B1', '\nA2,B2'])));
 
@@ -590,7 +586,7 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of objects', () =>
             writeToRecordingStream(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: csv.FormatterRowMap) {
                     return {
                         A: row.a,
                         B: row.b,
@@ -622,7 +618,7 @@ describe('CsvFormatterStream', () => {
     });
 
     describe('.writeToPath', () => {
-        const writeToPath = (rows: Row[], options = {}) =>
+        const writeToPath = (rows: csv.FormatterRow[], options = {}) =>
             new Promise((res, rej) => {
                 const csvPath = path.resolve(__dirname, 'assets/test_output.csv');
                 csv.writeToPath(csvPath, rows, options)
@@ -652,15 +648,15 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of arrays', () =>
             writeToPath(arrayRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowArray).map(entry => entry.toUpperCase());
                 },
             }).then(content => assert.deepStrictEqual(content, Buffer.from('A,B\nA1,B1\nA2,B2'))));
 
         it('should transforming an array of objects', () =>
             writeToPath(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: csv.FormatterRowMap) {
                     return {
                         A: row.a,
                         B: row.b,
@@ -671,8 +667,8 @@ describe('CsvFormatterStream', () => {
         it('should transforming an array of multi-dimensional array', () =>
             writeToPath(multiDimensionalRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowHashArray).map(col => [col[0], col[1].toUpperCase()]);
                 },
             }).then(content => assert.deepStrictEqual(content, Buffer.from('a,b\nA1,B1\nA2,B2'))));
 
@@ -700,7 +696,7 @@ describe('CsvFormatterStream', () => {
     });
 
     describe('.write', () => {
-        const writeToRecordingStream = (rows: Row[], options = {}) =>
+        const writeToRecordingStream = (rows: csv.FormatterRow[], options = {}) =>
             new Promise((res, rej) => {
                 const rs = new RecordingStream();
                 csv.write(rows, options)
@@ -719,8 +715,8 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of arrays', () =>
             writeToRecordingStream(arrayRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowArray).map(entry => entry.toUpperCase());
                 },
             }).then(data => assert.deepStrictEqual(data, ['A,B', '\nA1,B1', '\nA2,B2'])));
 
@@ -732,8 +728,8 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of multi-dimensional arrays', () =>
             writeToRecordingStream(multiDimensionalRows, {
                 headers: true,
-                transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                transform(row: csv.FormatterRow) {
+                    return (row as csv.FormatterRowHashArray).map(col => [col[0], col[1].toUpperCase()]);
                 },
             }).then(data => assert.deepStrictEqual(data, ['a,b', '\nA1,B1', '\nA2,B2'])));
 
@@ -745,7 +741,7 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of objects', () =>
             writeToRecordingStream(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: csv.FormatterRowMap) {
                     return {
                         A: row.a,
                         B: row.b,
@@ -777,7 +773,7 @@ describe('CsvFormatterStream', () => {
     });
 
     describe('.writeToStream', () => {
-        const writeToStream = (rows: Row[], options: FormatterOptionsArgs = {}) =>
+        const writeToStream = (rows: csv.FormatterRow[], options: csv.FormatterOptionsArgs = {}) =>
             new Promise((res, rej) => {
                 const rs = new RecordingStream();
                 csv.writeToStream(rs, rows, options);
@@ -804,15 +800,15 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of arrays', () =>
             writeToStream(arrayRows, {
                 headers: true,
-                transform(row: Row): Row {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                transform(row: csv.FormatterRow): csv.FormatterRow {
+                    return (row as csv.FormatterRowArray).map(entry => entry.toUpperCase());
                 },
             }).then(content => assert.deepStrictEqual(content, ['A,B', '\nA1,B1', '\nA2,B2'])));
 
         it('should transforming an array of objects', () =>
             writeToStream(objectRows, {
                 headers: true,
-                transform(row: RowMap): Row {
+                transform(row: csv.FormatterRowMap): csv.FormatterRow {
                     return {
                         A: row.a,
                         B: row.b,
@@ -823,8 +819,8 @@ describe('CsvFormatterStream', () => {
         it('should transforming an array of multi-dimensional array', () =>
             writeToStream(multiDimensionalRows, {
                 headers: true,
-                transform(row: Row): Row {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                transform(row: csv.FormatterRow): csv.FormatterRow {
+                    return (row as csv.FormatterRowHashArray).map(col => [col[0], col[1].toUpperCase()]);
                 },
             }).then(content => assert.deepStrictEqual(content, ['a,b', '\nA1,B1', '\nA2,B2'])));
 

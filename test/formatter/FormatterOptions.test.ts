@@ -1,5 +1,6 @@
 import * as assert from 'assert';
-import { FormatterOptions, FormatterOptionsArgs } from '../../src/formatter';
+import { FormatterOptionsArgs } from '../../src';
+import { FormatterOptions } from '../../src/formatter';
 
 describe('FormatterOptions', () => {
     const createOptions = (opts: FormatterOptionsArgs = {}) => new FormatterOptions(opts);

@@ -1,7 +1,6 @@
 import { EOL } from 'os';
 import * as assert from 'assert';
-import { Parser } from '../../src/parser/parser';
-import { ParserOptions } from '../../src/parser';
+import { Parser, ParserOptions } from '../../src/parser';
 
 describe('Issue #223 - https://github.com/C2FO/fast-csv/issues/223', () => {
     const createParser = (parserOptions = {}) => new Parser(new ParserOptions(parserOptions));

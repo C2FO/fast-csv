@@ -1,7 +1,6 @@
 import * as assert from 'assert';
-import { ParserOptions, ParserOptionsArgs } from '../../../src/parser';
-import RowParser from '../../../src/parser/parser/RowParser';
-import { Scanner } from '../../../src/parser/parser/Scanner';
+import { ParserOptionsArgs } from '../../../src';
+import { ParserOptions, Scanner, RowParser } from '../../../src/parser';
 
 describe('RowParser', () => {
     const parse = (line: string, hasMoreData = false, parserOpts: ParserOptionsArgs = {}) => {
