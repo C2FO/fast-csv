@@ -18,6 +18,8 @@
     * [Transforming Rows](#csv-parse-transforming)
     * [Validating Rows](#csv-parse-validation)
     * [Max Rows](#max-rows)
+    * [Skip Rows](#skip-rows)
+    * [Skip Lines](#skip-lines)
 
 <a name="parsing-options"></a>
 ## Options
@@ -46,7 +48,9 @@
 * `rtrim: {boolean} = false`: Set to `true` to right trim all fields.
 * `ltrim: {boolean} = false`: Set to `true` to left trim all fields.
 * `encoding: {string} = 'utf8'`: Passed to [StringDecoder](https://nodejs.org/api/string_decoder.html#string_decoder_new_stringdecoder_encoding) when decoding incoming buffers. Change if incoming content is not 'utf8' encoded.
-- `maxRows: {number}`: If number is `> 0` the specified number of rows will be parsed.(e.g. `100` would return the first 100 rows of data).
+* `maxRows: {number} = 0`: If number is `> 0` the specified number of rows will be parsed.(e.g. `100` would return the first 100 rows of data).
+* `skipRows: {number} = 0`: If number is `> 0` the specified number of **parsed** rows will be skipped.
+* `skipLines: {number} = 0`: If number is `> 0` the specified number of lines will be skipped.
 
 <a name="parsing-events"></a>
 ## Events
@@ -627,4 +631,83 @@ Expected output
 { header1: 'col5', header2: 'col5' }
 Parsed 5 rows
 ```
+
+<a name="skip-rows"></a>
+[`examples/parsing/skip_rows.example.example.js`](../examples/parsing/skip_rows.example.js)
+
+In the following example the first 2 rows are skipped.
+
+**NOTE** Notice how the header row is not skipped, only the row.
+
+```javascript
+const rows = [
+    'header1,header2\n',
+    'col1,col1\n',
+    'col2,col2\n',
+    'col3,col3\n',
+    'col4,col4\n',
+    'col5,col5\n',
+    'col6,col6\n',
+];
+
+const stream = csv
+    .parse({ headers: true, skipRows: 2 })
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+
+rows.forEach(row => stream.write(row));
+stream.end();
+```
+
+Expected output
+
+```
+{ header1: 'col3', header2: 'col3' }
+{ header1: 'col4', header2: 'col4' }
+{ header1: 'col5', header2: 'col5' }
+{ header1: 'col6', header2: 'col6' }
+Parsed 4 rows
+```
+
+<a name="skip-lines"></a>
+[`examples/parsing/skip_lines.example.example.js`](../examples/parsing/skip_lines.example.js)
+
+In the following example the first 2 lines are skipped.
+
+**NOTE** Notice how the headers come from the third line because the first two are skipped.
+
+```javascript
+const csv = require('../../');
+
+const rows = [
+    'skip1_header1,skip1_header2\n',
+    'skip2_header1,skip2_header2\n',
+    'header1,header2\n',
+    'col1,col1\n',
+    'col2,col2\n',
+    'col3,col3\n',
+    'col4,col4\n',
+];
+
+const stream = csv
+    .parse({ headers: true, skipLines: 2 })
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+
+rows.forEach(row => stream.write(row));
+stream.end();
+```
+
+Expected output
+
+```
+{ header1: 'col1', header2: 'col1' }
+{ header1: 'col2', header2: 'col2' }
+{ header1: 'col3', header2: 'col3' }
+{ header1: 'col4', header2: 'col4' }
+Parsed 4 rows
+```
+
 

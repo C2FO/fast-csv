@@ -3,7 +3,7 @@ import { Transform, TransformCallback } from 'stream';
 import { ParserOptions } from './ParserOptions';
 import { HeaderTransformer, RowTransformerValidator } from './transforms';
 import { Parser } from './parser';
-import { RowArray, RowTransformFunction, RowValidate, RowValidatorCallback } from './types';
+import { Row, RowArray, RowTransformFunction, RowValidate, RowValidatorCallback } from './types';
 
 export default class CsvParserStream extends Transform {
     private readonly parserOptions: ParserOptions;
@@ -20,6 +20,10 @@ export default class CsvParserStream extends Transform {
 
     private rowCount = 0;
 
+    private parsedRowCount = 0;
+
+    private parsedLineCount = 0;
+
     private endEmitted = false;
 
     public constructor(parserOptions: ParserOptions) {
@@ -33,6 +37,14 @@ export default class CsvParserStream extends Transform {
 
     private get hasHitRowLimit(): boolean {
         return this.parserOptions.limitRows && this.rowCount >= this.parserOptions.maxRows;
+    }
+
+    private get shouldEmitRows(): boolean {
+        return this.parsedRowCount > this.parserOptions.skipRows;
+    }
+
+    private get shouldSkipLine(): boolean {
+        return this.parsedLineCount <= this.parserOptions.skipLines;
     }
 
     public transform(transformFunction: RowTransformFunction): CsvParserStream {
@@ -103,8 +115,13 @@ export default class CsvParserStream extends Transform {
             if (i >= rowsLength || this.hasHitRowLimit) {
                 return cb();
             }
+            this.parsedLineCount += 1;
+            if (this.shouldSkipLine) {
+                return iterate(i + 1);
+            }
             const row = rows[i];
             this.rowCount += 1;
+            this.parsedRowCount += 1;
             const nextRowCount = this.rowCount;
             return this.transformRow(row, (err, transformResult): void => {
                 if (err) {
@@ -116,12 +133,8 @@ export default class CsvParserStream extends Transform {
                 }
                 if (!transformResult.isValid) {
                     this.emit('data-invalid', transformResult.row, nextRowCount, transformResult.reason);
-                } else if (!transformResult.row) {
-                    this.rowCount -= 1;
-                } else if (!this.parserOptions.objectMode) {
-                    this.push(JSON.stringify(transformResult.row));
-                } else {
-                    this.push(transformResult.row);
+                } else if (transformResult.row) {
+                    this.pushRow(transformResult.row);
                 }
                 if (i % 100 === 0) {
                     // incase the transform are sync insert a next tick to prevent stack overflow
@@ -147,12 +160,28 @@ export default class CsvParserStream extends Transform {
                     return cb(null, { isValid: false, row: parsedRow });
                 }
                 if (withHeaders.row) {
-                    return this.rowTransformerValidator.transformAndValidate(withHeaders.row, cb);
+                    if (this.shouldEmitRows) {
+                        return this.rowTransformerValidator.transformAndValidate(withHeaders.row, cb);
+                    }
+                    // skipped because of skipRows option remove from total row count
+                    this.rowCount -= 1;
+                    return cb(null, { row: null, isValid: true });
                 }
+                // this is a header row dont include in the rowCount or parsedRowCount
+                this.rowCount -= 1;
+                this.parsedRowCount -= 1;
                 return cb(null, { row: null, isValid: true });
             });
         } catch (e) {
             cb(e);
+        }
+    }
+
+    private pushRow(row: Row): void {
+        if (!this.parserOptions.objectMode) {
+            this.push(JSON.stringify(row));
+        } else {
+            this.push(row);
         }
     }
 }
