@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import { HeaderTransformer } from '../../../src/parser/transforms';
-import { ParserOptions, ParserOptionsArgs, RowArray, RowValidationResult } from '../../../src/parser';
+import { ParserOptionsArgs, ParserRowArray as RowArray } from '../../../src';
+import { ParserOptions, RowValidationResult, HeaderTransformer } from '../../../src/parser';
 
 describe('HeaderTransformer', () => {
     const createHeaderTransformer = (opts?: ParserOptionsArgs) => new HeaderTransformer(new ParserOptions(opts));

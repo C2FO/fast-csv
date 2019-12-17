@@ -1,7 +1,6 @@
 import * as assert from 'assert';
-import { ParserOptions, ParserOptionsArgs } from '../../../src/parser';
-import { Scanner } from '../../../src/parser/parser/Scanner';
-import { MaybeToken, Token } from '../../../src/parser/parser/Token';
+import { ParserOptionsArgs } from '../../../src';
+import { ParserOptions, Scanner, Token, MaybeToken } from '../../../src/parser';
 
 const createOptions = (opts: ParserOptionsArgs = {}) => new ParserOptions(opts);
 describe('Scanner', () => {

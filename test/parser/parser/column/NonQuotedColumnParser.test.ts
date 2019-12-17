@@ -1,7 +1,6 @@
 import * as assert from 'assert';
-import { ParserOptions, ParserOptionsArgs } from '../../../../src/parser';
-import { NonQuotedColumnParser } from '../../../../src/parser/parser/column';
-import { Scanner } from '../../../../src/parser/parser/Scanner';
+import { ParserOptionsArgs } from '../../../../src';
+import { ParserOptions, Scanner, NonQuotedColumnParser } from '../../../../src/parser';
 
 describe('NonQuotedColumnParser', () => {
     const parse = (line: string, hasMoreData = false, parserOpts: ParserOptionsArgs = {}) => {

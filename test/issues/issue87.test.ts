@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Transform, TransformCallback } from 'stream';
 import * as csv from '../../src';
-import { Row } from '../../src/parser';
 
 describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
     class MyStream extends Transform {
@@ -19,7 +18,7 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
             this.rowCount = 0;
         }
 
-        private transform(data: Row, encoding: string, done: TransformCallback) {
+        private transform(data: csv.ParserRow, encoding: string, done: TransformCallback) {
             this.rowCount += 1;
             if (this.rowCount % 2 === 0) {
                 setTimeout(() => done(), 10);

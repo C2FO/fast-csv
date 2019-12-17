@@ -5,7 +5,7 @@ import * as domain from 'domain';
 import partition from 'lodash.partition';
 import * as csv from '../../src';
 import assets, { PathAndContent } from './assets';
-import { CsvParserStream, ParserOptionsArgs, Row, RowMap, RowValidateCallback } from '../../src/parser';
+import { CsvParserStream } from '../../src/parser';
 
 import Done = Mocha.Done;
 
@@ -25,17 +25,17 @@ describe('CsvParserStream', () => {
 
     interface ParseResults {
         count: number;
-        rows: Row[];
-        invalidRows: Row[];
+        rows: csv.ParserRow[];
+        invalidRows: csv.ParserRow[];
     }
 
     const collectData = (stream: CsvParserStream): Promise<ParseResults> =>
         new Promise((res, rej) => {
-            const rows: Row[] = [];
-            const invalidRows: Row[] = [];
+            const rows: csv.ParserRow[] = [];
+            const invalidRows: csv.ParserRow[] = [];
             stream
-                .on('data', (row: Row) => rows.push(row))
-                .on('data-invalid', (row: Row) => invalidRows.push(row))
+                .on('data', (row: csv.ParserRow) => rows.push(row))
+                .on('data-invalid', (row: csv.ParserRow) => invalidRows.push(row))
                 .on('error', rej)
                 .on('end', (count: number) => {
                     res({ count, rows, invalidRows });
@@ -44,8 +44,8 @@ describe('CsvParserStream', () => {
 
     const parseContentAndCollectFromStream = (data: PathAndContent, parser: CsvParserStream): Promise<ParseResults> =>
         new Promise((res, rej) => {
-            const rows: Row[] = [];
-            const invalidRows: Row[] = [];
+            const rows: csv.ParserRow[] = [];
+            const invalidRows: csv.ParserRow[] = [];
             parser
                 .on('data', row => rows.push(row))
                 .on('data-invalid', row => invalidRows.push(row))
@@ -57,10 +57,10 @@ describe('CsvParserStream', () => {
             parser.end();
         });
 
-    const parseContentAndCollect = (data: PathAndContent, options: ParserOptionsArgs = {}): Promise<ParseResults> =>
+    const parseContentAndCollect = (data: PathAndContent, options: csv.ParserOptionsArgs = {}): Promise<ParseResults> =>
         new Promise((res, rej) => {
-            const rows: Row[] = [];
-            const invalidRows: Row[] = [];
+            const rows: csv.ParserRow[] = [];
+            const invalidRows: csv.ParserRow[] = [];
             const parser = csv
                 .parse(options)
                 .on('data', row => rows.push(row))
@@ -80,7 +80,7 @@ describe('CsvParserStream', () => {
         }));
 
     it('should emit a readable event ', next => {
-        const actual: Row[] = [];
+        const actual: csv.ParserRow[] = [];
         const parser = csv.parse({ headers: true });
         const stream = parser.on('error', next).on('end', (count: number) => {
             assert.deepStrictEqual(actual, assets.withHeaders.parsed);
@@ -267,6 +267,221 @@ describe('CsvParserStream', () => {
         });
     });
 
+    describe('maxRows option', () => {
+        it('should parse up to the specified number of maxRows', () => {
+            const maxRows = 3;
+            return parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed.slice(0, maxRows));
+                assert.strictEqual(count, maxRows);
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', () => {
+            const maxRows = 0;
+            return parseContentAndCollect(assets.withHeaders, { headers: true, maxRows }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+    });
+
+    describe('skipLines option', () => {
+        it('should skip up to the specified number of rows using the first non-skipped line as headers', () => {
+            const skipLines = 2;
+            return parseContentAndCollect(assets.withHeadersSkippedLines, {
+                headers: true,
+                skipLines,
+            }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeadersSkippedLines.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+
+        it('should skip up to the specified number of rows not withoutHeaders', () => {
+            const skipLines = 2;
+            return parseContentAndCollect(assets.skipLines, { skipLines }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.skipLines.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+
+        describe('with transform', () => {
+            it('should not transform skipped rows', () => {
+                let transformedRows: csv.ParserRow[] = [];
+                const transformer = (row: csv.ParserRow): csv.ParserRow => {
+                    const transformed = {
+                        firstName: (row as csv.ParserRowMap).first_name,
+                        lastName: (row as csv.ParserRowMap).last_name,
+                        emailAddress: (row as csv.ParserRowMap).email_address,
+                    };
+                    transformedRows.push(transformed);
+                    return transformed;
+                };
+                const skipLines = 2;
+                const expected = assets.withHeadersSkippedLines.parsed.map(transformer);
+                transformedRows = [];
+                const parser = csv.parse({ headers: true, skipLines }).transform(transformer);
+                return parseContentAndCollectFromStream(assets.withHeadersSkippedLines, parser).then(
+                    ({ count, rows }) => {
+                        assert.deepStrictEqual(rows, expected);
+                        assert.deepStrictEqual(transformedRows, expected);
+                        assert.strictEqual(count, expected.length);
+                    },
+                );
+            });
+        });
+
+        describe('with validate', () => {
+            it('should not validate skipped rows', () => {
+                let validatedRows: csv.ParserRow[] = [];
+                const validator = (row: csv.ParserRow): boolean => {
+                    validatedRows.push(row);
+                    return (validatedRows.length - 1) % 2 === 0;
+                };
+                const skipLines = 2;
+                const nonSkippedRows = assets.withHeadersSkippedLines.parsed;
+                const expected = nonSkippedRows.filter(validator);
+                validatedRows = [];
+                const parser = csv.parse({ headers: true, skipLines }).validate(validator);
+                return parseContentAndCollectFromStream(assets.withHeadersSkippedLines, parser).then(
+                    ({ count, rows }) => {
+                        assert.deepStrictEqual(rows, expected);
+                        assert.deepStrictEqual(validatedRows, nonSkippedRows);
+                        assert.strictEqual(count, nonSkippedRows.length);
+                    },
+                );
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', () => {
+            const skipLines = 0;
+            return parseContentAndCollect(assets.withHeaders, { headers: true, skipLines }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+    });
+
+    describe('skipRows option', () => {
+        describe('with headers', () => {
+            it('should skip up to the specified number of rows not including the header row in the count', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.withHeaders, {
+                    headers: true,
+                    skipRows,
+                }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, assets.withHeaders.parsed.slice(skipRows));
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+
+            it('should skip up to the specified number of rows and allow renaming the headers', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.withHeaders, {
+                    headers: ['h1', 'h2', 'h3'],
+                    renameHeaders: true,
+                    skipRows,
+                }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(
+                        rows,
+                        assets.withHeaders.parsed.slice(skipRows).map(r => {
+                            return {
+                                h1: r.first_name,
+                                h2: r.last_name,
+                                h3: r.email_address,
+                            };
+                        }),
+                    );
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+        });
+
+        describe('without headers', () => {
+            it('should skip up to the specified number of rows without headers', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.noHeadersAndQuotes, { skipRows }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, assets.noHeadersAndQuotes.parsed.slice(skipRows));
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+
+            it('should skip up to the specified number of rows without headers and allow specifying headers', () => {
+                const skipRows = 3;
+                return parseContentAndCollect(assets.noHeadersAndQuotes, {
+                    headers: ['h1', 'h2', 'h3', 'h4'],
+                    skipRows,
+                }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(
+                        rows,
+                        assets.noHeadersAndQuotes.parsed.slice(skipRows).map(r => {
+                            return {
+                                h1: r[0],
+                                h2: r[1],
+                                h3: r[2],
+                                h4: r[3],
+                            };
+                        }),
+                    );
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+        });
+
+        describe('with transform', () => {
+            it('should not transform skipped rows', () => {
+                let transformedRows: csv.ParserRow[] = [];
+                const transformer = (row: csv.ParserRow): csv.ParserRow => {
+                    const transformed = {
+                        firstName: (row as csv.ParserRowMap).first_name,
+                        lastName: (row as csv.ParserRowMap).last_name,
+                        emailAddress: (row as csv.ParserRowMap).email_address,
+                        address: (row as csv.ParserRowMap).address,
+                    };
+                    transformedRows.push(transformed);
+                    return transformed;
+                };
+                const skipRows = 3;
+                const expected = assets.withHeaders.parsed.slice(skipRows).map(transformer);
+                transformedRows = [];
+                const parser = csv.parse({ headers: true, skipRows }).transform(transformer);
+                return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, expected);
+                    assert.deepStrictEqual(transformedRows, expected);
+                    assert.strictEqual(count, expected.length);
+                });
+            });
+        });
+
+        describe('with validate', () => {
+            it('should not validate skipped rows', () => {
+                let validatedRows: csv.ParserRow[] = [];
+                const validator = (row: csv.ParserRow): boolean => {
+                    validatedRows.push(row);
+                    return (validatedRows.length - 1) % 2 === 0;
+                };
+                const skipRows = 3;
+                const nonSkippedRows = assets.withHeaders.parsed.slice(skipRows);
+                const expected = nonSkippedRows.filter(validator);
+                validatedRows = [];
+                const parser = csv.parse({ headers: true, skipRows }).validate(validator);
+                return parseContentAndCollectFromStream(assets.withHeaders, parser).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, expected);
+                    assert.deepStrictEqual(validatedRows, nonSkippedRows);
+                    assert.strictEqual(count, nonSkippedRows.length);
+                });
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', () => {
+            const skipRows = 0;
+            return parseContentAndCollect(assets.withHeaders, { headers: true, skipRows }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, assets.withHeaders.parsed);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+    });
+
     it('should emit an error for malformed rows', next => {
         assets.write(assets.malformed);
         const stream = csv.parseFile(assets.malformed.path, { headers: true });
@@ -274,9 +489,9 @@ describe('CsvParserStream', () => {
     });
 
     describe('#validate', () => {
-        const syncValidator = (row: Row): boolean =>
-            parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 === 1;
-        const asyncValidator = (row: Row, cb: RowValidateCallback) => {
+        const syncValidator = (row: csv.ParserRow): boolean =>
+            parseInt((row as csv.ParserRowMap).first_name.replace(/^First/, ''), 10) % 2 === 1;
+        const asyncValidator = (row: csv.ParserRow, cb: csv.ParserRowValidateCallback) => {
             cb(null, syncValidator(row));
         };
 
@@ -292,8 +507,8 @@ describe('CsvParserStream', () => {
         });
 
         it('should allow async validation of rows', () => {
-            const validator = (row: Row): boolean =>
-                parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 !== 0;
+            const validator = (row: csv.ParserRow): boolean =>
+                parseInt((row as csv.ParserRowMap).first_name.replace(/^First/, ''), 10) % 2 !== 0;
             const invalidValid = partition(assets.withHeaders.parsed, validator);
             const parser = csv.parse({ headers: true }).validate(asyncValidator);
 
@@ -309,7 +524,7 @@ describe('CsvParserStream', () => {
             let index = -1;
             const stream = csv
                 .parseFile(assets.withHeaders.path, { headers: true })
-                .validate((data: Row, validateNext): void => {
+                .validate((data: csv.ParserRow, validateNext): void => {
                     setImmediate(() => {
                         index += 1;
                         if (index === 8) {
@@ -361,11 +576,11 @@ describe('CsvParserStream', () => {
     });
 
     describe('#transform', () => {
-        const transformer = (row: Row): Row => ({
-            firstName: (row as RowMap).first_name,
-            lastName: (row as RowMap).last_name,
-            emailAddress: (row as RowMap).email_address,
-            address: (row as RowMap).address,
+        const transformer = (row: csv.ParserRow): csv.ParserRow => ({
+            firstName: (row as csv.ParserRowMap).first_name,
+            lastName: (row as csv.ParserRowMap).last_name,
+            emailAddress: (row as csv.ParserRowMap).email_address,
+            address: (row as csv.ParserRowMap).address,
         });
 
         it('should allow transforming of data', () => {
@@ -446,7 +661,7 @@ describe('CsvParserStream', () => {
         it('should support pausing a stream', () => {
             assets.write(assets.withHeaders);
             return new Promise((res, rej) => {
-                const rows: Row[] = [];
+                const rows: csv.ParserRow[] = [];
                 let paused = false;
                 const stream = csv.parse({ headers: true });
                 fs.createReadStream(assets.withHeaders.path)
@@ -524,7 +739,7 @@ describe('CsvParserStream', () => {
 
     describe('.parseString', () => {
         it('should accept a csv string', next => {
-            const actual: Row[] = [];
+            const actual: csv.ParserRow[] = [];
             csv.parseString(assets.withHeaders.content, { headers: true })
                 .on('data', data => actual.push(data))
                 .on('end', (count: number) => {

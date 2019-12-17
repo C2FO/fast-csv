@@ -1,6 +1,5 @@
 import * as assert from 'assert';
-import { Parser } from '../../src/parser/parser';
-import { ParserOptions } from '../../src/parser';
+import { ParserOptions, Parser } from '../../src/parser';
 
 describe('Issue #150 - https://github.com/C2FO/fast-csv/issues/150', () => {
     const createParser = (parserOptions = {}) => new Parser(new ParserOptions(parserOptions));

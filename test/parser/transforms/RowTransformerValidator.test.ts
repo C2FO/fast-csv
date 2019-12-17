@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import { Row, RowArray, RowValidationResult } from '../../../src/parser';
-import { RowTransformerValidator } from '../../../src/parser/transforms';
+import { ParserRow as Row, ParserRowArray as RowArray } from '../../../src';
+import { RowValidationResult, RowTransformerValidator } from '../../../src/parser';
 
 describe('RowTransformerValidator', () => {
     const createRowTransformerValidator = () => new RowTransformerValidator();

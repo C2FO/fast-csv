@@ -6,6 +6,8 @@ import CsvParserStream from './CsvParserStream';
 export { default as CsvParserStream } from './CsvParserStream';
 export * from './types';
 export * from './ParserOptions';
+export * from './parser';
+export * from './transforms';
 
 export const parse = (args?: ParserOptionsArgs): CsvParserStream => new CsvParserStream(new ParserOptions(args));
 

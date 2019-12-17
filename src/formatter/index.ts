@@ -8,6 +8,7 @@ import CsvFormatterStream from './CsvFormatterStream';
 export { default as CsvFormatterStream } from './CsvFormatterStream';
 export * from './types';
 export * from './FormatterOptions';
+export * from './formatter';
 
 export const format = (options?: FormatterOptionsArgs): CsvFormatterStream =>
     new CsvFormatterStream(new FormatterOptions(options));

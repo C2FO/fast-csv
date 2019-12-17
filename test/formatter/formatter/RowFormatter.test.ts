@@ -1,6 +1,12 @@
 import * as assert from 'assert';
-import { FormatterOptions, Row, RowArray, RowHashArray, RowMap, RowTransformCallback } from '../../../src/formatter';
-import RowFormatter from '../../../src/formatter/formatter/RowFormatter';
+import {
+    FormatterRow as Row,
+    FormatterRowArray as RowArray,
+    FormatterRowHashArray as RowHashArray,
+    FormatterRowMap as RowMap,
+    FormatterRowTransformCallback as RowTransformCallback,
+} from '../../../src';
+import { RowFormatter, FormatterOptions } from '../../../src/formatter';
 
 describe('RowFormatter', () => {
     const createFormatter = (formatterOptions = {}): RowFormatter =>

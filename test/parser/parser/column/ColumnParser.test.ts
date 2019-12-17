@@ -1,8 +1,6 @@
 import * as assert from 'assert';
 import * as sinon from 'sinon';
-import { ParserOptions } from '../../../../src/parser';
-import { ColumnParser } from '../../../../src/parser/parser/column';
-import { Scanner } from '../../../../src/parser/parser/Scanner';
+import { ParserOptions, Scanner, ColumnParser } from '../../../../src/parser';
 
 describe('ColumnParser', () => {
     describe('#parse', () => {

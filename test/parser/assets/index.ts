@@ -2,11 +2,13 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import * as path from 'path';
 import alternateEncoding from './alternateEncoding';
 import noHeadersAndQuotes from './noHeadersAndQuotes';
+import skipLines from './skipLines';
 import withHeaders from './withHeaders';
 import withHeadersAndQuotes from './withHeadersAndQuotes';
 import withHeadersAndAlternateQuote from './withHeadersAndAlternateQuote';
 import withHeadersAndMissingColumns from './withHeadersAndMissingColumns';
 import withHeadersAlternateDelimiter from './withHeadersAlternateDelimiter';
+import withHeadersSkippedLines from './withHeadersSkippedLines';
 import headerColumnMismatch from './headerColumnMismatch';
 import malformed from './malformed';
 import trailingComma from './trailingComma';
@@ -32,11 +34,13 @@ const write = (opts: PathAndContent): void => {
 export default {
     write,
     alternateEncoding,
+    skipLines,
     withHeaders,
     withHeadersAndQuotes,
     withHeadersAndAlternateQuote,
     withHeadersAndMissingColumns,
     withHeadersAlternateDelimiter,
+    withHeadersSkippedLines,
     noHeadersAndQuotes,
     headerColumnMismatch,
     malformed,
