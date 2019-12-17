@@ -1,11 +1,11 @@
 {
   "name": "fast-csv",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "CSV parser and writer",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "tsc",
     "mocha": "nyc mocha",
     "test": "npm run lint && npm run mocha",
@@ -14,6 +14,7 @@
     "benchmark": "node ./benchmark",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
+  "files": ["build/src/**"],
   "repository": {
     "type": "git",
     "url": "git@github.com:C2FO/fast-csv.git"

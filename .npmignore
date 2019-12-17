@@ -1,8 +1,0 @@
-benchmark
-test
-node_modules
-.travis.yml
-History.md
-examples
-.nyc_output
-coverage
