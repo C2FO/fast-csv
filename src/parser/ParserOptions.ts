@@ -1,12 +1,13 @@
 import escapeRegExp from 'lodash.escaperegexp';
 import isNil from 'lodash.isnil';
+import { HeaderArray, HeaderTransformFunction } from './types';
 
 export interface ParserOptionsArgs {
     objectMode?: boolean;
     delimiter?: string;
     quote?: string | null;
     escape?: string;
-    headers?: boolean | (string | undefined | null)[];
+    headers?: boolean | HeaderTransformFunction | HeaderArray;
     renameHeaders?: boolean;
     ignoreEmpty?: boolean;
     comment?: string;
@@ -46,7 +47,7 @@ export class ParserOptions {
 
     public readonly trim: boolean = false;
 
-    public readonly headers: boolean | string[] | null = null;
+    public readonly headers: boolean | HeaderTransformFunction | HeaderArray | null = null;
 
     public readonly renameHeaders: boolean = false;
 

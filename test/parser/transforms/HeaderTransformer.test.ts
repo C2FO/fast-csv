@@ -65,6 +65,22 @@ describe('HeaderTransformer', () => {
                 });
         });
 
+        it('should skip the first row if headers is function and properly map the headers to the row', () => {
+            const row1 = ['origHeader1', 'origHeader2'];
+            const row2 = ['a', 'b'];
+            const transformer = createHeaderTransformer({
+                headers: headers => headers.map(h => h?.toUpperCase()),
+            });
+            return transform(row1, transformer)
+                .then(results => {
+                    assert.deepStrictEqual(results, { row: null, isValid: true });
+                    return transform(row2, transformer);
+                })
+                .then(results => {
+                    assert.deepStrictEqual(results, { row: { ORIGHEADER1: 'a', ORIGHEADER2: 'b' }, isValid: true });
+                });
+        });
+
         it('should throw an error if headers is not defined and renameHeaders is true', () => {
             const row1 = ['origHeader1', 'origHeader2'];
             const transformer = createHeaderTransformer({ renameHeaders: true });
