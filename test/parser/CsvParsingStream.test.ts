@@ -2,6 +2,7 @@
 import * as assert from 'assert';
 import * as fs from 'fs';
 import * as domain from 'domain';
+import * as sinon from 'sinon';
 import partition from 'lodash.partition';
 import * as csv from '../../src';
 import assets, { PathAndContent } from './assets';
@@ -140,34 +141,132 @@ describe('CsvParserStream', () => {
             },
         ));
 
-    it('should allow specifying of columns', () => {
-        const expected = assets.noHeadersAndQuotes.parsed.map(r => ({
-            first_name: r[0],
-            last_name: r[1],
-            email_address: r[2],
-            address: r[3],
-        }));
-        return parseContentAndCollect(assets.noHeadersAndQuotes, {
-            headers: ['first_name', 'last_name', 'email_address', 'address'],
-        }).then(({ count, rows }) => {
-            assert.deepStrictEqual(rows, expected);
-            assert.strictEqual(count, rows.length);
+    describe('headers option', () => {
+        it('should allow specifying of headers', () => {
+            const expected = assets.noHeadersAndQuotes.parsed.map(r => ({
+                first_name: r[0],
+                last_name: r[1],
+                email_address: r[2],
+                address: r[3],
+            }));
+            return parseContentAndCollect(assets.noHeadersAndQuotes, {
+                headers: ['first_name', 'last_name', 'email_address', 'address'],
+            }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, expected);
+                assert.strictEqual(count, rows.length);
+            });
         });
-    });
 
-    it('should allow renaming columns', () => {
-        const expected = assets.withHeadersAndQuotes.parsed.map(r => ({
-            firstName: r.first_name,
-            lastName: r.last_name,
-            emailAddress: r.email_address,
-            address: r.address,
-        }));
-        return parseContentAndCollect(assets.withHeadersAndQuotes, {
-            headers: ['firstName', 'lastName', 'emailAddress', 'address'],
-            renameHeaders: true,
-        }).then(({ count, rows }) => {
-            assert.deepStrictEqual(rows, expected);
-            assert.strictEqual(count, rows.length);
+        it('should allow transforming headers with a function', () => {
+            const expected = assets.withHeadersAndQuotes.parsed.map(r => ({
+                firstName: r.first_name,
+                lastName: r.last_name,
+                emailAddress: r.email_address,
+                address: r.address,
+            }));
+            const transform = sinon.stub().returns(['firstName', 'lastName', 'emailAddress', 'address']);
+            return parseContentAndCollect(assets.withHeadersAndQuotes, {
+                headers: transform,
+            }).then(({ count, rows }) => {
+                sinon.assert.calledOnce(transform);
+                sinon.assert.calledWith(transform, ['first_name', 'last_name', 'email_address', 'address']);
+                assert.deepStrictEqual(rows, expected);
+                assert.strictEqual(count, rows.length);
+            });
+        });
+
+        describe('renameHeaders option', () => {
+            it('should allow renaming headers', () => {
+                const expected = assets.withHeadersAndQuotes.parsed.map(r => ({
+                    firstName: r.first_name,
+                    lastName: r.last_name,
+                    emailAddress: r.email_address,
+                    address: r.address,
+                }));
+                return parseContentAndCollect(assets.withHeadersAndQuotes, {
+                    headers: ['firstName', 'lastName', 'emailAddress', 'address'],
+                    renameHeaders: true,
+                }).then(({ count, rows }) => {
+                    assert.deepStrictEqual(rows, expected);
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+
+            it('should ignore the renameHeaders option if transforming headers with a function', () => {
+                const expected = assets.withHeadersAndQuotes.parsed.map(r => ({
+                    firstName: r.first_name,
+                    lastName: r.last_name,
+                    emailAddress: r.email_address,
+                    address: r.address,
+                }));
+                const transform = sinon.stub().returns(['firstName', 'lastName', 'emailAddress', 'address']);
+                return parseContentAndCollect(assets.withHeadersAndQuotes, {
+                    headers: transform,
+                    renameHeaders: true,
+                }).then(({ count, rows }) => {
+                    sinon.assert.calledOnce(transform);
+                    sinon.assert.calledWith(transform, ['first_name', 'last_name', 'email_address', 'address']);
+                    assert.deepStrictEqual(rows, expected);
+                    assert.strictEqual(count, rows.length);
+                });
+            });
+
+            it('should propagate an error when trying to rename headers without providing new ones', next => {
+                const stream = csv.parse({ renameHeaders: true });
+                listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
+                stream.write(assets.withHeadersAndQuotes.content);
+                stream.end();
+            });
+
+            it('should propagate an error when trying to rename headers without providing proper ones', next => {
+                const stream = csv.parse({ renameHeaders: true, headers: true });
+                listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
+                stream.write(assets.withHeadersAndQuotes.content);
+                stream.end();
+            });
+        });
+
+        it('should propagate an error header length does not match column length', next => {
+            const stream = csv.parse({ headers: true });
+            listenForError(stream, 'Unexpected Error: column header mismatch expected: 4 columns got: 5', next);
+            stream.write(assets.headerColumnMismatch.content);
+            stream.end();
+        });
+
+        it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () =>
+            parseContentAndCollect(assets.headerColumnMismatch, { headers: true, discardUnmappedColumns: true }).then(
+                ({ count, rows }) => {
+                    assert.deepStrictEqual(rows, assets.headerColumnMismatch.parsed);
+                    assert.strictEqual(count, rows.length);
+                },
+            ));
+
+        it('should report missing columns that do not exist but have a header with strictColumnHandling option', () => {
+            const expectedRows = assets.withHeadersAndMissingColumns.parsed.filter(r => r.address !== null);
+            const expectedInvalidRows = assets.withHeadersAndMissingColumns.parsed
+                .filter(r => r.address === null)
+                .map(r => Object.values(r).filter(v => !!v));
+            return parseContentAndCollect(assets.withHeadersAndMissingColumns, {
+                headers: true,
+                strictColumnHandling: true,
+            }).then(({ count, rows, invalidRows }) => {
+                assert.deepStrictEqual(rows, expectedRows);
+                assert.deepStrictEqual(invalidRows, expectedInvalidRows);
+                assert.strictEqual(count, rows.length + invalidRows.length);
+            });
+        });
+
+        it('should allow specifying of columns as a sparse array', () => {
+            const expected = assets.noHeadersAndQuotes.parsed.map(r => ({
+                first_name: r[0],
+                email_address: r[2],
+            }));
+            return parseContentAndCollect(assets.noHeadersAndQuotes, {
+                headers: ['first_name', undefined, 'email_address', undefined],
+            }).then(({ count, rows }) => {
+                assert.deepStrictEqual(rows, expected);
+                assert.strictEqual(count, rows.length);
+            });
         });
     });
 
@@ -178,63 +277,6 @@ describe('CsvParserStream', () => {
                 assert.strictEqual(count, rows.length);
             },
         ));
-
-    it('should propagate an error when trying to rename headers without providing new ones', next => {
-        const stream = csv.parse({ renameHeaders: true });
-        listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
-        stream.write(assets.withHeadersAndQuotes.content);
-        stream.end();
-    });
-
-    it('should propagate an error when trying to rename headers without providing proper ones', next => {
-        const stream = csv.parse({ renameHeaders: true, headers: true });
-        listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
-        stream.write(assets.withHeadersAndQuotes.content);
-        stream.end();
-    });
-
-    it('should propagate an error header length does not match column length', next => {
-        const stream = csv.parse({ headers: true });
-        listenForError(stream, 'Unexpected Error: column header mismatch expected: 4 columns got: 5', next);
-        stream.write(assets.headerColumnMismatch.content);
-        stream.end();
-    });
-
-    it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () =>
-        parseContentAndCollect(assets.headerColumnMismatch, { headers: true, discardUnmappedColumns: true }).then(
-            ({ count, rows }) => {
-                assert.deepStrictEqual(rows, assets.headerColumnMismatch.parsed);
-                assert.strictEqual(count, rows.length);
-            },
-        ));
-
-    it('should report missing columns that do not exist but have a header with strictColumnHandling option', () => {
-        const expectedRows = assets.withHeadersAndMissingColumns.parsed.filter(r => r.address !== null);
-        const expectedInvalidRows = assets.withHeadersAndMissingColumns.parsed
-            .filter(r => r.address === null)
-            .map(r => Object.values(r).filter(v => !!v));
-        return parseContentAndCollect(assets.withHeadersAndMissingColumns, {
-            headers: true,
-            strictColumnHandling: true,
-        }).then(({ count, rows, invalidRows }) => {
-            assert.deepStrictEqual(rows, expectedRows);
-            assert.deepStrictEqual(invalidRows, expectedInvalidRows);
-            assert.strictEqual(count, rows.length + invalidRows.length);
-        });
-    });
-
-    it('should allow specifying of columns as a sparse array', () => {
-        const expected = assets.noHeadersAndQuotes.parsed.map(r => ({
-            first_name: r[0],
-            email_address: r[2],
-        }));
-        return parseContentAndCollect(assets.noHeadersAndQuotes, {
-            headers: ['first_name', undefined, 'email_address', undefined],
-        }).then(({ count, rows }) => {
-            assert.deepStrictEqual(rows, expected);
-            assert.strictEqual(count, rows.length);
-        });
-    });
 
     it('should handle a trailing comma', () =>
         parseContentAndCollect(assets.trailingComma, { headers: true }).then(({ count, rows }) => {

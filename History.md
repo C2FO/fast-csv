@@ -1,3 +1,7 @@
+# v3.7.0
+
+* [ADDED] Ability to Transform Header [#287](https://github.com/C2FO/fast-csv/issues/287)
+
 # v3.6.0
 
 * [ADDED] `maxRows` option to limit the number of rows parsed. [#275](https://github.com/C2FO/fast-csv/issues/275) [#277](https://github.com/C2FO/fast-csv/pull/277) - [@cbrittingham](https://github.com/cbrittingham)

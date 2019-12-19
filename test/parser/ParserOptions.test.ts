@@ -149,6 +149,12 @@ describe('ParserOptions', () => {
             assert.deepStrictEqual(createOptions({ headers: ['1', '2', '3'] }).headers, ['1', '2', '3']);
         });
 
+        it('should accept a function', () => {
+            const opts = createOptions({ headers: headers => headers.map(h => h?.toLowerCase()) });
+            // @ts-ignore
+            assert.deepStrictEqual(opts.headers(['A', 'B', 'C']), ['a', 'b', 'c']);
+        });
+
         it('should accept headers as a boolean', () => {
             assert.deepStrictEqual(createOptions({ headers: true }).headers, true);
         });

@@ -40,6 +40,8 @@ export {
     SyncRowTransform as ParserSyncRowTransform,
     AsyncRowTransform as ParserAsyncRowTransform,
     RowTransformFunction as ParserRowTransformFunction,
+    HeaderArray as ParserHeaderArray,
+    HeaderTransformFunction as ParserHeaderTransformFunction,
 } from './parser';
 
 export const fromString = deprecate(parseString, 'csv.fromString has been deprecated in favor of csv.parseString');
