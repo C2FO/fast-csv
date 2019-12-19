@@ -1,6 +1,7 @@
 # v3.7.0
 
 * [ADDED] Ability to Transform Header [#287](https://github.com/C2FO/fast-csv/issues/287)
+* [ADDED] Example require and import to README [#301](https://github.com/C2FO/fast-csv/issues/301)
 
 # v3.6.0
 
