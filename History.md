@@ -2,6 +2,7 @@
 
 * [ADDED] Ability to Transform Header [#287](https://github.com/C2FO/fast-csv/issues/287)
 * [ADDED] Example require and import to README [#301](https://github.com/C2FO/fast-csv/issues/301)
+* [ADDED] Added new formatting option `alwaysWriteHeaders` to always write headers even if no rows are provided [#300](https://github.com/C2FO/fast-csv/issues/300)
 
 # v3.6.0
 

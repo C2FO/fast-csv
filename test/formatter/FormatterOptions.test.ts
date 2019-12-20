@@ -164,12 +164,22 @@ describe('FormatterOptions', () => {
     });
 
     describe('#writeBOM', () => {
-        it('should set includeEndRowDelimiter to false by default', () => {
+        it('should set writeBOM to false by default', () => {
             assert.strictEqual(createOptions().writeBOM, false);
         });
 
         it('should set to true if the writeBOM is specified', () => {
             assert.strictEqual(createOptions({ writeBOM: true }).writeBOM, true);
+        });
+    });
+
+    describe('#alwaysWriteHeaders', () => {
+        it('should set alwaysWriteHeaders to false by default', () => {
+            assert.strictEqual(createOptions().alwaysWriteHeaders, false);
+        });
+
+        it('should set to provided value if the alwaysWriteHeaders is specified', () => {
+            assert.strictEqual(createOptions({ alwaysWriteHeaders: true }).alwaysWriteHeaders, true);
         });
     });
 });

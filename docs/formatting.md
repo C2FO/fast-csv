@@ -52,6 +52,8 @@
   *  If there is not a headers row and you want to provide one then set to a `string[]`
       * **NOTE** If the row is an object the headers must match fields in the object, otherwise you will end up with empty fields
       * **NOTE** If there are more headers than columns then additional empty columns will be added
+* `alwaysWriteHeaders: {boolean} = false`: Set to true if you always want headers written, even if no rows are written.
+  * **NOTE** This will throw an error if headers are not specified as an array.
 * `quoteColumns: {boolean|boolean[]|{[string]: boolean} = false`
    * If `true` then columns and headers will be quoted (unless `quoteHeaders` is specified).
    * If it is an object then each key that has a true value will be quoted ((unless `quoteHeaders` is specified)

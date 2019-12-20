@@ -18,6 +18,7 @@ export interface FormatterOptionsArgs {
     includeEndRowDelimiter?: boolean;
     writeBOM?: boolean;
     transform?: RowTransformFunction;
+    alwaysWriteHeaders?: boolean;
 }
 
 export class FormatterOptions {
@@ -48,6 +49,8 @@ export class FormatterOptions {
     public readonly escapedQuote: string;
 
     public readonly BOM: string = '\ufeff';
+
+    public readonly alwaysWriteHeaders: boolean = false;
 
     public constructor(opts: FormatterOptionsArgs = {}) {
         Object.assign(this, opts || {});
