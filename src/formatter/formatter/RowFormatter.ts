@@ -109,6 +109,21 @@ export default class RowFormatter {
         });
     }
 
+    public finish(cb: RowFormatterCallback): void {
+        const rows = [];
+        // check if we should write headers and we didnt get any rows
+        if (this.formatterOptions.alwaysWriteHeaders && this.rowCount === 0) {
+            if (!this.headers) {
+                return cb(new Error('`alwaysWriteHeaders` option is set to true but `headers` option not provided.'));
+            }
+            rows.push(this.formatColumns(this.headers, true));
+        }
+        if (this.formatterOptions.includeEndRowDelimiter) {
+            rows.push(this.formatterOptions.rowDelimiter);
+        }
+        return cb(null, rows);
+    }
+
     // check if we need to write header return true if we should also write a row
     // could be false if headers is true and the header row(first item) is passed in
     private checkHeaders(row: Row): { headers?: string[] | null; shouldFormatColumns: boolean } {

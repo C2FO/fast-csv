@@ -324,6 +324,80 @@ describe('CsvFormatterStream', () => {
         });
     });
 
+    describe('header option', () => {
+        it('should write an array of objects without headers', () =>
+            formatRows(objectRows, { headers: false }).then(formatted =>
+                assert.deepStrictEqual(formatted, ['a1,b1', '\na2,b2']),
+            ));
+
+        it('should write an array of objects with headers', () =>
+            formatRows(objectRows, { headers: true }).then(formatted =>
+                assert.deepStrictEqual(formatted, ['a,b', '\na1,b1', '\na2,b2']),
+            ));
+
+        it('should write an array of arrays without headers', () => {
+            const rows = [
+                ['a1', 'b1'],
+                ['a2', 'b2'],
+            ];
+            return formatRows(rows, { headers: false }).then(formatted =>
+                assert.deepStrictEqual(formatted, ['a1,b1', '\na2,b2']),
+            );
+        });
+
+        it('should write an array of arrays with headers', () =>
+            formatRows(arrayRows, { headers: true }).then(parsedCsv =>
+                assert.deepStrictEqual(parsedCsv, ['a,b', '\na1,b1', '\na2,b2']),
+            ));
+
+        it('should write an array of multi-dimensional arrays without headers', () =>
+            formatRows(multiDimensionalRows, { headers: false }).then(parsedCsv =>
+                assert.deepStrictEqual(parsedCsv, ['a1,b1', '\na2,b2']),
+            ));
+
+        it('should write an array of multi-dimensional arrays with headers', () =>
+            formatRows(multiDimensionalRows, { headers: true }).then(parsedCsv =>
+                assert.deepStrictEqual(parsedCsv, ['a,b', '\na1,b1', '\na2,b2']),
+            ));
+
+        it('should not write anything if headers are provided but no rows are provided', () =>
+            formatRows([], { headers: true }).then(parsedCsv => assert.deepStrictEqual(parsedCsv, [])));
+
+        describe('alwaysWriteHeaders option', () => {
+            it('should write the headers if rows are not provided', () => {
+                const headers = ['h1', 'h2'];
+                return formatRows([], { headers, alwaysWriteHeaders: true }).then(parsedCsv =>
+                    assert.deepStrictEqual(parsedCsv, [headers.join(',')]),
+                );
+            });
+
+            it('should write the headers ones if rows are provided', () => {
+                const headers = ['h1', 'h2'];
+                return formatRows(arrayRows, { headers, alwaysWriteHeaders: true }).then(parsedCsv =>
+                    assert.deepStrictEqual(parsedCsv, [headers.join(','), '\na,b', '\na1,b1', '\na2,b2']),
+                );
+            });
+
+            it('should fail if no headers are provided', () => {
+                return formatRows(arrayRows, { alwaysWriteHeaders: true }).catch(e =>
+                    assert.strictEqual(
+                        e.message,
+                        '`alwaysWriteHeaders` option is set to true but `headers` option not provided.',
+                    ),
+                );
+            });
+
+            it('should write the headers and an endRowDelimiter if includeEndRowDelimiter is true', () => {
+                const headers = ['h1', 'h2'];
+                return formatRows([], {
+                    headers,
+                    includeEndRowDelimiter: true,
+                    alwaysWriteHeaders: true,
+                }).then(parsedCsv => assert.deepStrictEqual(parsedCsv, [headers.join(','), '\n']));
+            });
+        });
+    });
+
     it('should add a final rowDelimiter if includeEndRowDelimiter is true', () =>
         formatRows(objectRows, { headers: true, includeEndRowDelimiter: true }).then(written =>
             assert.deepStrictEqual(written, ['a,b', '\na1,b1', '\na2,b2', '\n']),
