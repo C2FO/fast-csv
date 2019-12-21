@@ -14,7 +14,9 @@
     "benchmark": "node ./benchmark",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
-  "files": ["build/src/**"],
+  "files": [
+    "build/src/**"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:C2FO/fast-csv.git"
@@ -40,6 +42,8 @@
     "@types/lodash.isstring": "^4.0.6",
     "@types/lodash.isundefined": "^3.0.6",
     "@types/lodash.partition": "^4.6.6",
+    "@types/lodash.uniq": "^4.5.6",
+    "@types/lodash.groupby": "^4.6.6",
     "@types/mocha": "^5.2.7",
     "@types/sinon": "^7.5.1",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
@@ -66,11 +70,13 @@
   "dependencies": {
     "@types/node": "^12.12.17",
     "lodash.escaperegexp": "^4.1.2",
+    "lodash.groupby": "^4.6.0",
     "lodash.isboolean": "^3.0.3",
     "lodash.isequal": "^4.5.0",
     "lodash.isfunction": "^3.0.9",
     "lodash.isnil": "^4.0.0",
     "lodash.isstring": "^4.0.1",
-    "lodash.isundefined": "^3.0.1"
+    "lodash.isundefined": "^3.0.1",
+    "lodash.uniq": "^4.5.0"
   }
 }

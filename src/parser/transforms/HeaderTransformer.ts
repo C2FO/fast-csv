@@ -1,5 +1,7 @@
 import isUndefined from 'lodash.isundefined';
 import isFunction from 'lodash.isfunction';
+import uniq from 'lodash.uniq';
+import groupBy from 'lodash.groupby';
 import { ParserOptions } from '../ParserOptions';
 import {
     HeaderArray,
@@ -31,9 +33,7 @@ export default class HeaderTransformer {
         if (parserOptions.headers === true) {
             this.shouldUseFirstRow = true;
         } else if (Array.isArray(parserOptions.headers)) {
-            this.headers = parserOptions.headers as HeaderArray;
-            this.receivedHeaders = Array.isArray(parserOptions.headers);
-            this.headersLength = this.headers.length;
+            this.setHeaders(parserOptions.headers as HeaderArray);
         } else if (isFunction(parserOptions.headers)) {
             this.headersTransform = parserOptions.headers;
         }
@@ -57,15 +57,13 @@ export default class HeaderTransformer {
         }
         if (!this.receivedHeaders && Array.isArray(row)) {
             if (this.headersTransform) {
-                this.headers = this.headersTransform(row);
+                this.setHeaders(this.headersTransform(row));
             } else if (this.shouldUseFirstRow) {
-                this.headers = row;
+                this.setHeaders(row);
             } else {
                 // dont do anything with the headers if we didnt receive a transform or shouldnt use the first row.
                 return true;
             }
-            this.receivedHeaders = true;
-            this.headersLength = this.headers?.length || 0;
             return false;
         }
         return true;
@@ -114,5 +112,17 @@ export default class HeaderTransformer {
             }
         }
         return rowMap;
+    }
+
+    private setHeaders(headers: HeaderArray): void {
+        const filteredHeaders = headers.filter(h => !!h);
+        if (uniq(filteredHeaders).length !== filteredHeaders.length) {
+            const grouped = groupBy(filteredHeaders);
+            const duplicates = Object.keys(grouped).filter(dup => grouped[dup].length > 1);
+            throw new Error(`Duplicate headers found ${JSON.stringify(duplicates)}`);
+        }
+        this.headers = headers;
+        this.receivedHeaders = true;
+        this.headersLength = this.headers?.length || 0;
     }
 }

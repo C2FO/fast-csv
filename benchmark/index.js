@@ -28,7 +28,7 @@ const benchmarkFastCsv = type => num => {
     const file = path.resolve(__dirname, `./assets/${num}.${type}.csv`);
     const stream = fs
         .createReadStream(file)
-        .pipe(fastCsv.parse({ headers: true, maxRows: 10 }))
+        .pipe(fastCsv.parse({ headers: true }))
         .transform(data => {
             const ret = {};
             ['first_name', 'last_name', 'email_address'].forEach(prop => {
