@@ -233,6 +233,13 @@ describe('CsvParserStream', () => {
             stream.end();
         });
 
+        it('should propagate an error if headers are not unique', next => {
+            const stream = csv.parse({ headers: true });
+            listenForError(stream, 'Duplicate headers found ["first_name"]', next);
+            stream.write(assets.duplicateHeaders.content);
+            stream.end();
+        });
+
         it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () =>
             parseContentAndCollect(assets.headerColumnMismatch, { headers: true, discardUnmappedColumns: true }).then(
                 ({ count, rows }) => {

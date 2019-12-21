@@ -80,7 +80,7 @@ export default class CsvParserStream extends Transform {
             const rows = this.parse(newLine, true);
             return this.processRows(rows, done);
         } catch (e) {
-            return done(e);
+            return this.destroy(e);
         }
     }
 
@@ -110,6 +110,17 @@ export default class CsvParserStream extends Transform {
     private processRows(rows: string[][], cb: TransformCallback): void {
         const rowsLength = rows.length;
         const iterate = (i: number): void => {
+            const callNext = (err?: Error): void => {
+                if (err) {
+                    return this.destroy(err);
+                }
+                if (i % 100 === 0) {
+                    // incase the transform are sync insert a next tick to prevent stack overflow
+                    setImmediate((): void => iterate(i + 1));
+                    return undefined;
+                }
+                return iterate(i + 1);
+            };
             // if we have emitted all rows or we have hit the maxRows limit option
             // then end
             if (i >= rowsLength || this.hasHitRowLimit) {
@@ -117,7 +128,7 @@ export default class CsvParserStream extends Transform {
             }
             this.parsedLineCount += 1;
             if (this.shouldSkipLine) {
-                return iterate(i + 1);
+                return callNext();
             }
             const row = rows[i];
             this.rowCount += 1;
@@ -126,22 +137,17 @@ export default class CsvParserStream extends Transform {
             return this.transformRow(row, (err, transformResult): void => {
                 if (err) {
                     this.rowCount -= 1;
-                    return cb(err);
+                    return callNext(err);
                 }
                 if (!transformResult) {
-                    return cb(new Error('expected transform result'));
+                    return callNext(new Error('expected transform result'));
                 }
                 if (!transformResult.isValid) {
                     this.emit('data-invalid', transformResult.row, nextRowCount, transformResult.reason);
                 } else if (transformResult.row) {
-                    this.pushRow(transformResult.row);
+                    return this.pushRow(transformResult.row, callNext);
                 }
-                if (i % 100 === 0) {
-                    // incase the transform are sync insert a next tick to prevent stack overflow
-                    setImmediate((): void => iterate(i + 1));
-                    return undefined;
-                }
-                return iterate(i + 1);
+                return callNext();
             });
         };
         iterate(0);
@@ -177,11 +183,16 @@ export default class CsvParserStream extends Transform {
         }
     }
 
-    private pushRow(row: Row): void {
-        if (!this.parserOptions.objectMode) {
-            this.push(JSON.stringify(row));
-        } else {
-            this.push(row);
+    private pushRow(row: Row, cb: (err?: Error) => void): void {
+        try {
+            if (!this.parserOptions.objectMode) {
+                this.push(JSON.stringify(row));
+            } else {
+                this.push(row);
+            }
+            cb();
+        } catch (e) {
+            cb(e);
         }
     }
 }

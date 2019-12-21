@@ -18,11 +18,7 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
         d.run(() =>
             csv
                 .parseFile(path.resolve(__dirname, './assets/issue68-invalid.tsv'), { headers: true, delimiter: '\t' })
-                .on('data', () => null)
-                .on('end', (count: number) => {
-                    assert.strictEqual(count, 20000);
-                    throw new Error('End error');
-                }),
+                .on('data', () => null),
         );
     });
 

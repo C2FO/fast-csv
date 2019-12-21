@@ -38,6 +38,7 @@
   *  If you wish to discard the first row and use your own headers set to a `string[]` and set the `renameHeaders` option to `true`
   *  If you wish to transform the headers you can provide a transform function. 
       *  **NOTE** This will always rename the headers
+  * **NOTE** If headers either parsed, provided or transformed are NOT unique, then an error will be emitted and the stream will stop parsing.
 * `renameHeaders: {boolean} = false`: If you want the first line of the file to be removed and replaced by the one provided in the `headers` option. 
   * **NOTE** This option should only be used if the `headers` option is a `string[]`
   * **NOTE** If the `headers` option is a function then this option is always set to true.
