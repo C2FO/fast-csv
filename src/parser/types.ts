@@ -27,3 +27,6 @@ export type AsyncRowValidate = (row: Row, cb: RowValidateCallback) => void;
 export type RowValidate = AsyncRowValidate | SyncRowValidate;
 
 export const isSyncValidate = (validate: RowValidate): validate is SyncRowValidate => validate.length === 1;
+
+export type HeaderArray = (string | undefined | null)[];
+export type HeaderTransformFunction = (headers: HeaderArray) => HeaderArray;

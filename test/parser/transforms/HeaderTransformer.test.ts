@@ -65,6 +65,44 @@ describe('HeaderTransformer', () => {
                 });
         });
 
+        it('should skip the first row if headers is function and properly map the headers to the row', () => {
+            const row1 = ['origHeader1', 'origHeader2'];
+            const row2 = ['a', 'b'];
+            const transformer = createHeaderTransformer({
+                headers: headers => headers.map(h => h?.toUpperCase()),
+            });
+            return transform(row1, transformer)
+                .then(results => {
+                    assert.deepStrictEqual(results, { row: null, isValid: true });
+                    return transform(row2, transformer);
+                })
+                .then(results => {
+                    assert.deepStrictEqual(results, { row: { ORIGHEADER1: 'a', ORIGHEADER2: 'b' }, isValid: true });
+                });
+        });
+
+        it('should throw an error if headers is true and the first row is not unique', () => {
+            const row1 = ['origHeader1', 'origHeader1', 'origHeader2'];
+            const transformer = createHeaderTransformer({ headers: true });
+            return transform(row1, transformer).then(
+                () => assert.fail('should have failed'),
+                err => assert.strictEqual(err.message, 'Duplicate headers found ["origHeader1"]'),
+            );
+        });
+
+        it('should throw an error if headers is an array and is not unique', () => {
+            const headers = ['origHeader1', 'origHeader1', 'origHeader2'];
+            assert.throws(() => createHeaderTransformer({ headers }), /Duplicate headers found \["origHeader1"]/);
+        });
+
+        it('should throw an error if headers is a transform and returns non-unique values', () => {
+            const row = ['h1', 'h2', 'h3'];
+            const transformer = createHeaderTransformer({ headers: () => ['h1', 'h1', 'h3'] });
+            return transform(row, transformer).catch(err =>
+                assert.strictEqual(err.message, 'Duplicate headers found ["h1"]'),
+            );
+        });
+
         it('should throw an error if headers is not defined and renameHeaders is true', () => {
             const row1 = ['origHeader1', 'origHeader2'];
             const transformer = createHeaderTransformer({ renameHeaders: true });

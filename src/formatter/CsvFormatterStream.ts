@@ -53,9 +53,16 @@ export default class CsvFormatterStream extends Transform {
     }
 
     public _flush(cb: TransformCallback): void {
-        if (this.formatterOptions.includeEndRowDelimiter) {
-            this.push(this.formatterOptions.rowDelimiter);
-        }
-        cb();
+        this.rowFormatter.finish((err, rows): void => {
+            if (err) {
+                return cb(err);
+            }
+            if (rows) {
+                rows.forEach((r): void => {
+                    this.push(Buffer.from(r, 'utf8'));
+                });
+            }
+            return cb();
+        });
     }
 }

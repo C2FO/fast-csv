@@ -13,6 +13,7 @@
     * [First Row As Headers](#csv-parse-first-row-as-headers)
     * [Custom Headers](#csv-parse-custom-headers)
     * [Renaming Headers](#csv-parse-renaming-headers)
+    * [Transforming Headers](#csv-parse-transforming-headers)
     * [Skipping Columns](#csv-parse-skipping-columns)
     * [Ignoring Empty Rows](#csv-parse-ignoring-empty-rows)
     * [Transforming Rows](#csv-parse-transforming)
@@ -31,12 +32,16 @@
   * `"first,name",last name`
 * `escape: {string} = '"'`: The character to used tp escape quotes inside of a quoted field.
     * `i.e`: `First,"Name"' => '"First,""Name"""`
-* `headers: {boolean|string[]} = false`:
+* `headers: {boolean|string[]|(string[]) => string[])} = false`:
   *  If you want the first row to be treated as headers then set to `true`
   *  If there is not a headers row and you want to provide one then set to a `string[]`
   *  If you wish to discard the first row and use your own headers set to a `string[]` and set the `renameHeaders` option to `true`
-* `renameHeaders: {boolean} = false`: If you want the first line of the file to be removed and replaced by the one provided in the `headers` option.
+  *  If you wish to transform the headers you can provide a transform function. 
+      *  **NOTE** This will always rename the headers
+  * **NOTE** If headers either parsed, provided or transformed are NOT unique, then an error will be emitted and the stream will stop parsing.
+* `renameHeaders: {boolean} = false`: If you want the first line of the file to be removed and replaced by the one provided in the `headers` option. 
   * **NOTE** This option should only be used if the `headers` option is a `string[]`
+  * **NOTE** If the `headers` option is a function then this option is always set to true.
 * `ignoreEmpty: {boolean} = false`: If you wish to ignore empty rows.
   * **NOTE** this will discard columns that are all white space or delimiters.
 * `comment: {string} = null`: If your CSV contains comments you can use this option to ignore lines that begin with the specified character (e.g. `#`).
@@ -334,6 +339,39 @@ Expected output
 ```
 { a: 'a1', b: 'b1' }
 { a: 'a2', b: 'b2' }
+Parsed 2 rows
+```
+
+<a name="csv-parse-transforming-headers"></a>
+### Transforming Headers
+
+If the CSV contains a header row but you want transform the headers you can provide a function to the `headers` option.
+
+[`examples/parsing/rename_headers.example.js`](../examples/parsing/rename_headers.example.js)
+
+```javascript
+const { EOL } = require('os');
+
+const CSV_STRING = ['header1,header2', 'a1,b1', 'a2,b2'].join(EOL);
+
+const stream = csv
+    .parse({
+        headers: headers => headers.map(h => h.toUpperCase()),
+    })
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+
+stream.write(CSV_STRING);
+stream.end();
+
+```
+
+Expected output
+
+```
+{ HEADER1: 'a1', HEADER2: 'b1' }
+{ HEADER1: 'a2', HEADER2: 'b2' }
 Parsed 2 rows
 ```
 
@@ -709,5 +747,6 @@ Expected output
 { header1: 'col4', header2: 'col4' }
 Parsed 4 rows
 ```
+
 
 

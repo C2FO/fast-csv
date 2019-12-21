@@ -48,7 +48,8 @@ module.exports = {
         "prettier/prettier": "error",
         "indent": [
             "error",
-            4
+            4,
+            { "SwitchCase": 1 }
         ],
         "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
         "object-curly-spacing": ["error", "always"],

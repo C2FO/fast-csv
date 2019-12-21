@@ -13,6 +13,7 @@ import headerColumnMismatch from './headerColumnMismatch';
 import malformed from './malformed';
 import trailingComma from './trailingComma';
 import emptyRows from './emptyRows';
+import duplicateHeaders from './duplicateHeaders';
 
 export interface PathAndContent {
     path: string;
@@ -34,6 +35,7 @@ const write = (opts: PathAndContent): void => {
 export default {
     write,
     alternateEncoding,
+    duplicateHeaders,
     skipLines,
     withHeaders,
     withHeadersAndQuotes,

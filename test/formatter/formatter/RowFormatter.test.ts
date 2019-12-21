@@ -22,6 +22,16 @@ describe('RowFormatter', () => {
             });
         });
 
+    const finish = (formatter: RowFormatter): Promise<Row> =>
+        new Promise((res, rej): void => {
+            formatter.finish((err, formatted): void => {
+                if (err) {
+                    return rej(err);
+                }
+                return res(formatted);
+            });
+        });
+
     describe('#format', () => {
         describe('with array', () => {
             const headerRow = ['a', 'b'];
@@ -302,6 +312,44 @@ describe('RowFormatter', () => {
                     const formatter = createFormatter({ headers: true, rowDelimiter: '\r\n' });
                     return formatRow(row, formatter).then(rows => assert.deepStrictEqual(rows, ['a,b', '\r\na1,b1']));
                 });
+            });
+        });
+    });
+
+    describe('#finish', () => {
+        describe('alwaysWriteHeaders option', () => {
+            it('should return a headers row if no rows have been written', () => {
+                const headers = ['h1', 'h2'];
+                const formatter = createFormatter({ headers, alwaysWriteHeaders: true });
+                return finish(formatter).then(rows => assert.deepStrictEqual(rows, [headers.join(',')]));
+            });
+
+            it('should not return a headers row if rows have been written', () => {
+                const headers = ['h1', 'h2'];
+                const formatter = createFormatter({ headers, alwaysWriteHeaders: true });
+                return formatRow(['c1', 'c2'], formatter)
+                    .then(rows => {
+                        assert.deepStrictEqual(rows, ['h1,h2', '\nc1,c2']);
+                        return finish(formatter);
+                    })
+                    .then(rows => assert.deepStrictEqual(rows, []));
+            });
+
+            it('should reject if headers are not specified', () => {
+                const formatter = createFormatter({ alwaysWriteHeaders: true });
+                return finish(formatter).catch(e =>
+                    assert.strictEqual(
+                        e.message,
+                        '`alwaysWriteHeaders` option is set to true but `headers` option not provided.',
+                    ),
+                );
+            });
+        });
+
+        describe('includeEndRowDelimiter option', () => {
+            it('should write the endRowDelimiter if ', () => {
+                const formatter = createFormatter({ includeEndRowDelimiter: true });
+                return finish(formatter).then(rows => assert.deepStrictEqual(rows, ['\n']));
             });
         });
     });

@@ -1,27 +1,41 @@
 import isUndefined from 'lodash.isundefined';
+import isFunction from 'lodash.isfunction';
+import uniq from 'lodash.uniq';
+import groupBy from 'lodash.groupby';
 import { ParserOptions } from '../ParserOptions';
-import { Row, RowArray, RowMap, RowValidationResult, RowValidatorCallback } from '../types';
+import {
+    HeaderArray,
+    HeaderTransformFunction,
+    Row,
+    RowArray,
+    RowMap,
+    RowValidationResult,
+    RowValidatorCallback,
+} from '../types';
 
 export default class HeaderTransformer {
     private readonly parserOptions: ParserOptions;
 
-    private headers: RowArray | null;
+    private headers: HeaderArray | null = null;
 
-    private receivedHeaders: boolean;
+    private receivedHeaders = false;
 
-    private readonly shouldUseFirstRow: boolean;
+    private readonly shouldUseFirstRow: boolean = false;
 
     private processedFirstRow = false;
 
     private headersLength = 0;
 
+    private readonly headersTransform?: HeaderTransformFunction;
+
     public constructor(parserOptions: ParserOptions) {
         this.parserOptions = parserOptions;
-        this.headers = Array.isArray(parserOptions.headers) ? parserOptions.headers : null;
-        this.receivedHeaders = Array.isArray(parserOptions.headers);
-        this.shouldUseFirstRow = parserOptions.headers === true;
-        if (this.receivedHeaders && this.headers) {
-            this.headersLength = this.headers.length;
+        if (parserOptions.headers === true) {
+            this.shouldUseFirstRow = true;
+        } else if (Array.isArray(parserOptions.headers)) {
+            this.setHeaders(parserOptions.headers as HeaderArray);
+        } else if (isFunction(parserOptions.headers)) {
+            this.headersTransform = parserOptions.headers;
         }
     }
 
@@ -34,17 +48,22 @@ export default class HeaderTransformer {
 
     private shouldMapRow(row: Row): boolean {
         const { parserOptions } = this;
-        if (parserOptions.renameHeaders && !this.processedFirstRow) {
+        if (!this.headersTransform && parserOptions.renameHeaders && !this.processedFirstRow) {
             if (!this.receivedHeaders) {
                 throw new Error('Error renaming headers: new headers must be provided in an array');
             }
             this.processedFirstRow = true;
             return false;
         }
-        if (!this.receivedHeaders && this.shouldUseFirstRow && Array.isArray(row)) {
-            this.headers = row;
-            this.receivedHeaders = true;
-            this.headersLength = row.length;
+        if (!this.receivedHeaders && Array.isArray(row)) {
+            if (this.headersTransform) {
+                this.setHeaders(this.headersTransform(row));
+            } else if (this.shouldUseFirstRow) {
+                this.setHeaders(row);
+            } else {
+                // dont do anything with the headers if we didnt receive a transform or shouldnt use the first row.
+                return true;
+            }
             return false;
         }
         return true;
@@ -93,5 +112,17 @@ export default class HeaderTransformer {
             }
         }
         return rowMap;
+    }
+
+    private setHeaders(headers: HeaderArray): void {
+        const filteredHeaders = headers.filter(h => !!h);
+        if (uniq(filteredHeaders).length !== filteredHeaders.length) {
+            const grouped = groupBy(filteredHeaders);
+            const duplicates = Object.keys(grouped).filter(dup => grouped[dup].length > 1);
+            throw new Error(`Duplicate headers found ${JSON.stringify(duplicates)}`);
+        }
+        this.headers = headers;
+        this.receivedHeaders = true;
+        this.headersLength = this.headers?.length || 0;
     }
 }

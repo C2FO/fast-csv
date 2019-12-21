@@ -11,6 +11,20 @@ Fast-csv is library for parsing and formatting csvs or any other delimited value
 
 `npm install -S fast-csv`
 
+## Usage
+
+To use `fast-csv` in `javascript` you can require the module/
+
+```js
+const csv = require('fast-csv');
+```
+
+To import with typescript 
+
+```typescript
+import * as csv from 'fast-csv';
+```
+
 ## Documentation
 
 * [Parsing Docs](./docs/parsing.md)
@@ -54,4 +68,5 @@ MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 * Code: `git clone git://github.com/C2FO/fast-csv.git`
 * Website: <http://c2fo.com>
 * Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
+
 
