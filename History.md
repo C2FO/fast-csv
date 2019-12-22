@@ -1,3 +1,7 @@
+# v4.0.0
+
+* Migrated from mocha to jest
+
 # v3.7.0
 
 * [ADDED] Ability to Transform Header [#287](https://github.com/C2FO/fast-csv/issues/287)
