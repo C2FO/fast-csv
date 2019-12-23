@@ -10,6 +10,11 @@ assignees: doug-martin, dustinsmith1024
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Parsing or Formatting?**
+
+ - [ ] Formatting
+ - [ ] Parsing 
+
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Example file contents if applicable

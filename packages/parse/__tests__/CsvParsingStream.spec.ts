@@ -1,0 +1,655 @@
+/* eslint-disable no-cond-assign,@typescript-eslint/camelcase,@typescript-eslint/no-explicit-any */
+import * as fs from 'fs';
+import * as domain from 'domain';
+import partition from 'lodash.partition';
+import { CsvParserStream } from '../src/CsvParserStream';
+import { parseFile, ParserOptionsArgs, Row, RowMap, RowValidateCallback } from '../src';
+import { ParserOptions } from '../src/ParserOptions';
+import {
+    PathAndContent,
+    ParseResults,
+    expectParsed,
+    parseContentAndCollectFromStream,
+    write,
+    duplicateHeaders,
+    headerColumnMismatch,
+    noHeadersAndQuotes,
+    withHeaders,
+    withHeadersAndAlternateQuote,
+    withHeadersAndMissingColumns,
+    withHeadersAndSkippedLines,
+    withHeadersAndQuotes,
+    alternateEncoding,
+    trailingComma,
+    emptyRows,
+    withHeadersAlternateDelimiter,
+    skipLines,
+    malformed,
+} from './__fixtures__';
+
+import DoneCallback = jest.DoneCallback;
+
+describe('CsvParserStream', () => {
+    const createParserStream = (args?: ParserOptionsArgs): CsvParserStream =>
+        new CsvParserStream(new ParserOptions(args));
+
+    const listenForError = (stream: CsvParserStream, message: string, next: DoneCallback) => {
+        let called = false;
+        stream
+            .on('error', (err: Error) => {
+                expect(err.message).toBe(message);
+                if (!called) {
+                    called = true;
+                    next();
+                }
+            })
+            .on('end', () => next(new Error(`Expected and error to occur [expectedMessage=${message}]`)));
+    };
+
+    const parseContentAndCollect = (data: PathAndContent, options: ParserOptionsArgs = {}): Promise<ParseResults> =>
+        new Promise((res, rej) => {
+            const rows: Row[] = [];
+            const invalidRows: Row[] = [];
+            const parser = createParserStream(options)
+                .on('data', row => rows.push(row))
+                .on('data-invalid', row => invalidRows.push(row))
+                .on('error', rej)
+                .on('end', (count: number) => {
+                    res({ count, rows, invalidRows });
+                });
+            parser.write(data.content);
+            parser.end();
+        });
+
+    it('should parse a csv without quotes or escapes', () =>
+        expectParsed(parseContentAndCollect(withHeaders, { headers: true }), withHeaders.parsed));
+
+    it('should emit a readable event ', next => {
+        const actual: Row[] = [];
+        const parser = createParserStream({ headers: true });
+        const stream = parser.on('error', next).on('end', (count: number) => {
+            expect(actual).toEqual(withHeaders.parsed);
+            expect(count).toBe(actual.length);
+            next();
+        });
+        let index = 0;
+        stream.on('readable', () => {
+            for (let data = stream.read(); data !== null; data = stream.read()) {
+                actual[index] = data;
+                index += 1;
+            }
+        });
+        stream.write(withHeaders.content);
+        stream.end();
+    });
+
+    it('should emit data as a buffer if objectMode is false', async () => {
+        const expected = withHeaders.parsed.map(r => Buffer.from(JSON.stringify(r)));
+        await expectParsed(parseContentAndCollect(withHeaders, { headers: true, objectMode: false }), expected);
+    });
+
+    it('should emit data as an object if objectMode is true', () =>
+        expectParsed(parseContentAndCollect(withHeaders, { headers: true, objectMode: true }), withHeaders.parsed));
+
+    it('should emit data as an object if objectMode is not specified', () =>
+        expectParsed(parseContentAndCollect(withHeaders, { headers: true }), withHeaders.parsed));
+
+    it('should parse a csv with quotes', () =>
+        expectParsed(parseContentAndCollect(withHeadersAndQuotes, { headers: true }), withHeadersAndQuotes.parsed));
+
+    it('should parse a csv with without headers', () =>
+        expectParsed(parseContentAndCollect(noHeadersAndQuotes), noHeadersAndQuotes.parsed));
+
+    it("should parse a csv with ' escapes", () =>
+        expectParsed(
+            parseContentAndCollect(withHeadersAndAlternateQuote, { headers: true, quote: "'" }),
+            withHeadersAndAlternateQuote.parsed,
+        ));
+
+    describe('headers option', () => {
+        it('should allow specifying of headers', async () => {
+            const expected = noHeadersAndQuotes.parsed.map(r => ({
+                first_name: r[0],
+                last_name: r[1],
+                email_address: r[2],
+                address: r[3],
+            }));
+            await expectParsed(
+                parseContentAndCollect(noHeadersAndQuotes, {
+                    headers: ['first_name', 'last_name', 'email_address', 'address'],
+                }),
+                expected,
+            );
+        });
+
+        it('should allow transforming headers with a function', async () => {
+            const expected = withHeadersAndQuotes.parsed.map(r => ({
+                firstName: r.first_name,
+                lastName: r.last_name,
+                emailAddress: r.email_address,
+                address: r.address,
+            }));
+            const transform = jest.fn().mockReturnValue(['firstName', 'lastName', 'emailAddress', 'address']);
+            await expectParsed(parseContentAndCollect(withHeadersAndQuotes, { headers: transform }), expected);
+            expect(transform).toBeCalledTimes(1);
+            expect(transform).toBeCalledWith(['first_name', 'last_name', 'email_address', 'address']);
+        });
+
+        describe('renameHeaders option', () => {
+            it('should allow renaming headers', async () => {
+                const expected = withHeadersAndQuotes.parsed.map(r => ({
+                    firstName: r.first_name,
+                    lastName: r.last_name,
+                    emailAddress: r.email_address,
+                    address: r.address,
+                }));
+                await expectParsed(
+                    parseContentAndCollect(withHeadersAndQuotes, {
+                        headers: ['firstName', 'lastName', 'emailAddress', 'address'],
+                        renameHeaders: true,
+                    }),
+                    expected,
+                );
+            });
+
+            it('should ignore the renameHeaders option if transforming headers with a function', async () => {
+                const expected = withHeadersAndQuotes.parsed.map(r => ({
+                    firstName: r.first_name,
+                    lastName: r.last_name,
+                    emailAddress: r.email_address,
+                    address: r.address,
+                }));
+                const transform = jest.fn().mockReturnValue(['firstName', 'lastName', 'emailAddress', 'address']);
+                await expectParsed(
+                    parseContentAndCollect(withHeadersAndQuotes, { headers: transform, renameHeaders: true }),
+                    expected,
+                );
+                expect(transform).toBeCalledTimes(1);
+                expect(transform).toBeCalledWith(['first_name', 'last_name', 'email_address', 'address']);
+            });
+
+            it('should propagate an error when trying to rename headers without providing new ones', next => {
+                const stream = createParserStream({ renameHeaders: true });
+                listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
+                stream.write(withHeadersAndQuotes.content);
+                stream.end();
+            });
+
+            it('should propagate an error when trying to rename headers without providing proper ones', next => {
+                const stream = createParserStream({ renameHeaders: true, headers: true });
+                listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
+                stream.write(withHeadersAndQuotes.content);
+                stream.end();
+            });
+        });
+
+        it('should propagate an error header length does not match column length', next => {
+            const stream = createParserStream({ headers: true });
+            listenForError(stream, 'Unexpected Error: column header mismatch expected: 4 columns got: 5', next);
+            stream.write(headerColumnMismatch.content);
+            stream.end();
+        });
+
+        it('should propagate an error if headers are not unique', next => {
+            const stream = createParserStream({ headers: true });
+            listenForError(stream, 'Duplicate headers found ["first_name"]', next);
+            stream.write(duplicateHeaders.content);
+            stream.end();
+        });
+
+        it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () =>
+            expectParsed(
+                parseContentAndCollect(headerColumnMismatch, { headers: true, discardUnmappedColumns: true }),
+                headerColumnMismatch.parsed,
+            ));
+
+        it('should report missing columns that do not exist but have a header with strictColumnHandling option', async () => {
+            const expectedRows = withHeadersAndMissingColumns.parsed.filter(r => r.address !== null);
+            const expectedInvalidRows = withHeadersAndMissingColumns.parsed
+                .filter(r => r.address === null)
+                .map(r => Object.values(r).filter(v => !!v));
+            await expectParsed(
+                parseContentAndCollect(withHeadersAndMissingColumns, {
+                    headers: true,
+                    strictColumnHandling: true,
+                }),
+                expectedRows,
+                expectedInvalidRows,
+            );
+        });
+
+        it('should allow specifying of columns as a sparse array', async () => {
+            const expected = noHeadersAndQuotes.parsed.map(r => ({
+                first_name: r[0],
+                email_address: r[2],
+            }));
+            await expectParsed(
+                parseContentAndCollect(noHeadersAndQuotes, {
+                    headers: ['first_name', undefined, 'email_address', undefined],
+                }),
+                expected,
+            );
+        });
+    });
+
+    it('should parse data with an alternate encoding', () =>
+        expectParsed(
+            parseContentAndCollect(alternateEncoding, { headers: true, encoding: 'utf16le' }),
+            alternateEncoding.parsed,
+        ));
+
+    it('should handle a trailing comma', () =>
+        expectParsed(parseContentAndCollect(trailingComma, { headers: true }), trailingComma.parsed));
+
+    it('should skip valid, but empty rows when ignoreEmpty is true', () =>
+        expectParsed(parseContentAndCollect(emptyRows, { headers: true, ignoreEmpty: true }), []));
+
+    describe('alternate delimiters', () => {
+        ['\t', '|', ';'].forEach(delimiter => {
+            it(`should support '${delimiter.replace(/\t/, '\\t')}' delimiters`, async () => {
+                const { path: assetPath, content } = withHeadersAlternateDelimiter;
+                const data = { path: assetPath, content: content(delimiter) };
+                await expectParsed(
+                    parseContentAndCollect(data, { headers: true, delimiter }),
+                    withHeadersAlternateDelimiter.parsed,
+                );
+            });
+        });
+    });
+
+    describe('maxRows option', () => {
+        it('should parse up to the specified number of maxRows', async () => {
+            const maxRows = 3;
+            await expectParsed(
+                parseContentAndCollect(withHeaders, { headers: true, maxRows }),
+                withHeaders.parsed.slice(0, maxRows),
+            );
+        });
+
+        it('should parse all rows if maxRows === 0', async () => {
+            const maxRows = 0;
+            await expectParsed(parseContentAndCollect(withHeaders, { headers: true, maxRows }), withHeaders.parsed);
+        });
+    });
+
+    describe('skipLines option', () => {
+        it('should skip up to the specified number of rows using the first non-skipped line as headers', async () => {
+            const linesToSkip = 2;
+            await expectParsed(
+                parseContentAndCollect(withHeadersAndSkippedLines, { headers: true, skipLines: linesToSkip }),
+                withHeadersAndSkippedLines.parsed,
+            );
+        });
+
+        it('should skip up to the specified number of rows not withoutHeaders', async () => {
+            const linesToSkip = 2;
+            await expectParsed(parseContentAndCollect(skipLines, { skipLines: linesToSkip }), skipLines.parsed);
+        });
+
+        describe('with transform', () => {
+            it('should not transform skipped rows', async () => {
+                let transformedRows: Row[] = [];
+                const transformer = (row: Row): Row => {
+                    const transformed = {
+                        firstName: (row as RowMap).first_name,
+                        lastName: (row as RowMap).last_name,
+                        emailAddress: (row as RowMap).email_address,
+                    };
+                    transformedRows.push(transformed);
+                    return transformed;
+                };
+                const linesToSkip = 2;
+                const expected = withHeadersAndSkippedLines.parsed.map(transformer);
+                transformedRows = [];
+                const parser = createParserStream({ headers: true, skipLines: linesToSkip }).transform(transformer);
+                await expectParsed(parseContentAndCollectFromStream(withHeadersAndSkippedLines, parser), expected);
+                expect(transformedRows).toEqual(expected);
+            });
+        });
+
+        describe('with validate', () => {
+            it('should not validate skipped rows', async () => {
+                let validatedRows: Row[] = [];
+                const validator = (row: Row): boolean => {
+                    validatedRows.push(row);
+                    return (validatedRows.length - 1) % 2 === 0;
+                };
+                const linesToSkip = 2;
+                const nonSkippedRows = withHeadersAndSkippedLines.parsed;
+                const [expected, invalid] = partition(nonSkippedRows, validator);
+                validatedRows = [];
+                const parser = createParserStream({ headers: true, skipLines: linesToSkip }).validate(validator);
+                await expectParsed(
+                    parseContentAndCollectFromStream(withHeadersAndSkippedLines, parser),
+                    expected,
+                    invalid,
+                );
+                expect(validatedRows).toEqual(nonSkippedRows);
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', async () => {
+            const linesToSkip = 0;
+            await expectParsed(
+                parseContentAndCollect(withHeaders, { headers: true, skipLines: linesToSkip }),
+                withHeaders.parsed,
+            );
+        });
+    });
+
+    describe('skipRows option', () => {
+        describe('with headers', () => {
+            it('should skip up to the specified number of rows not including the header row in the count', async () => {
+                const skipRows = 3;
+                await expectParsed(
+                    parseContentAndCollect(withHeaders, { headers: true, skipRows }),
+                    withHeaders.parsed.slice(skipRows),
+                );
+            });
+
+            it('should skip up to the specified number of rows and allow renaming the headers', async () => {
+                const skipRows = 3;
+                const expected = withHeaders.parsed.slice(skipRows).map(r => {
+                    return {
+                        h1: r.first_name,
+                        h2: r.last_name,
+                        h3: r.email_address,
+                    };
+                });
+                await expectParsed(
+                    parseContentAndCollect(withHeaders, {
+                        headers: ['h1', 'h2', 'h3'],
+                        renameHeaders: true,
+                        skipRows,
+                    }),
+                    expected,
+                );
+            });
+        });
+
+        describe('without headers', () => {
+            it('should skip up to the specified number of rows without headers', async () => {
+                const skipRows = 3;
+                const expected = noHeadersAndQuotes.parsed.slice(skipRows);
+                await expectParsed(parseContentAndCollect(noHeadersAndQuotes, { skipRows }), expected);
+            });
+
+            it('should skip up to the specified number of rows without headers and allow specifying headers', async () => {
+                const skipRows = 3;
+                const expected = noHeadersAndQuotes.parsed.slice(skipRows).map(r => {
+                    return {
+                        h1: r[0],
+                        h2: r[1],
+                        h3: r[2],
+                        h4: r[3],
+                    };
+                });
+                await expectParsed(
+                    parseContentAndCollect(noHeadersAndQuotes, { headers: ['h1', 'h2', 'h3', 'h4'], skipRows }),
+                    expected,
+                );
+            });
+        });
+
+        describe('with transform', () => {
+            it('should not transform skipped rows', async () => {
+                let transformedRows: Row[] = [];
+                const transformer = (row: Row): Row => {
+                    const transformed = {
+                        firstName: (row as RowMap).first_name,
+                        lastName: (row as RowMap).last_name,
+                        emailAddress: (row as RowMap).email_address,
+                        address: (row as RowMap).address,
+                    };
+                    transformedRows.push(transformed);
+                    return transformed;
+                };
+                const skipRows = 3;
+                const expected = withHeaders.parsed.slice(skipRows).map(transformer);
+                transformedRows = [];
+                const parser = createParserStream({ headers: true, skipRows }).transform(transformer);
+                await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
+                expect(transformedRows).toEqual(expected);
+            });
+        });
+
+        describe('with validate', () => {
+            it('should not validate skipped rows', async () => {
+                let validatedRows: Row[] = [];
+                const validator = (row: Row): boolean => {
+                    validatedRows.push(row);
+                    return (validatedRows.length - 1) % 2 === 0;
+                };
+                const skipRows = 3;
+                const nonSkippedRows = withHeaders.parsed.slice(skipRows);
+                const [expected, invalid] = partition(nonSkippedRows, validator);
+                validatedRows = [];
+                const parser = createParserStream({ headers: true, skipRows }).validate(validator);
+                await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected, invalid);
+                expect(validatedRows).toEqual(nonSkippedRows);
+            });
+        });
+
+        it('should parse all rows if maxRows === 0', async () => {
+            const skipRows = 0;
+            await expectParsed(parseContentAndCollect(withHeaders, { headers: true, skipRows }), withHeaders.parsed);
+        });
+    });
+
+    it('should emit an error for malformed rows', next => {
+        write(malformed);
+        const stream = parseFile(malformed.path, { headers: true });
+        listenForError(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las", next);
+    });
+
+    describe('#validate', () => {
+        const syncValidator = (row: Row): boolean =>
+            parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 === 1;
+        const asyncValidator = (row: Row, cb: RowValidateCallback) => {
+            cb(null, syncValidator(row));
+        };
+
+        it('should allow validation of rows', async () => {
+            const [valid, invalid] = partition(withHeaders.parsed, syncValidator);
+            const parser = createParserStream({ headers: true }).validate(syncValidator);
+            await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), valid, invalid);
+        });
+
+        it('should allow async validation of rows', async () => {
+            const validator = (row: Row): boolean =>
+                parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 !== 0;
+            const [valid, invalid] = partition(withHeaders.parsed, validator);
+            const parser = createParserStream({ headers: true }).validate(asyncValidator);
+            await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), valid, invalid);
+        });
+
+        it('should propagate errors from async validation', next => {
+            write(withHeaders);
+            let index = -1;
+            const stream = createParserStream({ headers: true }).validate((data: Row, validateNext): void => {
+                setImmediate(() => {
+                    index += 1;
+                    if (index === 8) {
+                        validateNext(new Error('Validation ERROR!!!!'));
+                    } else {
+                        validateNext(null, true);
+                    }
+                });
+            });
+            stream.write(withHeaders.content);
+            stream.end();
+            listenForError(stream, 'Validation ERROR!!!!', next);
+        });
+
+        it('should propagate async errors at the beginning', next => {
+            write(withHeaders);
+            const stream = parseFile(withHeaders.path, { headers: true }).validate((data, validateNext) =>
+                validateNext(new Error('Validation ERROR!!!!')),
+            );
+            listenForError(stream, 'Validation ERROR!!!!', next);
+        });
+
+        it('should propagate thrown errors', next => {
+            write(withHeaders);
+            let index = -1;
+            const stream = parseFile(withHeaders.path, { headers: true }).validate((data, validateNext) => {
+                index += 1;
+                if (index === 8) {
+                    throw new Error('Validation ERROR!!!!');
+                } else {
+                    setImmediate(() => validateNext(null, true));
+                }
+            });
+            listenForError(stream, 'Validation ERROR!!!!', next);
+        });
+
+        it('should propagate thrown errors at the beginning', next => {
+            write(withHeaders);
+            const stream = parseFile(withHeaders.path, { headers: true }).validate(() => {
+                throw new Error('Validation ERROR!!!!');
+            });
+            listenForError(stream, 'Validation ERROR!!!!', next);
+        });
+
+        it('should throw an error if validate is not called with a function', () => {
+            // @ts-ignore
+            expect(() => createParserStream({ headers: true }).validate('hello')).toThrowError(
+                'The validate should be a function',
+            );
+        });
+    });
+
+    describe('#transform', () => {
+        const transformer = (row: Row): Row => ({
+            firstName: (row as RowMap).first_name,
+            lastName: (row as RowMap).last_name,
+            emailAddress: (row as RowMap).email_address,
+            address: (row as RowMap).address,
+        });
+
+        it('should allow transforming of data', async () => {
+            const expected = withHeaders.parsed.map(transformer);
+            const parser = createParserStream({ headers: true }).transform(transformer);
+            await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
+        });
+
+        it('should async transformation of data', async () => {
+            const expected = withHeaders.parsed.map(transformer);
+            const parser = createParserStream({ headers: true }).transform((row, next) =>
+                setImmediate(() => next(null, transformer(row))),
+            );
+            await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
+        });
+
+        it('should propogate errors when transformation of data', next => {
+            write(withHeaders);
+            let index = -1;
+            const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) =>
+                setImmediate(() => {
+                    index += 1;
+                    if (index === 8) {
+                        cb(new Error('transformation ERROR!!!!'));
+                    } else {
+                        cb(null, transformer(data));
+                    }
+                }),
+            );
+            listenForError(stream, 'transformation ERROR!!!!', next);
+        });
+
+        it('should propogate errors when transformation of data at the beginning', next => {
+            write(withHeaders);
+            const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) =>
+                setImmediate(() => cb(new Error('transformation ERROR!!!!'))),
+            );
+            listenForError(stream, 'transformation ERROR!!!!', next);
+        });
+
+        it('should propagate thrown errors at the end', next => {
+            write(withHeaders);
+            let index = -1;
+            const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) => {
+                index += 1;
+                if (index === 8) {
+                    throw new Error('transformation ERROR!!!!');
+                } else {
+                    setImmediate(() => cb(null, data));
+                }
+            });
+            listenForError(stream, 'transformation ERROR!!!!', next);
+        });
+
+        it('should propagate thrown errors at the beginning', next => {
+            write(withHeaders);
+            const stream = parseFile(withHeaders.path, { headers: true }).transform(() => {
+                throw new Error('transformation ERROR!!!!');
+            });
+            listenForError(stream, 'transformation ERROR!!!!', next);
+        });
+
+        it('should throw an error if a transform is not called with a function', () => {
+            // @ts-ignore
+            expect(() => createParserStream({ headers: true }).transform('hello')).toThrowError(
+                'The transform should be a function',
+            );
+        });
+    });
+
+    describe('pause/resume', () => {
+        it('should support pausing a stream', () => {
+            write(withHeaders);
+            return new Promise((res, rej) => {
+                const rows: Row[] = [];
+                let paused = false;
+                const stream = createParserStream({ headers: true });
+                fs.createReadStream(withHeaders.path)
+                    .on('error', rej)
+                    .pipe(stream)
+                    .on('data', row => {
+                        expect(paused).toBe(false);
+                        rows.push(row);
+                        paused = true;
+                        stream.pause();
+                        setTimeout(() => {
+                            expect(paused).toBe(true);
+                            paused = false;
+                            stream.resume();
+                        }, 100);
+                    })
+                    .on('error', rej)
+                    .on('end', (count: number) => {
+                        expect(rows).toEqual(withHeaders.parsed);
+                        expect(count).toBe(rows.length);
+                        res();
+                    });
+            });
+        });
+    });
+
+    it('should not catch errors thrown in end', next => {
+        write(withHeaders);
+        const d = domain.create();
+        let called = false;
+        d.on('error', err => {
+            d.exit();
+            if (called) {
+                throw err;
+            }
+            called = true;
+            expect(err.message).toBe('End error');
+            next();
+        });
+        d.run(() =>
+            fs
+                .createReadStream(withHeaders.path)
+                .on('error', next)
+                .pipe(createParserStream({ headers: true }))
+                .on('error', () => next(new Error('Should not get here!')))
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                .on('data', () => {})
+                .on('end', () => {
+                    throw new Error('End error');
+                }),
+        );
+    });
+});

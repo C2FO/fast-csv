@@ -1,27 +1,17 @@
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "declaration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["es2016"],
-    "module": "commonjs",
-    "noEmitOnError": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "pretty": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2017",
-    "rootDir": ".",
-    "outDir": "build"
+    "baseUrl": "./packages",
+    "composite": true,
+    "paths": {
+      "fast-csv": ["fast-csv"],
+      "@fast-csv/format": ["format"],
+      "@fast-csv/parse": ["parse"]
+    }
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "__tests__/**/*.ts"
+  "references": [
+    {"path": "./packages/fast-csv"},
+    {"path": "./packages/format"},
+    {"path": "./packages/parse"}
   ]
 }

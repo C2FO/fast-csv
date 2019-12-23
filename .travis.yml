@@ -4,4 +4,9 @@ node_js:
   - "10"
   - "8"
 
+script:
+  - npm run bootstrap
+  - npm run build
+  - npm run test
+
 after_success: npm run coverage

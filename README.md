@@ -11,50 +11,25 @@ Fast-csv is library for parsing and formatting csvs or any other delimited value
 
 `npm install -S fast-csv`
 
-## Usage
+## Packages
 
-To use `fast-csv` in `javascript` you can require the module/
+There are three packages published from this repo.
 
-```js
-const csv = require('fast-csv');
-```
-
-To import with typescript 
-
-```typescript
-import * as csv from 'fast-csv';
-```
+* [`fast-csv`](./packages/fast-csv) - Exposes both formatting and parsing methods in a single package
+* [`@fast-csv/parse`](./packages/parse) - Parsing package, use this if you only need to parse files.
+* [`@fast-csv/format`](./packages/format) - Formatting package, use this if you only need to format files.
 
 ## Documentation
 
-* [Parsing Docs](./docs/parsing.md)
-* [Formatting Docs](./docs/formatting.md)
+* [`fast-csv` Docs](./packages/fast-csv/README.md)
+* [Parsing Docs](./packages/parse/README.md)
+* [Formatting Docs](./packages/format/README.md)
 
-### Quick Examples
+### Examples
 
-**parsing** 
-
-To read a csv with headers create a read stream and pipe it to parser.
-
-```javascript
-fs.createReadStream('path/to/my.csv')
-  .pipe(csv.parse({ headers: true }))
-  .on('data', row => console.log(row))
-```
-
-For more in depth parsing examples and docs check out the [parsing docs](./docs/parsing.md)
-
-**formatting**
-
-To format a csv you can write rows to a formatter.
-
-```javascript
-someStream
-  .pipe(csv.format({ headers: true })
-  .pipe(process.stdout);
-```
-
-For more in depth formatting examples and docs check out the [formatting docs](./docs/formatting.md)
+* [`fast-csv` Examples](./examples/fast-csv-js/README.md)
+* [`@fast-csv/format` Examples](./examples/formatting-js/README.md)
+* [`@fast-csv/parse` Examples](./examples/parsing-js/README.md)
 
 ### Migrating from older versions
 
@@ -68,5 +43,6 @@ MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 * Code: `git clone git://github.com/C2FO/fast-csv.git`
 * Website: <http://c2fo.com>
 * Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
+
 
 
