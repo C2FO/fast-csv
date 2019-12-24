@@ -1,0 +1,14 @@
+{
+  "name": "example-runner",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Runs examples and checks output",
+  "bin": {
+    "run-all-examples": "./bin/run-examples",
+    "run-examples": "./bin/run-examples"
+  },
+  "dependencies": {
+    "globby": "^10.0.1",
+    "jest-diff": "^24.9.0"
+  }
+}

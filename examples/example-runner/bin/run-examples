@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+
+const { EOL } = require('os');
+const fs = require('fs');
+const cp = require('child_process');
+const path = require('path');
+const globby = require('globby');
+const diffDefault = require('jest-diff');
+
+const exampleNameArg = process.argv[2];
+
+const OUTPUT_REGEXP = new RegExp(`\\/\\/ Output: *${EOL}`);
+
+const getExampleFiles = async () => {
+    const files = await globby(path.resolve(process.cwd(), 'examples', '**', '*.example.js'), { stats: true });
+    return files.reduce((map, f) => ({ ...map, ...{ [f.name.replace('.example.js', '')]: f.path } }), {});
+};
+
+const printExamples = examples => console.log(`Available Examples:\n\t${Object.keys(examples).join('\n\t')}`);
+
+const getExpectedOutput = examplePath => {
+    const contents = fs.readFileSync(examplePath).toString();
+    const outputCommentMatch = contents.match(OUTPUT_REGEXP);
+    if (!outputCommentMatch) {
+        return null;
+    }
+    const startIndex = outputCommentMatch.index + outputCommentMatch[0].length;
+    return contents
+        .slice(startIndex)
+        .split(EOL)
+        .map(l => {
+            return l.replace(/\/\/ /, '');
+        })
+        .join(EOL);
+};
+
+const checkOutput = (exampleName, examples, exampleActualOutput) => {
+    const expected = getExpectedOutput(examples[exampleName]);
+    if (!expected) {
+        throw new Error(`Example '${exampleName}' did not define expected output!`);
+    }
+    if (expected.trim() !== exampleActualOutput.trim()) {
+        throw new Error(`Example ${exampleName} failed!\n\n${diffDefault(expected, exampleActualOutput)}`);
+    } else {
+        console.log(`Example ${exampleName} Output:\n\n${exampleActualOutput}\n\n`);
+    }
+};
+
+const runExample = (exampleName, examples) => {
+    if (!examples[exampleName]) {
+        return Promise.reject(new Error(`unable to find example: ${exampleName}`));
+    }
+    return new Promise((res, rej) => {
+        cp.exec(`node ${examples[exampleName]}`, (error, stdout) => {
+            if (error) {
+                return rej(error);
+            }
+
+            return res(stdout);
+        });
+    });
+};
+
+(async () => {
+    const examples = await getExampleFiles();
+    if (!exampleNameArg) {
+        return printExamples(examples);
+    }
+    if (exampleNameArg === 'all') {
+        return Object.keys(examples).reduce(async (prev, exampleName) => {
+            await prev;
+            const output = await runExample(exampleName, examples);
+            checkOutput(exampleName, examples, output);
+        }, Promise.resolve());
+    }
+    const output = await runExample(exampleNameArg, examples);
+    return checkOutput(exampleNameArg, examples, output);
+})().catch(err => {
+    console.error(err.stack);
+    process.exit(1);
+});

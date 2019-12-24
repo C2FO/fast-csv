@@ -1,7 +1,7 @@
 module.exports = {
     parser: "@typescript-eslint/parser",
     parserOptions: {
-        project: "./tsconfig.json"
+        project: "./tsconfig.build.json"
     },
     plugins: ["@typescript-eslint", "prettier"],
     extends: [
@@ -16,6 +16,7 @@ module.exports = {
         node: true,
         jest: true,
     },
+    ignorePatterns: ["**/build", "**/node_modules"],
     settings:{
         "import/extensions": [
             ".ts"
@@ -51,6 +52,8 @@ module.exports = {
             4,
             { "SwitchCase": 1 }
         ],
+        "import/prefer-default-export": 0,
+        "import/no-default-export": ["error"],
         "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
         "object-curly-spacing": ["error", "always"],
         "no-underscore-dangle": 0,

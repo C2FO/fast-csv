@@ -1,0 +1,15 @@
+{
+  "name": "@fast-csv/parse-js-examples",
+  "private": true,
+  "description": "fast-csv parsing examples",
+  "scripts": {
+    "all-examples": "run-examples all",
+    "example": "run-examples"
+  },
+  "dependencies": {
+    "example-runner": "^4.0.0",
+    "@fast-csv/parse": "^4.0.0",
+    "globby": "^10.0.1",
+    "jest-diff": "^24.9.0"
+  }
+}

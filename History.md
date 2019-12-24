@@ -1,6 +1,10 @@
 # v4.0.0
 
 * Migrated from mocha to jest
+* Moved to `lerna`.
+    * Split `parse` and `format` packages
+* Added running examples and checking output as part of the tests
+* Updated docs
 
 # v3.7.0
 
