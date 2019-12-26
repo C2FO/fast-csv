@@ -1,6 +1,6 @@
 {
   "name": "example-runner",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0",
   "private": true,
   "description": "Runs examples and checks output",
   "bin": {
