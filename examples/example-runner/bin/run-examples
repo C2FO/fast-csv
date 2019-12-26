@@ -1,0 +1,110 @@
+#!/usr/bin/env node
+/* eslint-disable no-shadow */
+
+const { EOL } = require('os');
+const fs = require('fs');
+const cp = require('child_process');
+const path = require('path');
+const globby = require('globby');
+const diffDefault = require('jest-diff');
+const yargs = require('yargs');
+
+const OUTPUT_REGEXP = new RegExp(`\\/\\/ Output: *${EOL}`);
+const OUTPUT_LINE_REGEXP = /^\/\/ /;
+
+const getExampleFiles = async examplesDir => {
+    const files = await globby(path.resolve(process.cwd(), examplesDir, '**', '*.example.js'), { stats: true });
+    return files.reduce((map, f) => ({ ...map, ...{ [f.name.replace('.example.js', '')]: f.path } }), {});
+};
+
+const printExamples = examples => console.log(`Available Examples:\n\t${Object.keys(examples).join('\n\t')}`);
+
+const getExpectedOutput = examplePath => {
+    const contents = fs.readFileSync(examplePath).toString();
+    const outputCommentMatch = contents.match(OUTPUT_REGEXP);
+    if (!outputCommentMatch) {
+        return null;
+    }
+    const startIndex = outputCommentMatch.index + outputCommentMatch[0].length;
+    return contents
+        .slice(startIndex)
+        .split(EOL)
+        .filter(l => OUTPUT_LINE_REGEXP.test(l))
+        .map(l => {
+            return l.replace(OUTPUT_LINE_REGEXP, '');
+        })
+        .join(EOL);
+};
+
+const checkOutput = (exampleName, examples, exampleActualOutput) => {
+    const expected = getExpectedOutput(examples[exampleName]);
+    if (!expected) {
+        throw new Error(`Example '${exampleName}' did not define expected output!`);
+    }
+    if (expected.trim() !== exampleActualOutput.trim()) {
+        throw new Error(`Example ${exampleName} failed!\n\n${diffDefault(expected, exampleActualOutput)}`);
+    } else {
+        console.log(`Example ${exampleName} Output:\n\n${exampleActualOutput}\n\n`);
+    }
+};
+
+const runExample = (exampleName, examples) => {
+    if (!examples[exampleName]) {
+        return Promise.reject(new Error(`unable to find example: ${exampleName}`));
+    }
+    return new Promise((res, rej) => {
+        cp.exec(`node ${examples[exampleName]}`, (error, stdout) => {
+            if (error) {
+                return rej(error);
+            }
+
+            return res(stdout);
+        });
+    });
+};
+
+yargs
+    .scriptName('example-runner')
+    .option('dir', {
+        alias: 'examplesDir',
+        default: 'examples',
+        describe: 'location of examples',
+        type: 'string',
+    })
+    .command(
+        'list',
+        'list all examples',
+        yarg => yarg.option('examplesDir'),
+        async argv => {
+            const examples = await getExampleFiles(argv.examplesDir);
+            printExamples(examples);
+        },
+    )
+    .command(
+        'all',
+        'run all examples',
+        yarg => yarg.option('examplesDir'),
+        async argv => {
+            const examples = await getExampleFiles(argv.examplesDir);
+            return Object.keys(examples).reduce(async (prev, exampleName) => {
+                await prev;
+                const output = await runExample(exampleName, examples);
+                checkOutput(exampleName, examples, output);
+            }, Promise.resolve());
+        },
+    )
+    .command(
+        'run [example]',
+        'run a specific example',
+        yargs => {
+            return yargs.option('examplesDir').positional('example', {
+                type: 'string',
+                describe: 'the example to run',
+            });
+        },
+        async argv => {
+            const examples = await getExampleFiles(argv.examplesDir);
+            const output = await runExample(argv.example, examples);
+            await checkOutput(argv.example, examples, output);
+        },
+    ).argv;

@@ -1,0 +1,15 @@
+{
+  "name": "fast-csv-js-examples",
+  "version": "4.0.0-alpha.0",
+  "private": true,
+  "description": "fast-csv examples",
+  "scripts": {
+    "list": "run-examples list",
+    "all-examples": "run-examples all",
+    "example": "run-examples run"
+  },
+  "dependencies": {
+    "example-runner": "^4.0.0-alpha.0",
+    "fast-csv": "^4.0.0-alpha.0"
+  }
+}

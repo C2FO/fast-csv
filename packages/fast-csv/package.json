@@ -1,0 +1,42 @@
+{
+  "name": "fast-csv",
+  "version": "4.0.0-alpha.0",
+  "description": "CSV parser and writer",
+  "main": "./build/src/index.js",
+  "types": "./build/src/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
+    "compile": "tsc -p tsconfig.build.json"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "build/src/**"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:C2FO/fast-csv.git"
+  },
+  "keywords": [
+    "csv",
+    "parser",
+    "fast",
+    "writer",
+    "csv writer",
+    "CSV"
+  ],
+  "homepage": "http://c2fo.github.com/fast-csv/index.html",
+  "author": "Doug Martin",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "dependencies": {
+    "@fast-csv/format": "^4.0.0-alpha.0",
+    "@fast-csv/parse": "^4.0.0-alpha.0",
+    "@types/node": "^12.12.17"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "@fast-csv/format",
+  "version": "4.0.0-alpha.0",
+  "description": "fast-csv formatting module",
+  "keywords": [
+    "csv",
+    "format",
+    "write"
+  ],
+  "author": "doug-martin <doug@dougamartin.com>",
+  "homepage": "http://c2fo.github.com/fast-csv/index.html/tree/master/packages/format#readme",
+  "license": "ISC",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "build/src/**"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C2FO/fast-csv.git"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
+    "compile": "tsc -p tsconfig.build.json"
+  },
+  "bugs": {
+    "url": "https://github.com/C2FO/fast-csv/issues"
+  },
+  "dependencies": {
+    "lodash.escaperegexp": "^4.1.2",
+    "lodash.isboolean": "^3.0.3",
+    "lodash.isequal": "^4.5.0",
+    "lodash.isfunction": "^3.0.9",
+    "lodash.isnil": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash.escaperegexp": "^4.1.6",
+    "@types/lodash.isboolean": "^3.0.6",
+    "@types/lodash.isequal": "^4.5.5",
+    "@types/lodash.isfunction": "^3.0.6",
+    "@types/lodash.isnil": "^4.0.6"
+  }
+}

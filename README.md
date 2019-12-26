@@ -7,54 +7,33 @@
 
 Fast-csv is library for parsing and formatting csvs or any other delimited value file in node. 
 
-## Installation
+## Packages
 
-`npm install -S fast-csv`
+There are three packages published from this repo.
 
-## Usage
+### [`fast-csv`](./packages/fast-csv)
 
-To use `fast-csv` in `javascript` you can require the module/
+Exposes both formatting and parsing methods in a single package, use this if you need to parse and format files.
 
-```js
-const csv = require('fast-csv');
-```
+* [Docs](./packages/fast-csv/README.md)
+* [JavaScript Examples](./examples/fast-csv-js/README.md)
+* [TypeScript Examples](./examples/fast-csv-ts/README.md)
 
-To import with typescript 
+###[`@fast-csv/parse`](./packages/parse)
 
-```typescript
-import * as csv from 'fast-csv';
-```
+Parsing package, use this if you only need to parse files.
 
-## Documentation
+* [Docs](./packages/parse/README.md)
+* [JavaScript Examples](./examples/parsing-js/README.md)
+* [TypeScript Examples](./examples/parsing-ts/README.md)
 
-* [Parsing Docs](./docs/parsing.md)
-* [Formatting Docs](./docs/formatting.md)
+### [`@fast-csv/format`](./packages/format) 
 
-### Quick Examples
-
-**parsing** 
-
-To read a csv with headers create a read stream and pipe it to parser.
-
-```javascript
-fs.createReadStream('path/to/my.csv')
-  .pipe(csv.parse({ headers: true }))
-  .on('data', row => console.log(row))
-```
-
-For more in depth parsing examples and docs check out the [parsing docs](./docs/parsing.md)
-
-**formatting**
-
-To format a csv you can write rows to a formatter.
-
-```javascript
-someStream
-  .pipe(csv.format({ headers: true })
-  .pipe(process.stdout);
-```
-
-For more in depth formatting examples and docs check out the [formatting docs](./docs/formatting.md)
+Formatting package, use this if you only need to format files.
+    
+* [Docs](./packages/format/README.md)
+* [JavaScript Examples](./examples/formatting-js/README.md)
+* [TypeScript Examples](./examples/formatting-ts/README.md)
 
 ### Migrating from older versions
 
@@ -68,5 +47,6 @@ MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 * Code: `git clone git://github.com/C2FO/fast-csv.git`
 * Website: <http://c2fo.com>
 * Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
+
 
 

@@ -1,3 +1,14 @@
+# v4.0.0
+
+* Migrated from mocha to jest
+* Moved to `lerna`.
+    * Split `parse` and `format` packages
+* Added running examples and checking output as part of the tests
+* Updated docs for new directory layout
+* Added typescript examples
+* Added generics type support to format and parse streams
+* [ADDED] Docs around using `strictColumnHandling` to emit errors when there are more columns than headers [#195]
+
 # v3.7.0
 
 * [ADDED] Ability to Transform Header [#287](https://github.com/C2FO/fast-csv/issues/287)
