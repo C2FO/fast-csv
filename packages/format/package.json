@@ -8,7 +8,7 @@
     "write"
   ],
   "author": "doug-martin <doug@dougamartin.com>",
-  "homepage": "http://c2fo.github.com/fast-csv/index.html/tree/master/packages/format#readme",
+  "homepage": "http://c2fo.github.com/fast-csv/packages/format",
   "license": "ISC",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",

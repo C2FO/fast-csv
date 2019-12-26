@@ -28,7 +28,7 @@
     "csv writer",
     "CSV"
   ],
-  "homepage": "http://c2fo.github.com/fast-csv/index.html",
+  "homepage": "http://c2fo.github.com/fast-csv",
   "author": "Doug Martin",
   "license": "MIT",
   "engines": {

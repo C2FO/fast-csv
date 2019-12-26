@@ -1,3 +1,8 @@
+# v4.0.1
+
+* [FIXED] package.json homepage links
+* [ADDED] version npm script
+
 # v4.0.0
 
 * Migrated from mocha to jest
