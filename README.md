@@ -19,7 +19,7 @@ Exposes both formatting and parsing methods in a single package, use this if you
 * [JavaScript Examples](./examples/fast-csv-js/README.md)
 * [TypeScript Examples](./examples/fast-csv-ts/README.md)
 
-###[`@fast-csv/parse`](./packages/parse)
+### [`@fast-csv/parse`](./packages/parse)
 
 Parsing package, use this if you only need to parse files.
 
