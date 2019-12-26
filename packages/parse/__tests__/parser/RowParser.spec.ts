@@ -1,5 +1,4 @@
-import { ParserOptionsArgs } from '../../src';
-import { ParserOptions } from '../../src/ParserOptions';
+import { ParserOptions, ParserOptionsArgs } from '../../src';
 import { RowParser, Scanner } from '../../src/parser';
 
 describe('RowParser', () => {

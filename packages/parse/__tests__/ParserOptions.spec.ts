@@ -1,5 +1,4 @@
-import { ParserOptionsArgs } from '../src';
-import { ParserOptions } from '../src/ParserOptions';
+import { ParserOptions, ParserOptionsArgs } from '../src';
 
 describe('ParserOptions', () => {
     const createOptions = (opts: ParserOptionsArgs = {}) => new ParserOptions(opts);

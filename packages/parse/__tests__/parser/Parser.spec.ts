@@ -1,5 +1,4 @@
-import { ParserOptionsArgs } from '../../src';
-import { ParserOptions } from '../../src/ParserOptions';
+import { ParserOptions, ParserOptionsArgs } from '../../src';
 import { Parser } from '../../src/parser';
 
 describe('Parser', () => {

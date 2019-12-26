@@ -1,5 +1,4 @@
-import { ParserOptionsArgs } from '../../../src';
-import { ParserOptions } from '../../../src/ParserOptions';
+import { ParserOptions, ParserOptionsArgs } from '../../../src';
 import { NonQuotedColumnParser } from '../../../src/parser/column';
 import { Scanner } from '../../../src/parser';
 

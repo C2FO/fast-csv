@@ -7,34 +7,33 @@
 
 Fast-csv is library for parsing and formatting csvs or any other delimited value file in node. 
 
-## Installation
-
-`npm install -S fast-csv`
-
 ## Packages
 
 There are three packages published from this repo.
 
-* [`fast-csv`](./packages/fast-csv) - Exposes both formatting and parsing methods in a single package
-* [`@fast-csv/parse`](./packages/parse) - Parsing package, use this if you only need to parse files.
-* [`@fast-csv/format`](./packages/format) - Formatting package, use this if you only need to format files.
+### [`fast-csv`](./packages/fast-csv)
 
-## Documentation
+Exposes both formatting and parsing methods in a single package, use this if you need to parse and format files.
 
-* [`fast-csv` Docs](./packages/fast-csv/README.md)
-* [Parsing Docs](./packages/parse/README.md)
-* [Formatting Docs](./packages/format/README.md)
+* [Docs](./packages/fast-csv/README.md)
+* [JavaScript Examples](./examples/fast-csv-js/README.md)
+* [TypeScript Examples](./examples/fast-csv-ts/README.md)
 
-### Examples
+###[`@fast-csv/parse`](./packages/parse)
 
-* JavaScript
-    * [`fast-csv`](./examples/fast-csv-js/README.md)
-    * [`@fast-csv/format`](./examples/formatting-js/README.md)
-    * [`@fast-csv/parse`](./examples/parsing-js/README.md)
-* TypeScript
-    * [`fast-csv`](./examples/fast-csv-ts/README.md)
-    * [`@fast-csv/format`](./examples/formatting-ts/README.md)
-    * [`@fast-csv/parse`](./examples/parsing-ts/README.md)
+Parsing package, use this if you only need to parse files.
+
+* [Docs](./packages/parse/README.md)
+* [JavaScript Examples](./examples/parsing-js/README.md)
+* [TypeScript Examples](./examples/parsing-ts/README.md)
+
+### [`@fast-csv/format`](./packages/format) 
+
+Formatting package, use this if you only need to format files.
+    
+* [Docs](./packages/format/README.md)
+* [JavaScript Examples](./examples/formatting-js/README.md)
+* [TypeScript Examples](./examples/formatting-ts/README.md)
 
 ### Migrating from older versions
 

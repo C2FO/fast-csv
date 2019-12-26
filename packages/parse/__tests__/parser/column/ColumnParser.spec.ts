@@ -1,5 +1,5 @@
 import * as sinon from 'sinon';
-import { ParserOptions } from '../../../src/ParserOptions';
+import { ParserOptions } from '../../../src';
 import { ColumnParser } from '../../../src/parser/column';
 import { Scanner } from '../../../src/parser';
 
