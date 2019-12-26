@@ -7,6 +7,7 @@
 * Updated docs for new directory layout
 * Added typescript examples
 * Added generics type support to format and parse streams
+* [ADDED] Docs around using `strictColumnHandling` to emit errors when there are more columns than headers [#195]
 
 # v3.7.0
 
