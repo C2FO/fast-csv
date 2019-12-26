@@ -30,7 +30,8 @@ import * as format csv '@fast-csv/format';
   * [`writeToString`](#csv-write-to-string)
   * [`writeToPath`](#csv-write-to-path)
 * Examples
-    * [JS Examples](../../examples/formatting-js/README.md)
+    * [JavaScript Examples](../../examples/formatting-js/README.md)
+    * [TypeScript Examples](../../examples/formatting-ts/README.md)
 
 <a name="options"></a>
 ## Options

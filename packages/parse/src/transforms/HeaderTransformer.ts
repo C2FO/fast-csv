@@ -13,7 +13,7 @@ import {
     RowValidatorCallback,
 } from '../types';
 
-export class HeaderTransformer {
+export class HeaderTransformer<O extends Row> {
     private readonly parserOptions: ParserOptions;
 
     private headers: HeaderArray | null = null;
@@ -39,7 +39,7 @@ export class HeaderTransformer {
         }
     }
 
-    public transform(row: RowArray, cb: RowValidatorCallback): void {
+    public transform(row: RowArray, cb: RowValidatorCallback<O>): void {
         if (!this.shouldMapRow(row)) {
             return cb(null, { row: null, isValid: true });
         }
@@ -69,9 +69,9 @@ export class HeaderTransformer {
         return true;
     }
 
-    private processRow(row: RowArray): RowValidationResult {
+    private processRow(row: RowArray): RowValidationResult<O> {
         if (!this.headers) {
-            return { row, isValid: true };
+            return { row: (row as never) as O, isValid: true };
         }
         const { parserOptions } = this;
         if (!parserOptions.discardUnmappedColumns && row.length > this.headersLength) {
@@ -81,14 +81,14 @@ export class HeaderTransformer {
                 );
             }
             return {
-                row,
+                row: (row as never) as O,
                 isValid: false,
                 reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
             };
         }
         if (parserOptions.strictColumnHandling && row.length < this.headersLength) {
             return {
-                row,
+                row: (row as never) as O,
                 isValid: false,
                 reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
             };
@@ -96,7 +96,7 @@ export class HeaderTransformer {
         return { row: this.mapHeaders(row), isValid: true };
     }
 
-    private mapHeaders(row: RowArray): Row {
+    private mapHeaders(row: RowArray): O {
         const rowMap: RowMap = {};
         const { headers, headersLength } = this;
         for (let i = 0; i < headersLength; i += 1) {
@@ -111,7 +111,7 @@ export class HeaderTransformer {
                 }
             }
         }
-        return rowMap;
+        return rowMap as O;
     }
 
     private setHeaders(headers: HeaderArray): void {

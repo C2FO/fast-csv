@@ -6,4 +6,5 @@ benchmark/results
 .nyc_output
 build
 coverage
-**/tmp/*.csv
+**/*.tmp.csv
+**/*.tsbuildinfo

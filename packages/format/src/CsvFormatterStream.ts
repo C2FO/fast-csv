@@ -3,14 +3,14 @@ import { FormatterOptions } from './FormatterOptions';
 import { Row, RowTransformFunction } from './types';
 import { RowFormatter } from './formatter';
 
-export class CsvFormatterStream extends Transform {
-    private formatterOptions: FormatterOptions;
+export class CsvFormatterStream<I extends Row, O extends Row> extends Transform {
+    private formatterOptions: FormatterOptions<I, O>;
 
-    private rowFormatter: RowFormatter;
+    private rowFormatter: RowFormatter<I, O>;
 
     private hasWrittenBOM = false;
 
-    public constructor(formatterOptions: FormatterOptions) {
+    public constructor(formatterOptions: FormatterOptions<I, O>) {
         super({ objectMode: formatterOptions.objectMode });
         this.formatterOptions = formatterOptions;
         this.rowFormatter = new RowFormatter(formatterOptions);
@@ -19,12 +19,12 @@ export class CsvFormatterStream extends Transform {
         this.hasWrittenBOM = !formatterOptions.writeBOM;
     }
 
-    public transform(transformFunction: RowTransformFunction): CsvFormatterStream {
+    public transform(transformFunction: RowTransformFunction<I, O>): CsvFormatterStream<I, O> {
         this.rowFormatter.rowTransform = transformFunction;
         return this;
     }
 
-    public _transform(row: Row, encoding: string, cb: TransformCallback): void {
+    public _transform(row: I, encoding: string, cb: TransformCallback): void {
         let cbCalled = false;
         try {
             if (!this.hasWrittenBOM) {

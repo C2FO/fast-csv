@@ -28,7 +28,8 @@ import * as format csv '@fast-csv/parse';
   * [`csv.parseFile`](#csv-parse-path)
   * [`csv.parseString`](#csv-parse-string)
 * Examples
-  * [JS Examples](../../examples/parsing-js/README.md)     
+  * [JavaScript Examples](../../examples/parsing-js/README.md)
+  * [TypeScript Examples](../../examples/parsing-ts/README.md)     
 
 <a name="parsing-options"></a>
 ## Options

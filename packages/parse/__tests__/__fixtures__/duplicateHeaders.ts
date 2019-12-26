@@ -1,7 +1,9 @@
 import { resolve } from 'path';
 import { EOL } from 'os';
+import { PathAndContent } from './helpers';
+import { RowMap } from '../../src';
 
-export const duplicateHeaders = {
+export const duplicateHeaders: PathAndContent<RowMap> = {
     path: resolve(__dirname, 'tmp', 'duplicate_header.csv'),
 
     content: [

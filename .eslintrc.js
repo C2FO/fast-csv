@@ -77,7 +77,8 @@ module.exports = {
         },
         {
             "files": [
-                "*.js"
+                "*.js",
+                "examples/example-runner/bin/run-examples"
             ],
             "rules": {
                 "@typescript-eslint/explicit-function-return-type": "off",

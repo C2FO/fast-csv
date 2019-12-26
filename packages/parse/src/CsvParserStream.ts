@@ -5,16 +5,16 @@ import { HeaderTransformer, RowTransformerValidator } from './transforms';
 import { Parser } from './parser';
 import { Row, RowArray, RowTransformFunction, RowValidate, RowValidatorCallback } from './types';
 
-export class CsvParserStream extends Transform {
+export class CsvParserStream<I extends Row, O extends Row> extends Transform {
     private readonly parserOptions: ParserOptions;
 
     private readonly decoder: StringDecoder;
 
     private readonly parser: Parser;
 
-    private readonly headerTransformer: HeaderTransformer;
+    private readonly headerTransformer: HeaderTransformer<I>;
 
-    private readonly rowTransformerValidator: RowTransformerValidator;
+    private readonly rowTransformerValidator: RowTransformerValidator<I, O>;
 
     private lines = '';
 
@@ -47,12 +47,12 @@ export class CsvParserStream extends Transform {
         return this.parsedLineCount <= this.parserOptions.skipLines;
     }
 
-    public transform(transformFunction: RowTransformFunction): CsvParserStream {
+    public transform(transformFunction: RowTransformFunction<I, O>): CsvParserStream<I, O> {
         this.rowTransformerValidator.rowTransform = transformFunction;
         return this;
     }
 
-    public validate(validateFunction: RowValidate): CsvParserStream {
+    public validate(validateFunction: RowValidate<O>): CsvParserStream<I, O> {
         this.rowTransformerValidator.rowValidator = validateFunction;
         return this;
     }
@@ -153,7 +153,7 @@ export class CsvParserStream extends Transform {
         iterate(0);
     }
 
-    private transformRow(parsedRow: RowArray, cb: RowValidatorCallback): void {
+    private transformRow(parsedRow: RowArray, cb: RowValidatorCallback<O>): void {
         try {
             this.headerTransformer.transform(parsedRow, (err, withHeaders): void => {
                 if (err) {
@@ -163,7 +163,7 @@ export class CsvParserStream extends Transform {
                     return cb(new Error('Expected result from header transform'));
                 }
                 if (!withHeaders.isValid) {
-                    return cb(null, { isValid: false, row: parsedRow });
+                    return cb(null, { isValid: false, row: (parsedRow as never) as O });
                 }
                 if (withHeaders.row) {
                     if (this.shouldEmitRows) {

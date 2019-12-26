@@ -3,8 +3,9 @@
   "private": true,
   "description": "fast-csv parsing examples",
   "scripts": {
+    "list": "run-examples list",
     "all-examples": "run-examples all",
-    "example": "run-examples"
+    "example": "run-examples run"
   },
   "dependencies": {
     "example-runner": "^4.0.0",

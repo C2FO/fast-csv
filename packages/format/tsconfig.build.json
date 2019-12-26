@@ -3,5 +3,10 @@
     "compilerOptions": {
         "outDir": "./build",
         "rootDir": "."
-    }
+    },
+    "include": ["**/*.ts"],
+    "exclude": [
+        "node_modules",
+        "build"
+    ]
 }

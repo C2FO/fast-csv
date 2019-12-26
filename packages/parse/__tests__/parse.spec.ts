@@ -26,5 +26,5 @@ describe('.parseFile', () => {
 
 describe('.parseString', () => {
     it('should accept a csv string', () =>
-        expectParsed(collectData(parseString(withHeaders.content, { headers: true })), withHeaders.parsed));
+        expectParsed(collectData(parseString(withHeaders.content as string, { headers: true })), withHeaders.parsed));
 });

@@ -2,9 +2,7 @@
 import * as fs from 'fs';
 import * as domain from 'domain';
 import partition from 'lodash.partition';
-import { CsvParserStream } from '../src/CsvParserStream';
-import { parseFile, ParserOptionsArgs, Row, RowMap, RowValidateCallback } from '../src';
-import { ParserOptions } from '../src/ParserOptions';
+import { ParserOptions, CsvParserStream, parseFile, ParserOptionsArgs, Row, RowMap, RowValidateCallback } from '../src';
 import {
     PathAndContent,
     ParseResults,
@@ -30,10 +28,14 @@ import {
 import DoneCallback = jest.DoneCallback;
 
 describe('CsvParserStream', () => {
-    const createParserStream = (args?: ParserOptionsArgs): CsvParserStream =>
+    const createParserStream = <I extends Row, O extends Row>(args?: ParserOptionsArgs): CsvParserStream<I, O> =>
         new CsvParserStream(new ParserOptions(args));
 
-    const listenForError = (stream: CsvParserStream, message: string, next: DoneCallback) => {
+    const listenForError = <I extends Row, O extends Row>(
+        stream: CsvParserStream<I, O>,
+        message: string,
+        next: DoneCallback,
+    ) => {
         let called = false;
         stream
             .on('error', (err: Error) => {
@@ -46,9 +48,12 @@ describe('CsvParserStream', () => {
             .on('end', () => next(new Error(`Expected and error to occur [expectedMessage=${message}]`)));
     };
 
-    const parseContentAndCollect = (data: PathAndContent, options: ParserOptionsArgs = {}): Promise<ParseResults> =>
-        new Promise((res, rej) => {
-            const rows: Row[] = [];
+    const parseContentAndCollect = <R extends Row>(
+        data: PathAndContent<R>,
+        options: ParserOptionsArgs = {},
+    ): Promise<ParseResults<R>> => {
+        return new Promise((res, rej) => {
+            const rows: R[] = [];
             const invalidRows: Row[] = [];
             const parser = createParserStream(options)
                 .on('data', row => rows.push(row))
@@ -60,6 +65,7 @@ describe('CsvParserStream', () => {
             parser.write(data.content);
             parser.end();
         });
+    };
 
     it('should parse a csv without quotes or escapes', () =>
         expectParsed(parseContentAndCollect(withHeaders, { headers: true }), withHeaders.parsed));
@@ -204,7 +210,7 @@ describe('CsvParserStream', () => {
             ));
 
         it('should report missing columns that do not exist but have a header with strictColumnHandling option', async () => {
-            const expectedRows = withHeadersAndMissingColumns.parsed.filter(r => r.address !== null);
+            const expectedRows = withHeadersAndMissingColumns.parsed?.filter(r => r.address !== null);
             const expectedInvalidRows = withHeadersAndMissingColumns.parsed
                 .filter(r => r.address === null)
                 .map(r => Object.values(r).filter(v => !!v));
@@ -247,12 +253,8 @@ describe('CsvParserStream', () => {
     describe('alternate delimiters', () => {
         ['\t', '|', ';'].forEach(delimiter => {
             it(`should support '${delimiter.replace(/\t/, '\\t')}' delimiters`, async () => {
-                const { path: assetPath, content } = withHeadersAlternateDelimiter;
-                const data = { path: assetPath, content: content(delimiter) };
-                await expectParsed(
-                    parseContentAndCollect(data, { headers: true, delimiter }),
-                    withHeadersAlternateDelimiter.parsed,
-                );
+                const asset = withHeadersAlternateDelimiter(delimiter);
+                await expectParsed(parseContentAndCollect(asset, { headers: true, delimiter }), asset.parsed);
             });
         });
     });
@@ -289,11 +291,11 @@ describe('CsvParserStream', () => {
         describe('with transform', () => {
             it('should not transform skipped rows', async () => {
                 let transformedRows: Row[] = [];
-                const transformer = (row: Row): Row => {
+                const transformer = (row: RowMap): RowMap => {
                     const transformed = {
-                        firstName: (row as RowMap).first_name,
-                        lastName: (row as RowMap).last_name,
-                        emailAddress: (row as RowMap).email_address,
+                        firstName: row.first_name,
+                        lastName: row.last_name,
+                        emailAddress: row.email_address,
                     };
                     transformedRows.push(transformed);
                     return transformed;
@@ -301,7 +303,9 @@ describe('CsvParserStream', () => {
                 const linesToSkip = 2;
                 const expected = withHeadersAndSkippedLines.parsed.map(transformer);
                 transformedRows = [];
-                const parser = createParserStream({ headers: true, skipLines: linesToSkip }).transform(transformer);
+                const parser = createParserStream<RowMap, RowMap>({ headers: true, skipLines: linesToSkip }).transform(
+                    transformer,
+                );
                 await expectParsed(parseContentAndCollectFromStream(withHeadersAndSkippedLines, parser), expected);
                 expect(transformedRows).toEqual(expected);
             });
@@ -394,12 +398,12 @@ describe('CsvParserStream', () => {
         describe('with transform', () => {
             it('should not transform skipped rows', async () => {
                 let transformedRows: Row[] = [];
-                const transformer = (row: Row): Row => {
+                const transformer = (row: RowMap): RowMap => {
                     const transformed = {
-                        firstName: (row as RowMap).first_name,
-                        lastName: (row as RowMap).last_name,
-                        emailAddress: (row as RowMap).email_address,
-                        address: (row as RowMap).address,
+                        firstName: row.first_name,
+                        lastName: row.last_name,
+                        emailAddress: row.email_address,
+                        address: row.address,
                     };
                     transformedRows.push(transformed);
                     return transformed;
@@ -407,7 +411,7 @@ describe('CsvParserStream', () => {
                 const skipRows = 3;
                 const expected = withHeaders.parsed.slice(skipRows).map(transformer);
                 transformedRows = [];
-                const parser = createParserStream({ headers: true, skipRows }).transform(transformer);
+                const parser = createParserStream<RowMap, RowMap>({ headers: true, skipRows }).transform(transformer);
                 await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
                 expect(transformedRows).toEqual(expected);
             });
@@ -443,23 +447,23 @@ describe('CsvParserStream', () => {
     });
 
     describe('#validate', () => {
-        const syncValidator = (row: Row): boolean =>
-            parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 === 1;
-        const asyncValidator = (row: Row, cb: RowValidateCallback) => {
+        const syncValidator = (row: RowMap): boolean =>
+            parseInt(row.first_name ? row.first_name.replace(/^First/, '') : '0', 10) % 2 === 1;
+        const asyncValidator = (row: RowMap, cb: RowValidateCallback) => {
             cb(null, syncValidator(row));
         };
 
         it('should allow validation of rows', async () => {
             const [valid, invalid] = partition(withHeaders.parsed, syncValidator);
-            const parser = createParserStream({ headers: true }).validate(syncValidator);
+            const parser = createParserStream<RowMap, RowMap>({ headers: true }).validate(syncValidator);
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), valid, invalid);
         });
 
         it('should allow async validation of rows', async () => {
-            const validator = (row: Row): boolean =>
-                parseInt((row as RowMap).first_name.replace(/^First/, ''), 10) % 2 !== 0;
+            const validator = (row: RowMap): boolean =>
+                parseInt(row.first_name ? row.first_name.replace(/^First/, '') : '0', 10) % 2 === 1;
             const [valid, invalid] = partition(withHeaders.parsed, validator);
-            const parser = createParserStream({ headers: true }).validate(asyncValidator);
+            const parser = createParserStream<RowMap, RowMap>({ headers: true }).validate(asyncValidator);
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), valid, invalid);
         });
 
@@ -483,9 +487,9 @@ describe('CsvParserStream', () => {
 
         it('should propagate async errors at the beginning', next => {
             write(withHeaders);
-            const stream = parseFile(withHeaders.path, { headers: true }).validate((data, validateNext) =>
-                validateNext(new Error('Validation ERROR!!!!')),
-            );
+            const stream = parseFile<RowMap, RowMap>(withHeaders.path, {
+                headers: true,
+            }).validate((data: RowMap, validateNext) => validateNext(new Error('Validation ERROR!!!!')));
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
@@ -520,22 +524,22 @@ describe('CsvParserStream', () => {
     });
 
     describe('#transform', () => {
-        const transformer = (row: Row): Row => ({
-            firstName: (row as RowMap).first_name,
-            lastName: (row as RowMap).last_name,
-            emailAddress: (row as RowMap).email_address,
-            address: (row as RowMap).address,
+        const transformer = (row: RowMap): RowMap => ({
+            firstName: row.first_name,
+            lastName: row.last_name,
+            emailAddress: row.email_address,
+            address: row.address,
         });
 
         it('should allow transforming of data', async () => {
             const expected = withHeaders.parsed.map(transformer);
-            const parser = createParserStream({ headers: true }).transform(transformer);
+            const parser = createParserStream<RowMap, RowMap>({ headers: true }).transform(transformer);
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
         });
 
         it('should async transformation of data', async () => {
             const expected = withHeaders.parsed.map(transformer);
-            const parser = createParserStream({ headers: true }).transform((row, next) =>
+            const parser = createParserStream<RowMap, RowMap>({ headers: true }).transform((row, next) =>
                 setImmediate(() => next(null, transformer(row))),
             );
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
@@ -544,15 +548,16 @@ describe('CsvParserStream', () => {
         it('should propogate errors when transformation of data', next => {
             write(withHeaders);
             let index = -1;
-            const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) =>
-                setImmediate(() => {
-                    index += 1;
-                    if (index === 8) {
-                        cb(new Error('transformation ERROR!!!!'));
-                    } else {
-                        cb(null, transformer(data));
-                    }
-                }),
+            const stream = parseFile<RowMap, RowMap>(withHeaders.path, { headers: true }).transform(
+                (data: RowMap, cb) =>
+                    setImmediate(() => {
+                        index += 1;
+                        if (index === 8) {
+                            cb(new Error('transformation ERROR!!!!'));
+                        } else {
+                            cb(null, transformer(data));
+                        }
+                    }),
             );
             listenForError(stream, 'transformation ERROR!!!!', next);
         });

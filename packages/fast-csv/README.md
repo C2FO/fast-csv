@@ -27,5 +27,6 @@ import * as csv from 'fast-csv';
 
 ### Examples
 
-* [JS Examples](../../examples/fast-csv-js/README.md)
+* [JavaScript Examples](../../examples/fast-csv-js/README.md)
+* [TypeScript Examples](../../examples/fast-csv-ts/README.md)
 

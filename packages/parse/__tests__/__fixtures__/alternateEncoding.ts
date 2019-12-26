@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { resolve } from 'path';
 import { EOL } from 'os';
+import { PathAndContent } from './helpers';
+import { RowMap } from '../../src';
 
-export const alternateEncoding = {
+export const alternateEncoding: PathAndContent<RowMap> = {
     path: resolve(__dirname, 'tmp', 'alternate_encoding.csv'),
 
     content: Buffer.from(

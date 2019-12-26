@@ -1,4 +1,4 @@
-`@fast-csv/parse` parsing examples.
+`@fast-csv/parse` javascript parsing examples.
 
 ## Usage
 
@@ -11,10 +11,10 @@ npm run all-examples
 To see a list of all available examples
 
 ```sh
-npm run example
+npm run list
 ```
 
-To run a sepcific example
+To run a specific example
 
 ```sh
 npm run example -- {example_name}

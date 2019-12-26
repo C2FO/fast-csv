@@ -27,9 +27,14 @@ There are three packages published from this repo.
 
 ### Examples
 
-* [`fast-csv` Examples](./examples/fast-csv-js/README.md)
-* [`@fast-csv/format` Examples](./examples/formatting-js/README.md)
-* [`@fast-csv/parse` Examples](./examples/parsing-js/README.md)
+* JavaScript
+    * [`fast-csv`](./examples/fast-csv-js/README.md)
+    * [`@fast-csv/format`](./examples/formatting-js/README.md)
+    * [`@fast-csv/parse`](./examples/parsing-js/README.md)
+* TypeScript
+    * [`fast-csv`](./examples/fast-csv-ts/README.md)
+    * [`@fast-csv/format`](./examples/formatting-ts/README.md)
+    * [`@fast-csv/parse`](./examples/parsing-ts/README.md)
 
 ### Migrating from older versions
 
