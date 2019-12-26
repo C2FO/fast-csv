@@ -8,3 +8,4 @@ build
 coverage
 **/*.tmp.csv
 **/*.tsbuildinfo
+lerna-debug.log

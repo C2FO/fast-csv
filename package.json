@@ -1,6 +1,5 @@
 {
   "name": "fast-csv",
-  "version": "4.0.0",
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",

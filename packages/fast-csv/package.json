@@ -1,6 +1,6 @@
 {
   "name": "fast-csv",
-  "version": "4.0.0",
+  "version": "4.0.0-alpha.0",
   "description": "CSV parser and writer",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
@@ -31,14 +31,12 @@
   "homepage": "http://c2fo.github.com/fast-csv/index.html",
   "author": "Doug Martin",
   "license": "MIT",
-  "devDependencies": {
-  },
   "engines": {
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "@types/node": "^12.12.17",
-    "@fast-csv/parse": "4.0.0",
-    "@fast-csv/format": "4.0.0"
+    "@fast-csv/format": "^4.0.0-alpha.0",
+    "@fast-csv/parse": "^4.0.0-alpha.0",
+    "@types/node": "^12.12.17"
   }
 }
