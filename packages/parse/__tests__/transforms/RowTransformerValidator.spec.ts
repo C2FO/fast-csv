@@ -2,10 +2,13 @@ import { Row, RowArray, RowValidationResult } from '../../src';
 import { RowTransformerValidator } from '../../src/transforms';
 
 describe('RowTransformerValidator', () => {
-    const createRowTransformerValidator = () => new RowTransformerValidator();
+    const createRowTransformerValidator = <I extends Row, O extends Row>() => new RowTransformerValidator<I, O>();
 
-    const transformAndValidate = (row: RowArray, transformer: RowTransformerValidator): Promise<RowValidationResult> =>
-        new Promise((res, rej) => {
+    const transformAndValidate = <I extends Row, O extends Row>(
+        row: I,
+        transformer: RowTransformerValidator<I, O>,
+    ): Promise<RowValidationResult<O>> => {
+        return new Promise((res, rej) => {
             transformer.transformAndValidate(row, (err, results) => {
                 if (err) {
                     return rej(err);
@@ -16,6 +19,7 @@ describe('RowTransformerValidator', () => {
                 return res(results);
             });
         });
+    };
 
     describe('#transformAndValidate', () => {
         it('should return a valid row if validator and transform are not defined', async () => {
@@ -35,8 +39,8 @@ describe('RowTransformerValidator', () => {
 
             it('should transform a row synchronously', async () => {
                 const row = ['a', 'b'];
-                const transformer = createRowTransformerValidator();
-                transformer.rowTransform = (r: Row) => (r as RowArray).map(col => col.toUpperCase());
+                const transformer = createRowTransformerValidator<RowArray, RowArray>();
+                transformer.rowTransform = (r: RowArray): RowArray => r.map(col => col.toUpperCase());
                 await expect(transformAndValidate(row, transformer)).resolves.toEqual({
                     row: ['A', 'B'],
                     isValid: true,
@@ -45,8 +49,8 @@ describe('RowTransformerValidator', () => {
 
             it('should transform a row synchronously', async () => {
                 const row = ['a', 'b'];
-                const transformer = createRowTransformerValidator();
-                transformer.rowTransform = (r: Row) => (r as RowArray).map(col => col.toUpperCase());
+                const transformer = createRowTransformerValidator<RowArray, RowArray>();
+                transformer.rowTransform = (r: RowArray): RowArray => r.map(col => col.toUpperCase());
                 await expect(transformAndValidate(row, transformer)).resolves.toEqual({
                     row: ['A', 'B'],
                     isValid: true,
@@ -65,12 +69,12 @@ describe('RowTransformerValidator', () => {
 
             it('should transform a row asynchronously', async () => {
                 const row = ['a', 'b'];
-                const transformer = createRowTransformerValidator();
-                transformer.rowTransform = (r: Row, cb) => {
+                const transformer = createRowTransformerValidator<RowArray, RowArray>();
+                transformer.rowTransform = (r: RowArray, cb) => {
                     setImmediate(() => {
                         cb(
                             null,
-                            (r as RowArray).map(col => col.toUpperCase()),
+                            r.map(col => col.toUpperCase()),
                         );
                     });
                 };
@@ -82,7 +86,7 @@ describe('RowTransformerValidator', () => {
 
             it('should resolve with an error if an error is provided to the callback', async () => {
                 const row = ['a', 'b'];
-                const transformer = createRowTransformerValidator();
+                const transformer = createRowTransformerValidator<RowArray, RowArray>();
                 transformer.rowTransform = (r: Row, cb) => {
                     setImmediate(() => {
                         cb(new Error('Expected error'));

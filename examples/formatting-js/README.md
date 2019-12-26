@@ -1,4 +1,4 @@
-`@fast-csv/format` formatting examples.
+`@fast-csv/format` javascript formatting examples.
 
 ## Usage
 
@@ -11,10 +11,10 @@ npm run all-examples
 To see a list of all available examples
 
 ```sh
-npm run example
+npm run list
 ```
 
-To run a sepcific example
+To run a specific example
 
 ```sh
 npm run example -- {example_name}
@@ -419,10 +419,10 @@ Expected output
 
 Setting `quoteColumns` to a `boolean[]` will quote the columns thats are set to true at each index in the array.
 
-[`examples/quote_all_columns_array.example.js`](./examples/quote_all_columns_array.example.js)
+[`examples/quote_columns_array.example.js`](./examples/quote_columns_array.example.js)
 
 ```sh
-npm run example -- quote_all_columns_array
+npm run example -- quote_columns_array
 ```
 
 ```javascript

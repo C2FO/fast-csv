@@ -1,7 +1,8 @@
 import { resolve } from 'path';
 import { EOL } from 'os';
+import { PathAndContent } from './helpers';
 
-export const malformed = {
+export const malformed: PathAndContent<never> = {
     path: resolve(__dirname, 'tmp', 'malformed.csv'),
 
     content: [

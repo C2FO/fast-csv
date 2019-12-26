@@ -452,7 +452,7 @@ describe('.write', () => {
 });
 
 describe('.writeToStream', () => {
-    const writeRowsToStream = (rows: Row[], options: FormatterOptionsArgs = {}) =>
+    const writeRowsToStream = <I extends Row, O extends Row>(rows: I[], options: FormatterOptionsArgs<I, O> = {}) =>
         new Promise((res, rej) => {
             const rs = new RecordingStream();
             writeToStream(rs, rows, options);

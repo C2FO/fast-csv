@@ -4,7 +4,9 @@
 * Moved to `lerna`.
     * Split `parse` and `format` packages
 * Added running examples and checking output as part of the tests
-* Updated docs
+* Updated docs for new directory layout
+* Added typescript examples
+* Added generics type support to format and parse streams
 
 # v3.7.0
 

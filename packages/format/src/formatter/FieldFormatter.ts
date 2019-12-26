@@ -2,9 +2,10 @@ import isBoolean from 'lodash.isboolean';
 import isNil from 'lodash.isnil';
 import escapeRegExp from 'lodash.escaperegexp';
 import { FormatterOptions } from '../FormatterOptions';
+import { Row } from '../types';
 
-export class FieldFormatter {
-    private readonly formatterOptions: FormatterOptions;
+export class FieldFormatter<I extends Row, O extends Row> {
+    private readonly formatterOptions: FormatterOptions<I, O>;
 
     private _headers: string[] | null = null;
 
@@ -12,7 +13,7 @@ export class FieldFormatter {
 
     private readonly ESCAPE_REGEXP: RegExp;
 
-    public constructor(formatterOptions: FormatterOptions) {
+    public constructor(formatterOptions: FormatterOptions<I, O>) {
         this.formatterOptions = formatterOptions;
         if (formatterOptions.headers !== null) {
             this.headers = formatterOptions.headers;

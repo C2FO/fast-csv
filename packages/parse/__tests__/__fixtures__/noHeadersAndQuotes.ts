@@ -1,7 +1,9 @@
 import { resolve } from 'path';
 import { EOL } from 'os';
+import { PathAndContent } from './helpers';
+import { RowArray } from '../../src';
 
-export const noHeadersAndQuotes = {
+export const noHeadersAndQuotes: PathAndContent<RowArray> = {
     path: resolve(__dirname, 'tmp', 'no_headers_and_quotes.csv'),
 
     content: [

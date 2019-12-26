@@ -1,7 +1,7 @@
 import { promisify } from 'util';
 import { Writable } from 'stream';
 import * as fs from 'fs';
-import { Row as FormatterRow } from './types';
+import { Row } from './types';
 import { FormatterOptions, FormatterOptionsArgs } from './FormatterOptions';
 import { CsvFormatterStream } from './CsvFormatterStream';
 
@@ -9,16 +9,19 @@ export * from './types';
 export { CsvFormatterStream } from './CsvFormatterStream';
 export { FormatterOptions, FormatterOptionsArgs } from './FormatterOptions';
 
-export const format = (options?: FormatterOptionsArgs): CsvFormatterStream =>
+export const format = <I extends Row, O extends Row>(options?: FormatterOptionsArgs<I, O>): CsvFormatterStream<I, O> =>
     new CsvFormatterStream(new FormatterOptions(options));
 
-export const write = (rows: FormatterRow[], options?: FormatterOptionsArgs): CsvFormatterStream => {
+export const write = <I extends Row, O extends Row>(
+    rows: I[],
+    options?: FormatterOptionsArgs<I, O>,
+): CsvFormatterStream<I, O> => {
     const csvStream = format(options);
-    const promiseWrite = promisify((row: FormatterRow, cb: (error?: Error | null) => void): void => {
+    const promiseWrite = promisify((row: I, cb: (error?: Error | null) => void): void => {
         csvStream.write(row, undefined, cb);
     });
     rows.reduce(
-        (prev: Promise<void>, row: FormatterRow): Promise<void> => prev.then((): Promise<void> => promiseWrite(row)),
+        (prev: Promise<void>, row: I): Promise<void> => prev.then((): Promise<void> => promiseWrite(row)),
         Promise.resolve(),
     )
         .then((): void => csvStream.end())
@@ -28,13 +31,16 @@ export const write = (rows: FormatterRow[], options?: FormatterOptionsArgs): Csv
     return csvStream;
 };
 
-export const writeToStream = <T extends NodeJS.WritableStream>(
+export const writeToStream = <T extends NodeJS.WritableStream, I extends Row, O extends Row>(
     ws: T,
-    rows: FormatterRow[],
-    options?: FormatterOptionsArgs,
+    rows: I[],
+    options?: FormatterOptionsArgs<I, O>,
 ): T => write(rows, options).pipe(ws);
 
-export const writeToBuffer = (rows: FormatterRow[], opts: FormatterOptionsArgs = {}): Promise<Buffer> => {
+export const writeToBuffer = <I extends Row, O extends Row>(
+    rows: I[],
+    opts: FormatterOptionsArgs<I, O> = {},
+): Promise<Buffer> => {
     const buffers: Buffer[] = [];
     const ws = new Writable({
         write(data, enc, writeCb): void {
@@ -48,10 +54,16 @@ export const writeToBuffer = (rows: FormatterRow[], opts: FormatterOptionsArgs =
     });
 };
 
-export const writeToString = (rows: FormatterRow[], options?: FormatterOptionsArgs): Promise<string> =>
-    writeToBuffer(rows, options).then((buffer): string => buffer.toString());
+export const writeToString = <I extends Row, O extends Row>(
+    rows: I[],
+    options?: FormatterOptionsArgs<I, O>,
+): Promise<string> => writeToBuffer(rows, options).then((buffer): string => buffer.toString());
 
-export const writeToPath = (path: string, rows: FormatterRow[], options?: FormatterOptionsArgs): fs.WriteStream => {
+export const writeToPath = <I extends Row, O extends Row>(
+    path: string,
+    rows: I[],
+    options?: FormatterOptionsArgs<I, O>,
+): fs.WriteStream => {
     const stream = fs.createWriteStream(path, { encoding: 'utf8' });
     return write(rows, options).pipe(stream);
 };

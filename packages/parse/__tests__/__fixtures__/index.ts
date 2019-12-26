@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import * as path from 'path';
 import { PathAndContent } from './helpers';
+import { Row } from '../../src';
 
 export * from './alternateEncoding';
 export * from './noHeadersAndQuotes';
@@ -26,7 +27,7 @@ const mkDirIfNotExists = (filePath: string): void => {
     }
 };
 
-export const write = (opts: PathAndContent): void => {
+export const write = <R extends Row>(opts: PathAndContent<R>): void => {
     mkDirIfNotExists(opts.path);
     writeFileSync(opts.path, opts.content);
 };

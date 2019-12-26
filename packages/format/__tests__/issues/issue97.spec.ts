@@ -1,10 +1,10 @@
 import { RecordingStream } from '../__fixtures__';
-import { write } from '../../src';
+import { RowMap, write } from '../../src';
 
 describe('Issue #97 - https://github.com/C2FO/fast-csv/issues/97', () => {
     it('should keep the original row', next => {
         const rs = new RecordingStream();
-        const data = [
+        const data: RowMap[] = [
             { field1: 'a1"a', field2: 'b1"b' },
             { field1: 'a2"a', field2: 'b2"b' },
         ];

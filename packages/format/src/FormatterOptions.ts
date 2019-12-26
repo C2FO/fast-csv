@@ -1,4 +1,4 @@
-import { RowTransformFunction } from './types';
+import { Row, RowTransformFunction } from './types';
 
 interface QuoteColumnMap {
     [s: string]: boolean;
@@ -6,7 +6,7 @@ interface QuoteColumnMap {
 
 type QuoteColumns = boolean | boolean[] | QuoteColumnMap;
 
-export interface FormatterOptionsArgs {
+export interface FormatterOptionsArgs<I extends Row, O extends Row> {
     objectMode?: boolean;
     delimiter?: string;
     rowDelimiter?: string;
@@ -17,11 +17,11 @@ export interface FormatterOptionsArgs {
     headers?: null | boolean | string[];
     includeEndRowDelimiter?: boolean;
     writeBOM?: boolean;
-    transform?: RowTransformFunction;
+    transform?: RowTransformFunction<I, O>;
     alwaysWriteHeaders?: boolean;
 }
 
-export class FormatterOptions {
+export class FormatterOptions<I extends Row, O extends Row> {
     public readonly objectMode: boolean = true;
 
     public readonly delimiter: string = ',';
@@ -40,7 +40,7 @@ export class FormatterOptions {
 
     public readonly includeEndRowDelimiter: boolean = false;
 
-    public readonly transform: RowTransformFunction | null = null;
+    public readonly transform?: RowTransformFunction<I, O>;
 
     public readonly shouldWriteHeaders: boolean;
 
@@ -52,7 +52,7 @@ export class FormatterOptions {
 
     public readonly alwaysWriteHeaders: boolean = false;
 
-    public constructor(opts: FormatterOptionsArgs = {}) {
+    public constructor(opts: FormatterOptionsArgs<I, O> = {}) {
         Object.assign(this, opts || {});
 
         if (typeof opts?.quoteHeaders === 'undefined') {

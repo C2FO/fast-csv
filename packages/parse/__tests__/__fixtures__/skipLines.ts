@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { resolve } from 'path';
 import { EOL } from 'os';
+import { PathAndContent } from './helpers';
+import { RowArray } from '../../src';
 
-export const skipLines = {
+export const skipLines: PathAndContent<RowArray> = {
     path: resolve(__dirname, 'tmp', 'skip_lines.csv'),
 
     content: [

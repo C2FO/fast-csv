@@ -35,7 +35,7 @@ const readFile = filePath => {
     });
 };
 
-const csvFilePath = path.resolve(__dirname, 'tmp', 'append.csv');
+const csvFilePath = path.resolve(__dirname, 'append.tmp.csv');
 
 // 1. create the csv
 createCsv(csvFilePath, [

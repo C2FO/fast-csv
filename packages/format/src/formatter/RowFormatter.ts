@@ -2,15 +2,13 @@ import isFunction from 'lodash.isfunction';
 import isEqual from 'lodash.isequal';
 import { FormatterOptions } from '../FormatterOptions';
 import { FieldFormatter } from './FieldFormatter';
-import { Row, RowHashArray, RowTransformFunction } from '../types';
+import { isSyncTransform, Row, RowArray, RowHashArray, RowTransformCallback, RowTransformFunction } from '../types';
 
-type RowCallback = (err?: Error | null, row?: Row) => void;
+type RowFormatterTransform<I extends Row, O extends Row> = (row: I, cb: RowTransformCallback<O>) => void;
 
-type RowFormatterTransform = (row: Row, cb: RowCallback) => void;
+type RowFormatterCallback = (error: Error | null, data?: RowArray) => void;
 
-type RowFormatterCallback = (error: Error | null, data?: string[]) => void;
-
-export class RowFormatter {
+export class RowFormatter<I extends Row, O extends Row> {
     private static isHashArray(row: Row): row is RowHashArray {
         if (Array.isArray(row)) {
             return Array.isArray(row[0]) && row[0].length === 2;
@@ -30,10 +28,11 @@ export class RowFormatter {
         return Object.keys(row);
     }
 
-    private static createTransform(transformFunction: RowTransformFunction): RowFormatterTransform {
-        const isSync = transformFunction.length === 1;
-        if (isSync) {
-            return (row, cb): void => {
+    private static createTransform<I extends Row, O extends Row>(
+        transformFunction: RowTransformFunction<I, O>,
+    ): RowFormatterTransform<I, O> {
+        if (isSyncTransform(transformFunction)) {
+            return (row: I, cb: RowTransformCallback<O>): void => {
                 let transformedRow = null;
                 try {
                     transformedRow = transformFunction(row);
@@ -43,29 +42,28 @@ export class RowFormatter {
                 return cb(null, transformedRow);
             };
         }
-        return (row, cb): void => {
+        return (row: I, cb): void => {
             transformFunction(row, cb);
         };
     }
 
-    private readonly formatterOptions: FormatterOptions;
+    private readonly formatterOptions: FormatterOptions<I, O>;
 
-    private readonly fieldFormatter: FieldFormatter;
+    private readonly fieldFormatter: FieldFormatter<I, O>;
 
-    private _rowTransform?: null | RowFormatterTransform;
+    private readonly shouldWriteHeaders: boolean;
+
+    private _rowTransform?: RowFormatterTransform<I, O>;
 
     private headers: string[] | null;
-
-    private shouldWriteHeaders: boolean;
 
     private hasWrittenHeaders: boolean;
 
     private rowCount = 0;
 
-    public constructor(formatterOptions: FormatterOptions) {
+    public constructor(formatterOptions: FormatterOptions<I, O>) {
         this.formatterOptions = formatterOptions;
         this.fieldFormatter = new FieldFormatter(formatterOptions);
-        this._rowTransform = null;
 
         this.headers = formatterOptions.headers;
         this.shouldWriteHeaders = formatterOptions.shouldWriteHeaders;
@@ -73,19 +71,19 @@ export class RowFormatter {
         if (this.headers !== null) {
             this.fieldFormatter.headers = this.headers;
         }
-        if (formatterOptions.transform !== null) {
+        if (formatterOptions.transform) {
             this.rowTransform = formatterOptions.transform;
         }
     }
 
-    public set rowTransform(transformFunction: RowTransformFunction) {
+    public set rowTransform(transformFunction: RowTransformFunction<I, O>) {
         if (!isFunction(transformFunction)) {
             throw new TypeError('The transform should be a function');
         }
         this._rowTransform = RowFormatter.createTransform(transformFunction);
     }
 
-    public format(row: Row, cb: RowFormatterCallback): void {
+    public format(row: I, cb: RowFormatterCallback): void {
         this.callTransformer(row, (err, transformedRow?: Row): void => {
             if (err) {
                 return cb(err);
@@ -163,9 +161,9 @@ export class RowFormatter {
         return this.headers.map((header, i): string => row[i]);
     }
 
-    private callTransformer(row: Row, cb: RowCallback): void {
+    private callTransformer(row: I, cb: RowTransformCallback<O>): void {
         if (!this._rowTransform) {
-            return cb(null, row);
+            return cb(null, (row as unknown) as O);
         }
         return this._rowTransform(row, cb);
     }

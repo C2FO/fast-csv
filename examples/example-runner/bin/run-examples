@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-shadow */
 
 const { EOL } = require('os');
 const fs = require('fs');
@@ -6,13 +7,13 @@ const cp = require('child_process');
 const path = require('path');
 const globby = require('globby');
 const diffDefault = require('jest-diff');
-
-const exampleNameArg = process.argv[2];
+const yargs = require('yargs');
 
 const OUTPUT_REGEXP = new RegExp(`\\/\\/ Output: *${EOL}`);
+const OUTPUT_LINE_REGEXP = /^\/\/ /;
 
-const getExampleFiles = async () => {
-    const files = await globby(path.resolve(process.cwd(), 'examples', '**', '*.example.js'), { stats: true });
+const getExampleFiles = async examplesDir => {
+    const files = await globby(path.resolve(process.cwd(), examplesDir, '**', '*.example.js'), { stats: true });
     return files.reduce((map, f) => ({ ...map, ...{ [f.name.replace('.example.js', '')]: f.path } }), {});
 };
 
@@ -28,8 +29,9 @@ const getExpectedOutput = examplePath => {
     return contents
         .slice(startIndex)
         .split(EOL)
+        .filter(l => OUTPUT_LINE_REGEXP.test(l))
         .map(l => {
-            return l.replace(/\/\/ /, '');
+            return l.replace(OUTPUT_LINE_REGEXP, '');
         })
         .join(EOL);
 };
@@ -61,21 +63,48 @@ const runExample = (exampleName, examples) => {
     });
 };
 
-(async () => {
-    const examples = await getExampleFiles();
-    if (!exampleNameArg) {
-        return printExamples(examples);
-    }
-    if (exampleNameArg === 'all') {
-        return Object.keys(examples).reduce(async (prev, exampleName) => {
-            await prev;
-            const output = await runExample(exampleName, examples);
-            checkOutput(exampleName, examples, output);
-        }, Promise.resolve());
-    }
-    const output = await runExample(exampleNameArg, examples);
-    return checkOutput(exampleNameArg, examples, output);
-})().catch(err => {
-    console.error(err.stack);
-    process.exit(1);
-});
+yargs
+    .scriptName('example-runner')
+    .option('dir', {
+        alias: 'examplesDir',
+        default: 'examples',
+        describe: 'location of examples',
+        type: 'string',
+    })
+    .command(
+        'list',
+        'list all examples',
+        yarg => yarg.option('examplesDir'),
+        async argv => {
+            const examples = await getExampleFiles(argv.examplesDir);
+            printExamples(examples);
+        },
+    )
+    .command(
+        'all',
+        'run all examples',
+        yarg => yarg.option('examplesDir'),
+        async argv => {
+            const examples = await getExampleFiles(argv.examplesDir);
+            return Object.keys(examples).reduce(async (prev, exampleName) => {
+                await prev;
+                const output = await runExample(exampleName, examples);
+                checkOutput(exampleName, examples, output);
+            }, Promise.resolve());
+        },
+    )
+    .command(
+        'run [example]',
+        'run a specific example',
+        yargs => {
+            return yargs.option('examplesDir').positional('example', {
+                type: 'string',
+                describe: 'the example to run',
+            });
+        },
+        async argv => {
+            const examples = await getExampleFiles(argv.examplesDir);
+            const output = await runExample(argv.example, examples);
+            await checkOutput(argv.example, examples, output);
+        },
+    ).argv;

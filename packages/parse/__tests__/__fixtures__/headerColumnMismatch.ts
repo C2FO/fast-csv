@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { resolve } from 'path';
 import { EOL } from 'os';
+import { PathAndContent } from './helpers';
+import { RowMap } from '../../src';
 
-export const headerColumnMismatch = {
+export const headerColumnMismatch: PathAndContent<RowMap> = {
     path: resolve(__dirname, 'tmp', 'header_column_mismatch.csv'),
 
     content: [

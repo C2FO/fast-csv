@@ -10,7 +10,7 @@ import {
 import { arrayRows, multiDimensionalRows, objectRows, RecordingStream } from './__fixtures__';
 
 describe('CsvFormatterStream', () => {
-    const pipeToRecordingStream = (formatter: CsvFormatterStream, rows: Row[]) =>
+    const pipeToRecordingStream = <I extends Row, O extends Row>(formatter: CsvFormatterStream<I, O>, rows: Row[]) =>
         new Promise((res, rej) => {
             const rs = new RecordingStream();
             formatter
@@ -23,7 +23,7 @@ describe('CsvFormatterStream', () => {
             formatter.end();
         });
 
-    const formatRows = (rows: Row[], options: FormatterOptionsArgs = {}) =>
+    const formatRows = <I extends Row, O extends Row>(rows: Row[], options: FormatterOptionsArgs<I, O> = {}) =>
         pipeToRecordingStream(new CsvFormatterStream(new FormatterOptions(options)), rows);
 
     it('should write an array of arrays', () =>

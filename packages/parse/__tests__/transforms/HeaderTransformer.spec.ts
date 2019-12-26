@@ -1,11 +1,14 @@
-import { ParserOptionsArgs, RowArray, RowValidationResult } from '../../src';
+import { ParserOptions, ParserOptionsArgs, RowArray, RowValidationResult } from '../../src';
 import { HeaderTransformer } from '../../src/transforms';
-import { ParserOptions } from '../../src/ParserOptions';
 
 describe('HeaderTransformer', () => {
-    const createHeaderTransformer = (opts?: ParserOptionsArgs) => new HeaderTransformer(new ParserOptions(opts));
+    const createHeaderTransformer = (opts?: ParserOptionsArgs) =>
+        new HeaderTransformer<RowArray>(new ParserOptions(opts));
 
-    const transform = (row: RowArray, transformer: HeaderTransformer): Promise<RowValidationResult> =>
+    const transform = (
+        row: RowArray,
+        transformer: HeaderTransformer<RowArray>,
+    ): Promise<RowValidationResult<RowArray>> =>
         new Promise((res, rej) => {
             transformer.transform(row, (err, results) => {
                 if (err) {

@@ -7,7 +7,7 @@ const rows = [
     ['a1', 'b1'],
     ['a2', 'b2'],
 ];
-const filePath = path.resolve(__dirname, 'tmp', 'tmp.csv');
+const filePath = path.resolve(__dirname, 'write_to_path.tmp.csv');
 csv.writeToPath(filePath, rows)
     .on('error', err => console.error(err))
     .on('finish', () => {

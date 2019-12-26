@@ -2,12 +2,13 @@
   "name": "fast-csv-js-examples",
   "private": true,
   "description": "fast-csv examples",
+  "scripts": {
+    "list": "run-examples list",
+    "all-examples": "run-examples all",
+    "example": "run-examples run"
+  },
   "dependencies": {
     "example-runner": "^4.0.0",
     "fast-csv": "^4.0.0"
-  },
-  "scripts": {
-    "all-examples": "run-examples all",
-    "example": "run-examples"
   }
 }

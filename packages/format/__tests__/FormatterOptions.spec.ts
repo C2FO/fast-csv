@@ -1,8 +1,9 @@
-import { FormatterOptionsArgs } from '../src';
+import { FormatterOptionsArgs, Row } from '../src';
 import { FormatterOptions } from '../src/FormatterOptions';
 
 describe('FormatterOptions', () => {
-    const createOptions = (opts: FormatterOptionsArgs = {}) => new FormatterOptions(opts);
+    const createOptions = <I extends Row, O extends Row>(opts: FormatterOptionsArgs<I, O> = {}) =>
+        new FormatterOptions(opts);
 
     describe('#objectMode', () => {
         it('should have default objectMode', () => {
