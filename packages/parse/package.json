@@ -9,7 +9,7 @@
     "parser"
   ],
   "author": "doug-martin <doug@dougamartin.com>",
-  "homepage": "http://c2fo.github.com/fast-csv/index.html/tree/master/packages/parse#readme",
+  "homepage": "http://c2fo.github.com/fast-csv/packages/parse",
   "license": "MIT",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
