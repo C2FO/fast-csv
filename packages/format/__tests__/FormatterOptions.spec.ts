@@ -141,6 +141,40 @@ describe('FormatterOptions', () => {
         });
     });
 
+    describe('#shouldWriteHeaders', () => {
+        it('should set to true if headers is true', () => {
+            expect(createOptions({ headers: true }).shouldWriteHeaders).toBe(true);
+        });
+
+        it('should set to false if headers is true and writeHeaders is false', () => {
+            expect(createOptions({ headers: true, writeHeaders: false }).shouldWriteHeaders).toBe(false);
+        });
+
+        it('should set to true if headers is true and writeHeaders is true', () => {
+            expect(createOptions({ headers: true, writeHeaders: true }).shouldWriteHeaders).toBe(true);
+        });
+
+        it('should set to true if headers is an array', () => {
+            expect(createOptions({ headers: ['h1', 'h2'] }).shouldWriteHeaders).toBe(true);
+        });
+
+        it('should set to false if headers is an array and writeHeaders is false', () => {
+            expect(createOptions({ headers: ['h1', 'h2'], writeHeaders: false }).shouldWriteHeaders).toBe(false);
+        });
+
+        it('should set to true if headers is an array and writeHeaders is true', () => {
+            expect(createOptions({ headers: ['h1', 'h2'], writeHeaders: true }).shouldWriteHeaders).toBe(true);
+        });
+
+        it('should set to false if headers is not defined', () => {
+            expect(createOptions({}).shouldWriteHeaders).toBe(false);
+        });
+
+        it('should set to false if headers is not defined and writeHeaders is true', () => {
+            expect(createOptions({ writeHeaders: true }).shouldWriteHeaders).toBe(false);
+        });
+    });
+
     describe('#includeEndRowDelimiter', () => {
         it('should set includeEndRowDelimiter to false by default', () => {
             expect(createOptions().includeEndRowDelimiter).toBe(false);

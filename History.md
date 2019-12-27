@@ -1,3 +1,8 @@
+# v4.0.2
+
+* [ADDED] `writeHeaders` to `@fast-csv/format` option to prevent writing headers.
+    * This makes appending to a csv easier and safer because you can still specify headers without writing them.
+
 # v4.0.1
 
 * [FIXED] package.json homepage links

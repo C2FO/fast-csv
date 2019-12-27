@@ -15,6 +15,7 @@ export interface FormatterOptionsArgs<I extends Row, O extends Row> {
     quoteColumns?: QuoteColumns;
     quoteHeaders?: QuoteColumns;
     headers?: null | boolean | string[];
+    writeHeaders?: boolean;
     includeEndRowDelimiter?: boolean;
     writeBOM?: boolean;
     transform?: RowTransformFunction<I, O>;
@@ -66,7 +67,7 @@ export class FormatterOptions<I extends Row, O extends Row> {
         if (typeof opts?.escape !== 'string') {
             this.escape = this.quote;
         }
-        this.shouldWriteHeaders = !!this.headers;
+        this.shouldWriteHeaders = !!this.headers && (opts.writeHeaders ?? true);
         this.headers = Array.isArray(this.headers) ? this.headers : null;
         this.escapedQuote = `${this.escape}${this.quote}`;
     }

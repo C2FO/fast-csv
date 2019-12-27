@@ -35,6 +35,9 @@ npm run example -- {example_name}
     * [Hash Array Rows](#headers-provided-hash-array)
     * [Object Rows - Reorder Columns](#headers-provided-object)
     * [Object Rows - Remove Columns](#headers-provided-object-remove-column)
+  * Write Headers
+    *  [Auto Discovered Headers](#write-headers-auto-discover)
+    *  [Provided Headers](#write-headers-provided-headers)
 * [`quoteColumns`](#examples-quote-columns)
 * [`quoteHeaders`](#examples-quote-headers)
 * [Transforming Rows](#examples-transforming)
@@ -377,6 +380,77 @@ value1b
 value2b
 value3b
 value4b
+```
+
+### Write Headers
+
+The `writeHeaders` option can be used to prevent writing headers, while still auto discovering them or providing them.
+
+The `writeHeaders` option can be useful when appending to a csv to prevent writing headers twice. See the [append example](#examples-appending)
+
+
+**NOTE** When writing array rows and headers is set to `true` then the first row will be not be written.
+
+<a name="write-headers-auto-discover"></a>
+[`examples/write_headers_auto_discover.example.js`](./examples/write_headers_auto_discover.example.js)
+
+In this example the auto discovered headers are not written.
+
+```sh
+npm run example -- write_headers_auto_discover
+```
+
+```js
+const csv = require('@fast-csv/format');
+
+const csvStream = csv.format({ headers: true, writeHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+Expected Output: 
+```
+value1a,value2a
+value1a,value2a
+value1a,value2a
+value1a,value2a
+```
+
+<a name="write-headers-provided-headers"></a>
+[`examples/write_headers_provided_headers.example.js`](./examples/write_headers_provided_headers.example.js)
+
+In this example the headers are provided to specify order of columns but they are **not** written.
+
+```sh
+npm run example -- write_headers_provided_headers
+```
+
+```js
+const csv = require('@fast-csv/format');
+
+const csvStream = csv.format({ headers: ['header2', 'header1'], writeHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+Expected Output: 
+```
+value2a,value1a
+value2a,value1a
+value2a,value1a
+value2a,value1a
 ```
 
 ---
@@ -740,57 +814,70 @@ In this example a new csv is created then appended to.
 ```javascript
 const path = require('path');
 const fs = require('fs');
+const csv = require('@fast-csv/format');
 
-const write = (filestream, rows, options) => {
-    return new Promise((res, rej) => {
-        csv.writeToStream(filestream, rows, options)
-            .on('error', err => rej(err))
-            .on('finish', () => res());
-    });
-};
-
-// create a new csv
-const createCsv = (filePath, rows) => {
-    const csvFile = fs.createWriteStream(filePath);
-    return write(csvFile, rows, { headers: true, includeEndRowDelimiter: true });
-};
-
-// append the rows to the csv
-const appendToCsv = (filePath, rows = []) => {
-    const csvFile = fs.createWriteStream(filePath, { flags: 'a' });
-    // notice how headers are set to false
-    return write(csvFile, rows, { headers: false });
-};
-
-// read the file
-const readFile = filePath => {
-    return new Promise((res, rej) => {
-        fs.readFile(filePath, (err, contents) => {
-            if (err) {
-                return rej(err);
-            }
-            return res(contents);
+class CsvFile {
+    static write(filestream, rows, options) {
+        return new Promise((res, rej) => {
+            csv.writeToStream(filestream, rows, options)
+                .on('error', err => rej(err))
+                .on('finish', () => res());
         });
-    });
-};
+    }
 
-const csvFilePath = path.resolve(__dirname, 'tmp', 'append.csv');
+    constructor(opts) {
+        this.headers = opts.headers;
+        this.path = opts.path;
+        this.writeOpts = { headers: this.headers, includeEndRowDelimiter: true };
+    }
+
+    create(rows) {
+        return CsvFile.write(fs.createWriteStream(this.path), rows, { ...this.writeOpts });
+    }
+
+    append(rows) {
+        return CsvFile.write(fs.createWriteStream(this.path, { flags: 'a' }), rows, {
+            ...this.writeOpts,
+            // dont write the headers when appending
+            writeHeaders: false,
+        });
+    }
+
+    read() {
+        return new Promise((res, rej) => {
+            fs.readFile(this.path, (err, contents) => {
+                if (err) {
+                    return rej(err);
+                }
+                return res(contents);
+            });
+        });
+    }
+}
+
+const csvFile = new CsvFile({
+    path: path.resolve(__dirname, 'append.tmp.csv'),
+    // headers to write
+    headers: ['c', 'b', 'a'],
+});
 
 // 1. create the csv
-createCsv(csvFilePath, [
-    { a: 'a1', b: 'b1', c: 'c1' },
-    { a: 'a2', b: 'b2', c: 'c2' },
-    { a: 'a3', b: 'b3', c: 'c3' },
-])
-    .then(() => {
-        // 2. append to the csv
-        return appendToCsv(csvFilePath, [
+csvFile
+    .create([
+        { a: 'a1', b: 'b1', c: 'c1' },
+        { b: 'b2', a: 'a2', c: 'c2' },
+        { a: 'a3', b: 'b3', c: 'c3' },
+    ])
+    // append rows to file
+    .then(() =>
+        csvFile.append([
             { a: 'a4', b: 'b4', c: 'c4' },
             { a: 'a5', b: 'b5', c: 'c5' },
-            { a: 'a6', b: 'b6', c: 'c6' },
-        ]);
-    })
-    .then(() => readFile(csvFilePath))
+        ]),
+    )
+    // append another row
+    .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
+    .then(() => csvFile.read())
     .then(contents => {
         console.log(`${contents}`);
     })
@@ -798,18 +885,16 @@ createCsv(csvFilePath, [
         console.error(err.stack);
         process.exit(1);
     });
-
-
 ```
 
 Expected output
 
 ```
-a,b,c
-a1,b1,c1
-a2,b2,c2
-a3,b3,c3
-a4,b4,c4
-a5,b5,c5
-a6,b6,c6
+c,b,a
+c1,b1,a1
+c2,b2,a2
+c3,b3,a3
+c4,b4,a4
+c5,b5,a5
+c6,b6,a6
 ```

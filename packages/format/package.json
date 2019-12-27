@@ -9,7 +9,7 @@
   ],
   "author": "doug-martin <doug@dougamartin.com>",
   "homepage": "http://c2fo.github.com/fast-csv/packages/format",
-  "license": "ISC",
+  "license": "MIT",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "directories": {
@@ -24,7 +24,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/C2FO/fast-csv.git"
+    "url": "git+https://github.com/C2FO/fast-csv.git",
+    "directory": "packages/format"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
