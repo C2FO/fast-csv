@@ -6,7 +6,7 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "pub": "lerna publish from-git",
-    "version": "npx lerna version --tag-version-prefix=v",
+    "version": "npx lerna version",
     "test": "npm run lint && npm run jest && npm run examples",
     "lint": "eslint --ext=.ts,.js .",
     "jest": "jest --coverage",
