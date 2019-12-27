@@ -135,7 +135,7 @@ export class RowFormatter<I extends Row, O extends Row> {
         this.fieldFormatter.headers = headers;
         if (!this.shouldWriteHeaders) {
             // if we are not supposed to write the headers then
-            // alwyas format the columns
+            // always format the columns
             return { shouldFormatColumns: true, headers: null };
         }
         // if the row is equal to headers dont format

@@ -279,12 +279,22 @@ describe('RowFormatter', () => {
                         const formatter = createFormatter({ headers: true });
                         await expect(formatRow(row, formatter)).resolves.toEqual(['a,b', '\na1,b1']);
                     });
+
+                    it('should not write the first row if writeHeaders is false', async () => {
+                        const formatter = createFormatter({ headers: true, writeHeaders: false });
+                        await expect(formatRow(row, formatter)).resolves.toEqual(['a1,b1']);
+                    });
                 });
 
                 describe('with headers provided', () => {
-                    it('should the new headers and the row', async () => {
+                    it('should write the provided headers and the row', async () => {
                         const formatter = createFormatter({ headers: ['a', 'b'] });
                         await expect(formatRow(row, formatter)).resolves.toEqual(['a,b', '\na1,b1']);
+                    });
+
+                    it('should not write the header row if writeHeaders is false', async () => {
+                        const formatter = createFormatter({ headers: ['a', 'b'], writeHeaders: false });
+                        await expect(formatRow(row, formatter)).resolves.toEqual(['a1,b1']);
                     });
 
                     it('should respect the order of the columns', async () => {
@@ -295,6 +305,11 @@ describe('RowFormatter', () => {
                     it('should append an additional column for new fields', async () => {
                         const formatter = createFormatter({ headers: ['a', 'b', 'no_field'] });
                         await expect(formatRow(row, formatter)).resolves.toEqual(['a,b,no_field', '\na1,b1,']);
+                    });
+
+                    it('should respect the order of the columns and not write the headers if writeHeaders is false', async () => {
+                        const formatter = createFormatter({ headers: ['b', 'a'], writeHeaders: false });
+                        await expect(formatRow(row, formatter)).resolves.toEqual(['b1,a1']);
                     });
                 });
             });

@@ -58,6 +58,10 @@ import * as format csv '@fast-csv/format';
   *  If there is not a headers row and you want to provide one then set to a `string[]`
       * **NOTE** If the row is an object the headers must match fields in the object, otherwise you will end up with empty fields
       * **NOTE** If there are more headers than columns then additional empty columns will be added
+* `writeHeaders: {boolean} = true`: Set to false you dont want to write headers.
+  * If `headers` is set to `true` and `writeHeaders` is `false` then any auto discovered headers will not be written in the output.
+  * If `headers` is an `array` and `writeHeaders` is `false` then they will not be written.  
+  * **NOTE** This is can be used to append to an existing csv.
 * `alwaysWriteHeaders: {boolean} = false`: Set to true if you always want headers written, even if no rows are written.
   * **NOTE** This will throw an error if headers are not specified as an array.
 * `quoteColumns: {boolean|boolean[]|{[string]: boolean} = false`

@@ -1,4 +1,5 @@
 {
+  "tagVersionPrefix": "v",
   "packages": [
     "examples/*",
     "packages/*"
