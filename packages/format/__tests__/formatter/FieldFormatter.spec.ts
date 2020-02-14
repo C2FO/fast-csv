@@ -23,6 +23,24 @@ describe('FieldFormatter', () => {
                 expect(formatter.format('hea\r\nder', 0, true)).toEqual('"hea\r\nder"');
             });
 
+            it('should quote the field and if it contains a CR', () => {
+                // set row delimiter to something else to ensure it will still quote
+                const formatter = createFormatter({ rowDelimiter: '#' });
+                expect(formatter.format('hea\rder', 0, true)).toEqual('"hea\rder"');
+            });
+
+            it('should quote the field and if it contains a LF', () => {
+                // set row delimiter to something else to ensure it will still quote
+                const formatter = createFormatter({ rowDelimiter: '#' });
+                expect(formatter.format('hea\nder', 0, true)).toEqual('"hea\nder"');
+            });
+
+            it('should quote the field and if it contains a CRLF', () => {
+                // set row delimiter to something else to ensure it will still quote
+                const formatter = createFormatter({ rowDelimiter: '#' });
+                expect(formatter.format('hea\r\nder', 0, true)).toEqual('"hea\r\nder"');
+            });
+
             it('should quote the field if quoteHeaders is true', () => {
                 const formatter = createFormatter({ quoteHeaders: true });
                 expect(formatter.format('header', 0, true)).toEqual('"header"');
