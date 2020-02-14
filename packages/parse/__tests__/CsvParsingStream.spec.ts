@@ -369,6 +369,21 @@ describe('CsvParserStream', () => {
                     expected,
                 );
             });
+
+            describe('strict column handling', () => {
+                it('should include the invalid rows when counting rows to skip', async () => {
+                    const expectedRows = withHeadersAndMissingColumns.parsed;
+                    await expectParsed(
+                        parseContentAndCollect(withHeadersAndMissingColumns, {
+                            headers: true,
+                            strictColumnHandling: true,
+                            skipRows: 2,
+                        }),
+                        expectedRows.slice(-1),
+                        [],
+                    );
+                });
+            });
         });
 
         describe('without headers', () => {
