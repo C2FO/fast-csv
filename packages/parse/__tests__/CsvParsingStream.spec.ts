@@ -2,7 +2,16 @@
 import * as fs from 'fs';
 import * as domain from 'domain';
 import partition from 'lodash.partition';
-import { ParserOptions, CsvParserStream, parseFile, ParserOptionsArgs, Row, RowMap, RowValidateCallback } from '../src';
+import {
+    ParserOptions,
+    CsvParserStream,
+    parseFile,
+    ParserOptionsArgs,
+    Row,
+    RowMap,
+    RowValidateCallback,
+    HeaderArray,
+} from '../src';
 import {
     PathAndContent,
     ParseResults,
@@ -52,19 +61,7 @@ describe('CsvParserStream', () => {
         data: PathAndContent<R>,
         options: ParserOptionsArgs = {},
     ): Promise<ParseResults<R>> => {
-        return new Promise((res, rej) => {
-            const rows: R[] = [];
-            const invalidRows: Row[] = [];
-            const parser = createParserStream(options)
-                .on('data', row => rows.push(row))
-                .on('data-invalid', row => invalidRows.push(row))
-                .on('error', rej)
-                .on('end', (count: number) => {
-                    res({ count, rows, invalidRows });
-                });
-            parser.write(data.content);
-            parser.end();
-        });
+        return parseContentAndCollectFromStream(data, createParserStream(options));
     };
 
     it('should parse a csv without quotes or escapes', () =>
@@ -459,6 +456,75 @@ describe('CsvParserStream', () => {
         write(malformed);
         const stream = parseFile(malformed.path, { headers: true });
         listenForError(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las", next);
+    });
+
+    describe('headers event', () => {
+        it('should emit a headers event one time when headers are discovered', async () => {
+            const parsedHeaders: string[] = [];
+            let eventCount = 0;
+            const stream = createParserStream({ headers: true });
+            stream.on('headers', hs => {
+                eventCount += 1;
+                parsedHeaders.push(...hs);
+            });
+            await expectParsed(parseContentAndCollectFromStream(withHeaders, stream), withHeaders.parsed);
+            expect(eventCount).toBe(1);
+            expect(parsedHeaders).toEqual(['first_name', 'last_name', 'email_address']);
+        });
+
+        it('should emit a headers event one time with transformed headers', async () => {
+            const parsedHeaders: string[] = [];
+            let eventCount = 0;
+            const headersTransform = (hs: HeaderArray): HeaderArray => hs.map(h => h?.toUpperCase());
+            const stream = createParserStream({ headers: headersTransform });
+            stream.on('headers', hs => {
+                eventCount += 1;
+                parsedHeaders.push(...hs);
+            });
+            await expectParsed(
+                parseContentAndCollectFromStream(withHeaders, stream),
+                withHeaders.parsed.map(r => ({
+                    FIRST_NAME: r.first_name,
+                    LAST_NAME: r.last_name,
+                    EMAIL_ADDRESS: r.email_address,
+                })),
+            );
+            expect(eventCount).toBe(1);
+            expect(parsedHeaders).toEqual(['FIRST_NAME', 'LAST_NAME', 'EMAIL_ADDRESS']);
+        });
+
+        it('should emit a headers provided headers', async () => {
+            const parsedHeaders: string[] = [];
+            let eventCount = 0;
+            const headers = ['first_name', 'last_name', 'email_address', 'address'];
+            const stream = createParserStream({ headers });
+            stream.on('headers', hs => {
+                eventCount += 1;
+                parsedHeaders.push(...hs);
+            });
+            const expected = noHeadersAndQuotes.parsed.map(r => ({
+                first_name: r[0],
+                last_name: r[1],
+                email_address: r[2],
+                address: r[3],
+            }));
+            await expectParsed(parseContentAndCollectFromStream(noHeadersAndQuotes, stream), expected);
+            expect(eventCount).toBe(1);
+            expect(parsedHeaders).toEqual(headers);
+        });
+
+        it('should not a headers provided headers', async () => {
+            const parsedHeaders: string[] = [];
+            let eventCount = 0;
+            const stream = createParserStream();
+            stream.on('headers', hs => {
+                eventCount += 1;
+                parsedHeaders.push(...hs);
+            });
+            await expectParsed(parseContentAndCollectFromStream(noHeadersAndQuotes, stream), noHeadersAndQuotes.parsed);
+            expect(eventCount).toBe(0);
+            expect(parsedHeaders).toHaveLength(0);
+        });
     });
 
     describe('#validate', () => {

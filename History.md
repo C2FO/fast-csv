@@ -1,3 +1,7 @@
+# v4.1.0
+
+* [ADDED] A new `headers` event that will be emitted when headers are parsed [#321] (https://github.com/C2FO/fast-csv/issues/321)
+
 # v4.0.3
 
 * [FIXED] Issue where invalid rows were not accounted for when skipRows was set [#317](https://github.com/C2FO/fast-csv/issues/317)

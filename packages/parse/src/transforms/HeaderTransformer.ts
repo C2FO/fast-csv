@@ -16,7 +16,7 @@ import {
 export class HeaderTransformer<O extends Row> {
     private readonly parserOptions: ParserOptions;
 
-    private headers: HeaderArray | null = null;
+    headers: HeaderArray | null = null;
 
     private receivedHeaders = false;
 
