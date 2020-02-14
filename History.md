@@ -1,6 +1,7 @@
 # v4.0.3
 
 * [FIXED] Issue where invalid rows were not accounted for when skipRows was set [#317](https://github.com/C2FO/fast-csv/issues/317)
+* [FIXED] Issue where readableObjectMode was not set to false when formatting [#319](https://github.com/C2FO/fast-csv/issues/319)
 
 # v4.0.2
 
