@@ -11,7 +11,7 @@ export class CsvFormatterStream<I extends Row, O extends Row> extends Transform 
     private hasWrittenBOM = false;
 
     public constructor(formatterOptions: FormatterOptions<I, O>) {
-        super({ objectMode: formatterOptions.objectMode });
+        super({ writableObjectMode: formatterOptions.objectMode });
         this.formatterOptions = formatterOptions;
         this.rowFormatter = new RowFormatter(formatterOptions);
         // if writeBOM is false then set to true
