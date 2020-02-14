@@ -50,22 +50,44 @@ async function benchmarkRun(title, num, m) {
         console.log('%s: RUN(%d lines) 1 %dms', title, num, new Date() - runStart);
         runStart = new Date();
     }
-    console.log('%s: 3xAVG for %d lines %dms', title, num, (new Date() - start) / howMany);
+    console.log('%s: %dxAVG for %d lines %dms', title, howMany, num, (new Date() - start) / howMany);
+    return { howMany, avg: (new Date() - start) / howMany };
 }
 
-function runBenchmarks(num, type) {
+function runBenchmarks(num, type, results) {
     console.log(`\nRUNNING ${num}.${type}.csv benchmarks`, num);
-    return benchmarkRun('fast-csv', num, benchmarkFastCsv(type));
+    return benchmarkRun('fast-csv', num, benchmarkFastCsv(type)).then(({ howMany, avg }) => {
+        results.push({ type, rows: num, runs: howMany, avg });
+    });
 }
 
 function benchmarks(type) {
-    return runBenchmarks(20000, type)
-        .then(() => runBenchmarks(50000, type))
-        .then(() => runBenchmarks(100000, type));
+    const results = [];
+    return runBenchmarks(1000, type, results)
+        .then(() => runBenchmarks(10000, type, results))
+        .then(() => runBenchmarks(20000, type, results))
+        .then(() => runBenchmarks(50000, type, results))
+        .then(() => runBenchmarks(100000, type, results))
+        .then(() => results);
 }
 
+console.log('Starting Benchmarks');
 benchmarks('nonquoted')
-    .then(() => benchmarks('quoted'))
+    .then(nonQuotedResults => {
+        return benchmarks('quoted').then(quotedResults => {
+            return [...nonQuotedResults, ...quotedResults];
+        });
+    })
+    .then(results => {
+        const resultsTable = [
+            ['Type', 'Row Count', 'No. Runs', 'Avg'],
+            ['-', '-', '-', '-'],
+            ...results.map(({ type, rows, runs, avg }) => [type, rows, runs, `${avg}ms`]),
+        ]
+            .map(r => `|${r.join('|')}|`)
+            .join('\n');
+        fs.writeFileSync(path.resolve(__dirname, 'README.md'), `## Benchmark Results\n\n${resultsTable}`);
+    })
     .then(() => process.exit())
     .catch(e => {
         console.error(e.stack);
