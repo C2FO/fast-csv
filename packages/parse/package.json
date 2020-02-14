@@ -1,6 +1,6 @@
 {
   "name": "@fast-csv/parse",
-  "version": "4.0.3",
+  "version": "4.1.0",
   "description": "fast-csv parsing package",
   "keywords": [
     "csv",
