@@ -2,6 +2,7 @@
 
 * [FIXED] Issue where invalid rows were not accounted for when skipRows was set [#317](https://github.com/C2FO/fast-csv/issues/317)
 * [FIXED] Issue where readableObjectMode was not set to false when formatting [#319](https://github.com/C2FO/fast-csv/issues/319)
+* [FIXED] Issue where carriage returns and line feeds were not always quoted when formatting [#320](https://github.com/C2FO/fast-csv/issues/320)
 
 # v4.0.2
 
