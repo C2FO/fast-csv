@@ -163,15 +163,18 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
                     return cb(new Error('Expected result from header transform'));
                 }
                 if (!withHeaders.isValid) {
-                    return cb(null, { isValid: false, row: (parsedRow as never) as O });
+                    if (this.shouldEmitRows) {
+                        return cb(null, { isValid: false, row: (parsedRow as never) as O });
+                    }
+                    // skipped because of skipRows option remove from total row count
+                    return this.skipRow(cb);
                 }
                 if (withHeaders.row) {
                     if (this.shouldEmitRows) {
                         return this.rowTransformerValidator.transformAndValidate(withHeaders.row, cb);
                     }
                     // skipped because of skipRows option remove from total row count
-                    this.rowCount -= 1;
-                    return cb(null, { row: null, isValid: true });
+                    return this.skipRow(cb);
                 }
                 // this is a header row dont include in the rowCount or parsedRowCount
                 this.rowCount -= 1;
@@ -181,6 +184,12 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
         } catch (e) {
             cb(e);
         }
+    }
+
+    private skipRow(cb: RowValidatorCallback<O>): void {
+        // skipped because of skipRows option remove from total row count
+        this.rowCount -= 1;
+        return cb(null, { row: null, isValid: true });
     }
 
     private pushRow(row: Row, cb: (err?: Error) => void): void {
