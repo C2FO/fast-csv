@@ -70,6 +70,11 @@ import * as format csv '@fast-csv/parse';
 <a name="parsing-events"></a>
 ## Events
 
+* `headers`: Emitted when the headers are parsed
+    * **NOTE** If the headers option is a function that transform headers, the array passed to this event will be the transformed headers
+    * **NOTE** If the headers option is set to an array of headers, the emitted header will be the option passed in.
+    * **NOTE** If the headers option is set to `true` the headers will be the parsed headers from the csv.
+    * **NOTE** If headers is set to `false` or the csv has no rows then the event WILL NOT be emitted.
 * `data`: Emitted when a record is parsed.
   * If headers are present then all rows will be an object.
   * If headers are not present then all rows will be an array.

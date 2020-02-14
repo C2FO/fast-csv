@@ -34,9 +34,13 @@ const writeCsv = (count, lineOptions, filename) => {
     });
 };
 
-writeCsv(20000, nonQuotedLines, '20000.nonquoted.csv')
+writeCsv(1000, nonQuotedLines, '1000.nonquoted.csv')
+    .then(() => writeCsv(10000, nonQuotedLines, '10000.nonquoted.csv'))
+    .then(() => writeCsv(20000, nonQuotedLines, '20000.nonquoted.csv'))
     .then(() => writeCsv(50000, nonQuotedLines, '50000.nonquoted.csv'))
     .then(() => writeCsv(100000, nonQuotedLines, '100000.nonquoted.csv'))
+    .then(() => writeCsv(1000, quotedLines, '1000.quoted.csv'))
+    .then(() => writeCsv(10000, quotedLines, '10000.quoted.csv'))
     .then(() => writeCsv(20000, quotedLines, '20000.quoted.csv'))
     .then(() => writeCsv(50000, quotedLines, '50000.quoted.csv'))
     .then(() => writeCsv(100000, quotedLines, '100000.quoted.csv'));

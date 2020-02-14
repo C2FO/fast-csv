@@ -26,6 +26,8 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
 
     private endEmitted = false;
 
+    private headersEmitted = false;
+
     public constructor(parserOptions: ParserOptions) {
         super({ objectMode: parserOptions.objectMode });
         this.parserOptions = parserOptions;
@@ -121,6 +123,7 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
                 }
                 return iterate(i + 1);
             };
+            this.checkAndEmitHeaders();
             // if we have emitted all rows or we have hit the maxRows limit option
             // then end
             if (i >= rowsLength || this.hasHitRowLimit) {
@@ -183,6 +186,13 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
             });
         } catch (e) {
             cb(e);
+        }
+    }
+
+    private checkAndEmitHeaders(): void {
+        if (!this.headersEmitted && this.headerTransformer.headers) {
+            this.headersEmitted = true;
+            this.emit('headers', this.headerTransformer.headers);
         }
     }
 

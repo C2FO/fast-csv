@@ -16,6 +16,7 @@ There are three packages published from this repo.
 Exposes both formatting and parsing methods in a single package, use this if you need to parse and format files.
 
 * [Docs](./packages/fast-csv/README.md)
+* [Benchmarks](./examples/benchmark/README.md)
 * [JavaScript Examples](./examples/fast-csv-js/README.md)
 * [TypeScript Examples](./examples/fast-csv-ts/README.md)
 
