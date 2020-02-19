@@ -1,3 +1,7 @@
+# v4.1.1
+
+* [FIXED] Issue where code is not built before publishing. [#329](https://github.com/C2FO/fast-csv/issues/329)
+
 # v4.1.0
 
 * [ADDED] A new `headers` event that will be emitted when headers are parsed [#321] (https://github.com/C2FO/fast-csv/issues/321)
