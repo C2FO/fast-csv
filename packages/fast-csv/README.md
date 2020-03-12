@@ -1,32 +1,20 @@
-# `fast-csv`
+<p align="center">
+  <a href="https://c2fo.io/fast-csv" target="blank"><img src="https://c2fo.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
+</p>
 
-Package that combines both [`@fast-csv/format`](../format) and [`@fast-csv/parse`](../parse) into a single package.
+[![npm version](https://img.shields.io/npm/v/fast-csv.svg)](https://www.npmjs.org/package/fast-csv)
+[![Build Status](https://travis-ci.org/C2FO/fast-csv.svg?branch=master)](https://travis-ci.org/C2FO/fast-csv)
+[![Coverage Status](https://coveralls.io/repos/github/C2FO/fast-csv/badge.svg?branch=master)](https://coveralls.io/github/C2FO/fast-csv?branch=master)
+[![Known Vulnerabilities](https://snyk.io/test/github/C2FO/fast-csv/badge.svg?targetFile=package.json)](https://snyk.io/test/github/C2FO/fast-csv?targetFile=package.json)
+
+# `@fast-csv/format`
+
+`fast-csv` package to format CSVs.
 
 ## Installation
 
-`npm install -S fast-csv`
+[Install Guide](https://c2fo.io/fast-csv/docs/introduction/install)
 
 ## Usage
 
-To use `fast-csv` in `javascript` you can require the module
-
-```js
-const csv = require('fast-csv');
-```
-
-To import with typescript 
-
-```typescript
-import * as csv from 'fast-csv';
-```
-
-## Documentation
-
-* [Parsing Docs](../parse/README.md)
-* [Formatting Docs](../format/README.md)
-
-### Examples
-
-* [JavaScript Examples](../../examples/fast-csv-js/README.md)
-* [TypeScript Examples](../../examples/fast-csv-ts/README.md)
-
+To get started with `fast-csv` [check out the docs](https://c2fo.io/fast-csv/docs/introduction/getting-started)

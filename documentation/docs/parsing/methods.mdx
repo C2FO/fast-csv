@@ -1,0 +1,178 @@
+---
+title: Methods
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## parse
+**Definition**: `parse(opts?: ParserOptionsArgs): CsvParserStream`
+
+Creates a Csv Parsing Stream that can be piped or written to.
+
+This is the main entry point and is used by all the other parsing helpers.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import * as fs from 'fs';
+import { parse } from 'fast-csv';
+
+fs.createReadStream('my.csv')
+    .pipe(parse())
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const fs = require('fs');
+const csv = require('@fast-csv/parse');
+
+fs.createReadStream('my.csv')
+    .pipe(csv.parse())
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(`ROW=${JSON.stringify(row)}`))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+</Tabs>
+
+
+## parseStream
+**`csv.parseStream(readableStream, opts?: ParserOptionsArgs): CsvParserStream`**
+
+Accepts a readable stream and pipes it to a `CsvParserStream`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import * as fs from 'fs';
+import { parseStream } from 'fast-csv';
+
+const stream = fs.createReadStream('my.csv');
+
+parseStream(stream)
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const fs = require('fs');
+const csv = require('@fast-csv/parse');
+
+const stream = fs.createReadStream('my.csv');
+
+csv.parseStream(stream)
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(`ROW=${JSON.stringify(row)}`))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+</Tabs>
+
+## parseFile
+**Definition**: `parseFile(path: string, opts?: ParserOptionsArgs): CsvParserStream`
+
+Parses a file from the specified path and returns the `CsvParserStream`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import * as fs from 'fs';
+import { parseFile } from 'fast-csv';
+
+parseFile('my.csv')
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const fs = require('fs');
+const csv = require('@fast-csv/parse');
+
+csv.parseFile('my.csv')
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(`ROW=${JSON.stringify(row)}`))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+</Tabs>
+
+## parseString
+**`csv.parseString(csv: string, opts?: ParserOptionsArgs): CsvParserStream`**
+
+This method parses a string and returns the `CsvParserStream`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { EOL } from 'os';
+import { parseString } from '@fast-csv/parse';
+
+const CSV_STRING = ['a,b', 'a1,b1', 'a2,b2'].join(EOL);
+
+parseString(CSV_STRING, { headers: true })
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { EOL } = require('os');
+const csv = require('@fast-csv/parse');
+
+const CSV_STRING = ['a,b', 'a1,b1', 'a2,b2'].join(EOL);
+
+csv.parseString(CSV_STRING, { headers: true })
+    .on('error', error => console.error(error))
+    .on('data', row => console.log(row))
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+```
+
+</TabItem>
+</Tabs>
