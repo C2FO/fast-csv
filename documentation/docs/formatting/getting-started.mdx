@@ -1,0 +1,44 @@
+---
+title: Getting Started
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+`fast-csv` package to create CSVs.
+
+## Installation
+
+See [installation docs](../introduction/install)
+
+## Usage
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import * as csv from '@fast-csv/format';
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const csv = require('@fast-csv/format');
+```
+
+</TabItem>
+</Tabs>
+
+### Docs
+
+* [Options](./options) - Documentation options that can be passed to formatting methods.
+* [Row Types](./row-types) - Documentation for supported row formats and their usages.
+* [Methods](./methods) - Documentation for exported formatting methods.
+* [Examples](./examples) - TypeScript and JavaScript examples.

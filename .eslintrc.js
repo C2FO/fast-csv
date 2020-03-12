@@ -16,7 +16,7 @@ module.exports = {
         node: true,
         jest: true,
     },
-    ignorePatterns: ["**/build", "**/node_modules"],
+    ignorePatterns: ["**/build", "**/node_modules", "documentation"],
     settings:{
         "import/extensions": [
             ".ts"

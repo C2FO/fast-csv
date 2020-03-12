@@ -1,0 +1,325 @@
+---
+title: Methods
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## format
+`csv.format(options): CsvFormatterStream`
+
+This is the main entry point for formatting CSVs. It is used by all other helper methods.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const stream = format();
+stream.pipe(process.stdout);
+
+stream.write(['a', 'b']);
+stream.write(['a1', 'b1']);
+stream.write(['a2', 'b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const stream = format();
+stream.pipe(process.stdout);
+
+stream.write(['a', 'b']);
+stream.write(['a1', 'b1']);
+stream.write(['a2', 'b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a,b
+a1,b1
+a2,b2
+```
+
+</TabItem>
+</Tabs>
+
+## write
+`write(rows[, options]): CsvFormatterStream`
+
+Create a formatter, writes the rows and returns the `CsvFormatterStream`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { write } from '@fast-csv/format';
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+write(rows).pipe(process.stdout);
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { write } = require('@fast-csv/format');
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+write(rows).pipe(process.stdout);
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a,b
+a1,b1
+a2,b2
+```
+
+</TabItem>
+</Tabs>
+
+## writeToStream
+`writeToStream(stream, rows[, options])`
+
+Write an array of values to a `WritableStream`, and returns the original stream
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { writeToStream } from '@fast-csv/format';
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToStream(process.stdout, rows);
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { writeToStream } = require('@fast-csv/format');
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToStream(process.stdout, rows);
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a,b
+a1,b1
+a2,b2
+```
+
+</TabItem>
+</Tabs>
+
+## writeToPath
+`writeToPath(path, rows[, options])`
+
+Write an array of values to the specified path
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { writeToPath } from '@fast-csv/format';
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToPath(path.resolve(__dirname, 'tmp.csv'), rows)
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing.'));
+
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { writeToPath } = require('@fast-csv/format');
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToPath(path.resolve(__dirname, 'tmp.csv'), rows)
+    .on('error', err => console.error(err))
+    .on('finish', () => console.log('Done writing.'));
+
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a,b
+a1,b1
+a2,b2
+```
+
+</TabItem>
+</Tabs>
+
+## writeToString
+`writeToString(arr[, options]): Promise<string>`
+
+Formats the rows and returns a `Promise` that will resolve with the CSV content as a `string`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { writeToString } from '@fast-csv/format';
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToString(rows).then(data => console.log(data));
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { writeToString } = require('@fast-csv/format');
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToString(rows).then(data => console.log(data));
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a,b
+a1,b1
+a2,b2
+```
+
+</TabItem>
+</Tabs>
+
+## writeToBuffer
+`writeToBuffer(arr[, options]): Promise<Buffer>`
+
+Formats the rows and returns a `Promise` that will resolve with the CSV content as a `Buffer`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { writeToBuffer } from '@fast-csv/format';
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToBuffer(rows).then(data => console.log(data.toString()));
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { writeToBuffer } = require('@fast-csv/format');
+
+const rows = [
+    ['a', 'b'],
+    ['a1', 'b1'],
+    ['a2', 'b2'],
+];
+writeToBuffer(rows).then(data => console.log(data.toString()));
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a,b
+a1,b1
+a2,b2
+```
+
+</TabItem>
+</Tabs>

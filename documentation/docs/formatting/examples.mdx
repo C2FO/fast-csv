@@ -1,0 +1,1598 @@
+---
+title: Examples
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+[TypeScript Examples Source](https://github.com/C2FO/fast-csv/tree/master/examples/formatting-ts)
+
+[JavaScript Examples Source](https://github.com/C2FO/fast-csv/tree/master/examples/formatting-js)
+
+
+## Alternate `delimiter`
+
+You can change the default delimiter `,` by specifying the `delimiter` option
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const stream = format({ delimiter: '\t' });
+stream.pipe(process.stdout);
+
+stream.write(['a', 'b']);
+stream.write(['a1', 'b1']);
+stream.write(['a2', 'b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const stream = format({ delimiter: '\t' });
+stream.pipe(process.stdout);
+
+stream.write(['a', 'b']);
+stream.write(['a1', 'b1']);
+stream.write(['a2', 'b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a\tb
+a1\tb1
+a2\tb2
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## Alternate `rowDelimiter`
+
+You can change the default row delimiter `\n` by specifying the `rowDelimiter` option.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const stream = format({ rowDelimiter: '||' });
+stream.pipe(process.stdout);
+
+stream.write(['a', 'b']);
+stream.write(['a1', 'b1']);
+stream.write(['a2', 'b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const stream = format({ rowDelimiter: '||' });
+stream.pipe(process.stdout);
+
+stream.write(['a', 'b']);
+stream.write(['a1', 'b1']);
+stream.write(['a2', 'b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+a,b||a1,b1||a2,b2
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## Alternate `quote`
+
+You change change the default quote `"` option by specifying the `quote` option.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const stream = format({ quote: "'" });
+stream.pipe(process.stdout);
+
+// each field will be quoted because it contains a delimiter
+stream.write(['a,a', 'b,b']);
+stream.write(['a1,a1', 'b1,b1']);
+stream.write(['a2,a2', 'b2,b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const stream = format({ quote: "'" });
+stream.pipe(process.stdout);
+
+// each field will be quoted because it contains a delimiter
+stream.write(['a,a', 'b,b']);
+stream.write(['a1,a1', 'b1,b1']);
+stream.write(['a2,a2', 'b2,b2']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+'a,a','b,b'
+'a1,a1','b1,b1'
+'a2,a2','b2,b2'
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## Alternate `escape`
+
+You change change the default escape `"` option by specifying the `escpae` option.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const stream = format({ escape: "'" });
+stream.pipe(process.stdout);
+
+// wrap each field in a quote so it is escaped and quoted
+stream.write(['"a"', '"b"']);
+stream.write(['"a1"', '"b1"']);
+stream.write(['"a2"', '"b2"']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const stream = format({ escape: "'" });
+stream.pipe(process.stdout);
+
+// wrap each field in a quote so it is escaped and quoted
+stream.write(['"a"', '"b"']);
+stream.write(['"a1"', '"b1"']);
+stream.write(['"a2"', '"b2"']);
+stream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+"'"a'"","'"b'""
+"'"a1'"","'"b1'""
+"'"a2'"","'"b2'""
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## Headers
+
+### Auto Discovery
+
+`fast-csv` will auto-discover headers when the `headers` option is set to `true`.
+
+:::info
+When working is one-dimensional array rows (e.g. `['a', 'b', 'c']`) this is a no-op.
+:::
+
+In this example the headers are auto-discovered from the objects passed in.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+</TabItem>
+</Tabs>
+
+In this example the headers are auto-discovered from the hash arrays passed in.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write([
+    ['header1', 'value1a'],
+    ['header2', 'value1b'],
+]);
+csvStream.write([
+    ['header1', 'value2a'],
+    ['header2', 'value2b'],
+]);
+csvStream.write([
+    ['header1', 'value3a'],
+    ['header2', 'value3b'],
+]);
+csvStream.write([
+    ['header1', 'value4a'],
+    ['header2', 'value4b'],
+]);
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write([
+    ['header1', 'value1a'],
+    ['header2', 'value1b'],
+]);
+csvStream.write([
+    ['header1', 'value2a'],
+    ['header2', 'value2b'],
+]);
+csvStream.write([
+    ['header1', 'value3a'],
+    ['header2', 'value3b'],
+]);
+csvStream.write([
+    ['header1', 'value4a'],
+    ['header2', 'value4b'],
+]);
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+</TabItem>
+</Tabs>
+
+
+### Provided Headers
+
+You can also provide a set of `headers` by providing an array. This allows you to
+
+* Reorder and/or exclude columns when working when object rows.
+* Rename  and/or exclude columns when working with hash array rows.
+* Specify headers or remove columns when working with array rows.
+* Enforce column order, when rows are objects.
+
+In this example a custom set of headers is provided for rows that are arrays.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: ['header1', 'header2'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write(['value1a', 'value1b']);
+csvStream.write(['value2a', 'value2b']);
+csvStream.write(['value3a', 'value3b']);
+csvStream.write(['value4a', 'value4b']);
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: ['header1', 'header2'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write(['value1a', 'value1b']);
+csvStream.write(['value2a', 'value2b']);
+csvStream.write(['value3a', 'value3b']);
+csvStream.write(['value4a', 'value4b']);
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+</TabItem>
+</Tabs>
+
+In this example the headers are overridden with a custom set of headers
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: ['header1', 'header2'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write([
+    ['h1', 'value1a'],
+    ['h2', 'value1b'],
+]);
+csvStream.write([
+    ['h1', 'value2a'],
+    ['h2', 'value2b'],
+]);
+csvStream.write([
+    ['h1', 'value3a'],
+    ['h2', 'value3b'],
+]);
+csvStream.write([
+    ['h1', 'value4a'],
+    ['h2', 'value4b'],
+]);
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: ['header1', 'header2'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write([
+    ['h1', 'value1a'],
+    ['h2', 'value1b'],
+]);
+csvStream.write([
+    ['h1', 'value2a'],
+    ['h2', 'value2b'],
+]);
+csvStream.write([
+    ['h1', 'value3a'],
+    ['h2', 'value3b'],
+]);
+csvStream.write([
+    ['h1', 'value4a'],
+    ['h2', 'value4b'],
+]);
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+value1a,value1b
+value2a,value2b
+value3a,value3b
+value4a,value4b
+```
+
+</TabItem>
+</Tabs>
+
+In this example the columns are reordered.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: ['header2', 'header1'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: ['header2', 'header1'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header2,header1
+value1b,value1a
+value2b,value2a
+value3b,value3a
+value4b,value4a
+```
+
+</TabItem>
+</Tabs>
+
+In this example the one of the columns is removed.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: ['header2'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: ['header2'] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value1b' });
+csvStream.write({ header1: 'value2a', header2: 'value2b' });
+csvStream.write({ header1: 'value3a', header2: 'value3b' });
+csvStream.write({ header1: 'value4a', header2: 'value4b' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header2
+value1b
+value2b
+value3b
+value4b
+```
+
+</TabItem>
+</Tabs>
+
+## Write Headers
+
+The `writeHeaders` option can be used to prevent writing headers, while still auto discovering them or providing them.
+
+The `writeHeaders` option can be useful when appending to a csv to prevent writing headers twice. See the [append example](#examples-appending)
+
+:::note
+If **writeHeaders** is set to **false**, **headers** is set to **true**, and your rows are arrays, the first row will be
+not be written.
+:::
+
+### Do not write headers.
+In this example the auto discovered headers are not written.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true, writeHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true, writeHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+value1a,value2a
+value1a,value2a
+value1a,value2a
+value1a,value2a
+```
+
+</TabItem>
+</Tabs>
+
+### Specify column order without headers
+In this example the headers are provided to specify order of columns but they are **not** written.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: ['header2', 'header1'], writeHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: ['header2', 'header1'], writeHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+value2a,value1a
+value2a,value1a
+value2a,value1a
+value2a,value1a
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## quoteColumns
+
+Sometimes you may need to quote columns is certain ways in order to meet certain requirements. `fast-csv` can quote columns and headers almost anyway you may need.
+
+### boolean
+Setting `quoteColumns` to true will by default quote all columns and headers.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true, quoteColumns: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true, quoteColumns: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+"header1","header2"
+"value1a","value2a"
+"value1a","value2a"
+"value1a","value2a"
+"value1a","value2a"
+```
+
+</TabItem>
+</Tabs>
+
+### boolean[]
+
+Setting `quoteColumns` to a `boolean[]` will quote the columns thats are set to true at each index in the array.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: ['header1', 'header2'], quoteColumns: [false, true] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: ['header1', 'header2'], quoteColumns: [false, true] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,"header2"
+value1a,"value2a"
+value1a,"value2a"
+value1a,"value2a"
+value1a,"value2a"
+```
+
+</TabItem>
+</Tabs>
+
+### object
+Setting `quoteColumns` to a `{[string]: boolean}` will quote the columns that are in the object with a value of true
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true, quoteColumns: { header2: true } });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true, quoteColumns: { header2: true } });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,"header2"
+value1a,"value2a"
+value1a,"value2a"
+value1a,"value2a"
+value1a,"value2a"
+```
+
+</TabItem>
+</Tabs>
+
+### Quote Columns NOT headers
+If you need to quote columns and not headers you can set `quoteHeaders` to `false`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true, quoteColumns: { header2: true }, quoteHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true, quoteColumns: { header2: true }, quoteHeaders: false });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+value1a,"value2a"
+value1a,"value2a"
+value1a,"value2a"
+value1a,"value2a"
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## quoteHeaders option
+
+The `quoteHeaders` option uses the same types as `quoteColumns`.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true, quoteHeaders: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true, quoteHeaders: true });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+"header1","header2"
+value1a,value2a
+value1a,value2a
+value1a,value2a
+value1a,value2a
+```
+
+</TabItem>
+</Tabs>
+
+In this example we specify the headers to quote by passing in an array to specify which headers to quote
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: ['header1', 'header2'], quoteHeaders: [false, true] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: ['header1', 'header2'], quoteHeaders: [false, true] });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,"header2"
+value1a,value2a
+value1a,value2a
+value1a,value2a
+value1a,value2a
+```
+
+</TabItem>
+</Tabs>
+
+In this example we specify the headers to quote by passing in an object where the key is the header name and the value
+is a boolean.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+const csvStream = format({ headers: true, quoteHeaders: { header2: true } });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true, quoteHeaders: { header2: true } });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,"header2"
+value1a,value2a
+value1a,value2a
+value1a,value2a
+value1a,value2a
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## Transforming Rows
+
+You can transform rows by using the `.transform` method.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+interface CsvRow {
+    header1: string;
+    header2: string;
+}
+
+const csvStream = format<CsvRow, CsvRow>({ headers: true }).transform((row: CsvRow) => ({
+    header1: row.header1.toUpperCase(),
+    header2: row.header2.toUpperCase(),
+}));
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true }).transform(row => ({
+    header1: row.header1.toUpperCase(),
+    header2: row.header2.toUpperCase(),
+}));
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+```
+
+</TabItem>
+</Tabs>
+
+You can also specify your transform method as an option.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+interface CsvRow {
+    header1: string;
+    header2: string;
+}
+
+const transform = (row: CsvRow): CsvRow => ({
+    header1: row.header1.toUpperCase(),
+    header2: row.header2.toUpperCase(),
+});
+
+const csvStream = format({ headers: true, transform });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const transform = row => ({
+    header1: row.header1.toUpperCase(),
+    header2: row.header2.toUpperCase(),
+});
+
+const csvStream = format({ headers: true, transform });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+```
+
+</TabItem>
+</Tabs>
+
+Transform can also be async by accepting a callback.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+interface CsvRow {
+    header1: string;
+    header2: string;
+}
+
+const csvStream = format<CsvRow, CsvRow>({ headers: true })
+    .transform((row, cb) => {
+        setImmediate(() => cb(null, {
+                header1: row.header1.toUpperCase(),
+                header2: row.header2.toUpperCase(),
+        }));
+    });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const { format } = require('@fast-csv/format');
+
+const csvStream = format({ headers: true })
+    .transform((row, cb) => {
+        setImmediate(() => cb(null, {
+            header1: row.header1.toUpperCase(),
+            header2: row.header2.toUpperCase(),
+        }));
+    });
+
+csvStream.pipe(process.stdout).on('end', process.exit);
+
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.write({ header1: 'value1a', header2: 'value2a' });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+header1,header2
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+VALUE1A,VALUE2A
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## Appending To A CSV
+
+In this example a new csv is created then appended to.
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]
+}>
+<TabItem value="ts">
+
+```ts
+import * as path from 'path';
+import * as fs from 'fs';
+import { FormatterOptionsArgs, Row, writeToStream } from '@fast-csv/format';
+
+type CsvFileOpts = {
+    headers: string[];
+    path: string;
+};
+
+class CsvFile {
+    static write(stream: NodeJS.WritableStream, rows: Row[], options: FormatterOptionsArgs<Row, Row>): Promise<void> {
+        return new Promise((res, rej) => {
+            writeToStream(stream, rows, options)
+                .on('error', (err: Error) => rej(err))
+                .on('finish', () => res());
+        });
+    }
+
+    private readonly headers: string[];
+
+    private readonly path: string;
+
+    private readonly writeOpts: FormatterOptionsArgs<Row, Row>;
+
+    constructor(opts: CsvFileOpts) {
+        this.headers = opts.headers;
+        this.path = opts.path;
+        this.writeOpts = { headers: this.headers, includeEndRowDelimiter: true };
+    }
+
+    create(rows: Row[]): Promise<void> {
+        return CsvFile.write(fs.createWriteStream(this.path), rows, { ...this.writeOpts });
+    }
+
+    append(rows: Row[]): Promise<void> {
+        return CsvFile.write(fs.createWriteStream(this.path, { flags: 'a' }), rows, {
+            ...this.writeOpts,
+            // dont write the headers when appending
+            writeHeaders: false,
+        } as FormatterOptionsArgs<Row, Row>);
+    }
+
+    read(): Promise<Buffer> {
+        return new Promise((res, rej) => {
+            fs.readFile(this.path, (err, contents) => {
+                if (err) {
+                    return rej(err);
+                }
+                return res(contents);
+            });
+        });
+    }
+}
+
+const csvFile = new CsvFile({
+    path: path.resolve(__dirname, 'append.tmp.csv'),
+    // headers to write
+    headers: ['c', 'b', 'a'],
+});
+
+// 1. create the csv
+csvFile
+    .create([
+        { a: 'a1', b: 'b1', c: 'c1' },
+        { b: 'b2', a: 'a2', c: 'c2' },
+        { a: 'a3', b: 'b3', c: 'c3' },
+    ])
+    // append rows to file
+    .then(() =>
+        csvFile.append([
+            { a: 'a4', b: 'b4', c: 'c4' },
+            { a: 'a5', b: 'b5', c: 'c5' },
+        ]),
+    )
+    // append another row
+    .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
+    .then(() => csvFile.read())
+    .then(contents => {
+        console.log(`${contents}`);
+    })
+    .catch(err => {
+        console.error(err.stack);
+        process.exit(1);
+    });
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const path = require('path');
+const fs = require('fs');
+const csv = require('@fast-csv/format');
+
+class CsvFile {
+    static write(filestream, rows, options) {
+        return new Promise((res, rej) => {
+            csv.writeToStream(filestream, rows, options)
+                .on('error', err => rej(err))
+                .on('finish', () => res());
+        });
+    }
+
+    constructor(opts) {
+        this.headers = opts.headers;
+        this.path = opts.path;
+        this.writeOpts = { headers: this.headers, includeEndRowDelimiter: true };
+    }
+
+    create(rows) {
+        return CsvFile.write(fs.createWriteStream(this.path), rows, { ...this.writeOpts });
+    }
+
+    append(rows) {
+        return CsvFile.write(fs.createWriteStream(this.path, { flags: 'a' }), rows, {
+            ...this.writeOpts,
+            // dont write the headers when appending
+            writeHeaders: false,
+        });
+    }
+
+    read() {
+        return new Promise((res, rej) => {
+            fs.readFile(this.path, (err, contents) => {
+                if (err) {
+                    return rej(err);
+                }
+                return res(contents);
+            });
+        });
+    }
+}
+
+const csvFile = new CsvFile({
+    path: path.resolve(__dirname, 'append.tmp.csv'),
+    // headers to write
+    headers: ['c', 'b', 'a'],
+});
+
+// 1. create the csv
+csvFile
+    .create([
+        { a: 'a1', b: 'b1', c: 'c1' },
+        { b: 'b2', a: 'a2', c: 'c2' },
+        { a: 'a3', b: 'b3', c: 'c3' },
+    ])
+    // append rows to file
+    .then(() =>
+        csvFile.append([
+            { a: 'a4', b: 'b4', c: 'c4' },
+            { a: 'a5', b: 'b5', c: 'c5' },
+        ]),
+    )
+    // append another row
+    .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
+    .then(() => csvFile.read())
+    .then(contents => {
+        console.log(`${contents}`);
+    })
+    .catch(err => {
+        console.error(err.stack);
+        process.exit(1);
+    });
+```
+
+</TabItem>
+<TabItem value="output">
+
+```
+c,b,a
+c1,b1,a1
+c2,b2,a2
+c3,b3,a3
+c4,b4,a4
+c5,b5,a5
+c6,b6,a6
+```
+
+</TabItem>
+</Tabs>

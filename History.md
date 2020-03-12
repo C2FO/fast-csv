@@ -1,3 +1,8 @@
+# v4.1.2
+
+* New Docs powered by Docusaurus!
+* New logo courtesy of [@dylanstanfield](https://github.com/dylanstanfield)
+
 # v4.1.1
 
 * [FIXED] Issue where code is not built before publishing. [#329](https://github.com/C2FO/fast-csv/issues/329)
