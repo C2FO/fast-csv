@@ -7,9 +7,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/C2FO/fast-csv/badge.svg?branch=master)](https://coveralls.io/github/C2FO/fast-csv?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/C2FO/fast-csv/badge.svg?targetFile=package.json)](https://snyk.io/test/github/C2FO/fast-csv?targetFile=package.json)
 
-# `@fast-csv/format`
+# `fast-csv`
 
-`fast-csv` package to format CSVs.
+Package that combines both [`@fast-csv/format`](https://c2fo.io/fast-csv/docs/formatting/getting-started) and [`@fast-csv/parse`](https://c2fo.io/fast-csv/docs/parsing/getting-started) into a single package.
 
 ## Installation
 
