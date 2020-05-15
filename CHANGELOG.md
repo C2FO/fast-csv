@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.4](https://github.com/C2FO/fast-csv/compare/v4.1.3...v4.1.4) (2020-05-15)
+
+
+### Bug Fixes
+
+* Fix lerna:version command ([6da1eb3](https://github.com/C2FO/fast-csv/commit/6da1eb30bb15fc57d3afcca2d6b9e115d26d0191))
+
+
+
+
+
 ## v4.1.2
 
 * New Docs powered by Docusaurus!
