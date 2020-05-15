@@ -6,7 +6,7 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "lerna:pub": "lerna publish from-git",
-    "lerna::version": "lerna version",
+    "lerna:version": "lerna version",
     "test": "npm run lint && npm run jest && npm run examples",
     "lint": "npm run lint:ts && npm run lint:js",
     "lint:fix": "npm run lint:ts -- --fix && npm runlint:js -- --fix",
