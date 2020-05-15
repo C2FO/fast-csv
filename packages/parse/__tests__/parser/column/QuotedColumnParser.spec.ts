@@ -481,6 +481,13 @@ describe('QuotedColumnParser', () => {
                 expect(scanner.lineFromCursor).toBe(',"world"');
             });
 
+            it('should parse an escape followed by another escape', () => {
+                const line = '"hello$$","world"';
+                const { scanner, col } = parse(line, true, { escape: '$' });
+                expect(col).toBe('hello$');
+                expect(scanner.lineFromCursor).toBe(',"world"');
+            });
+
             it('should parse a quoted col up to a LF', () => {
                 const line = '"hello"\n"world"';
                 const { scanner, col } = parse(line, true, { escape: '$' });
