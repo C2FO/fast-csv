@@ -35,7 +35,7 @@ export class QuotedColumnParser {
                 throw new Error(
                     `Parse Error: missing closing: '${
                         this.parserOptions.quote
-                    }' in line: at '${scanner.lineFromCursor.replace(/[r\n]/g, "\\n'")}'`,
+                    }' in line: at '${scanner.lineFromCursor.replace(/[\r\n]/g, "\\n'")}'`,
                 );
             }
             return null;
@@ -62,7 +62,11 @@ export class QuotedColumnParser {
                     const tokenFollowingEscape = scanner.nextCharacterToken;
                     // if the character following the escape is a quote character then just add
                     // the quote and advance to that character
-                    if (tokenFollowingEscape !== null && isTokenQuote(tokenFollowingEscape, parserOptions)) {
+                    if (
+                        tokenFollowingEscape !== null &&
+                        (isTokenQuote(tokenFollowingEscape, parserOptions) ||
+                            isTokenEscapeCharacter(tokenFollowingEscape, parserOptions))
+                    ) {
                         characters.push(tokenFollowingEscape.token);
                         nextToken = tokenFollowingEscape;
                     } else if (isQuote) {
