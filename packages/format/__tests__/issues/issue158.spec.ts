@@ -21,7 +21,7 @@ describe('Issue #158 - https://github.com/C2FO/fast-csv/issues/158', () => {
         }
     }
 
-    it('should not write prototype methods in csv', next => {
+    it('should not write prototype methods in csv', (next) => {
         const rs = new RecordingStream();
         csv.write(
             [

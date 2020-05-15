@@ -4,8 +4,8 @@ import { parse } from '@fast-csv/parse';
 
 createReadStream(resolve(__dirname, '..', 'assets', 'snake_case_users.csv'))
     .pipe(parse())
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 // Output:

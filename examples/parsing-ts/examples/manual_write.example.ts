@@ -1,8 +1,8 @@
 import { parse } from '@fast-csv/parse';
 
 const stream = parse({ headers: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write('header1,header2\n');

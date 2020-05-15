@@ -15,11 +15,11 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, maxRows: 5 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 
 // Output:

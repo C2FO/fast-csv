@@ -4,9 +4,9 @@ const csv = require('@fast-csv/parse');
 
 fs.createReadStream(path.resolve(__dirname, '..', 'assets', 'snake_case_users.csv'))
     .pipe(csv.parse())
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 // Output:
 // [ 'id', 'first_name', 'last_name', 'address' ]

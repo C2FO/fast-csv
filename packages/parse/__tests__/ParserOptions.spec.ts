@@ -148,7 +148,7 @@ describe('ParserOptions', () => {
         });
 
         it('should accept a function', () => {
-            const opts = createOptions({ headers: headers => headers.map(h => h?.toLowerCase()) });
+            const opts = createOptions({ headers: (headers) => headers.map((h) => h?.toLowerCase()) });
             // @ts-ignore
             expect(opts.headers(['A', 'B', 'C'])).toEqual(['a', 'b', 'c']);
         });

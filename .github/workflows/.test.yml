@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches:    # Array of patterns that match refs/heads
+      - master     # Push events on master branch
+  pull_request:  # Specify a second event with pattern matching
+env:
+  CI: true
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run bootstrap
+      - run: npm test
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-unit-${{ matrix.node-version }}
+          parallel: true
+
+  finish:
+    needs: [unit, e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true

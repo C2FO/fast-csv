@@ -24,14 +24,14 @@ const promisfyStream = (stream, expectedRows) => {
     });
 };
 
-const benchmarkFastCsv = type => num => {
+const benchmarkFastCsv = (type) => (num) => {
     const file = path.resolve(__dirname, `./assets/${num}.${type}.csv`);
     const stream = fs
         .createReadStream(file)
         .pipe(fastCsv.parse({ headers: true }))
-        .transform(data => {
+        .transform((data) => {
             const ret = {};
-            ['first_name', 'last_name', 'email_address'].forEach(prop => {
+            ['first_name', 'last_name', 'email_address'].forEach((prop) => {
                 ret[camelize(prop)] = data[prop];
             });
             ret.address = data.address;
@@ -73,23 +73,23 @@ function benchmarks(type) {
 
 console.log('Starting Benchmarks');
 benchmarks('nonquoted')
-    .then(nonQuotedResults => {
-        return benchmarks('quoted').then(quotedResults => {
+    .then((nonQuotedResults) => {
+        return benchmarks('quoted').then((quotedResults) => {
             return [...nonQuotedResults, ...quotedResults];
         });
     })
-    .then(results => {
+    .then((results) => {
         const resultsTable = [
             ['Type', 'Row Count', 'No. Runs', 'Avg'],
             ['-', '-', '-', '-'],
             ...results.map(({ type, rows, runs, avg }) => [type, rows, runs, `${avg}ms`]),
         ]
-            .map(r => `|${r.join('|')}|`)
+            .map((r) => `|${r.join('|')}|`)
             .join('\n');
         fs.writeFileSync(path.resolve(__dirname, 'README.md'), `## Benchmark Results\n\n${resultsTable}`);
     })
     .then(() => process.exit())
-    .catch(e => {
+    .catch((e) => {
         console.error(e.stack);
         return process.exit(1);
     });

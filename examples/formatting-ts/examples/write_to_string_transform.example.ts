@@ -11,8 +11,8 @@ const transform = (row: RowMap): RowMap => ({
 });
 
 writeToString(data, { headers: true, transform })
-    .then(formattedCsv => console.log(formattedCsv))
-    .catch(err => console.error(err.stack));
+    .then((formattedCsv) => console.log(formattedCsv))
+    .catch((err) => console.error(err.stack));
 
 // Output:
 // A,B

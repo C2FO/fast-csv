@@ -4,5 +4,17 @@
     "examples/*",
     "packages/*"
   ],
+  "command": {
+    "version": {
+      "message": "chore(release): publish %s",
+      "allowBranch": "master",
+      "exact": true,
+      "createRelease": "github",
+      "conventionalCommits": true
+    },
+    "bootstrap": {
+      "hoist": true
+    }
+  },
   "version": "4.1.3"
 }
