@@ -8,7 +8,7 @@
     "run-examples": "./bin/run-examples"
   },
   "dependencies": {
-    "@types/yargs": "13.0.4",
+    "@types/yargs": "13.0.9",
     "globby": "11.0.0",
     "jest-diff": "26.0.1",
     "typescript": "3.9.2",
