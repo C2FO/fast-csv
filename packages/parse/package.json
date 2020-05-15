@@ -46,15 +46,15 @@
     "lodash.uniq": "^4.5.0"
   },
   "devDependencies": {
-    "@types/lodash.escaperegexp": "^4.1.6",
-    "@types/lodash.groupby": "^4.6.6",
-    "@types/lodash.isfunction": "^3.0.6",
-    "@types/lodash.isnil": "^4.0.6",
-    "@types/lodash.isundefined": "^3.0.6",
-    "@types/lodash.partition": "^4.6.6",
-    "@types/lodash.uniq": "^4.5.6",
-    "@types/sinon": "^9.0.0",
-    "lodash.partition": "^4.6.0",
-    "sinon": "^9.0.2"
+    "@types/lodash.escaperegexp": "4.1.6",
+    "@types/lodash.groupby": "4.6.6",
+    "@types/lodash.isfunction": "3.0.6",
+    "@types/lodash.isnil": "4.0.6",
+    "@types/lodash.isundefined": "3.0.6",
+    "@types/lodash.partition": "4.6.6",
+    "@types/lodash.uniq": "4.5.6",
+    "@types/sinon": "9.0.0",
+    "lodash.partition": "4.6.0",
+    "sinon": "9.0.2"
   }
 }
