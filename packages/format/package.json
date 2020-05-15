@@ -44,10 +44,10 @@
     "lodash.isnil": "^4.0.0"
   },
   "devDependencies": {
-    "@types/lodash.escaperegexp": "^4.1.6",
-    "@types/lodash.isboolean": "^3.0.6",
-    "@types/lodash.isequal": "^4.5.5",
-    "@types/lodash.isfunction": "^3.0.6",
-    "@types/lodash.isnil": "^4.0.6"
+    "@types/lodash.escaperegexp": "4.1.6",
+    "@types/lodash.isboolean": "3.0.6",
+    "@types/lodash.isequal": "4.5.5",
+    "@types/lodash.isfunction": "3.0.6",
+    "@types/lodash.isnil": "4.0.6"
   }
 }
