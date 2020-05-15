@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.6](https://github.com/C2FO/fast-csv/compare/v4.1.5...v4.1.6) (2020-05-15)
+
+
+### Bug Fixes
+
+* **parse:** Handle escaped escape properly [#340](https://github.com/C2FO/fast-csv/issues/340) ([78d9b16](https://github.com/C2FO/fast-csv/commit/78d9b160152ee399f31086cc6b5f66a7ca7f9e24))
+
+
+
+
+
 ## [4.1.5](https://github.com/C2FO/fast-csv/compare/v4.1.4...v4.1.5) (2020-05-15)
 
 **Note:** Version bump only for package @fast-csv/parse
