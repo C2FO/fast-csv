@@ -19,7 +19,7 @@ export const withHeadersAlternateDelimiter = (delimiter = '\t'): PathAndContent<
         'First8{delimiter}Last8{delimiter}email8@email.com',
         'First9{delimiter}Last9{delimiter}email9@email.com',
     ]
-        .map(r => r.replace(/{delimiter}/g, delimiter))
+        .map((r) => r.replace(/{delimiter}/g, delimiter))
         .join(EOL),
 
     parsed: [

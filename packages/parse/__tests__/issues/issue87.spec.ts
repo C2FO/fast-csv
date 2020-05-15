@@ -12,7 +12,7 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
                 objectMode: true,
                 highWaterMark: 16,
                 transform: (...args) => this.transform(...args),
-                flush: done => done(),
+                flush: (done) => done(),
             });
             this.rowCount = 0;
         }
@@ -27,7 +27,7 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
         }
     }
 
-    it('should not emit end until data is flushed from source', next => {
+    it('should not emit end until data is flushed from source', (next) => {
         const myStream = new MyStream();
 
         fs.createReadStream(path.resolve(__dirname, '__fixtures__', 'issue87.csv'))

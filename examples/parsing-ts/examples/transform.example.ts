@@ -20,7 +20,7 @@ const stream = parse<UserRow, TransformedUserRow>({ headers: true })
             properName: `${data.firstName} ${data.lastName}`,
         }),
     )
-    .on('error', error => console.error(error))
+    .on('error', (error) => console.error(error))
     .on('data', (row: TransformedUserRow) => console.log(JSON.stringify(row)))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 

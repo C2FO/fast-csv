@@ -6,7 +6,7 @@ class CsvFile {
     static write(filestream, rows, options) {
         return new Promise((res, rej) => {
             csv.writeToStream(filestream, rows, options)
-                .on('error', err => rej(err))
+                .on('error', (err) => rej(err))
                 .on('finish', () => res());
         });
     }
@@ -64,10 +64,10 @@ csvFile
     // append another row
     .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
     .then(() => csvFile.read())
-    .then(contents => {
+    .then((contents) => {
         console.log(`${contents}`);
     })
-    .catch(err => {
+    .catch((err) => {
         console.error(err.stack);
         process.exit(1);
     });

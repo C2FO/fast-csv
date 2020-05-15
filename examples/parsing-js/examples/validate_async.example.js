@@ -8,10 +8,10 @@ const stream = csv
     .validate((row, cb) => {
         setImmediate(() => cb(null, row.firstName !== 'bob'));
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
-    .on('data-invalid', row => console.log(`Invalid [row=${JSON.stringify(row)}]`))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .on('data-invalid', (row) => console.log(`Invalid [row=${JSON.stringify(row)}]`))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();

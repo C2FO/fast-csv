@@ -2,7 +2,7 @@ import * as csv from '../../src';
 import { RecordingStream } from '../__fixtures__';
 
 describe('Issue #252 - https://github.com/C2FO/fast-csv/issues/252', () => {
-    it('should keep the original row', next => {
+    it('should keep the original row', (next) => {
         const rs = new RecordingStream();
         const data: csv.RowArray[] = [
             ['a', 'b', 'c'],

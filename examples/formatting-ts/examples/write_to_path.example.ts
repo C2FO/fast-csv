@@ -9,7 +9,7 @@ const rows = [
 ];
 const filePath = resolve(__dirname, 'write_to_path.tmp.csv');
 writeToPath(filePath, rows)
-    .on('error', err => console.error(err))
+    .on('error', (err) => console.error(err))
     .on('finish', () => {
         console.log('File Contents:');
         console.log(readFileSync(filePath).toString());

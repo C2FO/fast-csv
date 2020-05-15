@@ -5,11 +5,11 @@ const data = [
     { a: 'a2', b: 'b2' },
 ];
 writeToString(data, { headers: false })
-    .then(formattedCsv => {
+    .then((formattedCsv) => {
         console.log(formattedCsv);
         process.exit();
     })
-    .catch(err => {
+    .catch((err) => {
         console.error(err.stack);
         process.exit(1);
     });

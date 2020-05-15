@@ -14,6 +14,6 @@
   "dependencies": {
     "@fast-csv/format": "^4.1.2",
     "example-runner": "^4.0.0",
-    "typescript": "^3.7.3"
+    "typescript": "^3.9.2"
   }
 }

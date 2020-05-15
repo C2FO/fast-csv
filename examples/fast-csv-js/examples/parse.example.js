@@ -4,9 +4,9 @@ const csv = require('fast-csv');
 
 fs.createReadStream(path.resolve(__dirname, 'assets', 'parse.csv'))
     .pipe(csv.parse({ headers: true }))
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 // Output:
 // { header1: 'row1-col1', header2: 'row1-col2' }

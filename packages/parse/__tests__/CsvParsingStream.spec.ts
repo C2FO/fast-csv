@@ -67,7 +67,7 @@ describe('CsvParserStream', () => {
     it('should parse a csv without quotes or escapes', () =>
         expectParsed(parseContentAndCollect(withHeaders, { headers: true }), withHeaders.parsed));
 
-    it('should emit a readable event ', next => {
+    it('should emit a readable event ', (next) => {
         const actual: Row[] = [];
         const parser = createParserStream({ headers: true });
         const stream = parser.on('error', next).on('end', (count: number) => {
@@ -87,7 +87,7 @@ describe('CsvParserStream', () => {
     });
 
     it('should emit data as a buffer if objectMode is false', async () => {
-        const expected = withHeaders.parsed.map(r => Buffer.from(JSON.stringify(r)));
+        const expected = withHeaders.parsed.map((r) => Buffer.from(JSON.stringify(r)));
         await expectParsed(parseContentAndCollect(withHeaders, { headers: true, objectMode: false }), expected);
     });
 
@@ -111,7 +111,7 @@ describe('CsvParserStream', () => {
 
     describe('headers option', () => {
         it('should allow specifying of headers', async () => {
-            const expected = noHeadersAndQuotes.parsed.map(r => ({
+            const expected = noHeadersAndQuotes.parsed.map((r) => ({
                 first_name: r[0],
                 last_name: r[1],
                 email_address: r[2],
@@ -126,7 +126,7 @@ describe('CsvParserStream', () => {
         });
 
         it('should allow transforming headers with a function', async () => {
-            const expected = withHeadersAndQuotes.parsed.map(r => ({
+            const expected = withHeadersAndQuotes.parsed.map((r) => ({
                 firstName: r.first_name,
                 lastName: r.last_name,
                 emailAddress: r.email_address,
@@ -140,7 +140,7 @@ describe('CsvParserStream', () => {
 
         describe('renameHeaders option', () => {
             it('should allow renaming headers', async () => {
-                const expected = withHeadersAndQuotes.parsed.map(r => ({
+                const expected = withHeadersAndQuotes.parsed.map((r) => ({
                     firstName: r.first_name,
                     lastName: r.last_name,
                     emailAddress: r.email_address,
@@ -156,7 +156,7 @@ describe('CsvParserStream', () => {
             });
 
             it('should ignore the renameHeaders option if transforming headers with a function', async () => {
-                const expected = withHeadersAndQuotes.parsed.map(r => ({
+                const expected = withHeadersAndQuotes.parsed.map((r) => ({
                     firstName: r.first_name,
                     lastName: r.last_name,
                     emailAddress: r.email_address,
@@ -171,14 +171,14 @@ describe('CsvParserStream', () => {
                 expect(transform).toBeCalledWith(['first_name', 'last_name', 'email_address', 'address']);
             });
 
-            it('should propagate an error when trying to rename headers without providing new ones', next => {
+            it('should propagate an error when trying to rename headers without providing new ones', (next) => {
                 const stream = createParserStream({ renameHeaders: true });
                 listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
                 stream.write(withHeadersAndQuotes.content);
                 stream.end();
             });
 
-            it('should propagate an error when trying to rename headers without providing proper ones', next => {
+            it('should propagate an error when trying to rename headers without providing proper ones', (next) => {
                 const stream = createParserStream({ renameHeaders: true, headers: true });
                 listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
                 stream.write(withHeadersAndQuotes.content);
@@ -186,14 +186,14 @@ describe('CsvParserStream', () => {
             });
         });
 
-        it('should propagate an error header length does not match column length', next => {
+        it('should propagate an error header length does not match column length', (next) => {
             const stream = createParserStream({ headers: true });
             listenForError(stream, 'Unexpected Error: column header mismatch expected: 4 columns got: 5', next);
             stream.write(headerColumnMismatch.content);
             stream.end();
         });
 
-        it('should propagate an error if headers are not unique', next => {
+        it('should propagate an error if headers are not unique', (next) => {
             const stream = createParserStream({ headers: true });
             listenForError(stream, 'Duplicate headers found ["first_name"]', next);
             stream.write(duplicateHeaders.content);
@@ -207,10 +207,10 @@ describe('CsvParserStream', () => {
             ));
 
         it('should report missing columns that do not exist but have a header with strictColumnHandling option', async () => {
-            const expectedRows = withHeadersAndMissingColumns.parsed?.filter(r => r.address !== null);
+            const expectedRows = withHeadersAndMissingColumns.parsed?.filter((r) => r.address !== null);
             const expectedInvalidRows = withHeadersAndMissingColumns.parsed
-                .filter(r => r.address === null)
-                .map(r => Object.values(r).filter(v => !!v));
+                .filter((r) => r.address === null)
+                .map((r) => Object.values(r).filter((v) => !!v));
             await expectParsed(
                 parseContentAndCollect(withHeadersAndMissingColumns, {
                     headers: true,
@@ -222,7 +222,7 @@ describe('CsvParserStream', () => {
         });
 
         it('should allow specifying of columns as a sparse array', async () => {
-            const expected = noHeadersAndQuotes.parsed.map(r => ({
+            const expected = noHeadersAndQuotes.parsed.map((r) => ({
                 first_name: r[0],
                 email_address: r[2],
             }));
@@ -248,7 +248,7 @@ describe('CsvParserStream', () => {
         expectParsed(parseContentAndCollect(emptyRows, { headers: true, ignoreEmpty: true }), []));
 
     describe('alternate delimiters', () => {
-        ['\t', '|', ';'].forEach(delimiter => {
+        ['\t', '|', ';'].forEach((delimiter) => {
             it(`should support '${delimiter.replace(/\t/, '\\t')}' delimiters`, async () => {
                 const asset = withHeadersAlternateDelimiter(delimiter);
                 await expectParsed(parseContentAndCollect(asset, { headers: true, delimiter }), asset.parsed);
@@ -350,7 +350,7 @@ describe('CsvParserStream', () => {
 
             it('should skip up to the specified number of rows and allow renaming the headers', async () => {
                 const skipRows = 3;
-                const expected = withHeaders.parsed.slice(skipRows).map(r => {
+                const expected = withHeaders.parsed.slice(skipRows).map((r) => {
                     return {
                         h1: r.first_name,
                         h2: r.last_name,
@@ -392,7 +392,7 @@ describe('CsvParserStream', () => {
 
             it('should skip up to the specified number of rows without headers and allow specifying headers', async () => {
                 const skipRows = 3;
-                const expected = noHeadersAndQuotes.parsed.slice(skipRows).map(r => {
+                const expected = noHeadersAndQuotes.parsed.slice(skipRows).map((r) => {
                     return {
                         h1: r[0],
                         h2: r[1],
@@ -452,7 +452,7 @@ describe('CsvParserStream', () => {
         });
     });
 
-    it('should emit an error for malformed rows', next => {
+    it('should emit an error for malformed rows', (next) => {
         write(malformed);
         const stream = parseFile(malformed.path, { headers: true });
         listenForError(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las", next);
@@ -463,7 +463,7 @@ describe('CsvParserStream', () => {
             const parsedHeaders: string[] = [];
             let eventCount = 0;
             const stream = createParserStream({ headers: true });
-            stream.on('headers', hs => {
+            stream.on('headers', (hs) => {
                 eventCount += 1;
                 parsedHeaders.push(...hs);
             });
@@ -475,15 +475,15 @@ describe('CsvParserStream', () => {
         it('should emit a headers event one time with transformed headers', async () => {
             const parsedHeaders: string[] = [];
             let eventCount = 0;
-            const headersTransform = (hs: HeaderArray): HeaderArray => hs.map(h => h?.toUpperCase());
+            const headersTransform = (hs: HeaderArray): HeaderArray => hs.map((h) => h?.toUpperCase());
             const stream = createParserStream({ headers: headersTransform });
-            stream.on('headers', hs => {
+            stream.on('headers', (hs) => {
                 eventCount += 1;
                 parsedHeaders.push(...hs);
             });
             await expectParsed(
                 parseContentAndCollectFromStream(withHeaders, stream),
-                withHeaders.parsed.map(r => ({
+                withHeaders.parsed.map((r) => ({
                     FIRST_NAME: r.first_name,
                     LAST_NAME: r.last_name,
                     EMAIL_ADDRESS: r.email_address,
@@ -498,11 +498,11 @@ describe('CsvParserStream', () => {
             let eventCount = 0;
             const headers = ['first_name', 'last_name', 'email_address', 'address'];
             const stream = createParserStream({ headers });
-            stream.on('headers', hs => {
+            stream.on('headers', (hs) => {
                 eventCount += 1;
                 parsedHeaders.push(...hs);
             });
-            const expected = noHeadersAndQuotes.parsed.map(r => ({
+            const expected = noHeadersAndQuotes.parsed.map((r) => ({
                 first_name: r[0],
                 last_name: r[1],
                 email_address: r[2],
@@ -517,7 +517,7 @@ describe('CsvParserStream', () => {
             const parsedHeaders: string[] = [];
             let eventCount = 0;
             const stream = createParserStream();
-            stream.on('headers', hs => {
+            stream.on('headers', (hs) => {
                 eventCount += 1;
                 parsedHeaders.push(...hs);
             });
@@ -548,7 +548,7 @@ describe('CsvParserStream', () => {
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), valid, invalid);
         });
 
-        it('should propagate errors from async validation', next => {
+        it('should propagate errors from async validation', (next) => {
             write(withHeaders);
             let index = -1;
             const stream = createParserStream({ headers: true }).validate((data: Row, validateNext): void => {
@@ -566,7 +566,7 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
-        it('should propagate async errors at the beginning', next => {
+        it('should propagate async errors at the beginning', (next) => {
             write(withHeaders);
             const stream = parseFile<RowMap, RowMap>(withHeaders.path, {
                 headers: true,
@@ -574,7 +574,7 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
-        it('should propagate thrown errors', next => {
+        it('should propagate thrown errors', (next) => {
             write(withHeaders);
             let index = -1;
             const stream = parseFile(withHeaders.path, { headers: true }).validate((data, validateNext) => {
@@ -588,7 +588,7 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
-        it('should propagate thrown errors at the beginning', next => {
+        it('should propagate thrown errors at the beginning', (next) => {
             write(withHeaders);
             const stream = parseFile(withHeaders.path, { headers: true }).validate(() => {
                 throw new Error('Validation ERROR!!!!');
@@ -626,7 +626,7 @@ describe('CsvParserStream', () => {
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
         });
 
-        it('should propogate errors when transformation of data', next => {
+        it('should propogate errors when transformation of data', (next) => {
             write(withHeaders);
             let index = -1;
             const stream = parseFile<RowMap, RowMap>(withHeaders.path, { headers: true }).transform(
@@ -643,7 +643,7 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
-        it('should propogate errors when transformation of data at the beginning', next => {
+        it('should propogate errors when transformation of data at the beginning', (next) => {
             write(withHeaders);
             const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) =>
                 setImmediate(() => cb(new Error('transformation ERROR!!!!'))),
@@ -651,7 +651,7 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
-        it('should propagate thrown errors at the end', next => {
+        it('should propagate thrown errors at the end', (next) => {
             write(withHeaders);
             let index = -1;
             const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) => {
@@ -665,7 +665,7 @@ describe('CsvParserStream', () => {
             listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
-        it('should propagate thrown errors at the beginning', next => {
+        it('should propagate thrown errors at the beginning', (next) => {
             write(withHeaders);
             const stream = parseFile(withHeaders.path, { headers: true }).transform(() => {
                 throw new Error('transformation ERROR!!!!');
@@ -691,7 +691,7 @@ describe('CsvParserStream', () => {
                 fs.createReadStream(withHeaders.path)
                     .on('error', rej)
                     .pipe(stream)
-                    .on('data', row => {
+                    .on('data', (row) => {
                         expect(paused).toBe(false);
                         rows.push(row);
                         paused = true;
@@ -712,11 +712,11 @@ describe('CsvParserStream', () => {
         });
     });
 
-    it('should not catch errors thrown in end', next => {
+    it('should not catch errors thrown in end', (next) => {
         write(withHeaders);
         const d = domain.create();
         let called = false;
-        d.on('error', err => {
+        d.on('error', (err) => {
             d.exit();
             if (called) {
                 throw err;

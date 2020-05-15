@@ -23,7 +23,7 @@ describe('.writeToString', () => {
             writeToString(arrayRows, {
                 headers: true,
                 transform(row: Row): Row {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                    return (row as RowArray).map((entry) => entry.toUpperCase());
                 },
             }),
         ).resolves.toEqual('A,B\nA1,B1\nA2,B2'));
@@ -36,7 +36,7 @@ describe('.writeToString', () => {
             writeToString(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual('a,b\nA1,B1\nA2,B2'));
@@ -111,7 +111,7 @@ describe('.writeToBuffer', () => {
             writeToBuffer(arrayRows, {
                 headers: true,
                 transform(row: Row): Row {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                    return (row as RowArray).map((entry) => entry.toUpperCase());
                 },
             }),
         ).resolves.toEqual(Buffer.from('A,B\nA1,B1\nA2,B2')));
@@ -126,7 +126,7 @@ describe('.writeToBuffer', () => {
             writeToBuffer(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(Buffer.from('a,b\nA1,B1\nA2,B2')));
@@ -215,7 +215,7 @@ describe('.write', () => {
             writeToRecordingStream(arrayRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                    return (row as RowArray).map((entry) => entry.toUpperCase());
                 },
             }),
         ).resolves.toEqual(['A,B', '\nA1,B1', '\nA2,B2']));
@@ -232,7 +232,7 @@ describe('.write', () => {
             writeToRecordingStream(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));
@@ -312,7 +312,7 @@ describe('.writeToPath', () => {
             writeRowsToPath(arrayRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                    return (row as RowArray).map((entry) => entry.toUpperCase());
                 },
             }),
         ).resolves.toEqual(Buffer.from('A,B\nA1,B1\nA2,B2')));
@@ -335,7 +335,7 @@ describe('.writeToPath', () => {
             writeRowsToPath(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(Buffer.from('a,b\nA1,B1\nA2,B2')));
@@ -383,7 +383,7 @@ describe('.write', () => {
             writeToRecordingStream(arrayRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                    return (row as RowArray).map((entry) => entry.toUpperCase());
                 },
             }),
         ).resolves.toEqual(['A,B', '\nA1,B1', '\nA2,B2']));
@@ -400,7 +400,7 @@ describe('.write', () => {
             writeToRecordingStream(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));
@@ -479,7 +479,7 @@ describe('.writeToStream', () => {
             writeRowsToStream(arrayRows, {
                 headers: true,
                 transform(row: Row): Row {
-                    return (row as RowArray).map(entry => entry.toUpperCase());
+                    return (row as RowArray).map((entry) => entry.toUpperCase());
                 },
             }),
         ).resolves.toEqual(['A,B', '\nA1,B1', '\nA2,B2']));
@@ -502,7 +502,7 @@ describe('.writeToStream', () => {
             writeRowsToStream(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row): Row {
-                    return (row as RowHashArray).map(col => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));
