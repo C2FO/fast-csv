@@ -5,13 +5,13 @@ const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yuk
 
 const stream = csv
     .parse({ headers: true })
-    .validate(data => data.firstName !== 'bob')
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .validate((data) => data.firstName !== 'bob')
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
     .on('data-invalid', (row, rowNumber) =>
         console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}]`),
     )
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();

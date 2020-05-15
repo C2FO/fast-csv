@@ -22,8 +22,8 @@ const stream = parse<UserRow, TransformedUserRow>({ headers: true })
             }),
         );
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(JSON.stringify(row)))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(JSON.stringify(row)))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);

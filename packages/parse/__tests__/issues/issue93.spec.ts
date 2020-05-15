@@ -5,10 +5,10 @@ import * as csv from '../../src';
 describe('Issue #93 - https://github.com/C2FO/fast-csv/issues/93', () => {
     const csvContent = ['a,b', 'c,d', 'e,f'].join(EOL);
 
-    it('should not catch errors thrown in end with headers enabled', next => {
+    it('should not catch errors thrown in end with headers enabled', (next) => {
         const d = domain.create();
         let called = false;
-        d.on('error', err => {
+        d.on('error', (err) => {
             d.exit();
             if (called) {
                 throw err;
@@ -30,10 +30,10 @@ describe('Issue #93 - https://github.com/C2FO/fast-csv/issues/93', () => {
         );
     });
 
-    it('should not catch errors thrown in end with headers disabled', next => {
+    it('should not catch errors thrown in end with headers disabled', (next) => {
         const d = domain.create();
         let called = false;
-        d.on('error', err => {
+        d.on('error', (err) => {
             d.exit();
             if (called) {
                 throw err;

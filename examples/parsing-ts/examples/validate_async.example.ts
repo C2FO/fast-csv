@@ -12,9 +12,9 @@ const stream = parse<UserRow, UserRow>({ headers: true })
     .validate((row, cb): void => {
         setImmediate(() => cb(null, row.firstName !== 'bob'));
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
-    .on('data-invalid', row => console.log(`Invalid [row=${JSON.stringify(row)}]`))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .on('data-invalid', (row) => console.log(`Invalid [row=${JSON.stringify(row)}]`))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);

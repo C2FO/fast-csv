@@ -12,11 +12,11 @@ const rows = [
 
 const stream = csv
     .parse({ headers: true, skipRows: 2 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 
 // Output:

@@ -13,17 +13,17 @@ describe('Issue #102 - https://github.com/C2FO/fast-csv/issues/102', () => {
         '{"JSON":"DATA"}',
     ];
 
-    it('parse all rows ', next => {
+    it('parse all rows ', (next) => {
         let receivedRows = 0;
         parseFile(resolve(__dirname, '__fixtures__', 'issue102.csv'))
             .on('data-invalid', () => next(new Error('Should not have received data-invalid event')))
-            .on('data', r => {
+            .on('data', (r) => {
                 receivedRows += 1;
                 if (receivedRows % 1000 === 0) {
                     expect(r).toEqual(row);
                 }
             })
-            .on('error', err => next(err))
+            .on('error', (err) => next(err))
             .on('end', (rowCount: number) => {
                 expect(rowCount).toBe(100000);
                 expect(receivedRows).toBe(rowCount);

@@ -59,7 +59,7 @@ export class ParserOptions {
 
     public readonly NEXT_TOKEN_REGEXP: RegExp;
 
-    public readonly encoding: string = 'utf8';
+    public readonly encoding: BufferEncoding = 'utf8';
 
     public readonly limitRows: boolean = false;
 

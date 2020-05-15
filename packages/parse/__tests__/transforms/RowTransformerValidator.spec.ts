@@ -40,7 +40,7 @@ describe('RowTransformerValidator', () => {
             it('should transform a row synchronously', async () => {
                 const row = ['a', 'b'];
                 const transformer = createRowTransformerValidator<RowArray, RowArray>();
-                transformer.rowTransform = (r: RowArray): RowArray => r.map(col => col.toUpperCase());
+                transformer.rowTransform = (r: RowArray): RowArray => r.map((col) => col.toUpperCase());
                 await expect(transformAndValidate(row, transformer)).resolves.toEqual({
                     row: ['A', 'B'],
                     isValid: true,
@@ -50,7 +50,7 @@ describe('RowTransformerValidator', () => {
             it('should transform a row synchronously', async () => {
                 const row = ['a', 'b'];
                 const transformer = createRowTransformerValidator<RowArray, RowArray>();
-                transformer.rowTransform = (r: RowArray): RowArray => r.map(col => col.toUpperCase());
+                transformer.rowTransform = (r: RowArray): RowArray => r.map((col) => col.toUpperCase());
                 await expect(transformAndValidate(row, transformer)).resolves.toEqual({
                     row: ['A', 'B'],
                     isValid: true,
@@ -74,7 +74,7 @@ describe('RowTransformerValidator', () => {
                     setImmediate(() => {
                         cb(
                             null,
-                            r.map(col => col.toUpperCase()),
+                            r.map((col) => col.toUpperCase()),
                         );
                     });
                 };

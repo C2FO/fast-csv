@@ -39,7 +39,7 @@ describe('RowFormatter', () => {
             const headerRow = ['a', 'b'];
             const columnsRow = ['a1', 'b1'];
 
-            const syncTransform = (row: RowArray): RowArray => row.map(col => col.toUpperCase());
+            const syncTransform = (row: RowArray): RowArray => row.map((col) => col.toUpperCase());
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const syncError = (): Row => {
                 throw new Error('Expected Error');
@@ -48,7 +48,7 @@ describe('RowFormatter', () => {
                 setImmediate(() =>
                     cb(
                         null,
-                        row.map(col => col.toUpperCase()),
+                        row.map((col) => col.toUpperCase()),
                     ),
                 );
             };

@@ -5,7 +5,7 @@ const rows = [
     ['a1', 'b1'],
     ['a2', 'b2'],
 ];
-writeToString(rows).then(data => console.log(data));
+writeToString(rows).then((data) => console.log(data));
 
 // Output:
 // a,b

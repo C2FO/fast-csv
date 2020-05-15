@@ -67,7 +67,7 @@ describe('HeaderTransformer', () => {
             const row1 = ['origHeader1', 'origHeader2'];
             const row2 = ['a', 'b'];
             const transformer = createHeaderTransformer({
-                headers: headers => headers.map(h => h?.toUpperCase()),
+                headers: (headers) => headers.map((h) => h?.toUpperCase()),
             });
             await expect(transform(row1, transformer)).resolves.toEqual({ row: null, isValid: true });
             await expect(transform(row2, transformer)).resolves.toEqual({

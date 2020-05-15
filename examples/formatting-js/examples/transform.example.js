@@ -1,6 +1,6 @@
 const csv = require('@fast-csv/format');
 
-const csvStream = csv.format({ headers: true }).transform(row => ({
+const csvStream = csv.format({ headers: true }).transform((row) => ({
     header1: row.header1.toUpperCase(),
     header2: row.header2.toUpperCase(),
 }));

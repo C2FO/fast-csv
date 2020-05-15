@@ -34,7 +34,7 @@ export const parseContentAndCollectFromStream = <I extends Row, O extends Row>(
         const invalidRows: Row[] = [];
         parser
             .on('data', (row: O) => rows.push(row))
-            .on('data-invalid', row => invalidRows.push(row))
+            .on('data-invalid', (row) => invalidRows.push(row))
             .on('error', rej)
             .on('end', (count: number) => {
                 res({ count, rows, invalidRows });

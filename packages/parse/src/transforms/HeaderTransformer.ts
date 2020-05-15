@@ -115,10 +115,10 @@ export class HeaderTransformer<O extends Row> {
     }
 
     private setHeaders(headers: HeaderArray): void {
-        const filteredHeaders = headers.filter(h => !!h);
+        const filteredHeaders = headers.filter((h) => !!h);
         if (uniq(filteredHeaders).length !== filteredHeaders.length) {
             const grouped = groupBy(filteredHeaders);
-            const duplicates = Object.keys(grouped).filter(dup => grouped[dup].length > 1);
+            const duplicates = Object.keys(grouped).filter((dup) => grouped[dup].length > 1);
             throw new Error(`Duplicate headers found ${JSON.stringify(duplicates)}`);
         }
         this.headers = headers;

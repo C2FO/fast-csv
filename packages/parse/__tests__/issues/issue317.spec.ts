@@ -12,7 +12,7 @@ describe('Issue #317 - https://github.com/C2FO/fast-csv/issues/317', () => {
         { header1: 'col6', header2: 'col6' },
     ];
 
-    it('skip trailing whitespace after a quoted field', done => {
+    it('skip trailing whitespace after a quoted field', (done) => {
         const invalid: RowArray[] = [];
         const rows: RowMap[] = [];
         parseString(CSV_CONTENT, { headers: true, skipRows: 2, strictColumnHandling: true, maxRows: 4 })

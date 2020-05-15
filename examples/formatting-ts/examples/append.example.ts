@@ -75,10 +75,10 @@ csvFile
     // append another row
     .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
     .then(() => csvFile.read())
-    .then(contents => {
+    .then((contents) => {
         console.log(`${contents}`);
     })
-    .catch(err => {
+    .catch((err) => {
         console.error(err.stack);
         process.exit(1);
     });

@@ -3,10 +3,10 @@ import * as domain from 'domain';
 import * as csv from '../../src';
 
 describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
-    it('should handle bubble up parse errors properly', next => {
+    it('should handle bubble up parse errors properly', (next) => {
         const d = domain.create();
         let called = false;
-        d.on('error', err => {
+        d.on('error', (err) => {
             d.exit();
             if (!called) {
                 called = true;
@@ -24,10 +24,10 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
         );
     });
 
-    it('should handle bubble up data errors properly', next => {
+    it('should handle bubble up data errors properly', (next) => {
         const d = domain.create();
         let called = false;
-        d.on('error', err => {
+        d.on('error', (err) => {
             d.exit();
             if (!called) {
                 called = true;

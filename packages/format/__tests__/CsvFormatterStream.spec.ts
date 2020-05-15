@@ -14,12 +14,12 @@ describe('CsvFormatterStream', () => {
         new Promise((res, rej) => {
             const rs = new RecordingStream();
             formatter
-                .on('error', e => rej(e))
+                .on('error', (e) => rej(e))
                 .pipe(rs)
                 .on('finish', () => {
                     res(rs.data);
                 });
-            rows.forEach(row => formatter.write(row));
+            rows.forEach((row) => formatter.write(row));
             formatter.end();
         });
 
@@ -38,7 +38,7 @@ describe('CsvFormatterStream', () => {
                 formatRows(arrayRows, {
                     headers: true,
                     transform(row: Row) {
-                        return (row as RowArray).map(entry => entry.toUpperCase());
+                        return (row as RowArray).map((entry) => entry.toUpperCase());
                     },
                 }),
             ).resolves.toEqual(['A,B', '\nA1,B1', '\nA2,B2']));
@@ -48,7 +48,7 @@ describe('CsvFormatterStream', () => {
                 formatRows(multiDimensionalRows, {
                     headers: true,
                     transform(row: Row) {
-                        return (row as RowHashArray).map(entry => [entry[0], entry[1].toUpperCase()]);
+                        return (row as RowHashArray).map((entry) => [entry[0], entry[1].toUpperCase()]);
                     },
                 }),
             ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));
@@ -66,14 +66,14 @@ describe('CsvFormatterStream', () => {
     describe('#transform', () => {
         it('should support transforming an array of arrays', async () => {
             const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform((row: Row) =>
-                (row as RowArray).map(entry => entry.toUpperCase()),
+                (row as RowArray).map((entry) => entry.toUpperCase()),
             );
             await expect(pipeToRecordingStream(formatter, arrayRows)).resolves.toEqual(['A,B', '\nA1,B1', '\nA2,B2']);
         });
 
         it('should support transforming an array of multi-dimensional arrays', async () => {
             const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform(
-                (row: Row): Row => (row as RowHashArray).map(entry => [entry[0], entry[1].toUpperCase()]),
+                (row: Row): Row => (row as RowHashArray).map((entry) => [entry[0], entry[1].toUpperCase()]),
             );
             await expect(pipeToRecordingStream(formatter, multiDimensionalRows)).resolves.toEqual([
                 'a,b',

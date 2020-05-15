@@ -1,24 +1,24 @@
 {
   "compilerOptions": {
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "target": "es2018",
+    "module": "commonjs",
+    "esModuleInterop": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "declaration": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2016"],
-    "module": "commonjs",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "pretty": true,
-    "sourceMap": true,
     "strict": true,
-    "target": "es2017",
-    "rootDir": ".",
-    "outDir": "build"
+    "noUnusedLocals": true
   },
-  "exclude": [
-    "node_modules",
-    "documentation"
-  ]
+  "exclude": ["node_modules", "documentation"]
 }
