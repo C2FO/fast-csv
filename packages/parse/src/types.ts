@@ -1,7 +1,7 @@
-export interface RowMap {
-    [s: string]: string | undefined | null;
-}
-export type RowArray = string[];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RowMap = Record<string, any>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RowArray = any[];
 export type Row = RowMap | RowArray;
 
 export interface RowValidationResult<R extends Row> {
