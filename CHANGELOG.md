@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/C2FO/fast-csv/compare/v4.1.6...v4.2.0) (2020-05-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @docusaurus/preset-classic to v2.0.0-alpha.54 ([f1fcc46](https://github.com/C2FO/fast-csv/commit/f1fcc4677e9081c0d10bcaaeef7719ca572e306c))
+* **deps:** update dependency @types/yargs to v15 ([44bcccc](https://github.com/C2FO/fast-csv/commit/44bccccf5f0c57a97fa06f592923173b119429b7))
+* **deps:** update react monorepo to v16.13.1 ([cdb0d89](https://github.com/C2FO/fast-csv/commit/cdb0d89ec6400dbe03590c147d4b6a7f275d944c))
+
+
+### Features
+
+* **parsing:** Less restrictive row parsing type [#356](https://github.com/C2FO/fast-csv/issues/356) ([87d74ec](https://github.com/C2FO/fast-csv/commit/87d74ecd2cb16f3700b1942ebbbec221afe38790))
+
+
+
+
+
 ## [4.1.6](https://github.com/C2FO/fast-csv/compare/v4.1.5...v4.1.6) (2020-05-15)
 
 
