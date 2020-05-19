@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export interface RowMap {
-    [key: string]: any;
-}
-
+export type RowMap = Record<string, any>;
 export type RowHashArray = [string, any][];
 export type RowArray = string[];
 export type Row = RowArray | RowHashArray | RowMap;
