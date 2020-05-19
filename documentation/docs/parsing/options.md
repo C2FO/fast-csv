@@ -2,7 +2,7 @@
 title: Options
 ---
 
-All of the following options can be passed to any of the [parse methods](./methods).
+All of the following options can be passed to any of the [parse methods](./methods.mdx).
 
 ## objectMode
 **Type**: `boolean` **Default**: `true`
@@ -16,7 +16,7 @@ If set to `false` all data will be a JSON version of the row.
 
 The delimiter that will separate columns. 
 
-Set this option if your file uess an alternate delimiter such as `;` or `\t`. [Example](./examples#alternate-delimiter)
+Set this option if your file uess an alternate delimiter such as `;` or `\t`. [Example](./examples.mdx#alternate-delimiter)
 
 :::note
 When specifying an alternate delimiter you may only pass in a single character! 
@@ -44,17 +44,17 @@ i.e: `First,"Name"' => '"First,""Name"""`
 ## headers
 **Type**: `boolean|string[]|(string[]) => string[])` **Default**: `false`
 
-If set to `true` the first row will be treated as the headers. [Example](./examples#first-row-as-headers)
+If set to `true` the first row will be treated as the headers. [Example](./examples.mdx#first-row-as-headers)
 
-If you want to manually specify the headers set to a `string[]`. [Example](./examples#custom-headers)
+If you want to manually specify the headers set to a `string[]`. [Example](./examples.mdx#custom-headers)
 
 :::info
 If you wish to discard the first row and use your own headers you need to set the **renameHeaders** option to **true**
 :::
 
-If you wish to transform the headers you can provide a transform function. [Example](./examples#transforming-headers)
+If you wish to transform the headers you can provide a transform function. [Example](./examples.mdx#transforming-headers)
 
-If your rows are arrays, and you wan to skip certain columns you can provide a sparse array. [Example](./examples#skipping-columns)
+If your rows are arrays, and you wan to skip certain columns you can provide a sparse array. [Example](./examples.mdx#skipping-columns)
 
 :::note
 When setting the headers option to a function it will always rename the headers 
@@ -69,7 +69,7 @@ If headers either parsed, provided or transformed are NOT unique, then an error 
 ## renameHeaders
 **Type**: `boolean` **Default**: `false`
 
-If you want the first line of the file to be removed and replaced by the one provided in the `headers` option. [Example](./examples#renaming-headers) 
+If you want the first line of the file to be removed and replaced by the one provided in the `headers` option. [Example](./examples.mdx#renaming-headers) 
 
 :::info
 This option should only be used if the `headers` option is a `string[]`
@@ -82,7 +82,7 @@ If the `headers` option is a function then this option is always set to true.
 ## ignoreEmpty
 **Type**: `boolean` **Default**: `false`
 
-Set to `true` to ignore empty rows. [Example](./examples#ignoring-empty-rows)
+Set to `true` to ignore empty rows. [Example](./examples.mdx#ignoring-empty-rows)
 
 :::note
 this will discard columns that are all white space or delimiters.
@@ -134,14 +134,14 @@ Passed to [StringDecoder](https://nodejs.org/api/string_decoder.html#string_deco
 ## maxRows
 **Type**: `number` **Default**: `0`
 
-If number is `> 0` then only the specified number of rows will be parsed.(e.g. `100` would return the first 100 rows of data). [Example](./examples#max-rows)
+If number is `> 0` then only the specified number of rows will be parsed.(e.g. `100` would return the first 100 rows of data). [Example](./examples.mdx#max-rows)
 
 ## skipRows
 **Type**: `number` **Default**: `0`
 
-If number is `> 0` then the specified number of **parsed** rows will be skipped. [Example](./examples#skip-rows)
+If number is `> 0` then the specified number of **parsed** rows will be skipped. [Example](./examples.mdx#skip-rows)
 
 ## skipLines
 **Type**: `number` **Default**: `0`
 
-If number is `> 0` the specified number of lines will be skipped. [Example](./examples#skip-lines)
+If number is `> 0` the specified number of lines will be skipped. [Example](./examples.mdx#skip-lines)

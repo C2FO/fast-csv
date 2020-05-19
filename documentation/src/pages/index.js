@@ -10,20 +10,12 @@ const features = [
     {
         title: <>Easy to Use</>,
         imageUrl: 'img/nodejs_icon.svg',
-        description: (
-            <>
-                Built on top of the Node.js Stream API, so you can work with APIs you are familiar with.
-            </>
-        ),
+        description: <>Built on top of the Node.js Stream API, so you can work with APIs you are familiar with.</>,
     },
     {
         title: <>Focus on What Matters</>,
         imageUrl: 'img/format_parse.svg',
-        description: (
-            <>
-                Out of the box formatting and parsing of any delimiter separated file.
-            </>
-        ),
+        description: <>Out of the box formatting and parsing of any delimiter separated file.</>,
     },
     {
         title: <>TypeScript</>,
@@ -54,7 +46,7 @@ function Home() {
         <Layout title={`${siteConfig.title}`} description={`${siteConfig.tagline}`}>
             <header className={classnames('hero', styles.heroBanner)}>
                 <div className="container">
-                    <img alt="Nestjs-query" className={styles.heroLogo} src={useBaseUrl('img/logo.svg')} />
+                    <img alt="fast-csv" className={styles.heroLogo} src={useBaseUrl('img/logo.svg')} />
                     <h1 className="hero__title">{siteConfig.title}</h1>
                     <p className="hero__subtitle">{siteConfig.tagline}</p>
                     <div className={styles.buttons}>
