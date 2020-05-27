@@ -5,14 +5,8 @@ const data = [
     { a: 'a2', b: 'b2' },
 ];
 writeToString(data, { headers: false })
-    .then((formattedCsv) => {
-        console.log(formattedCsv);
-        process.exit();
-    })
-    .catch((err) => {
-        console.error(err.stack);
-        process.exit(1);
-    });
+    .then((formattedCsv) => console.log(formattedCsv))
+    .catch((err: Error) => console.error(err.stack));
 
 // Output:
 // a1,b1

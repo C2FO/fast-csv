@@ -27,17 +27,19 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
         }
     }
 
-    it('should not emit end until data is flushed from source', (next) => {
-        const myStream = new MyStream();
+    it('should not emit end until data is flushed from source', () => {
+        return new Promise((res, rej) => {
+            const myStream = new MyStream();
 
-        fs.createReadStream(path.resolve(__dirname, '__fixtures__', 'issue87.csv'))
-            .pipe(csv.parse({ headers: true }))
-            .on('error', next)
-            .pipe(myStream)
-            .on('error', next)
-            .on('finish', () => {
-                expect(myStream.rowCount).toBe(99);
-                next();
-            });
+            fs.createReadStream(path.resolve(__dirname, '__fixtures__', 'issue87.csv'))
+                .pipe(csv.parse({ headers: true }))
+                .on('error', rej)
+                .pipe(myStream)
+                .on('error', rej)
+                .on('finish', () => {
+                    expect(myStream.rowCount).toBe(99);
+                    res();
+                });
+        });
     });
 });

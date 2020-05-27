@@ -34,23 +34,13 @@ describe('RowTransformerValidator', () => {
                 expect(() => {
                     // @ts-ignore
                     transformer.rowTransform = 'foo';
-                }).toThrowError('The transform should be a function');
+                }).toThrow('The transform should be a function');
             });
 
             it('should transform a row synchronously', async () => {
                 const row = ['a', 'b'];
                 const transformer = createRowTransformerValidator<RowArray, RowArray>();
-                transformer.rowTransform = (r: RowArray): RowArray => r.map((col) => col.toUpperCase());
-                await expect(transformAndValidate(row, transformer)).resolves.toEqual({
-                    row: ['A', 'B'],
-                    isValid: true,
-                });
-            });
-
-            it('should transform a row synchronously', async () => {
-                const row = ['a', 'b'];
-                const transformer = createRowTransformerValidator<RowArray, RowArray>();
-                transformer.rowTransform = (r: RowArray): RowArray => r.map((col) => col.toUpperCase());
+                transformer.rowTransform = (r: RowArray<string>): RowArray => r.map((col) => col.toUpperCase());
                 await expect(transformAndValidate(row, transformer)).resolves.toEqual({
                     row: ['A', 'B'],
                     isValid: true,
@@ -64,13 +54,13 @@ describe('RowTransformerValidator', () => {
                 transformer.rowTransform = (r: Row) => {
                     throw new Error('Expected error');
                 };
-                await expect(transformAndValidate(row, transformer)).rejects.toThrowError('Expected error');
+                await expect(transformAndValidate(row, transformer)).rejects.toThrow('Expected error');
             });
 
             it('should transform a row asynchronously', async () => {
                 const row = ['a', 'b'];
                 const transformer = createRowTransformerValidator<RowArray, RowArray>();
-                transformer.rowTransform = (r: RowArray, cb) => {
+                transformer.rowTransform = (r: RowArray<string>, cb) => {
                     setImmediate(() => {
                         cb(
                             null,
@@ -92,7 +82,7 @@ describe('RowTransformerValidator', () => {
                         cb(new Error('Expected error'));
                     });
                 };
-                await expect(transformAndValidate(row, transformer)).rejects.toThrowError('Expected error');
+                await expect(transformAndValidate(row, transformer)).rejects.toThrow('Expected error');
             });
         });
 
@@ -102,7 +92,7 @@ describe('RowTransformerValidator', () => {
                 expect(() => {
                     // @ts-ignore
                     transformer.rowValidator = 'foo';
-                }).toThrowError('The validate should be a function');
+                }).toThrow('The validate should be a function');
             });
 
             it('should validate a row synchronously', async () => {
@@ -154,7 +144,7 @@ describe('RowTransformerValidator', () => {
                 transformer.rowValidator = (r: Row) => {
                     throw new Error('Expected error');
                 };
-                await expect(transformAndValidate(row, transformer)).rejects.toThrowError('Expected error');
+                await expect(transformAndValidate(row, transformer)).rejects.toThrow('Expected error');
             });
 
             it('should resolve with an error if an error is provided to the callback', async () => {
@@ -165,7 +155,7 @@ describe('RowTransformerValidator', () => {
                         cb(new Error('Expected error'));
                     });
                 };
-                await expect(transformAndValidate(row, transformer)).rejects.toThrowError('Expected error');
+                await expect(transformAndValidate(row, transformer)).rejects.toThrow('Expected error');
             });
         });
     });

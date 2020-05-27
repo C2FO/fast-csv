@@ -5,7 +5,7 @@ export class RecordingStream extends Writable {
 
     public constructor() {
         super({
-            write: (data, enc, cb): void => {
+            write: (data: Buffer, enc, cb): void => {
                 this.data.push(data.toString());
                 cb();
             },

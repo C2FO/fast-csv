@@ -36,7 +36,7 @@ describe('.writeToString', () => {
             writeToString(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray<string>).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual('a,b\nA1,B1\nA2,B2'));
@@ -45,7 +45,7 @@ describe('.writeToString', () => {
         expect(
             writeToString(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: RowMap<string>) {
                     return {
                         A: row.a,
                         B: row.b,
@@ -126,7 +126,7 @@ describe('.writeToBuffer', () => {
             writeToBuffer(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray<string>).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(Buffer.from('a,b\nA1,B1\nA2,B2')));
@@ -135,7 +135,7 @@ describe('.writeToBuffer', () => {
         expect(
             writeToBuffer(objectRows, {
                 headers: true,
-                transform(row: RowMap): Row {
+                transform(row: RowMap<string>): Row {
                     return {
                         A: row.a,
                         B: row.b,
@@ -232,7 +232,7 @@ describe('.write', () => {
             writeToRecordingStream(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray<string>).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));
@@ -244,7 +244,7 @@ describe('.write', () => {
         expect(
             writeToRecordingStream(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: RowMap<string>) {
                     return {
                         A: row.a,
                         B: row.b,
@@ -321,7 +321,7 @@ describe('.writeToPath', () => {
         expect(
             writeRowsToPath(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: RowMap<string>) {
                     return {
                         A: row.a,
                         B: row.b,
@@ -335,7 +335,7 @@ describe('.writeToPath', () => {
             writeRowsToPath(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray<string>).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(Buffer.from('a,b\nA1,B1\nA2,B2')));
@@ -363,7 +363,7 @@ describe('.writeToPath', () => {
         ));
 });
 
-describe('.write', () => {
+describe('format.write', () => {
     const writeToRecordingStream = (rows: Row[], options = {}) =>
         new Promise((res, rej) => {
             const rs = new RecordingStream();
@@ -400,7 +400,7 @@ describe('.write', () => {
             writeToRecordingStream(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row) {
-                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray<string>).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));
@@ -412,7 +412,7 @@ describe('.write', () => {
         expect(
             writeToRecordingStream(objectRows, {
                 headers: true,
-                transform(row: RowMap) {
+                transform(row: RowMap<string>) {
                     return {
                         A: row.a,
                         B: row.b,
@@ -488,7 +488,7 @@ describe('.writeToStream', () => {
         expect(
             writeRowsToStream(objectRows, {
                 headers: true,
-                transform(row: RowMap): Row {
+                transform(row: RowMap<string>): Row {
                     return {
                         A: row.a,
                         B: row.b,
@@ -502,7 +502,7 @@ describe('.writeToStream', () => {
             writeRowsToStream(multiDimensionalRows, {
                 headers: true,
                 transform(row: Row): Row {
-                    return (row as RowHashArray).map((col) => [col[0], col[1].toUpperCase()]);
+                    return (row as RowHashArray<string>).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
         ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));

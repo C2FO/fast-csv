@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { resolve } from 'path';
 import { EOL } from 'os';
 import { PathAndContent } from './helpers';

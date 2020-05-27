@@ -11,10 +11,10 @@
     "lint": "npm run lint:ts && npm run lint:js",
     "lint:fix": "npm run lint:ts -- --fix && npm runlint:js -- --fix",
     "lint:ts": "eslint --ext=.ts .",
-    "lint:js": "eslint -c js.eslintrc.js --ext=.js .",
+    "lint:js": "eslint --config=js.eslintrc.js --ext=.js .",
     "jest": "jest --runInBand --coverage",
     "examples": "lerna run all-examples",
-    "benchmarks": "lerna run benchmarks"
+    "benchmarks": "lerna run benchmarks --stream"
   },
   "repository": {
     "type": "git",
@@ -24,11 +24,11 @@
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-angular": "8.3.4",
     "@types/jest": "25.2.3",
-    "@typescript-eslint/eslint-plugin": "2.34.0",
-    "@typescript-eslint/parser": "2.34.0",
     "coveralls": "3.1.0",
+    "@typescript-eslint/eslint-plugin": "3.0.1",
+    "@typescript-eslint/parser": "3.0.1",
     "eslint": "7.1.0",
-    "eslint-config-airbnb-base": "14.1.0",
+    "eslint-config-airbnb-typescript": "7.2.1",
     "eslint-plugin-tsdoc": "0.2.5",
     "eslint-plugin-jest": "23.13.2",
     "eslint-config-prettier": "6.11.0",

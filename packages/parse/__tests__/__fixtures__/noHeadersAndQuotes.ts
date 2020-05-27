@@ -3,7 +3,7 @@ import { EOL } from 'os';
 import { PathAndContent } from './helpers';
 import { RowArray } from '../../src';
 
-export const noHeadersAndQuotes: PathAndContent<RowArray> = {
+export const noHeadersAndQuotes: PathAndContent<RowArray<string>> = {
     path: resolve(__dirname, 'tmp', 'no_headers_and_quotes.csv'),
 
     content: [

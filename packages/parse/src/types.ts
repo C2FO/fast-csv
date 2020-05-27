@@ -1,8 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type RowMap = Record<string, any>;
+export type RowMap<V = any> = Record<string, V>;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type RowArray = any[];
-export type Row = RowMap | RowArray;
+export type RowArray<V = any> = V[];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Row<V = any> = RowMap<V> | RowArray<V>;
 
 export interface RowValidationResult<R extends Row> {
     row: R | null;

@@ -54,7 +54,7 @@ describe('ParserOptions', () => {
             expect(createOptions().escapeChar).toBe('"');
         });
 
-        it('should set the escape character to the quote value if not specified', () => {
+        it('should set the escape character to the value if specified', () => {
             expect(createOptions({ quote: '$' }).escapeChar).toBe('$');
         });
 
@@ -65,7 +65,7 @@ describe('ParserOptions', () => {
 
     describe('#comment', () => {
         it('should set the comment null if not specified', () => {
-            expect(createOptions().comment).toBe(null);
+            expect(createOptions().comment).toBeNull();
         });
 
         it('should accept a comment character', () => {
@@ -124,17 +124,6 @@ describe('ParserOptions', () => {
         it('should accept a boolean objectMode', () => {
             expect(createOptions({ discardUnmappedColumns: true }).discardUnmappedColumns).toBe(true);
             expect(createOptions({ discardUnmappedColumns: false }).discardUnmappedColumns).toBe(false);
-        });
-    });
-
-    describe('#strictColumnHandling', () => {
-        it('should have default strictColumnHandling', () => {
-            expect(createOptions().strictColumnHandling).toBe(false);
-        });
-
-        it('should accept a boolean objectMode', () => {
-            expect(createOptions({ strictColumnHandling: true }).strictColumnHandling).toBe(true);
-            expect(createOptions({ strictColumnHandling: false }).strictColumnHandling).toBe(false);
         });
     });
 

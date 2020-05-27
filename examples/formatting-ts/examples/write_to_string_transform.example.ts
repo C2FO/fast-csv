@@ -5,14 +5,14 @@ const data = [
     { a: 'a2', b: 'b2' },
 ];
 
-const transform = (row: RowMap): RowMap => ({
+const transform = (row: RowMap<string>): RowMap => ({
     A: row.a,
     B: row.b,
 });
 
 writeToString(data, { headers: true, transform })
     .then((formattedCsv) => console.log(formattedCsv))
-    .catch((err) => console.error(err.stack));
+    .catch((err: Error) => console.error(err.stack));
 
 // Output:
 // A,B

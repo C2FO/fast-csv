@@ -10,7 +10,7 @@ const stream = parse<UserRow, UserRow>({ headers: true })
     .validate((data: UserRow): boolean => data.firstName !== 'bob')
     .on('error', (error) => console.error(error))
     .on('data', (row: UserRow) => console.log(`Valid [row=${JSON.stringify(row)}]`))
-    .on('data-invalid', (row, rowNumber) =>
+    .on('data-invalid', (row, rowNumber: number) =>
         console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}]`),
     )
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));

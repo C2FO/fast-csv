@@ -12,18 +12,20 @@ describe('Issue #317 - https://github.com/C2FO/fast-csv/issues/317', () => {
         { header1: 'col6', header2: 'col6' },
     ];
 
-    it('skip trailing whitespace after a quoted field', (done) => {
-        const invalid: RowArray[] = [];
-        const rows: RowMap[] = [];
-        parseString(CSV_CONTENT, { headers: true, skipRows: 2, strictColumnHandling: true, maxRows: 4 })
-            .on('data-invalid', (row: RowArray) => invalid.push(row))
-            .on('data', (r: RowMap) => rows.push(r))
-            .on('error', done)
-            .on('end', (count: number) => {
-                expect(rows).toEqual(expectedRows);
-                expect(invalid).toEqual(expectedInvalidRows);
-                expect(count).toBe(expectedRows.length + invalid.length);
-                done();
-            });
+    it('skip trailing whitespace after a quoted field', () => {
+        return new Promise((res, rej) => {
+            const invalid: RowArray[] = [];
+            const rows: RowMap[] = [];
+            parseString(CSV_CONTENT, { headers: true, skipRows: 2, strictColumnHandling: true, maxRows: 4 })
+                .on('data-invalid', (row: RowArray) => invalid.push(row))
+                .on('data', (r: RowMap) => rows.push(r))
+                .on('error', rej)
+                .on('end', (count: number) => {
+                    expect(rows).toEqual(expectedRows);
+                    expect(invalid).toEqual(expectedInvalidRows);
+                    expect(count).toBe(expectedRows.length + invalid.length);
+                    res();
+                });
+        });
     });
 });

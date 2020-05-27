@@ -20,7 +20,7 @@ export class RowParser {
         const { parserOptions } = this;
         const { hasMoreData } = scanner;
         const currentScanner = scanner;
-        const columns: RowArray = [];
+        const columns: RowArray<string> = [];
         let currentToken = this.getStartToken(currentScanner, columns);
         while (currentToken) {
             if (isTokenRowDelimiter(currentToken)) {

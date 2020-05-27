@@ -42,7 +42,7 @@ export class RowFormatter<I extends Row, O extends Row> {
                 return cb(null, transformedRow);
             };
         }
-        return (row: I, cb): void => {
+        return (row: I, cb: RowTransformCallback<O>): void => {
             transformFunction(row, cb);
         };
     }
@@ -142,16 +142,17 @@ export class RowFormatter<I extends Row, O extends Row> {
         return { shouldFormatColumns: !isEqual(headers, row), headers };
     }
 
+    // todo change this method to unknown[]
     private gatherColumns(row: Row): string[] {
         if (this.headers === null) {
             throw new Error('Headers is currently null');
         }
         if (!Array.isArray(row)) {
-            return this.headers.map((header): string => row[header]);
+            return this.headers.map((header): string => row[header] as string);
         }
         if (RowFormatter.isHashArray(row)) {
             return this.headers.map((header, i): string => {
-                const col = row[i];
+                const col = (row[i] as unknown) as string;
                 if (col) {
                     return col[1];
                 }

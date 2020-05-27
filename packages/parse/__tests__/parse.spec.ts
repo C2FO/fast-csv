@@ -3,7 +3,7 @@ import { collectData, expectParsed, withHeaders, write } from './__fixtures__';
 import { CsvParserStream, parse, parseFile, parseStream, parseString } from '../src';
 
 describe('.parse', () => {
-    it('should accept a stream', async () => {
+    it('should accept a stream', () => {
         expect(parse({ headers: true })).toBeInstanceOf(CsvParserStream);
     });
 });

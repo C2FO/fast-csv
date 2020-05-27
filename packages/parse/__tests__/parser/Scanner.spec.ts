@@ -27,7 +27,7 @@ describe('Scanner', () => {
             expect(getScanner('hello', true).hasMoreCharacters).toBe(true);
         });
 
-        it('should return true if the cursor is not past the end of the line', () => {
+        it('should return false if the cursor is not past the end of the line', () => {
             expect(getScanner('hello', true, 5).hasMoreCharacters).toBe(false);
         });
     });
@@ -68,33 +68,13 @@ describe('Scanner', () => {
         });
 
         it('should return null if the cursor is at the end of the line', () => {
-            expect(getScanner('hello', true, 5).nextCharacterToken).toBe(null);
+            expect(getScanner('hello', true, 5).nextCharacterToken).toBeNull();
         });
     });
 
     describe('#line from cursor', () => {
         it('should return the line from the current cursor', () => {
             expect(getScanner('hello', true, 2).lineFromCursor).toBe('llo');
-        });
-    });
-
-    describe('#advancePastLine', () => {
-        it('should advance past the next LF', () => {
-            const scanner = getScanner('hel\nlo', true, 2);
-            scanner.advancePastLine();
-            expect(scanner.lineFromCursor).toBe('lo');
-        });
-
-        it('should advance past the next CR', () => {
-            const scanner = getScanner('hel\rlo', true, 2);
-            scanner.advancePastLine();
-            expect(scanner.lineFromCursor).toBe('lo');
-        });
-
-        it('should advance past the next CRLF', () => {
-            const scanner = getScanner('hel\r\nlo', true, 2);
-            scanner.advancePastLine();
-            expect(scanner.lineFromCursor).toBe('lo');
         });
     });
 
