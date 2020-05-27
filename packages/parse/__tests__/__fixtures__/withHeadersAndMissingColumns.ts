@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { resolve } from 'path';
 import { EOL } from 'os';
 import { PathAndContent } from './helpers';
 import { RowMap } from '../../src';
 
-export const withHeadersAndMissingColumns: PathAndContent<RowMap> = {
+export const withHeadersAndMissingColumns: PathAndContent<RowMap<string | null>> = {
     path: resolve(__dirname, 'tmp', 'with_headers_and_missing_columns.csv'),
 
     content: [

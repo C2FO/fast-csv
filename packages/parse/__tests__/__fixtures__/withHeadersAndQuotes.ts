@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { resolve } from 'path';
 import { EOL } from 'os';
 import { PathAndContent } from './helpers';
 import { RowMap } from '../../src';
 
-export const withHeadersAndQuotes: PathAndContent<RowMap> = {
+export const withHeadersAndQuotes: PathAndContent<RowMap<string>> = {
     path: resolve(__dirname, 'tmp', 'with_headers_and_quotes.csv'),
 
     content: [

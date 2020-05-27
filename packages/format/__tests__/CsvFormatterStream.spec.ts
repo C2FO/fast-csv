@@ -48,7 +48,7 @@ describe('CsvFormatterStream', () => {
                 formatRows(multiDimensionalRows, {
                     headers: true,
                     transform(row: Row) {
-                        return (row as RowHashArray).map((entry) => [entry[0], entry[1].toUpperCase()]);
+                        return (row as RowHashArray<string>).map((entry) => [entry[0], entry[1].toUpperCase()]);
                     },
                 }),
             ).resolves.toEqual(['a,b', '\nA1,B1', '\nA2,B2']));
@@ -57,7 +57,7 @@ describe('CsvFormatterStream', () => {
             expect(
                 formatRows(objectRows, {
                     headers: true,
-                    transform(row: RowMap) {
+                    transform(row: RowMap<string>) {
                         return { A: row.a, B: row.b };
                     },
                 }),
@@ -73,7 +73,7 @@ describe('CsvFormatterStream', () => {
 
         it('should support transforming an array of multi-dimensional arrays', async () => {
             const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform(
-                (row: Row): Row => (row as RowHashArray).map((entry) => [entry[0], entry[1].toUpperCase()]),
+                (row: Row): Row => (row as RowHashArray<string>).map((entry) => [entry[0], entry[1].toUpperCase()]),
             );
             await expect(pipeToRecordingStream(formatter, multiDimensionalRows)).resolves.toEqual([
                 'a,b',
@@ -85,8 +85,8 @@ describe('CsvFormatterStream', () => {
         it('should support transforming an array of objects', async () => {
             const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform(
                 (row: Row): Row => ({
-                    A: (row as RowMap).a,
-                    B: (row as RowMap).b,
+                    A: (row as RowMap<string>).a,
+                    B: (row as RowMap<string>).b,
                 }),
             );
             await expect(pipeToRecordingStream(formatter, objectRows)).resolves.toEqual(['A,B', '\na1,b1', '\na2,b2']);
@@ -98,7 +98,7 @@ describe('CsvFormatterStream', () => {
                     throw new Error('Expected error');
                 },
             );
-            await expect(pipeToRecordingStream(formatter, objectRows)).rejects.toThrowError('Expected error');
+            await expect(pipeToRecordingStream(formatter, objectRows)).rejects.toThrow('Expected error');
         });
     });
 
@@ -311,7 +311,7 @@ describe('CsvFormatterStream', () => {
             });
 
             it('should fail if no headers are provided', async () => {
-                await expect(formatRows([], { alwaysWriteHeaders: true })).rejects.toThrowError(
+                await expect(formatRows([], { alwaysWriteHeaders: true })).rejects.toThrow(
                     '`alwaysWriteHeaders` option is set to true but `headers` option not provided.',
                 );
             });

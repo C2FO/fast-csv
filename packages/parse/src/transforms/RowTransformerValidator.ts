@@ -3,7 +3,6 @@ import {
     Row,
     RowTransformFunction,
     RowValidatorCallback,
-    AsyncRowValidate,
     isSyncValidate,
     RowValidate,
     isSyncTransform,
@@ -18,7 +17,7 @@ export class RowTransformerValidator<I extends Row, O extends Row> {
         transformFunction: RowTransformFunction<I, O>,
     ): AsyncRowTransform<I, O> {
         if (isSyncTransform(transformFunction)) {
-            return (row, cb): void => {
+            return (row: I, cb: RowTransformCallback<O>): void => {
                 let transformed: O | null = null;
                 try {
                     transformed = transformFunction(row);
@@ -28,7 +27,7 @@ export class RowTransformerValidator<I extends Row, O extends Row> {
                 return cb(null, transformed);
             };
         }
-        return transformFunction as AsyncRowTransform<I, O>;
+        return transformFunction;
     }
 
     private static createValidator<R extends Row>(validateFunction: RowValidate<R>): RowValidator<R> {
@@ -37,8 +36,8 @@ export class RowTransformerValidator<I extends Row, O extends Row> {
                 cb(null, { row, isValid: validateFunction(row) });
             };
         }
-        return (row, cb): void => {
-            (validateFunction as AsyncRowValidate<R>)(row, (err, isValid, reason): void => {
+        return (row: R, cb: RowValidatorCallback<R>): void => {
+            validateFunction(row, (err, isValid, reason): void => {
                 if (err) {
                     return cb(err);
                 }

@@ -26,7 +26,7 @@ fs.createReadStream(path.resolve(__dirname, 'assets', 'snake_case_users.csv'))
         });
     })
     .pipe(process.stdout)
-    .on('end', process.exit);
+    .on('end', () => process.exit());
 
 // Output:
 // id,firstName,lastName,address,isVerified,hasLoggedIn,age

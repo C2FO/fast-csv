@@ -1,4 +1,3 @@
-/* eslint-disable no-cond-assign,@typescript-eslint/camelcase,@typescript-eslint/no-explicit-any */
 import * as fs from 'fs';
 import * as domain from 'domain';
 import partition from 'lodash.partition';
@@ -34,16 +33,15 @@ import {
     malformed,
 } from './__fixtures__';
 
-import DoneCallback = jest.DoneCallback;
-
 describe('CsvParserStream', () => {
     const createParserStream = <I extends Row, O extends Row>(args?: ParserOptionsArgs): CsvParserStream<I, O> =>
         new CsvParserStream(new ParserOptions(args));
 
-    const listenForError = <I extends Row, O extends Row>(
+    const expectErrorEvent = <I extends Row, O extends Row>(
         stream: CsvParserStream<I, O>,
         message: string,
-        next: DoneCallback,
+        resolve: () => void,
+        reject: (err: Error) => void,
     ) => {
         let called = false;
         stream
@@ -51,10 +49,10 @@ describe('CsvParserStream', () => {
                 expect(err.message).toBe(message);
                 if (!called) {
                     called = true;
-                    next();
+                    resolve();
                 }
             })
-            .on('end', () => next(new Error(`Expected and error to occur [expectedMessage=${message}]`)));
+            .on('end', () => reject(new Error(`Expected and error to occur [expectedMessage=${message}]`)));
     };
 
     const parseContentAndCollect = <R extends Row>(
@@ -67,23 +65,25 @@ describe('CsvParserStream', () => {
     it('should parse a csv without quotes or escapes', () =>
         expectParsed(parseContentAndCollect(withHeaders, { headers: true }), withHeaders.parsed));
 
-    it('should emit a readable event ', (next) => {
-        const actual: Row[] = [];
-        const parser = createParserStream({ headers: true });
-        const stream = parser.on('error', next).on('end', (count: number) => {
-            expect(actual).toEqual(withHeaders.parsed);
-            expect(count).toBe(actual.length);
-            next();
+    it('should emit a readable event ', () => {
+        return new Promise((res, rej) => {
+            const actual: Row[] = [];
+            const parser = createParserStream({ headers: true });
+            const stream = parser.on('error', rej).on('end', (count: number) => {
+                expect(actual).toEqual(withHeaders.parsed);
+                expect(count).toBe(actual.length);
+                res();
+            });
+            let index = 0;
+            stream.on('readable', () => {
+                for (let data = stream.read() as Row | null; data !== null; data = stream.read() as Row | null) {
+                    actual[index] = data;
+                    index += 1;
+                }
+            });
+            stream.write(withHeaders.content);
+            stream.end();
         });
-        let index = 0;
-        stream.on('readable', () => {
-            for (let data = stream.read(); data !== null; data = stream.read()) {
-                actual[index] = data;
-                index += 1;
-            }
-        });
-        stream.write(withHeaders.content);
-        stream.end();
     });
 
     it('should emit data as a buffer if objectMode is false', async () => {
@@ -134,8 +134,8 @@ describe('CsvParserStream', () => {
             }));
             const transform = jest.fn().mockReturnValue(['firstName', 'lastName', 'emailAddress', 'address']);
             await expectParsed(parseContentAndCollect(withHeadersAndQuotes, { headers: transform }), expected);
-            expect(transform).toBeCalledTimes(1);
-            expect(transform).toBeCalledWith(['first_name', 'last_name', 'email_address', 'address']);
+            expect(transform).toHaveBeenCalledTimes(1);
+            expect(transform).toHaveBeenCalledWith(['first_name', 'last_name', 'email_address', 'address']);
         });
 
         describe('renameHeaders option', () => {
@@ -167,37 +167,60 @@ describe('CsvParserStream', () => {
                     parseContentAndCollect(withHeadersAndQuotes, { headers: transform, renameHeaders: true }),
                     expected,
                 );
-                expect(transform).toBeCalledTimes(1);
-                expect(transform).toBeCalledWith(['first_name', 'last_name', 'email_address', 'address']);
+                expect(transform).toHaveBeenCalledTimes(1);
+                expect(transform).toHaveBeenCalledWith(['first_name', 'last_name', 'email_address', 'address']);
             });
 
-            it('should propagate an error when trying to rename headers without providing new ones', (next) => {
-                const stream = createParserStream({ renameHeaders: true });
-                listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
-                stream.write(withHeadersAndQuotes.content);
-                stream.end();
+            it('should propagate an error when trying to rename headers without providing new ones', () => {
+                return new Promise((res, rej) => {
+                    const stream = createParserStream({ renameHeaders: true });
+                    expectErrorEvent(
+                        stream,
+                        'Error renaming headers: new headers must be provided in an array',
+                        res,
+                        rej,
+                    );
+                    stream.write(withHeadersAndQuotes.content);
+                    stream.end();
+                });
             });
 
-            it('should propagate an error when trying to rename headers without providing proper ones', (next) => {
-                const stream = createParserStream({ renameHeaders: true, headers: true });
-                listenForError(stream, 'Error renaming headers: new headers must be provided in an array', next);
-                stream.write(withHeadersAndQuotes.content);
+            it('should propagate an error when trying to rename headers without providing proper ones', () => {
+                return new Promise((res, rej) => {
+                    const stream = createParserStream({ renameHeaders: true, headers: true });
+                    expectErrorEvent(
+                        stream,
+                        'Error renaming headers: new headers must be provided in an array',
+                        res,
+                        rej,
+                    );
+                    stream.write(withHeadersAndQuotes.content);
+                    stream.end();
+                });
+            });
+        });
+
+        it('should propagate an error header length does not match column length', () => {
+            return new Promise((res, rej) => {
+                const stream = createParserStream({ headers: true });
+                expectErrorEvent(
+                    stream,
+                    'Unexpected Error: column header mismatch expected: 4 columns got: 5',
+                    res,
+                    rej,
+                );
+                stream.write(headerColumnMismatch.content);
                 stream.end();
             });
         });
 
-        it('should propagate an error header length does not match column length', (next) => {
-            const stream = createParserStream({ headers: true });
-            listenForError(stream, 'Unexpected Error: column header mismatch expected: 4 columns got: 5', next);
-            stream.write(headerColumnMismatch.content);
-            stream.end();
-        });
-
-        it('should propagate an error if headers are not unique', (next) => {
-            const stream = createParserStream({ headers: true });
-            listenForError(stream, 'Duplicate headers found ["first_name"]', next);
-            stream.write(duplicateHeaders.content);
-            stream.end();
+        it('should propagate an error if headers are not unique', () => {
+            return new Promise((res, rej) => {
+                const stream = createParserStream({ headers: true });
+                expectErrorEvent(stream, 'Duplicate headers found ["first_name"]', res, rej);
+                stream.write(duplicateHeaders.content);
+                stream.end();
+            });
         });
 
         it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () =>
@@ -288,7 +311,7 @@ describe('CsvParserStream', () => {
         describe('with transform', () => {
             it('should not transform skipped rows', async () => {
                 let transformedRows: Row[] = [];
-                const transformer = (row: RowMap): RowMap => {
+                const transformer = (row: RowMap<string>): RowMap => {
                     const transformed = {
                         firstName: row.first_name,
                         lastName: row.last_name,
@@ -410,7 +433,7 @@ describe('CsvParserStream', () => {
         describe('with transform', () => {
             it('should not transform skipped rows', async () => {
                 let transformedRows: Row[] = [];
-                const transformer = (row: RowMap): RowMap => {
+                const transformer = (row: RowMap<string>): RowMap => {
                     const transformed = {
                         firstName: row.first_name,
                         lastName: row.last_name,
@@ -452,10 +475,12 @@ describe('CsvParserStream', () => {
         });
     });
 
-    it('should emit an error for malformed rows', (next) => {
-        write(malformed);
-        const stream = parseFile(malformed.path, { headers: true });
-        listenForError(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las", next);
+    it('should emit an error for malformed rows', () => {
+        return new Promise((res, rej) => {
+            write(malformed);
+            const stream = parseFile(malformed.path, { headers: true });
+            expectErrorEvent(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las", res, rej);
+        });
     });
 
     describe('headers event', () => {
@@ -528,7 +553,7 @@ describe('CsvParserStream', () => {
     });
 
     describe('#validate', () => {
-        const syncValidator = (row: RowMap): boolean =>
+        const syncValidator = (row: RowMap<string>): boolean =>
             parseInt(row.first_name ? row.first_name.replace(/^First/, '') : '0', 10) % 2 === 1;
         const asyncValidator = (row: RowMap, cb: RowValidateCallback) => {
             cb(null, syncValidator(row));
@@ -541,71 +566,79 @@ describe('CsvParserStream', () => {
         });
 
         it('should allow async validation of rows', async () => {
-            const validator = (row: RowMap): boolean =>
+            const validator = (row: RowMap<string>): boolean =>
                 parseInt(row.first_name ? row.first_name.replace(/^First/, '') : '0', 10) % 2 === 1;
             const [valid, invalid] = partition(withHeaders.parsed, validator);
             const parser = createParserStream<RowMap, RowMap>({ headers: true }).validate(asyncValidator);
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), valid, invalid);
         });
 
-        it('should propagate errors from async validation', (next) => {
-            write(withHeaders);
-            let index = -1;
-            const stream = createParserStream({ headers: true }).validate((data: Row, validateNext): void => {
-                setImmediate(() => {
+        it('should propagate errors from async validation', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                let index = -1;
+                const stream = createParserStream({ headers: true }).validate((data: Row, validateNext): void => {
+                    setImmediate(() => {
+                        index += 1;
+                        if (index === 8) {
+                            validateNext(new Error('Validation ERROR!!!!'));
+                        } else {
+                            validateNext(null, true);
+                        }
+                    });
+                });
+                stream.write(withHeaders.content);
+                stream.end();
+                expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
+            });
+        });
+
+        it('should propagate async errors at the beginning', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                const stream = parseFile<RowMap, RowMap>(withHeaders.path, {
+                    headers: true,
+                }).validate((data: RowMap, validateNext) => validateNext(new Error('Validation ERROR!!!!')));
+                expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
+            });
+        });
+
+        it('should propagate thrown errors', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                let index = -1;
+                const stream = parseFile(withHeaders.path, { headers: true }).validate((data, validateNext) => {
                     index += 1;
                     if (index === 8) {
-                        validateNext(new Error('Validation ERROR!!!!'));
+                        throw new Error('Validation ERROR!!!!');
                     } else {
-                        validateNext(null, true);
+                        setImmediate(() => validateNext(null, true));
                     }
                 });
+                expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
             });
-            stream.write(withHeaders.content);
-            stream.end();
-            listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
-        it('should propagate async errors at the beginning', (next) => {
-            write(withHeaders);
-            const stream = parseFile<RowMap, RowMap>(withHeaders.path, {
-                headers: true,
-            }).validate((data: RowMap, validateNext) => validateNext(new Error('Validation ERROR!!!!')));
-            listenForError(stream, 'Validation ERROR!!!!', next);
-        });
-
-        it('should propagate thrown errors', (next) => {
-            write(withHeaders);
-            let index = -1;
-            const stream = parseFile(withHeaders.path, { headers: true }).validate((data, validateNext) => {
-                index += 1;
-                if (index === 8) {
+        it('should propagate thrown errors at the beginning', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                const stream = parseFile(withHeaders.path, { headers: true }).validate(() => {
                     throw new Error('Validation ERROR!!!!');
-                } else {
-                    setImmediate(() => validateNext(null, true));
-                }
+                });
+                expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
             });
-            listenForError(stream, 'Validation ERROR!!!!', next);
-        });
-
-        it('should propagate thrown errors at the beginning', (next) => {
-            write(withHeaders);
-            const stream = parseFile(withHeaders.path, { headers: true }).validate(() => {
-                throw new Error('Validation ERROR!!!!');
-            });
-            listenForError(stream, 'Validation ERROR!!!!', next);
         });
 
         it('should throw an error if validate is not called with a function', () => {
             // @ts-ignore
-            expect(() => createParserStream({ headers: true }).validate('hello')).toThrowError(
+            expect(() => createParserStream({ headers: true }).validate('hello')).toThrow(
                 'The validate should be a function',
             );
         });
     });
 
     describe('#transform', () => {
-        const transformer = (row: RowMap): RowMap => ({
+        const transformer = (row: RowMap<string>): RowMap => ({
             firstName: row.first_name,
             lastName: row.last_name,
             emailAddress: row.email_address,
@@ -626,56 +659,64 @@ describe('CsvParserStream', () => {
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
         });
 
-        it('should propogate errors when transformation of data', (next) => {
-            write(withHeaders);
-            let index = -1;
-            const stream = parseFile<RowMap, RowMap>(withHeaders.path, { headers: true }).transform(
-                (data: RowMap, cb) =>
-                    setImmediate(() => {
-                        index += 1;
-                        if (index === 8) {
-                            cb(new Error('transformation ERROR!!!!'));
-                        } else {
-                            cb(null, transformer(data));
-                        }
-                    }),
-            );
-            listenForError(stream, 'transformation ERROR!!!!', next);
+        it('should propogate errors when transformation of data', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                let index = -1;
+                const stream = parseFile<RowMap, RowMap>(withHeaders.path, { headers: true }).transform(
+                    (data: RowMap, cb) =>
+                        setImmediate(() => {
+                            index += 1;
+                            if (index === 8) {
+                                cb(new Error('transformation ERROR!!!!'));
+                            } else {
+                                cb(null, transformer(data));
+                            }
+                        }),
+                );
+                expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
+            });
         });
 
-        it('should propogate errors when transformation of data at the beginning', (next) => {
-            write(withHeaders);
-            const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) =>
-                setImmediate(() => cb(new Error('transformation ERROR!!!!'))),
-            );
-            listenForError(stream, 'transformation ERROR!!!!', next);
+        it('should propogate errors when transformation of data at the beginning', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) =>
+                    setImmediate(() => cb(new Error('transformation ERROR!!!!'))),
+                );
+                expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
+            });
         });
 
-        it('should propagate thrown errors at the end', (next) => {
-            write(withHeaders);
-            let index = -1;
-            const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) => {
-                index += 1;
-                if (index === 8) {
+        it('should propagate thrown errors at the end', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                let index = -1;
+                const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) => {
+                    index += 1;
+                    if (index === 8) {
+                        throw new Error('transformation ERROR!!!!');
+                    } else {
+                        setImmediate(() => cb(null, data));
+                    }
+                });
+                expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
+            });
+        });
+
+        it('should propagate thrown errors at the beginning', () => {
+            return new Promise((res, rej) => {
+                write(withHeaders);
+                const stream = parseFile(withHeaders.path, { headers: true }).transform(() => {
                     throw new Error('transformation ERROR!!!!');
-                } else {
-                    setImmediate(() => cb(null, data));
-                }
+                });
+                expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
             });
-            listenForError(stream, 'transformation ERROR!!!!', next);
-        });
-
-        it('should propagate thrown errors at the beginning', (next) => {
-            write(withHeaders);
-            const stream = parseFile(withHeaders.path, { headers: true }).transform(() => {
-                throw new Error('transformation ERROR!!!!');
-            });
-            listenForError(stream, 'transformation ERROR!!!!', next);
         });
 
         it('should throw an error if a transform is not called with a function', () => {
             // @ts-ignore
-            expect(() => createParserStream({ headers: true }).transform('hello')).toThrowError(
+            expect(() => createParserStream({ headers: true }).transform('hello')).toThrow(
                 'The transform should be a function',
             );
         });
@@ -712,30 +753,32 @@ describe('CsvParserStream', () => {
         });
     });
 
-    it('should not catch errors thrown in end', (next) => {
-        write(withHeaders);
-        const d = domain.create();
-        let called = false;
-        d.on('error', (err) => {
-            d.exit();
-            if (called) {
-                throw err;
-            }
-            called = true;
-            expect(err.message).toBe('End error');
-            next();
+    it('should not catch errors thrown in end', () => {
+        return new Promise((res, rej) => {
+            write(withHeaders);
+            const d = domain.create();
+            let called = false;
+            d.on('error', (err: Error) => {
+                d.exit();
+                if (called) {
+                    throw err;
+                }
+                called = true;
+                expect(err.message).toBe('End error');
+                res();
+            });
+            d.run(() =>
+                fs
+                    .createReadStream(withHeaders.path)
+                    .on('error', rej)
+                    .pipe(createParserStream({ headers: true }))
+                    .on('error', () => rej(new Error('Should not get here!')))
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
+                    .on('data', () => {})
+                    .on('end', () => {
+                        throw new Error('End error');
+                    }),
+            );
         });
-        d.run(() =>
-            fs
-                .createReadStream(withHeaders.path)
-                .on('error', next)
-                .pipe(createParserStream({ headers: true }))
-                .on('error', () => next(new Error('Should not get here!')))
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                .on('data', () => {})
-                .on('end', () => {
-                    throw new Error('End error');
-                }),
-        );
     });
 });

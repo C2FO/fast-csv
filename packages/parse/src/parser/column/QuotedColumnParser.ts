@@ -34,7 +34,7 @@ export class QuotedColumnParser {
             if (!scanner.hasMoreData) {
                 throw new Error(
                     `Parse Error: missing closing: '${
-                        this.parserOptions.quote
+                        this.parserOptions.quote || ''
                     }' in line: at '${scanner.lineFromCursor.replace(/[\r\n]/g, "\\n'")}'`,
                 );
             }

@@ -76,9 +76,9 @@ csvFile
     .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
     .then(() => csvFile.read())
     .then((contents) => {
-        console.log(`${contents}`);
+        console.log(contents.toString());
     })
-    .catch((err) => {
+    .catch((err: Error) => {
         console.error(err.stack);
         process.exit(1);
     });

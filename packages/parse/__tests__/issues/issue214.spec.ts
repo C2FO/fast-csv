@@ -17,27 +17,31 @@ describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
         { firstName: 'First4', lastName: 'Last4', emailAddress: 'email4@email.com' },
     ];
 
-    it('should emit data when using the on method', (next) => {
-        const rows: csv.RowMap[] = [];
-        csv.parseString(CSV_CONTENT, { headers: true })
-            .on('data', (r: csv.RowMap) => rows.push(r))
-            .on('error', next)
-            .on('end', (count: number) => {
-                expect(rows).toEqual(expectedRows);
-                expect(count).toBe(expectedRows.length);
-                next();
-            });
+    it('should emit data when using the on method', () => {
+        return new Promise((res, rej) => {
+            const rows: csv.RowMap[] = [];
+            csv.parseString(CSV_CONTENT, { headers: true })
+                .on('data', (r: csv.RowMap) => rows.push(r))
+                .on('error', rej)
+                .on('end', (count: number) => {
+                    expect(rows).toEqual(expectedRows);
+                    expect(count).toBe(expectedRows.length);
+                    res();
+                });
+        });
     });
 
-    it('should emit data when using the addListener method', (next) => {
-        const rows: csv.RowMap[] = [];
-        csv.parseString(CSV_CONTENT, { headers: true })
-            .addListener('data', (r: csv.RowMap) => rows.push(r))
-            .on('error', next)
-            .on('end', (count: number) => {
-                expect(rows).toEqual(expectedRows);
-                expect(count).toBe(expectedRows.length);
-                next();
-            });
+    it('should emit data when using the addListener method', () => {
+        return new Promise((res, rej) => {
+            const rows: csv.RowMap[] = [];
+            csv.parseString(CSV_CONTENT, { headers: true })
+                .addListener('data', (r: csv.RowMap) => rows.push(r))
+                .on('error', rej)
+                .on('end', (count: number) => {
+                    expect(rows).toEqual(expectedRows);
+                    expect(count).toBe(expectedRows.length);
+                    res();
+                });
+        });
     });
 });

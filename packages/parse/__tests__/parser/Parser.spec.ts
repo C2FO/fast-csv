@@ -280,7 +280,7 @@ describe('Parser', () => {
                 });
                 expect(() => {
                     myParser.parse(`${parsedData.line}\n"First,"",2""","Last""2""","email2@email.com"`, false);
-                }).toThrowError(/Parse Error: expected: ',' OR new line got: 'F'. at 'First,"",2/);
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First,"",2/);
             });
 
             it('should handle empty values properly', () => {
@@ -524,7 +524,7 @@ describe('Parser', () => {
                 });
                 expect(() => {
                     myParser.parse(`${parsedData.line}\r"First,"",2""","Last""2""","email2@email.com"`, false);
-                }).toThrowError(/Parse Error: expected: ',' OR new line got: 'F'. at 'First,"",2/);
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First,"",2/);
             });
 
             it('should handle empty values properly', () => {
@@ -742,7 +742,7 @@ describe('Parser', () => {
                 });
                 expect(() => {
                     myParser.parse(`${parsedData.line}\r\n"First,"",2""","Last""2""","email2@email.com"`, false);
-                }).toThrowError(/Parse Error: expected: ',' OR new line got: 'F'. at 'First,"",2/);
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First,"",2/);
             });
 
             it('should handle empty values properly', () => {

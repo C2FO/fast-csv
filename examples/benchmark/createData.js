@@ -43,4 +43,5 @@ writeCsv(1000, nonQuotedLines, '1000.nonquoted.csv')
     .then(() => writeCsv(10000, quotedLines, '10000.quoted.csv'))
     .then(() => writeCsv(20000, quotedLines, '20000.quoted.csv'))
     .then(() => writeCsv(50000, quotedLines, '50000.quoted.csv'))
-    .then(() => writeCsv(100000, quotedLines, '100000.quoted.csv'));
+    .then(() => writeCsv(100000, quotedLines, '100000.quoted.csv'))
+    .catch((e) => console.error(e));

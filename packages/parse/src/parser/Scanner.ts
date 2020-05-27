@@ -39,7 +39,7 @@ export class Scanner {
         if (lineFromCursor.search(regex) === -1) {
             return null;
         }
-        const match = lineFromCursor.match(regex);
+        const match = regex.exec(lineFromCursor);
         if (match == null) {
             return null;
         }
@@ -69,7 +69,7 @@ export class Scanner {
     }
 
     public advancePastLine(): Scanner | null {
-        const match = this.lineFromCursor.match(ROW_DELIMITER);
+        const match = ROW_DELIMITER.exec(this.lineFromCursor);
         if (!match) {
             if (this.hasMoreData) {
                 return null;

@@ -74,7 +74,7 @@ describe('RowFormatter', () => {
 
             it('should catch a sync transform thrown error', async () => {
                 const formatter = createFormatter({ headers: true, transform: syncError });
-                await expect(formatRow(headerRow, formatter)).rejects.toThrowError('Expected Error');
+                await expect(formatRow(headerRow, formatter)).rejects.toThrow('Expected Error');
             });
 
             it('should support an async transform', async () => {
@@ -84,7 +84,7 @@ describe('RowFormatter', () => {
 
             it('should support an async transform with error', async () => {
                 const formatter = createFormatter({ headers: true, transform: asyncErrorTransform });
-                await expect(formatRow(headerRow, formatter)).rejects.toThrowError('Expected Error');
+                await expect(formatRow(headerRow, formatter)).rejects.toThrow('Expected Error');
             });
 
             describe('headers option', () => {
@@ -138,12 +138,12 @@ describe('RowFormatter', () => {
                 ['b', 'b1'],
             ];
 
-            const syncTransform = (rowToTransform: RowHashArray): RowHashArray =>
+            const syncTransform = (rowToTransform: RowHashArray<string>): RowHashArray =>
                 rowToTransform.map(([header, col]) => [header, col.toUpperCase()]);
             const syncError = (): Row => {
                 throw new Error('Expected Error');
             };
-            const asyncTransform = (rowToTransform: RowHashArray, cb: RowTransformCallback<RowHashArray>) => {
+            const asyncTransform = (rowToTransform: RowHashArray<string>, cb: RowTransformCallback<RowHashArray>) => {
                 const transformed: RowHashArray = rowToTransform.map(([header, col]) => [header, col.toUpperCase()]);
                 setImmediate(() => cb(null, transformed));
             };
@@ -167,7 +167,7 @@ describe('RowFormatter', () => {
 
             it('should catch a sync transform thrown error', async () => {
                 const formatter = createFormatter({ headers: true, transform: syncError });
-                await expect(formatRow(row, formatter)).rejects.toThrowError('Expected Error');
+                await expect(formatRow(row, formatter)).rejects.toThrow('Expected Error');
             });
 
             it('should support an async transform', async () => {
@@ -177,7 +177,7 @@ describe('RowFormatter', () => {
 
             it('should support an async transform with error', async () => {
                 const formatter = createFormatter({ headers: true, transform: asyncErrorTransform });
-                await expect(formatRow(row, formatter)).rejects.toThrowError('Expected Error');
+                await expect(formatRow(row, formatter)).rejects.toThrow('Expected Error');
             });
 
             describe('headers option', () => {
@@ -224,7 +224,7 @@ describe('RowFormatter', () => {
         describe('with objects', () => {
             const row = { a: 'a1', b: 'b1' };
 
-            const syncTransform = (rowToTransform: RowMap): Row => ({
+            const syncTransform = (rowToTransform: RowMap<string>): Row => ({
                 a: rowToTransform.a.toUpperCase(),
                 b: rowToTransform.b.toUpperCase(),
             });
@@ -253,7 +253,7 @@ describe('RowFormatter', () => {
 
             it('should catch a sync transform thrown error', async () => {
                 const formatter = createFormatter({ headers: true, transform: syncError });
-                await expect(formatRow(row, formatter)).rejects.toThrowError('Expected Error');
+                await expect(formatRow(row, formatter)).rejects.toThrow('Expected Error');
             });
 
             it('should support an async transform', async () => {
@@ -263,7 +263,7 @@ describe('RowFormatter', () => {
 
             it('should support an async transform with error', async () => {
                 const formatter = createFormatter({ headers: true, transform: asyncErrorTransform });
-                await expect(formatRow(row, formatter)).rejects.toThrowError('Expected Error');
+                await expect(formatRow(row, formatter)).rejects.toThrow('Expected Error');
             });
 
             describe('headers option', () => {
@@ -340,7 +340,7 @@ describe('RowFormatter', () => {
 
             it('should reject if headers are not specified', async () => {
                 const formatter = createFormatter({ alwaysWriteHeaders: true });
-                await expect(finish(formatter)).rejects.toThrowError(
+                await expect(finish(formatter)).rejects.toThrow(
                     '`alwaysWriteHeaders` option is set to true but `headers` option not provided.',
                 );
             });
@@ -358,7 +358,7 @@ describe('RowFormatter', () => {
         it('should throw an error if the transform is set and is not a function', () => {
             const formatter = createFormatter();
             expect(() => {
-                // @ts-ignore
+                // @ts-expect-error
                 formatter.rowTransform = 'foo';
             }).toThrow('The transform should be a function');
         });

@@ -79,24 +79,24 @@ describe('HeaderTransformer', () => {
         it('should throw an error if headers is true and the first row is not unique', async () => {
             const row1 = ['origHeader1', 'origHeader1', 'origHeader2'];
             const transformer = createHeaderTransformer({ headers: true });
-            await expect(transform(row1, transformer)).rejects.toThrowError('Duplicate headers found ["origHeader1"]');
+            await expect(transform(row1, transformer)).rejects.toThrow('Duplicate headers found ["origHeader1"]');
         });
 
         it('should throw an error if headers is an array and is not unique', () => {
             const headers = ['origHeader1', 'origHeader1', 'origHeader2'];
-            expect(() => createHeaderTransformer({ headers })).toThrowError('Duplicate headers found ["origHeader1"]');
+            expect(() => createHeaderTransformer({ headers })).toThrow('Duplicate headers found ["origHeader1"]');
         });
 
         it('should throw an error if headers is a transform and returns non-unique values', async () => {
             const row = ['h1', 'h2', 'h3'];
             const transformer = createHeaderTransformer({ headers: () => ['h1', 'h1', 'h3'] });
-            await expect(transform(row, transformer)).rejects.toThrowError('Duplicate headers found ["h1"]');
+            await expect(transform(row, transformer)).rejects.toThrow('Duplicate headers found ["h1"]');
         });
 
         it('should throw an error if headers is not defined and renameHeaders is true', async () => {
             const row1 = ['origHeader1', 'origHeader2'];
             const transformer = createHeaderTransformer({ renameHeaders: true });
-            await expect(transform(row1, transformer)).rejects.toThrowError(
+            await expect(transform(row1, transformer)).rejects.toThrow(
                 'Error renaming headers: new headers must be provided in an array',
             );
         });
@@ -104,7 +104,7 @@ describe('HeaderTransformer', () => {
         it('should throw an error if the row length is > than the headers length as strictColumnHandling is not defined', async () => {
             const row = ['a', 'b', 'c'];
             const transformer = createHeaderTransformer({ headers: ['header1', 'header2'] });
-            await expect(transform(row, transformer)).rejects.toThrowError(
+            await expect(transform(row, transformer)).rejects.toThrow(
                 'Unexpected Error: column header mismatch expected: 2 columns got: 3',
             );
         });
@@ -115,7 +115,7 @@ describe('HeaderTransformer', () => {
                 headers: ['header1', 'header2'],
                 strictColumnHandling: false,
             });
-            await expect(transform(row, transformer)).rejects.toThrowError(
+            await expect(transform(row, transformer)).rejects.toThrow(
                 'Unexpected Error: column header mismatch expected: 2 columns got: 3',
             );
         });

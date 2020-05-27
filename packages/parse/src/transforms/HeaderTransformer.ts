@@ -33,7 +33,7 @@ export class HeaderTransformer<O extends Row> {
         if (parserOptions.headers === true) {
             this.shouldUseFirstRow = true;
         } else if (Array.isArray(parserOptions.headers)) {
-            this.setHeaders(parserOptions.headers as HeaderArray);
+            this.setHeaders(parserOptions.headers);
         } else if (isFunction(parserOptions.headers)) {
             this.headersTransform = parserOptions.headers;
         }
@@ -69,7 +69,7 @@ export class HeaderTransformer<O extends Row> {
         return true;
     }
 
-    private processRow(row: RowArray): RowValidationResult<O> {
+    private processRow(row: RowArray<string>): RowValidationResult<O> {
         if (!this.headers) {
             return { row: (row as never) as O, isValid: true };
         }
@@ -96,7 +96,7 @@ export class HeaderTransformer<O extends Row> {
         return { row: this.mapHeaders(row), isValid: true };
     }
 
-    private mapHeaders(row: RowArray): O {
+    private mapHeaders(row: RowArray<string>): O {
         const rowMap: RowMap = {};
         const { headers, headersLength } = this;
         for (let i = 0; i < headersLength; i += 1) {

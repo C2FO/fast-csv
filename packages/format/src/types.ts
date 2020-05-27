@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type RowMap = Record<string, any>;
-export type RowHashArray = [string, any][];
+export type RowMap<V = any> = Record<string, V>;
+export type RowHashArray<V = any> = [string, V][];
 export type RowArray = string[];
 export type Row = RowArray | RowHashArray | RowMap;
 

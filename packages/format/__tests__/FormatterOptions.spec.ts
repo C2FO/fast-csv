@@ -55,11 +55,11 @@ describe('FormatterOptions', () => {
     });
 
     describe('#escape', () => {
-        it('should set the escape character to the quote value if not specified', () => {
+        it('should set the escape character to the default quote value if not specified', () => {
             expect(createOptions().escape).toBe('"');
         });
 
-        it('should set the escape character to the quote value if not specified', () => {
+        it('should set the escape character to the quote value if specified', () => {
             expect(createOptions({ quote: '$' }).escape).toBe('$');
         });
 

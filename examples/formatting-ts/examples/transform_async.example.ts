@@ -14,7 +14,7 @@ const csvStream = format<CsvRow, CsvRow>({ headers: true }).transform((row, cb) 
     );
 });
 
-csvStream.pipe(process.stdout).on('end', process.exit);
+csvStream.pipe(process.stdout).on('end', () => process.exit());
 
 csvStream.write({ header1: 'value1a', header2: 'value2a' });
 csvStream.write({ header1: 'value1a', header2: 'value2a' });
