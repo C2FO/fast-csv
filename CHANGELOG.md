@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/C2FO/fast-csv/compare/v4.2.0...v4.3.0) (2020-05-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @docusaurus/core to v2.0.0-alpha.55 ([84b8491](https://github.com/C2FO/fast-csv/commit/84b8491dc86f54eac857272d1146dbb79733d793))
+* **deps:** update dependency @docusaurus/preset-classic to v2.0.0-alpha.55 ([9b7e40c](https://github.com/C2FO/fast-csv/commit/9b7e40c36e994a158b2569c4bcef41433563d9fe))
+
+
+
+
+
 # [4.2.0](https://github.com/C2FO/fast-csv/compare/v4.1.6...v4.2.0) (2020-05-19)
 
 
