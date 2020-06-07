@@ -4,14 +4,14 @@
     "baseUrl": "./packages",
     "composite": true,
     "paths": {
-      "fast-csv": ["fast-csv"],
-      "@fast-csv/format": ["format"],
-      "@fast-csv/parse": ["parse"]
+      "fast-csv": ["fast-csv/src"],
+      "@fast-csv/format": ["format/src"],
+      "@fast-csv/parse": ["parse/src"]
     }
   },
   "references": [
-    {"path": "./packages/fast-csv"},
-    {"path": "./packages/format"},
-    {"path": "./packages/parse"}
+    {"path": "./packages/fast-csv/tsconfig.build.json"},
+    {"path": "./packages/format/tsconfig.build.json"},
+    {"path": "./packages/parse/tsconfig.build.json"}
   ]
 }

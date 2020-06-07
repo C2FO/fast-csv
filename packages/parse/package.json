@@ -29,7 +29,7 @@
     "directory": "packages/parse"
   },
   "scripts": {
-    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "npm run clean && npm run compile",
     "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
     "compile": "tsc -p tsconfig.build.json"
