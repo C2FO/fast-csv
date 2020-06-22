@@ -82,7 +82,7 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
             const rows = this.parse(newLine, true);
             return this.processRows(rows, done);
         } catch (e) {
-            return this.destroy(e);
+            return done(e);
         }
     }
 
@@ -114,7 +114,7 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
         const iterate = (i: number): void => {
             const callNext = (err?: Error): void => {
                 if (err) {
-                    return this.destroy(err);
+                    return cb(err);
                 }
                 if (i % 100 === 0) {
                     // incase the transform are sync insert a next tick to prevent stack overflow
