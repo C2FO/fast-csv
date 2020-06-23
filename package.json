@@ -7,7 +7,7 @@
     "build": "lerna run build",
     "lerna:pub": "lerna publish from-git",
     "lerna:version": "lerna version",
-    "release": "npm run build && npm run lerna:version && npm lerna:pub",
+    "release": "npm run build && npm run lerna:version && npm run lerna:pub",
     "test": "npm run lint && npm run jest && npm run examples",
     "lint": "npm run lint:ts && npm run lint:js",
     "lint:fix": "npm run lint:ts -- --fix && npm runlint:js -- --fix",
