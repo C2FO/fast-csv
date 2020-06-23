@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.1](https://github.com/C2FO/fast-csv/compare/v4.3.0...v4.3.1) (2020-06-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @docusaurus/core to v2.0.0-alpha.56 ([87c9cdb](https://github.com/C2FO/fast-csv/commit/87c9cdbe1ffa76d2935f8824dd6e57271c82b426))
+* **deps:** update dependency @docusaurus/core to v2.0.0-alpha.58 ([7b10f7e](https://github.com/C2FO/fast-csv/commit/7b10f7e16877589c16c74569a764c670803f2268))
+* **deps:** update dependency @docusaurus/preset-classic to v2.0.0-alpha.56 ([2cafdac](https://github.com/C2FO/fast-csv/commit/2cafdac853635334d5b2c28230bf7cb3d7b6e783))
+* **deps:** update dependency @docusaurus/preset-classic to v2.0.0-alpha.58 ([a4a1e3f](https://github.com/C2FO/fast-csv/commit/a4a1e3f9d6793e445ee400b0bebfaeba035010a4))
+* **deps:** update dependency globby to v11.0.1 ([9a21f53](https://github.com/C2FO/fast-csv/commit/9a21f53fd084d42df67d266b8bdb9e3594a8e122))
+* **parsing:** Pass errors through callbacks ([84ecdf6](https://github.com/C2FO/fast-csv/commit/84ecdf6ed18b15d68b4ed3e2bfec7eb41b438ad8))
+
+
+
+
+
 # [4.3.0](https://github.com/C2FO/fast-csv/compare/v4.2.0...v4.3.0) (2020-05-27)
 
 

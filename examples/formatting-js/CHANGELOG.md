@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.1](https://github.com/C2FO/fast-csv/compare/v4.3.0...v4.3.1) (2020-06-23)
+
+**Note:** Version bump only for package @fast-csv/format-js-examples
+
+
+
+
+
 # [4.3.0](https://github.com/C2FO/fast-csv/compare/v4.2.0...v4.3.0) (2020-05-27)
 
 **Note:** Version bump only for package @fast-csv/format-js-examples
