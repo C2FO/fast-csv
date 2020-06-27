@@ -16,7 +16,7 @@ If set to `false` all data will be a JSON version of the row.
 
 The delimiter that will separate columns. 
 
-Set this option if your file uess an alternate delimiter such as `;` or `\t`. [Example](./examples.mdx#alternate-delimiter)
+Set this option if your file uses an alternate delimiter such as `;` or `\t`. [Example](./examples.mdx#alternate-delimiter)
 
 :::note
 When specifying an alternate delimiter you may only pass in a single character! 
