@@ -238,7 +238,7 @@ stream.end();
 `fast-csv` will auto-discover headers when the `headers` option is set to `true`.
 
 :::info
-When working is one-dimensional array rows (e.g. `['a', 'b', 'c']`) this is a no-op.
+When working with one-dimensional array rows (e.g. `['a', 'b', 'c']`) this is a no-op.
 :::
 
 In this example the headers are auto-discovered from the objects passed in.
@@ -384,7 +384,7 @@ value4a,value4b
 
 You can also provide a set of `headers` by providing an array. This allows you to
 
-* Reorder and/or exclude columns when working when object rows.
+* Reorder and/or exclude columns when working with object rows.
 * Rename  and/or exclude columns when working with hash array rows.
 * Specify headers or remove columns when working with array rows.
 * Enforce column order, when rows are objects.
@@ -584,7 +584,7 @@ value4b,value4a
 </TabItem>
 </Tabs>
 
-In this example the one of the columns is removed.
+In this example one of the columns is removed.
 
 <Tabs
   defaultValue="ts"
@@ -648,7 +648,7 @@ The `writeHeaders` option can be used to prevent writing headers, while still au
 The `writeHeaders` option can be useful when appending to a csv to prevent writing headers twice. See the [append example](#examples-appending)
 
 :::note
-If **writeHeaders** is set to **false**, **headers** is set to **true**, and your rows are arrays, the first row will be
+If **writeHeaders** is set to **false**, **headers** is set to **true**, and your rows are arrays, the first row will
 not be written.
 :::
 
@@ -770,7 +770,7 @@ value2a,value1a
 
 ## quoteColumns
 
-Sometimes you may need to quote columns is certain ways in order to meet certain requirements. `fast-csv` can quote columns and headers almost anyway you may need.
+Sometimes you may need to quote columns in a certain ways in order to meet certain requirements. `fast-csv` can quote columns and headers almost anyway you may need.
 
 ### boolean
 Setting `quoteColumns` to true will by default quote all columns and headers.
@@ -832,7 +832,7 @@ csvStream.end();
 
 ### boolean[]
 
-Setting `quoteColumns` to a `boolean[]` will quote the columns thats are set to true at each index in the array.
+Setting `quoteColumns` to a `boolean[]` will quote the columns that are set to true at each index in the array.
 
 <Tabs
   defaultValue="ts"
