@@ -22,7 +22,7 @@ Fast-csv is library for parsing and formatting CSVs or any other delimited value
 
 ## Install 
 
-See [installation docs](./install)
+See [installation docs](https://c2fo.io/fast-csv/docs/introduction/install)
 
 ## Packages
 
