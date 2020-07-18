@@ -29,7 +29,7 @@
     "@typescript-eslint/eslint-plugin": "3.3.0",
     "@typescript-eslint/parser": "3.3.0",
     "eslint": "7.4.0",
-    "eslint-config-airbnb-typescript": "8.0.2",
+    "eslint-config-airbnb-typescript": "9.0.0",
     "eslint-plugin-tsdoc": "0.2.5",
     "eslint-plugin-jest": "23.18.0",
     "eslint-config-prettier": "6.11.0",
