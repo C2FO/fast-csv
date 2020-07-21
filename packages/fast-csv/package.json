@@ -38,7 +38,9 @@
   },
   "dependencies": {
     "@fast-csv/format": "4.3.1",
-    "@fast-csv/parse": "4.3.1",
+    "@fast-csv/parse": "4.3.1"
+  },
+  "devDependencies": {
     "@types/node": "^14.0.1"
   }
 }
