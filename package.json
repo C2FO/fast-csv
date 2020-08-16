@@ -22,8 +22,8 @@
     "url": "git@github.com:C2FO/fast-csv.git"
   },
   "devDependencies": {
-    "@commitlint/cli": "9.1.1",
-    "@commitlint/config-angular": "9.1.1",
+    "@commitlint/cli": "9.1.2",
+    "@commitlint/config-angular": "9.1.2",
     "@types/jest": "26.0.10",
     "coveralls": "3.1.0",
     "@typescript-eslint/eslint-plugin": "3.3.0",
