@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.2](https://github.com/C2FO/fast-csv/compare/v4.3.1...v4.3.2) (2020-09-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yargs to v15.4.1 ([74fd72f](https://github.com/C2FO/fast-csv/commit/74fd72f11905547f96c91ed5ffd5620817072231))
+
+
+
+
+
 ## [4.3.1](https://github.com/C2FO/fast-csv/compare/v4.3.0...v4.3.1) (2020-06-23)
 
 

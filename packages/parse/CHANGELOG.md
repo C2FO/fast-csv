@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.2](https://github.com/C2FO/fast-csv/compare/v4.3.1...v4.3.2) (2020-09-02)
+
+
+### Bug Fixes
+
+* **parsing, #423:** Prevent callback from being called multiple times ([040febe](https://github.com/C2FO/fast-csv/commit/040febe17f5fe763a00f45b1d83c5acd47bbbe0b)), closes [#423](https://github.com/C2FO/fast-csv/issues/423)
+
+
+
+
+
 ## [4.3.1](https://github.com/C2FO/fast-csv/compare/v4.3.0...v4.3.1) (2020-06-23)
 
 
