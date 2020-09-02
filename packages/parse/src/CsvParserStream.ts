@@ -76,27 +76,29 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
         if (this.hasHitRowLimit) {
             return done();
         }
+        const wrappedCallback = CsvParserStream.wrapDoneCallback(done);
         try {
             const { lines } = this;
             const newLine = lines + this.decoder.write(data);
             const rows = this.parse(newLine, true);
-            return this.processRows(rows, done);
+            return this.processRows(rows, wrappedCallback);
         } catch (e) {
-            return done(e);
+            return wrappedCallback(e);
         }
     }
 
     public _flush(done: TransformCallback): void {
+        const wrappedCallback = CsvParserStream.wrapDoneCallback(done);
         // if we have hit our maxRows parsing limit then skip parsing
         if (this.hasHitRowLimit) {
-            return done();
+            return wrappedCallback();
         }
         try {
             const newLine = this.lines + this.decoder.end();
             const rows = this.parse(newLine, false);
-            return this.processRows(rows, done);
+            return this.processRows(rows, wrappedCallback);
         } catch (e) {
-            return done(e);
+            return wrappedCallback(e);
         }
     }
 
@@ -213,5 +215,21 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
         } catch (e) {
             cb(e);
         }
+    }
+
+    private static wrapDoneCallback(done: TransformCallback): TransformCallback {
+        let errorCalled = false;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (err: Error | null | undefined, ...args: any[]): void => {
+            if (err) {
+                if (errorCalled) {
+                    throw err;
+                }
+                errorCalled = true;
+                done(err);
+                return;
+            }
+            done(...args);
+        };
     }
 }
