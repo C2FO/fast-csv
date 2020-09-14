@@ -60,7 +60,7 @@ If your rows are arrays, and you wan to skip certain columns you can provide a s
 When setting the headers option to a function it will always rename the headers 
 :::
 :::caution
-If you specify headers and there are more columns than headers an error **WILL NOT** be emitted unless `strictColumnHandling` is set to `true` 
+If you specify headers and there are more columns than headers an error **WILL ONLY** be emitted if `strictColumnHandling` is set to `false` 
 :::
 :::warning
 If headers either parsed, provided or transformed are NOT unique, then an error will be emitted and the stream will stop parsing.
