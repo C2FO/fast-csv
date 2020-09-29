@@ -39,7 +39,7 @@
     "jest": "26.1.0",
     "lerna": "3.22.1",
     "prettier": "2.1.2",
-    "ts-jest": "26.4.0",
+    "ts-jest": "26.4.1",
     "typescript": "3.9.5"
   }
 }
