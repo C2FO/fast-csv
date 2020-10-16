@@ -32,7 +32,7 @@
     "eslint-config-airbnb-typescript": "9.0.0",
     "eslint-plugin-tsdoc": "0.2.7",
     "eslint-plugin-jest": "23.20.0",
-    "eslint-config-prettier": "6.12.0",
+    "eslint-config-prettier": "6.13.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-prettier": "3.1.4",
     "husky": "4.3.0",
