@@ -14,6 +14,6 @@
   "dependencies": {
     "@fast-csv/parse": "4.3.2",
     "example-runner": "4.3.2",
-    "typescript": "3.9.5"
+    "typescript": "4.0.5"
   }
 }
