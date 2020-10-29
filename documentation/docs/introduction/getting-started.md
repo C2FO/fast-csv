@@ -16,7 +16,7 @@ Fast-csv is library for parsing and formatting CSVs or any other delimited value
 
 ## Install 
 
-See [installation docs](./install)
+See [installation docs](./install.md)
 
 ## Packages
 
