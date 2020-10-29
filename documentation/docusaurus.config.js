@@ -13,7 +13,7 @@ module.exports = {
                 alt: 'Fast-CSV Logo',
                 src: 'img/logo.svg',
             },
-            links: [
+            items: [
                 {
                     to: 'docs/introduction/getting-started',
                     activeBasePath: 'docs',

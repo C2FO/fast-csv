@@ -1,5 +1,4 @@
 ---
-id: initial-release
 title: Initial Release
 author: Doug Martin
 author_title: Creator
