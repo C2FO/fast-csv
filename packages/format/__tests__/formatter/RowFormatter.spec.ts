@@ -347,7 +347,7 @@ describe('RowFormatter', () => {
         });
 
         describe('includeEndRowDelimiter option', () => {
-            it('should write the endRowDelimiter if ', async () => {
+            it('should write the endRowDelimiter if the file is empty', async () => {
                 const formatter = createFormatter({ includeEndRowDelimiter: true });
                 await expect(finish(formatter)).resolves.toEqual(['\n']);
             });

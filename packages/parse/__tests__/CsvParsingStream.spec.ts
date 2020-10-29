@@ -65,7 +65,7 @@ describe('CsvParserStream', () => {
     it('should parse a csv without quotes or escapes', () =>
         expectParsed(parseContentAndCollect(withHeaders, { headers: true }), withHeaders.parsed));
 
-    it('should emit a readable event ', () => {
+    it('should emit a readable event', () => {
         return new Promise((res, rej) => {
             const actual: Row[] = [];
             const parser = createParserStream({ headers: true });

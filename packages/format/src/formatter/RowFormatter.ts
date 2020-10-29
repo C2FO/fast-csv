@@ -28,6 +28,7 @@ export class RowFormatter<I extends Row, O extends Row> {
         return Object.keys(row);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     private static createTransform<I extends Row, O extends Row>(
         transformFunction: RowTransformFunction<I, O>,
     ): RowFormatterTransform<I, O> {

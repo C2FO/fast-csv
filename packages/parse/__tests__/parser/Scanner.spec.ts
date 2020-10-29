@@ -108,9 +108,9 @@ describe('Scanner', () => {
         it('should set the cursor to the supplied value', () => {
             const scanner = getScanner('hello', true, 0);
             const token = scanner.nextCharacterToken;
-            if (expectNonNullToken(token)) {
-                expect(scanner.advanceToToken(token).cursor).toBe(token.startCursor);
-            }
+            expectNonNullToken(token);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            expect(scanner.advanceToToken(token!).cursor).toBe(token!.startCursor);
         });
     });
 
@@ -118,9 +118,9 @@ describe('Scanner', () => {
         it('should set the cursor to the supplied value', () => {
             const scanner = getScanner('hello', true, 0);
             const token = scanner.nextCharacterToken;
-            if (expectNonNullToken(token)) {
-                expect(scanner.advancePastToken(token).cursor).toBe(token.endCursor + 1);
-            }
+            expectNonNullToken(token);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            expect(scanner.advancePastToken(token!).cursor).toBe(token!.endCursor + 1);
         });
     });
 

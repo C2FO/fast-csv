@@ -3,8 +3,6 @@ import { ParserOptions } from '../../ParserOptions';
 import { Scanner } from '../Scanner';
 import { Token } from '../Token';
 
-const { isTokenDelimiter, isTokenRowDelimiter, isTokenEscapeCharacter, isTokenQuote } = Token;
-
 interface DataBetweenQuotes {
     foundClosingQuote: boolean;
     col: string;
@@ -51,12 +49,12 @@ export class QuotedColumnParser {
         const characters = [];
         let nextToken: Token | null = scanner.nextCharacterToken;
         for (; !foundClosingQuote && nextToken !== null; nextToken = scanner.nextCharacterToken) {
-            const isQuote = isTokenQuote(nextToken, parserOptions);
+            const isQuote = Token.isTokenQuote(nextToken, parserOptions);
             // ignore first quote
             if (!foundStartingQuote && isQuote) {
                 foundStartingQuote = true;
             } else if (foundStartingQuote) {
-                if (isTokenEscapeCharacter(nextToken, parserOptions)) {
+                if (Token.isTokenEscapeCharacter(nextToken, parserOptions)) {
                     // advance past the escape character so we can get the next one in line
                     scanner.advancePastToken(nextToken);
                     const tokenFollowingEscape = scanner.nextCharacterToken;
@@ -64,8 +62,8 @@ export class QuotedColumnParser {
                     // the quote and advance to that character
                     if (
                         tokenFollowingEscape !== null &&
-                        (isTokenQuote(tokenFollowingEscape, parserOptions) ||
-                            isTokenEscapeCharacter(tokenFollowingEscape, parserOptions))
+                        (Token.isTokenQuote(tokenFollowingEscape, parserOptions) ||
+                            Token.isTokenEscapeCharacter(tokenFollowingEscape, parserOptions))
                     ) {
                         characters.push(tokenFollowingEscape.token);
                         nextToken = tokenFollowingEscape;
@@ -93,8 +91,8 @@ export class QuotedColumnParser {
         const { parserOptions } = this;
         const { nextNonSpaceToken } = scanner;
         if (nextNonSpaceToken) {
-            const isNextTokenADelimiter = isTokenDelimiter(nextNonSpaceToken, parserOptions);
-            const isNextTokenARowDelimiter = isTokenRowDelimiter(nextNonSpaceToken);
+            const isNextTokenADelimiter = Token.isTokenDelimiter(nextNonSpaceToken, parserOptions);
+            const isNextTokenARowDelimiter = Token.isTokenRowDelimiter(nextNonSpaceToken);
             if (!(isNextTokenADelimiter || isNextTokenARowDelimiter)) {
                 // if the final quote was NOT followed by a column (,) or row(\n) delimiter then its a bad column
                 // tldr: only part of the column was quoted
