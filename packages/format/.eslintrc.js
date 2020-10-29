@@ -1,5 +1,1 @@
-module.exports = {
-    parserOptions: {
-        project: "./tsconfig.build.json"
-    },
-};
+module.exports = {};

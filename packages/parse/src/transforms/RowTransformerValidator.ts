@@ -13,6 +13,7 @@ import {
 type RowValidator<R extends Row> = (row: R, cb: RowValidatorCallback<R>) => void;
 
 export class RowTransformerValidator<I extends Row, O extends Row> {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     private static createTransform<I extends Row, O extends Row>(
         transformFunction: RowTransformFunction<I, O>,
     ): AsyncRowTransform<I, O> {

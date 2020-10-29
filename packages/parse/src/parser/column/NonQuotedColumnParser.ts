@@ -3,8 +3,6 @@ import { ColumnFormatter } from './ColumnFormatter';
 import { Scanner } from '../Scanner';
 import { Token } from '../Token';
 
-const { isTokenDelimiter, isTokenRowDelimiter } = Token;
-
 export class NonQuotedColumnParser {
     private readonly parserOptions: ParserOptions;
 
@@ -23,7 +21,7 @@ export class NonQuotedColumnParser {
         const characters = [];
         let nextToken = scanner.nextCharacterToken;
         for (; nextToken; nextToken = scanner.nextCharacterToken) {
-            if (isTokenDelimiter(nextToken, parserOptions) || isTokenRowDelimiter(nextToken)) {
+            if (Token.isTokenDelimiter(nextToken, parserOptions) || Token.isTokenRowDelimiter(nextToken)) {
                 break;
             }
             characters.push(nextToken.token);

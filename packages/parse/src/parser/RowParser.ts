@@ -4,8 +4,6 @@ import { ParserOptions } from '../ParserOptions';
 import { RowArray } from '../types';
 import { MaybeToken, Token } from './Token';
 
-const { isTokenRowDelimiter, isTokenCarriageReturn, isTokenDelimiter } = Token;
-
 export class RowParser {
     private readonly parserOptions: ParserOptions;
 
@@ -23,13 +21,13 @@ export class RowParser {
         const columns: RowArray<string> = [];
         let currentToken = this.getStartToken(currentScanner, columns);
         while (currentToken) {
-            if (isTokenRowDelimiter(currentToken)) {
+            if (Token.isTokenRowDelimiter(currentToken)) {
                 currentScanner.advancePastToken(currentToken);
                 // if ends with CR and there is more data, keep unparsed due to possible
                 // coming LF in CRLF
                 if (
                     !currentScanner.hasMoreCharacters &&
-                    isTokenCarriageReturn(currentToken, parserOptions) &&
+                    Token.isTokenCarriageReturn(currentToken, parserOptions) &&
                     hasMoreData
                 ) {
                     return null;
@@ -55,7 +53,7 @@ export class RowParser {
 
     private getStartToken(scanner: Scanner, columns: RowArray): MaybeToken {
         const currentToken = scanner.nextNonSpaceToken;
-        if (currentToken !== null && isTokenDelimiter(currentToken, this.parserOptions)) {
+        if (currentToken !== null && Token.isTokenDelimiter(currentToken, this.parserOptions)) {
             columns.push('');
             return scanner.nextNonSpaceToken;
         }
@@ -64,15 +62,15 @@ export class RowParser {
 
     private shouldSkipColumnParse(scanner: Scanner, currentToken: Token, columns: RowArray): boolean {
         const { parserOptions } = this;
-        if (isTokenDelimiter(currentToken, parserOptions)) {
+        if (Token.isTokenDelimiter(currentToken, parserOptions)) {
             scanner.advancePastToken(currentToken);
             // if the delimiter is at the end of a line
             const nextToken = scanner.nextCharacterToken;
-            if (!scanner.hasMoreCharacters || (nextToken !== null && isTokenRowDelimiter(nextToken))) {
+            if (!scanner.hasMoreCharacters || (nextToken !== null && Token.isTokenRowDelimiter(nextToken))) {
                 columns.push('');
                 return true;
             }
-            if (nextToken !== null && isTokenDelimiter(nextToken, parserOptions)) {
+            if (nextToken !== null && Token.isTokenDelimiter(nextToken, parserOptions)) {
                 columns.push('');
                 return true;
             }

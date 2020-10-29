@@ -32,7 +32,7 @@
     "prepublishOnly": "npm run build",
     "build": "npm run clean && npm run compile",
     "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
-    "compile": "tsc -p tsconfig.build.json"
+    "compile": "tsc"
   },
   "bugs": {
     "url": "https://github.com/C2FO/fast-csv/issues"

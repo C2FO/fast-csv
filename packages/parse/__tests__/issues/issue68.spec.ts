@@ -9,11 +9,12 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
             let called = false;
             d.on('error', (err: Error) => {
                 d.exit();
-                if (!called) {
-                    called = true;
-                    expect(err.message).toMatch(/^Parse Error/);
-                    res();
+                if (called) {
+                    return;
                 }
+                called = true;
+                expect(err.message).toMatch(/^Parse Error/);
+                res();
             });
             d.run(() =>
                 csv
@@ -32,13 +33,12 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
             let called = false;
             d.on('error', (err: Error) => {
                 d.exit();
-                if (!called) {
-                    called = true;
-                    expect(err.message).toBe('Data error');
-                    res();
-                } else {
+                if (called) {
                     throw err;
                 }
+                called = true;
+                expect(err.message).toBe('Data error');
+                res();
             });
             d.run(() => {
                 let count = 0;

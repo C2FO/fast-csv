@@ -9,7 +9,7 @@
     "example": "run-examples --dir=build run",
     "build": "npm run clean && npm run compile",
     "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
-    "compile": "tsc -p tsconfig.build.json"
+    "compile": "tsc"
   },
   "dependencies": {
     "@fast-csv/parse": "4.3.2",

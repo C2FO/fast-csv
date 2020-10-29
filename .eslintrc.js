@@ -1,11 +1,14 @@
 module.exports = {
+    root: true,
     env: {
         node: true,
         jest: true,
     },
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        project: './tsconfig.build.json',
+        sourceType: 'module',
+        project: ['./packages/*/tsconfig.json', './examples/*/tsconfig.json'],
+        tsconfigRootDir: __dirname,
     },
     plugins: ['@typescript-eslint', 'prettier', 'import', 'jest', 'eslint-plugin-tsdoc'],
     extends: [
@@ -22,8 +25,6 @@ module.exports = {
     rules: {
         'prettier/prettier': 'error',
         'tsdoc/syntax': 'warn',
-        // todo remove this when upgrading airbnb-typescript
-        '@typescript-eslint/camelcase': 'off',
         // never allow default export
         'import/prefer-default-export': 'off',
         // never allow default export
@@ -37,6 +38,21 @@ module.exports = {
             rules: {
                 '@typescript-eslint/explicit-function-return-type': 'off',
                 '@typescript-eslint/ban-ts-comment': 'off',
+            },
+        },
+        {
+            files: ['*.js'],
+            parser: '',
+            parserOptions: { project: './tsconfig.build.json' },
+            rules: {
+                'no-console': 'off',
+                'prettier/prettier': 'error',
+                '@typescript-eslint/no-unsafe-assignment': 'off',
+                '@typescript-eslint/no-unsafe-member-access': 'off',
+                '@typescript-eslint/restrict-template-expressions': 'off',
+                '@typescript-eslint/no-unsafe-call': 'off',
+                '@typescript-eslint/no-unsafe-return': 'off',
+                '@typescript-eslint/no-var-requires': 'off',
             },
         },
     ],
