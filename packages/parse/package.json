@@ -1,6 +1,6 @@
 {
   "name": "@fast-csv/parse",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "description": "fast-csv parsing package",
   "keywords": [
     "csv",
@@ -38,13 +38,13 @@
     "url": "https://github.com/C2FO/fast-csv/issues"
   },
   "dependencies": {
+    "@types/node": "^14.0.1",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.groupby": "^4.6.0",
     "lodash.isfunction": "^3.0.9",
     "lodash.isnil": "^4.0.0",
     "lodash.isundefined": "^3.0.1",
-    "lodash.uniq": "^4.5.0",
-    "@types/node": "^14.0.1"
+    "lodash.uniq": "^4.5.0"
   },
   "devDependencies": {
     "@types/lodash.escaperegexp": "4.1.6",
