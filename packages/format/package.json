@@ -41,7 +41,8 @@
     "lodash.isboolean": "^3.0.3",
     "lodash.isequal": "^4.5.0",
     "lodash.isfunction": "^3.0.9",
-    "lodash.isnil": "^4.0.0"
+    "lodash.isnil": "^4.0.0",
+    "@types/node": "^14.0.1"
   },
   "devDependencies": {
     "@types/lodash.escaperegexp": "4.1.6",
