@@ -1,6 +1,6 @@
 {
   "name": "fast-csv-ts-examples",
-  "version": "4.3.4",
+  "version": "4.3.5",
   "private": true,
   "description": "fast-csv examples",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "example-runner": "4.3.4",
-    "fast-csv": "4.3.4",
+    "fast-csv": "4.3.5",
     "typescript": "4.0.5"
   }
 }
