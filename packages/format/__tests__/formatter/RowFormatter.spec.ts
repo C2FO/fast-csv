@@ -93,6 +93,12 @@ describe('RowFormatter', () => {
                         const formatter = createFormatter({ headers: false });
                         await expect(formatRow(headerRow, formatter)).resolves.toEqual([headerRow.join(',')]);
                     });
+
+                    it('should still format all rows without headers', async () => {
+                        const formatter = createFormatter({ headers: false });
+                        await expect(formatRow([], formatter)).resolves.toEqual(['']);
+                        await expect(formatRow(headerRow, formatter)).resolves.toEqual([`\n${headerRow.join(',')}`]);
+                    });
                 });
 
                 describe('with headers=true', () => {
