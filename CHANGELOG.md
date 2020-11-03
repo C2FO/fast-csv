@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.4](https://github.com/C2FO/fast-csv/compare/v4.3.3...v4.3.4) (2020-11-03)
+
+
+### Bug Fixes
+
+* **formatter,#503:** Do not ignore rows when headers is false ([1560564](https://github.com/C2FO/fast-csv/commit/1560564819c8b1254ca4ad43487830a4296570f6)), closes [#503](https://github.com/C2FO/fast-csv/issues/503)
+
+
+
+
+
 ## [4.3.3](https://github.com/C2FO/fast-csv/compare/v4.3.2...v4.3.3) (2020-10-30)
 
 
