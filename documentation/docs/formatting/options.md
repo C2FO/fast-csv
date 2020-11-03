@@ -58,9 +58,9 @@ Set to `true` if you want the first character written to the stream to be a utf-
 **Type**: `null|boolean|string[]` **Default**: `null`
 
 If `true` then the headers will be auto detected from the first row. [Example](./examples.mdx#auto-discovery)
-    * If the row is a one-dimensional array then headers is a no-op
-    * If the row is an object then the keys will be used.
-    * If the row is an array of two element arrays (`[ ['header', 'column'], ['header2', 'column2'] ]`) then the first element in each array will be used.
+* If the row is a one-dimensional array then the `headers` will be the first row processed
+* If the row is an object then the keys will be used.
+* If the row is an array of two element arrays (`[ ['header', 'column'], ['header2', 'column2'] ]`) then the first element in each array will be used.
 
 If there is not a headers row and you want to provide one then set to a `string[]`. [Example](./examples.mdx#provided-headers)
 

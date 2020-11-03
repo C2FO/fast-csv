@@ -9,16 +9,20 @@ type RowFormatterTransform<I extends Row, O extends Row> = (row: I, cb: RowTrans
 type RowFormatterCallback = (error: Error | null, data?: RowArray) => void;
 
 export class RowFormatter<I extends Row, O extends Row> {
-    private static isHashArray(row: Row): row is RowHashArray {
+    private static isRowHashArray(row: Row): row is RowHashArray {
         if (Array.isArray(row)) {
             return Array.isArray(row[0]) && row[0].length === 2;
         }
         return false;
     }
 
+    private static isRowArray(row: Row): row is RowArray {
+        return Array.isArray(row) && !this.isRowHashArray(row);
+    }
+
     // get headers from a row item
     private static gatherHeaders(row: Row): string[] {
-        if (RowFormatter.isHashArray(row)) {
+        if (RowFormatter.isRowHashArray(row)) {
             // lets assume a multi-dimesional array with item 0 being the header
             return row.map((it): string => it[0]);
         }
@@ -130,7 +134,6 @@ export class RowFormatter<I extends Row, O extends Row> {
             // either the headers were provided by the user or we have already gathered them.
             return { shouldFormatColumns: true, headers: this.headers };
         }
-
         const headers = RowFormatter.gatherHeaders(row);
         this.headers = headers;
         this.fieldFormatter.headers = headers;
@@ -151,7 +154,7 @@ export class RowFormatter<I extends Row, O extends Row> {
         if (!Array.isArray(row)) {
             return this.headers.map((header): string => row[header] as string);
         }
-        if (RowFormatter.isHashArray(row)) {
+        if (RowFormatter.isRowHashArray(row)) {
             return this.headers.map((header, i): string => {
                 const col = (row[i] as unknown) as string;
                 if (col) {
@@ -159,6 +162,11 @@ export class RowFormatter<I extends Row, O extends Row> {
                 }
                 return '';
             });
+        }
+        // if its a one dimensional array and headers were not provided
+        // then just return the row
+        if (RowFormatter.isRowArray(row) && !this.shouldWriteHeaders) {
+            return row;
         }
         return this.headers.map((header, i): string => row[i]);
     }
