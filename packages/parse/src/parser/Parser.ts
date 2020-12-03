@@ -4,8 +4,6 @@ import { ParserOptions } from '../ParserOptions';
 import { RowArray } from '../types';
 import { Token } from './Token';
 
-const EMPTY_ROW_REGEXP = /^\s*(?:''|"")?\s*(?:,\s*(?:''|"")?\s*)*$/;
-
 export interface ParseResult {
     line: string;
     rows: string[][];
@@ -79,7 +77,7 @@ export class Parser {
         if (row === null) {
             return false;
         }
-        if (this.parserOptions.ignoreEmpty && EMPTY_ROW_REGEXP.test(row.join(''))) {
+        if (this.parserOptions.ignoreEmpty && RowParser.isEmptyRow(row)) {
             return true;
         }
         rows.push(row);

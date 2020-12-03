@@ -4,7 +4,13 @@ import { ParserOptions } from '../ParserOptions';
 import { RowArray } from '../types';
 import { MaybeToken, Token } from './Token';
 
+const EMPTY_STRING = '';
+
 export class RowParser {
+    static isEmptyRow(row: RowArray): boolean {
+        return row.join(EMPTY_STRING).replace(/\s+/g, EMPTY_STRING) === EMPTY_STRING;
+    }
+
     private readonly parserOptions: ParserOptions;
 
     private readonly columnParser: ColumnParser;
