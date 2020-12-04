@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.6](https://github.com/C2FO/fast-csv/compare/v4.3.5...v4.3.6) (2020-12-04)
+
+
+### Bug Fixes
+
+* Simplify empty row check by removing complex regex ([4bbd39f](https://github.com/C2FO/fast-csv/commit/4bbd39f26a8cd7382151ab4f5fb102234b2f829e))
+
+
+
+
+
 ## [4.3.3](https://github.com/C2FO/fast-csv/compare/v4.3.2...v4.3.3) (2020-10-30)
 
 **Note:** Version bump only for package @fast-csv/parse

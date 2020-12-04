@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.6](https://github.com/C2FO/fast-csv/compare/v4.3.5...v4.3.6) (2020-12-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/yargs to v15.0.10 ([9af7a41](https://github.com/C2FO/fast-csv/commit/9af7a410288495c598e8e68705aa530eda56bedb))
+* **deps:** update dependency yargs to v16.1.1 ([057a4da](https://github.com/C2FO/fast-csv/commit/057a4da0089a40406e5be9ba665774b8557657f0))
+
+
+
+
+
 ## [4.3.4](https://github.com/C2FO/fast-csv/compare/v4.3.3...v4.3.4) (2020-11-03)
 
 **Note:** Version bump only for package example-runner
