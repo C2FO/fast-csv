@@ -37,7 +37,7 @@ If you set to `null` then all quoting will be ignored.
 ## escape
 **Type**: `string` **Default**: `'"'`
 
-The character to used tp escape quotes inside of a quoted field.
+The character to used to escape quotes inside of a quoted field.
 
 i.e: `First,"Name"' => '"First,""Name"""`
 
