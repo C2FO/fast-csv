@@ -479,7 +479,7 @@ describe('CsvParserStream', () => {
         return new Promise((res, rej) => {
             write(malformed);
             const stream = parseFile(malformed.path, { headers: true });
-            expectErrorEvent(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las", res, rej);
+            expectErrorEvent(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \'", Las", res, rej);
         });
     });
 
