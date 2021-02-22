@@ -12,7 +12,7 @@
     "compile": "tsc"
   },
   "dependencies": {
-    "example-runner": "4.3.6",
+    "example-runner": "0.2.0",
     "fast-csv": "4.3.6",
     "typescript": "4.0.5"
   }

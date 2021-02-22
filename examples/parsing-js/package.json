@@ -10,6 +10,6 @@
   },
   "dependencies": {
     "@fast-csv/parse": "4.3.6",
-    "example-runner": "4.3.6"
+    "example-runner": "0.2.0"
   }
 }

@@ -9,7 +9,7 @@
     "example": "run-examples run"
   },
   "dependencies": {
-    "example-runner": "4.3.6",
+    "example-runner": "0.2.0",
     "fast-csv": "4.3.6"
   }
 }
