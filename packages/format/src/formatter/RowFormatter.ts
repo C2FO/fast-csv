@@ -9,19 +9,19 @@ type RowFormatterTransform<I extends Row, O extends Row> = (row: I, cb: RowTrans
 type RowFormatterCallback = (error: Error | null, data?: RowArray) => void;
 
 export class RowFormatter<I extends Row, O extends Row> {
-    private static isRowHashArray(row: Row): row is RowHashArray {
+    protected static isRowHashArray(row: Row): row is RowHashArray {
         if (Array.isArray(row)) {
             return Array.isArray(row[0]) && row[0].length === 2;
         }
         return false;
     }
 
-    private static isRowArray(row: Row): row is RowArray {
+    protected static isRowArray(row: Row): row is RowArray {
         return Array.isArray(row) && !this.isRowHashArray(row);
     }
 
     // get headers from a row item
-    private static gatherHeaders(row: Row): string[] {
+    protected static gatherHeaders(row: Row): string[] {
         if (RowFormatter.isRowHashArray(row)) {
             // lets assume a multi-dimesional array with item 0 being the header
             return row.map((it): string => it[0]);
@@ -33,7 +33,7 @@ export class RowFormatter<I extends Row, O extends Row> {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    private static createTransform<I extends Row, O extends Row>(
+    protected static createTransform<I extends Row, O extends Row>(
         transformFunction: RowTransformFunction<I, O>,
     ): RowFormatterTransform<I, O> {
         if (isSyncTransform(transformFunction)) {
@@ -52,19 +52,19 @@ export class RowFormatter<I extends Row, O extends Row> {
         };
     }
 
-    private readonly formatterOptions: FormatterOptions<I, O>;
+    protected readonly formatterOptions: FormatterOptions<I, O>;
 
-    private readonly fieldFormatter: FieldFormatter<I, O>;
+    protected readonly fieldFormatter: FieldFormatter<I, O>;
 
-    private readonly shouldWriteHeaders: boolean;
+    protected readonly shouldWriteHeaders: boolean;
 
-    private _rowTransform?: RowFormatterTransform<I, O>;
+    protected _rowTransform?: RowFormatterTransform<I, O>;
 
-    private headers: string[] | null;
+    protected headers: string[] | null;
 
-    private hasWrittenHeaders: boolean;
+    protected hasWrittenHeaders: boolean;
 
-    private rowCount = 0;
+    protected rowCount = 0;
 
     public constructor(formatterOptions: FormatterOptions<I, O>) {
         this.formatterOptions = formatterOptions;
@@ -129,7 +129,7 @@ export class RowFormatter<I extends Row, O extends Row> {
 
     // check if we need to write header return true if we should also write a row
     // could be false if headers is true and the header row(first item) is passed in
-    private checkHeaders(row: Row): { headers?: string[] | null; shouldFormatColumns: boolean } {
+    protected checkHeaders(row: Row): { headers?: string[] | null; shouldFormatColumns: boolean } {
         if (this.headers) {
             // either the headers were provided by the user or we have already gathered them.
             return { shouldFormatColumns: true, headers: this.headers };
@@ -147,7 +147,7 @@ export class RowFormatter<I extends Row, O extends Row> {
     }
 
     // todo change this method to unknown[]
-    private gatherColumns(row: Row): string[] {
+    protected gatherColumns(row: Row): string[] {
         if (this.headers === null) {
             throw new Error('Headers is currently null');
         }
@@ -171,14 +171,14 @@ export class RowFormatter<I extends Row, O extends Row> {
         return this.headers.map((header, i): string => row[i]);
     }
 
-    private callTransformer(row: I, cb: RowTransformCallback<O>): void {
+    protected callTransformer(row: I, cb: RowTransformCallback<O>): void {
         if (!this._rowTransform) {
             return cb(null, (row as unknown) as O);
         }
         return this._rowTransform(row, cb);
     }
 
-    private formatColumns(columns: string[], isHeadersRow: boolean): string {
+    protected formatColumns(columns: string[], isHeadersRow: boolean): string {
         const formattedCols = columns
             .map((field, i): string => this.fieldFormatter.format(field, i, isHeadersRow))
             .join(this.formatterOptions.delimiter);
