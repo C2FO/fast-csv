@@ -40,5 +40,3 @@ MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
 * Website: <http://c2fo.com>
 * Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
 
-
-
