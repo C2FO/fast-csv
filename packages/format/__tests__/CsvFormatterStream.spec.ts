@@ -93,11 +93,9 @@ describe('CsvFormatterStream', () => {
         });
 
         it('should error if the transform fails', async () => {
-            const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform(
-                (): Row => {
-                    throw new Error('Expected error');
-                },
-            );
+            const formatter = new CsvFormatterStream(new FormatterOptions({ headers: true })).transform((): Row => {
+                throw new Error('Expected error');
+            });
             await expect(pipeToRecordingStream(formatter, objectRows)).rejects.toThrow('Expected error');
         });
     });

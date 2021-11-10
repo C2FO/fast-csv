@@ -18,8 +18,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:jest/recommended',
         'plugin:jest/style',
-        'prettier',
-        'prettier/@typescript-eslint',
+        'plugin:prettier/recommended',
     ],
     ignorePatterns: ['**/build', '**/node_modules', 'documentation'],
     rules: {
@@ -38,6 +37,16 @@ module.exports = {
             rules: {
                 '@typescript-eslint/explicit-function-return-type': 'off',
                 '@typescript-eslint/ban-ts-comment': 'off',
+            },
+        },
+        {
+            files: ['*.example.ts'],
+            rules: {
+                '@typescript-eslint/no-unsafe-assignment': 'off',
+                '@typescript-eslint/no-unsafe-member-access': 'off',
+                '@typescript-eslint/no-unsafe-call': 'off',
+                '@typescript-eslint/no-unsafe-return': 'off',
+                '@typescript-eslint/restrict-template-expressions': 'off',
             },
         },
         {
