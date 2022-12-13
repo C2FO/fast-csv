@@ -92,7 +92,8 @@ fs.createReadStream(path.resolve(__dirname, 'assets', 'parse.csv'))
     .pipe(csv.parse({ headers: true }))
     .on('error', error => console.error(error))
     .on('data', row => console.log(row))
-    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`))
+    .end();
 ```
 
 </TabItem>
@@ -107,7 +108,8 @@ fs.createReadStream(path.resolve(__dirname, 'assets', 'parse.csv'))
     .pipe(csv.parse({ headers: true }))
     .on('error', error => console.error(error))
     .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`))
+    .end();
 ```
 
 </TabItem>
@@ -191,7 +193,8 @@ fs.createReadStream(path.resolve(__dirname, 'assets', 'snake_case_users.csv'))
         });
     })
     .pipe(process.stdout)
-    .on('end', () => process.exit());
+    .on('end', () => process.exit())
+    .end();
 ```
 
 </TabItem>
@@ -226,7 +229,8 @@ fs.createReadStream(path.resolve(__dirname, 'assets', 'snake_case_users.csv'))
         });
     })
     .pipe(process.stdout)
-    .on('end', () => process.exit());
+    .on('end', () => process.exit())
+    .end();
 ```
 
 </TabItem>
