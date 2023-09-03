@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://c2fo.io/fast-csv" target="blank"><img src="https://c2fo.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
+  <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
 </p>
 
 [![npm version](https://img.shields.io/npm/v/fast-csv.svg)](https://www.npmjs.org/package/fast-csv)
@@ -16,20 +16,20 @@ Fast-csv is library for parsing and formatting CSVs or any other delimited value
 * CSV Formatting
 * CSV Parsing
 * Built using typescript.
-* Flexible [formatting](https://c2fo.io/fast-csv/docs/formatting/options) and [parsing](https://c2fo.io/fast-csv/docs/parsing/options) options, to fit almost any scenario.  
+* Flexible [formatting](https://c2fo.github.io/fast-csv/docs/formatting/options) and [parsing](https://c2fo.github.io/fast-csv/docs/parsing/options) options, to fit almost any scenario.  
 * Built with streams first to avoid creating large memory footprint when parsing large files. 
 * Battle tested in production, parsing and formatting millions of records every day.
 
 ## Install 
 
-See [installation docs](https://c2fo.io/fast-csv/docs/introduction/install)
+See [installation docs](https://c2fo.github.io/fast-csv/docs/introduction/install)
 
 ## Packages
 
 
-* `fast-csv` - One stop shop for all methods and options from `@fast-csv/format` and `@fast-csv/parse`. [Get Started!](https://c2fo.io/fast-csv/docs/introduction/getting-started)
-* `@fast-csv/parse` - Parsing package, use this if you only need to parse files. [Get Started!](https://c2fo.io/fast-csv/docs/parsing/getting-started)
-* `@fast-csv/format` - Formatting package, use this if you only need to format files. [Get Started!](https://c2fo.io/fast-csv/docs/formatting/getting-started)
+* `fast-csv` - One stop shop for all methods and options from `@fast-csv/format` and `@fast-csv/parse`. [Get Started!](https://c2fo.github.io/fast-csv/docs/introduction/getting-started)
+* `@fast-csv/parse` - Parsing package, use this if you only need to parse files. [Get Started!](https://c2fo.github.io/fast-csv/docs/parsing/getting-started)
+* `@fast-csv/format` - Formatting package, use this if you only need to format files. [Get Started!](https://c2fo.github.io/fast-csv/docs/formatting/getting-started)
 
 ## License
 
