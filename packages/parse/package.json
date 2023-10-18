@@ -54,7 +54,7 @@
     "@types/lodash.isundefined": "3.0.6",
     "@types/lodash.partition": "4.6.6",
     "@types/lodash.uniq": "4.5.6",
-    "@types/sinon": "10.0.2",
+    "@types/sinon": "10.0.20",
     "lodash.partition": "4.6.0",
     "sinon": "11.1.2"
   }
