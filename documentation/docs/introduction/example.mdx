@@ -176,7 +176,7 @@ fs.createReadStream(path.resolve(__dirname, 'assets', 'snake_case_users.csv'))
                 return next(err);
             }
             if (!user) {
-                return next(new Error(`Unable to find user for ${row.id}`);
+                return next(new Error(`Unable to find user for ${row.id}`));
             }
             return next(null, {
                 id: user.id,
