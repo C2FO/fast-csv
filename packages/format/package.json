@@ -37,7 +37,7 @@
     "url": "https://github.com/C2FO/fast-csv/issues"
   },
   "dependencies": {
-    "@types/node": "^14.0.1",
+    "@types/node": "^20.10.5",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.isboolean": "^3.0.3",
     "lodash.isequal": "^4.5.0",
@@ -45,10 +45,10 @@
     "lodash.isnil": "^4.0.0"
   },
   "devDependencies": {
-    "@types/lodash.escaperegexp": "4.1.6",
-    "@types/lodash.isboolean": "3.0.6",
-    "@types/lodash.isequal": "4.5.5",
-    "@types/lodash.isfunction": "3.0.6",
-    "@types/lodash.isnil": "4.0.6"
+    "@types/lodash.escaperegexp": "4.1.9",
+    "@types/lodash.isboolean": "3.0.9",
+    "@types/lodash.isequal": "4.5.8",
+    "@types/lodash.isfunction": "3.0.9",
+    "@types/lodash.isnil": "4.0.9"
   }
 }

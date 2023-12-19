@@ -24,7 +24,9 @@ export const write = <I extends Row, O extends Row>(
         (prev: Promise<void>, row: I): Promise<void> => prev.then((): Promise<void> => promiseWrite(row)),
         Promise.resolve(),
     )
-        .then((): void => csvStream.end())
+        .then((): void => {
+            csvStream.end();
+        })
         .catch((err): void => {
             csvStream.emit('error', err);
         });

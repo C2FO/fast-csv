@@ -29,7 +29,7 @@ describe('Issue #102 - https://github.com/C2FO/fast-csv/issues/102', () => {
                 .on('end', (rowCount: number) => {
                     expect(rowCount).toBe(100000);
                     expect(receivedRows).toBe(rowCount);
-                    res();
+                    res(() => {});
                 });
         }));
 });

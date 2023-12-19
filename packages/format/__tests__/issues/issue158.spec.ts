@@ -36,7 +36,7 @@ describe('Issue #158 - https://github.com/C2FO/fast-csv/issues/158', () => {
                 .on('error', rej)
                 .on('finish', () => {
                     expect(rs.data.join('')).toBe('id,name,calculatedValue\n1,a,2\n2,b,4\n3,c,6');
-                    res();
+                    res(() => {});
                 });
         }));
 });

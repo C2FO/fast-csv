@@ -24,7 +24,7 @@ describe('Issue #317 - https://github.com/C2FO/fast-csv/issues/317', () => {
                     expect(rows).toEqual(expectedRows);
                     expect(invalid).toEqual(expectedInvalidRows);
                     expect(count).toBe(expectedRows.length + invalid.length);
-                    res();
+                    res(() => {});
                 });
         }));
 });

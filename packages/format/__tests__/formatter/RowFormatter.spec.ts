@@ -14,7 +14,10 @@ describe('RowFormatter', () => {
         formatterOptions: FormatterOptionsArgs<I, O> = {},
     ): RowFormatter<I, O> => new RowFormatter(new FormatterOptions(formatterOptions));
 
-    const formatRow = <I extends Row, O extends Row>(row: I, formatter: RowFormatter<I, O>): Promise<Row> =>
+    const formatRow = <I extends Row, O extends Row>(
+        row: I,
+        formatter: RowFormatter<I, O>,
+    ): Promise<RowArray | undefined> =>
         new Promise((res, rej): void => {
             formatter.format(row, (err, formatted): void => {
                 if (err) {
@@ -24,7 +27,7 @@ describe('RowFormatter', () => {
             });
         });
 
-    const finish = <I extends Row, O extends Row>(formatter: RowFormatter<I, O>): Promise<Row> =>
+    const finish = <I extends Row, O extends Row>(formatter: RowFormatter<I, O>): Promise<RowArray | undefined> =>
         new Promise((res, rej): void => {
             formatter.finish((err, formatted): void => {
                 if (err) {
@@ -52,7 +55,7 @@ describe('RowFormatter', () => {
                     ),
                 );
             };
-            const asyncErrorTransform = (row: Row, cb: RowTransformCallback<Row>): void => {
+            const asyncErrorTransform = (_row: Row, cb: RowTransformCallback<Row>): void => {
                 setImmediate(() => cb(new Error('Expected Error')));
             };
 

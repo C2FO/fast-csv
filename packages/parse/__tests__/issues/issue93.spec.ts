@@ -16,7 +16,7 @@ describe('Issue #93 - https://github.com/C2FO/fast-csv/issues/93', () => {
                 }
                 called = true;
                 expect(err.message).toBe('End error');
-                res();
+                res(() => {});
             });
             d.run(() =>
                 csv
@@ -42,7 +42,7 @@ describe('Issue #93 - https://github.com/C2FO/fast-csv/issues/93', () => {
                 }
                 called = true;
                 expect(err.message).toBe('End error');
-                res();
+                res(() => {});
             });
             d.run(() =>
                 csv

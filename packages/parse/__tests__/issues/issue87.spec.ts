@@ -38,7 +38,7 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
                 .on('error', rej)
                 .on('finish', () => {
                     expect(myStream.rowCount).toBe(99);
-                    res();
+                    res(() => {});
                 });
         }));
 });

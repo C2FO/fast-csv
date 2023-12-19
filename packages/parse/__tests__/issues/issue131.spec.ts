@@ -16,7 +16,7 @@ describe('Issue #131 - https://github.com/C2FO/fast-csv/issues/131', () => {
                 .on('end', (count: number) => {
                     expect(actual[0].first_name).toBe('First1');
                     expect(count).toBe(actual.length);
-                    res();
+                    res(() => {});
                 });
         }));
 });

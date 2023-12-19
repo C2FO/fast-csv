@@ -22,6 +22,8 @@ module.exports = {
     ],
     ignorePatterns: ['**/build', '**/node_modules', 'documentation'],
     rules: {
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-unsafe-return': 'warn',
         'prettier/prettier': 'error',
         'tsdoc/syntax': 'warn',
         // never allow default export

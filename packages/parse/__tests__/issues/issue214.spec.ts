@@ -26,7 +26,7 @@ describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
                 .on('end', (count: number) => {
                     expect(rows).toEqual(expectedRows);
                     expect(count).toBe(expectedRows.length);
-                    res();
+                    res(() => {});
                 });
         }));
 
@@ -39,7 +39,7 @@ describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
                 .on('end', (count: number) => {
                     expect(rows).toEqual(expectedRows);
                     expect(count).toBe(expectedRows.length);
-                    res();
+                    res(() => {});
                 });
         }));
 });

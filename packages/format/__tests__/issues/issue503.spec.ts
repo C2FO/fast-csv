@@ -12,7 +12,7 @@ describe('Issue #503 - https://github.com/C2FO/fast-csv/issues/503', () => {
                 .on('error', rej)
                 .on('finish', () => {
                     expect(rs.data).toEqual(['\nsomething']);
-                    res();
+                    res(() => {});
                 });
         }));
 
@@ -26,7 +26,7 @@ describe('Issue #503 - https://github.com/C2FO/fast-csv/issues/503', () => {
                 .on('error', rej)
                 .on('finish', () => {
                     expect(rs.data).toEqual(['1', '\n', '\n1,2,3']);
-                    res();
+                    res(() => {});
                 });
         }));
 });

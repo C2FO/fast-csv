@@ -16,7 +16,7 @@ import { arrayRows, multiDimensionalRows, objectRows, RecordingStream } from './
 
 describe('.writeToString', () => {
     it('should write an array of arrays', () =>
-        expect(writeToString(arrayRows, { headers: true })).resolves.toEqual('a,b\na1,b1\na2,b2'));
+        expect(writeToString(arrayRows, { headers: true })).resolves.toBe('a,b\na1,b1\na2,b2'));
 
     it('should support transforming an array of arrays', () =>
         expect(
@@ -26,10 +26,10 @@ describe('.writeToString', () => {
                     return (row as RowArray).map((entry) => entry.toUpperCase());
                 },
             }),
-        ).resolves.toEqual('A,B\nA1,B1\nA2,B2'));
+        ).resolves.toBe('A,B\nA1,B1\nA2,B2'));
 
     it('should write an array of multi-dimensional arrays', () =>
-        expect(writeToString(multiDimensionalRows, { headers: true })).resolves.toEqual('a,b\na1,b1\na2,b2'));
+        expect(writeToString(multiDimensionalRows, { headers: true })).resolves.toBe('a,b\na1,b1\na2,b2'));
 
     it('should support transforming an array of multi-dimensional arrays', () =>
         expect(
@@ -39,7 +39,7 @@ describe('.writeToString', () => {
                     return (row as RowHashArray<string>).map((col) => [col[0], col[1].toUpperCase()]);
                 },
             }),
-        ).resolves.toEqual('a,b\nA1,B1\nA2,B2'));
+        ).resolves.toBe('a,b\nA1,B1\nA2,B2'));
 
     it('should write an array of objects', () =>
         expect(
@@ -52,36 +52,36 @@ describe('.writeToString', () => {
                     };
                 },
             }),
-        ).resolves.toEqual('A,B\na1,b1\na2,b2'));
+        ).resolves.toBe('A,B\na1,b1\na2,b2'));
 
     describe('header option', () => {
         it('should write an array of objects without headers', () =>
-            expect(writeToString(objectRows, { headers: false })).resolves.toEqual('a1,b1\na2,b2'));
+            expect(writeToString(objectRows, { headers: false })).resolves.toBe('a1,b1\na2,b2'));
 
         it('should write an array of objects with headers', () =>
-            expect(writeToString(objectRows, { headers: true })).resolves.toEqual('a,b\na1,b1\na2,b2'));
+            expect(writeToString(objectRows, { headers: true })).resolves.toBe('a,b\na1,b1\na2,b2'));
 
         it('should write an array of arrays without headers', async () => {
             const rows = [
                 ['a1', 'b1'],
                 ['a2', 'b2'],
             ];
-            await expect(writeToString(rows, { headers: false })).resolves.toEqual('a1,b1\na2,b2');
+            await expect(writeToString(rows, { headers: false })).resolves.toBe('a1,b1\na2,b2');
         });
 
         it('should write an array of arrays with headers', () =>
-            expect(writeToString(arrayRows, { headers: true })).resolves.toEqual('a,b\na1,b1\na2,b2'));
+            expect(writeToString(arrayRows, { headers: true })).resolves.toBe('a,b\na1,b1\na2,b2'));
 
         it('should write an array of multi-dimensional arrays without headers', () =>
-            expect(writeToString(multiDimensionalRows, { headers: false })).resolves.toEqual('a1,b1\na2,b2'));
+            expect(writeToString(multiDimensionalRows, { headers: false })).resolves.toBe('a1,b1\na2,b2'));
 
         it('should write an array of multi-dimensional arrays with headers', () =>
-            expect(writeToString(multiDimensionalRows, { headers: true })).resolves.toEqual('a,b\na1,b1\na2,b2'));
+            expect(writeToString(multiDimensionalRows, { headers: true })).resolves.toBe('a,b\na1,b1\na2,b2'));
     });
 
     describe('rowDelimiter option', () => {
         it('should support specifying an alternate row delimiter', () =>
-            expect(writeToString(objectRows, { headers: true, rowDelimiter: '\r\n' })).resolves.toEqual(
+            expect(writeToString(objectRows, { headers: true, rowDelimiter: '\r\n' })).resolves.toBe(
                 'a,b\r\na1,b1\r\na2,b2',
             ));
 
@@ -90,14 +90,14 @@ describe('.writeToString', () => {
                 { a: 'a\t1', b: 'b1' },
                 { a: 'a\t2', b: 'b2' },
             ];
-            await expect(writeToString(rows, { headers: true, rowDelimiter: '\t' })).resolves.toEqual(
+            await expect(writeToString(rows, { headers: true, rowDelimiter: '\t' })).resolves.toBe(
                 'a,b\t"a\t1",b1\t"a\t2",b2',
             );
         });
     });
 
     it('should add a final rowDelimiter if includeEndRowDelimiter is true', () =>
-        expect(writeToString(objectRows, { headers: true, includeEndRowDelimiter: true })).resolves.toEqual(
+        expect(writeToString(objectRows, { headers: true, includeEndRowDelimiter: true })).resolves.toBe(
             'a,b\na1,b1\na2,b2\n',
         ));
 });

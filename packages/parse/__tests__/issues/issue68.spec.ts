@@ -14,7 +14,7 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                 }
                 called = true;
                 expect(err.message).toMatch(/^Parse Error/);
-                res();
+                res(() => {});
             });
             d.run(() =>
                 csv
@@ -37,7 +37,7 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                 }
                 called = true;
                 expect(err.message).toBe('Data error');
-                res();
+                res(() => {});
             });
             d.run(() => {
                 let count = 0;

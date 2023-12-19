@@ -40,7 +40,7 @@ describe('CsvParserStream', () => {
     const expectErrorEvent = <I extends Row, O extends Row>(
         stream: CsvParserStream<I, O>,
         message: string,
-        resolve: () => void,
+        resolve: (value: unknown) => void,
         reject: (err: Error) => void,
     ) => {
         let called = false;
@@ -49,7 +49,7 @@ describe('CsvParserStream', () => {
                 expect(err.message).toBe(message);
                 if (!called) {
                     called = true;
-                    resolve();
+                    resolve(() => {});
                 }
             })
             .on('end', () => reject(new Error(`Expected and error to occur [expectedMessage=${message}]`)));
@@ -70,7 +70,7 @@ describe('CsvParserStream', () => {
             const stream = parser.on('error', rej).on('end', (count: number) => {
                 expect(actual).toEqual(withHeaders.parsed);
                 expect(count).toBe(actual.length);
-                res();
+                res(() => {});
             });
             let index = 0;
             stream.on('readable', () => {
@@ -727,7 +727,7 @@ describe('CsvParserStream', () => {
                     .on('end', (count: number) => {
                         expect(rows).toEqual(withHeaders.parsed);
                         expect(count).toBe(rows.length);
-                        res();
+                        res(() => {});
                     });
             });
         });
@@ -745,7 +745,7 @@ describe('CsvParserStream', () => {
                 }
                 called = true;
                 expect(err.message).toBe('End error');
-                res();
+                res(() => {});
             });
             d.run(() =>
                 fs
