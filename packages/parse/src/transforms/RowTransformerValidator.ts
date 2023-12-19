@@ -90,7 +90,7 @@ export class RowTransformerValidator<I extends Row, O extends Row> {
 
     private callTransformer(row: I, cb: RowTransformCallback<O>): void {
         if (!this._rowTransform) {
-            return cb(null, (row as never) as O);
+            return cb(null, row as never as O);
         }
         return this._rowTransform(row, cb);
     }

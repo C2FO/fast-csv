@@ -7,8 +7,8 @@ describe('RowTransformerValidator', () => {
     const transformAndValidate = <I extends Row, O extends Row>(
         row: I,
         transformer: RowTransformerValidator<I, O>,
-    ): Promise<RowValidationResult<O>> => {
-        return new Promise((res, rej) => {
+    ): Promise<RowValidationResult<O>> =>
+        new Promise((res, rej) => {
             transformer.transformAndValidate(row, (err, results) => {
                 if (err) {
                     return rej(err);
@@ -19,7 +19,6 @@ describe('RowTransformerValidator', () => {
                 return res(results);
             });
         });
-    };
 
     describe('#transformAndValidate', () => {
         it('should return a valid row if validator and transform are not defined', async () => {

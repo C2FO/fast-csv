@@ -156,7 +156,7 @@ export class RowFormatter<I extends Row, O extends Row> {
         }
         if (RowFormatter.isRowHashArray(row)) {
             return this.headers.map((header, i): string => {
-                const col = (row[i] as unknown) as string;
+                const col = row[i] as unknown as string;
                 if (col) {
                     return col[1];
                 }
@@ -173,7 +173,7 @@ export class RowFormatter<I extends Row, O extends Row> {
 
     private callTransformer(row: I, cb: RowTransformCallback<O>): void {
         if (!this._rowTransform) {
-            return cb(null, (row as unknown) as O);
+            return cb(null, row as unknown as O);
         }
         return this._rowTransform(row, cb);
     }

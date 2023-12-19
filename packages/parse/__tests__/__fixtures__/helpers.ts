@@ -28,8 +28,8 @@ export const collectData = <I extends Row, O extends Row>(stream: CsvParserStrea
 export const parseContentAndCollectFromStream = <I extends Row, O extends Row>(
     data: PathAndContent<O>,
     parser: CsvParserStream<I, O>,
-): Promise<ParseResults<O>> => {
-    return new Promise((res, rej) => {
+): Promise<ParseResults<O>> =>
+    new Promise((res, rej) => {
         const rows: O[] = [];
         const invalidRows: Row[] = [];
         parser
@@ -42,16 +42,14 @@ export const parseContentAndCollectFromStream = <I extends Row, O extends Row>(
         parser.write(data.content);
         parser.end();
     });
-};
 
 export const expectParsed = <R extends Row>(
     resultsPromise: Promise<ParseResults<R>>,
     expectedRows: any[],
     expectedInvalidRows: any[] = [],
-): Promise<void> => {
-    return expect(resultsPromise).resolves.toEqual({
+): Promise<void> =>
+    expect(resultsPromise).resolves.toEqual({
         count: expectedRows.length + expectedInvalidRows.length,
         rows: expectedRows,
         invalidRows: expectedInvalidRows,
     });
-};

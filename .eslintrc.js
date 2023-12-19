@@ -19,7 +19,6 @@ module.exports = {
         'plugin:jest/recommended',
         'plugin:jest/style',
         'prettier',
-        'prettier/@typescript-eslint',
     ],
     ignorePatterns: ['**/build', '**/node_modules', 'documentation'],
     rules: {

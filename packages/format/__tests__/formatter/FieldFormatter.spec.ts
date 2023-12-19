@@ -2,9 +2,8 @@ import { FormatterOptions, FormatterOptionsArgs, Row } from '../../src';
 import { FieldFormatter } from '../../src/formatter';
 
 describe('FieldFormatter', () => {
-    const createFormatter = <I extends Row, O extends Row>(formatterOptions: FormatterOptionsArgs<I, O> = {}) => {
-        return new FieldFormatter(new FormatterOptions(formatterOptions));
-    };
+    const createFormatter = <I extends Row, O extends Row>(formatterOptions: FormatterOptionsArgs<I, O> = {}) =>
+        new FieldFormatter(new FormatterOptions(formatterOptions));
 
     describe('#format', () => {
         describe('header columns', () => {

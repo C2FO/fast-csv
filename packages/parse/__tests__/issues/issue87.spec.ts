@@ -27,8 +27,8 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
         }
     }
 
-    it('should not emit end until data is flushed from source', () => {
-        return new Promise((res, rej) => {
+    it('should not emit end until data is flushed from source', () =>
+        new Promise((res, rej) => {
             const myStream = new MyStream();
 
             fs.createReadStream(path.resolve(__dirname, '__fixtures__', 'issue87.csv'))
@@ -40,6 +40,5 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
                     expect(myStream.rowCount).toBe(99);
                     res();
                 });
-        });
-    });
+        }));
 });

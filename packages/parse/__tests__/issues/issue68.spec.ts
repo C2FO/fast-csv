@@ -3,8 +3,8 @@ import * as domain from 'domain';
 import * as csv from '../../src';
 
 describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
-    it('should handle bubble up parse errors properly', () => {
-        return new Promise((res) => {
+    it('should handle bubble up parse errors properly', () =>
+        new Promise((res) => {
             const d = domain.create();
             let called = false;
             d.on('error', (err: Error) => {
@@ -24,11 +24,10 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                     })
                     .on('data', () => null),
             );
-        });
-    });
+        }));
 
-    it('should handle bubble up data errors properly', () => {
-        return new Promise((res) => {
+    it('should handle bubble up data errors properly', () =>
+        new Promise((res) => {
             const d = domain.create();
             let called = false;
             d.on('error', (err: Error) => {
@@ -52,6 +51,5 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                     }
                 });
             });
-        });
-    });
+        }));
 });

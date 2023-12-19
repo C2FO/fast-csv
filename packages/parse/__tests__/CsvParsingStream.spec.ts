@@ -58,15 +58,13 @@ describe('CsvParserStream', () => {
     const parseContentAndCollect = <R extends Row>(
         data: PathAndContent<R>,
         options: ParserOptionsArgs = {},
-    ): Promise<ParseResults<R>> => {
-        return parseContentAndCollectFromStream(data, createParserStream(options));
-    };
+    ): Promise<ParseResults<R>> => parseContentAndCollectFromStream(data, createParserStream(options));
 
     it('should parse a csv without quotes or escapes', () =>
         expectParsed(parseContentAndCollect(withHeaders, { headers: true }), withHeaders.parsed));
 
-    it('should emit a readable event', () => {
-        return new Promise((res, rej) => {
+    it('should emit a readable event', () =>
+        new Promise((res, rej) => {
             const actual: Row[] = [];
             const parser = createParserStream({ headers: true });
             const stream = parser.on('error', rej).on('end', (count: number) => {
@@ -83,8 +81,7 @@ describe('CsvParserStream', () => {
             });
             stream.write(withHeaders.content);
             stream.end();
-        });
-    });
+        }));
 
     it('should emit data as a buffer if objectMode is false', async () => {
         const expected = withHeaders.parsed.map((r) => Buffer.from(JSON.stringify(r)));
@@ -171,8 +168,8 @@ describe('CsvParserStream', () => {
                 expect(transform).toHaveBeenCalledWith(['first_name', 'last_name', 'email_address', 'address']);
             });
 
-            it('should propagate an error when trying to rename headers without providing new ones', () => {
-                return new Promise((res, rej) => {
+            it('should propagate an error when trying to rename headers without providing new ones', () =>
+                new Promise((res, rej) => {
                     const stream = createParserStream({ renameHeaders: true });
                     expectErrorEvent(
                         stream,
@@ -182,11 +179,10 @@ describe('CsvParserStream', () => {
                     );
                     stream.write(withHeadersAndQuotes.content);
                     stream.end();
-                });
-            });
+                }));
 
-            it('should propagate an error when trying to rename headers without providing proper ones', () => {
-                return new Promise((res, rej) => {
+            it('should propagate an error when trying to rename headers without providing proper ones', () =>
+                new Promise((res, rej) => {
                     const stream = createParserStream({ renameHeaders: true, headers: true });
                     expectErrorEvent(
                         stream,
@@ -196,12 +192,11 @@ describe('CsvParserStream', () => {
                     );
                     stream.write(withHeadersAndQuotes.content);
                     stream.end();
-                });
-            });
+                }));
         });
 
-        it('should propagate an error header length does not match column length', () => {
-            return new Promise((res, rej) => {
+        it('should propagate an error header length does not match column length', () =>
+            new Promise((res, rej) => {
                 const stream = createParserStream({ headers: true });
                 expectErrorEvent(
                     stream,
@@ -211,17 +206,15 @@ describe('CsvParserStream', () => {
                 );
                 stream.write(headerColumnMismatch.content);
                 stream.end();
-            });
-        });
+            }));
 
-        it('should propagate an error if headers are not unique', () => {
-            return new Promise((res, rej) => {
+        it('should propagate an error if headers are not unique', () =>
+            new Promise((res, rej) => {
                 const stream = createParserStream({ headers: true });
                 expectErrorEvent(stream, 'Duplicate headers found ["first_name"]', res, rej);
                 stream.write(duplicateHeaders.content);
                 stream.end();
-            });
-        });
+            }));
 
         it('should discard extra columns that do not map to a header when discardUnmappedColumns is true', () =>
             expectParsed(
@@ -373,13 +366,11 @@ describe('CsvParserStream', () => {
 
             it('should skip up to the specified number of rows and allow renaming the headers', async () => {
                 const skipRows = 3;
-                const expected = withHeaders.parsed.slice(skipRows).map((r) => {
-                    return {
-                        h1: r.first_name,
-                        h2: r.last_name,
-                        h3: r.email_address,
-                    };
-                });
+                const expected = withHeaders.parsed.slice(skipRows).map((r) => ({
+                    h1: r.first_name,
+                    h2: r.last_name,
+                    h3: r.email_address,
+                }));
                 await expectParsed(
                     parseContentAndCollect(withHeaders, {
                         headers: ['h1', 'h2', 'h3'],
@@ -415,14 +406,12 @@ describe('CsvParserStream', () => {
 
             it('should skip up to the specified number of rows without headers and allow specifying headers', async () => {
                 const skipRows = 3;
-                const expected = noHeadersAndQuotes.parsed.slice(skipRows).map((r) => {
-                    return {
-                        h1: r[0],
-                        h2: r[1],
-                        h3: r[2],
-                        h4: r[3],
-                    };
-                });
+                const expected = noHeadersAndQuotes.parsed.slice(skipRows).map((r) => ({
+                    h1: r[0],
+                    h2: r[1],
+                    h3: r[2],
+                    h4: r[3],
+                }));
                 await expectParsed(
                     parseContentAndCollect(noHeadersAndQuotes, { headers: ['h1', 'h2', 'h3', 'h4'], skipRows }),
                     expected,
@@ -475,13 +464,12 @@ describe('CsvParserStream', () => {
         });
     });
 
-    it('should emit an error for malformed rows', () => {
-        return new Promise((res, rej) => {
+    it('should emit an error for malformed rows', () =>
+        new Promise((res, rej) => {
             write(malformed);
             const stream = parseFile(malformed.path, { headers: true });
             expectErrorEvent(stream, "Parse Error: expected: ',' OR new line got: 'a'. at 'a   \", Las'", res, rej);
-        });
-    });
+        }));
 
     describe('headers event', () => {
         it('should emit a headers event one time when headers are discovered', async () => {
@@ -573,8 +561,8 @@ describe('CsvParserStream', () => {
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), valid, invalid);
         });
 
-        it('should propagate errors from async validation', () => {
-            return new Promise((res, rej) => {
+        it('should propagate errors from async validation', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 let index = -1;
                 const stream = createParserStream({ headers: true }).validate((data: Row, validateNext): void => {
@@ -590,21 +578,19 @@ describe('CsvParserStream', () => {
                 stream.write(withHeaders.content);
                 stream.end();
                 expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
-        it('should propagate async errors at the beginning', () => {
-            return new Promise((res, rej) => {
+        it('should propagate async errors at the beginning', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 const stream = parseFile<RowMap, RowMap>(withHeaders.path, {
                     headers: true,
                 }).validate((data: RowMap, validateNext) => validateNext(new Error('Validation ERROR!!!!')));
                 expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
-        it('should propagate thrown errors', () => {
-            return new Promise((res, rej) => {
+        it('should propagate thrown errors', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 let index = -1;
                 const stream = parseFile(withHeaders.path, { headers: true }).validate((data, validateNext) => {
@@ -616,18 +602,16 @@ describe('CsvParserStream', () => {
                     }
                 });
                 expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
-        it('should propagate thrown errors at the beginning', () => {
-            return new Promise((res, rej) => {
+        it('should propagate thrown errors at the beginning', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 const stream = parseFile(withHeaders.path, { headers: true }).validate(() => {
                     throw new Error('Validation ERROR!!!!');
                 });
                 expectErrorEvent(stream, 'Validation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
         it('should throw an error if validate is not called with a function', () => {
             // @ts-ignore
@@ -659,8 +643,8 @@ describe('CsvParserStream', () => {
             await expectParsed(parseContentAndCollectFromStream(withHeaders, parser), expected);
         });
 
-        it('should propogate errors when transformation of data', () => {
-            return new Promise((res, rej) => {
+        it('should propogate errors when transformation of data', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 let index = -1;
                 const stream = parseFile<RowMap, RowMap>(withHeaders.path, { headers: true }).transform(
@@ -675,21 +659,19 @@ describe('CsvParserStream', () => {
                         }),
                 );
                 expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
-        it('should propogate errors when transformation of data at the beginning', () => {
-            return new Promise((res, rej) => {
+        it('should propogate errors when transformation of data at the beginning', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) =>
                     setImmediate(() => cb(new Error('transformation ERROR!!!!'))),
                 );
                 expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
-        it('should propagate thrown errors at the end', () => {
-            return new Promise((res, rej) => {
+        it('should propagate thrown errors at the end', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 let index = -1;
                 const stream = parseFile(withHeaders.path, { headers: true }).transform((data, cb) => {
@@ -701,18 +683,16 @@ describe('CsvParserStream', () => {
                     }
                 });
                 expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
-        it('should propagate thrown errors at the beginning', () => {
-            return new Promise((res, rej) => {
+        it('should propagate thrown errors at the beginning', () =>
+            new Promise((res, rej) => {
                 write(withHeaders);
                 const stream = parseFile(withHeaders.path, { headers: true }).transform(() => {
                     throw new Error('transformation ERROR!!!!');
                 });
                 expectErrorEvent(stream, 'transformation ERROR!!!!', res, rej);
-            });
-        });
+            }));
 
         it('should throw an error if a transform is not called with a function', () => {
             // @ts-ignore
@@ -753,8 +733,8 @@ describe('CsvParserStream', () => {
         });
     });
 
-    it('should not catch errors thrown in end', () => {
-        return new Promise((res, rej) => {
+    it('should not catch errors thrown in end', () =>
+        new Promise((res, rej) => {
             write(withHeaders);
             const d = domain.create();
             let called = false;
@@ -779,6 +759,5 @@ describe('CsvParserStream', () => {
                         throw new Error('End error');
                     }),
             );
-        });
-    });
+        }));
 });

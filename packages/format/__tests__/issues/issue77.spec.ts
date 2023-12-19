@@ -3,8 +3,8 @@ import * as path from 'path';
 import * as csv from '../../src';
 
 describe('Issue #77 - https://github.com/C2FO/fast-csv/issues/77', () => {
-    it('should sort columns by order of headers defined when formatting a csv', () => {
-        return new Promise((res, rej) => {
+    it('should sort columns by order of headers defined when formatting a csv', () =>
+        new Promise((res, rej) => {
             const writable = fs.createWriteStream(path.resolve(__dirname, '__fixtures__/test.csv'), {
                 encoding: 'utf8',
             });
@@ -23,11 +23,10 @@ describe('Issue #77 - https://github.com/C2FO/fast-csv/issues/77', () => {
             [{ first: '1', second: '2' }].forEach((item) => csvStream.write(item));
 
             csvStream.end();
-        });
-    });
+        }));
 
-    it('should write headers even with no data when formatting a csv', () => {
-        return new Promise((res, rej) => {
+    it('should write headers even with no data when formatting a csv', () =>
+        new Promise((res, rej) => {
             const writable = fs.createWriteStream(path.resolve(__dirname, '__fixtures__/test.csv'), {
                 encoding: 'utf8',
             });
@@ -46,6 +45,5 @@ describe('Issue #77 - https://github.com/C2FO/fast-csv/issues/77', () => {
             [{}].forEach((item) => csvStream.write(item));
 
             csvStream.end();
-        });
-    });
+        }));
 });

@@ -13,8 +13,8 @@ describe('Issue #356 - https://github.com/C2FO/fast-csv/issues/356', () => {
     const CSV_CONTENT = ['clicks', `1`, '2', 'a'].join(EOL);
     const expectedRows = [{ clicks: 1 }, { clicks: 2 }, {}];
 
-    it('allow transforming to any object shape', () => {
-        return new Promise((res, rej) => {
+    it('allow transforming to any object shape', () =>
+        new Promise((res, rej) => {
             const invalid: RowArray[] = [];
             const rows: RowMap[] = [];
             parseString<InputRow, ClicksRow>(CSV_CONTENT, { headers: true, escape: "'" })
@@ -34,6 +34,5 @@ describe('Issue #356 - https://github.com/C2FO/fast-csv/issues/356', () => {
                     expect(count).toBe(expectedRows.length + invalid.length);
                     res();
                 });
-        });
-    });
+        }));
 });

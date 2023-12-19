@@ -12,8 +12,8 @@ describe('Issue #317 - https://github.com/C2FO/fast-csv/issues/317', () => {
         { header1: 'col6', header2: 'col6' },
     ];
 
-    it('skip trailing whitespace after a quoted field', () => {
-        return new Promise((res, rej) => {
+    it('skip trailing whitespace after a quoted field', () =>
+        new Promise((res, rej) => {
             const invalid: RowArray[] = [];
             const rows: RowMap[] = [];
             parseString(CSV_CONTENT, { headers: true, skipRows: 2, strictColumnHandling: true, maxRows: 4 })
@@ -26,6 +26,5 @@ describe('Issue #317 - https://github.com/C2FO/fast-csv/issues/317', () => {
                     expect(count).toBe(expectedRows.length + invalid.length);
                     res();
                 });
-        });
-    });
+        }));
 });

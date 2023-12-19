@@ -5,8 +5,8 @@ describe('Issue #340 - https://github.com/C2FO/fast-csv/issues/340', () => {
     const CSV_CONTENT = ['Col1', `"A '"Good'" row''"`, 'Row 2'].join(EOL);
     const expectedRows = [{ Col1: `A "Good" row'` }, { Col1: 'Row 2' }];
 
-    it('handle a trailing escape', () => {
-        return new Promise((res, rej) => {
+    it('handle a trailing escape', () =>
+        new Promise((res, rej) => {
             const invalid: RowArray[] = [];
             const rows: RowMap[] = [];
             parseString(CSV_CONTENT, { headers: true, escape: "'" })
@@ -19,6 +19,5 @@ describe('Issue #340 - https://github.com/C2FO/fast-csv/issues/340', () => {
                     expect(count).toBe(expectedRows.length + invalid.length);
                     res();
                 });
-        });
-    });
+        }));
 });
