@@ -47,7 +47,9 @@ fs.createReadStream(path.resolve(__dirname, '..', 'assets', 'snake_case_users.cs
         });
     })
     .pipe(process.stdout)
-    .on('end', () => process.exit());
+    .on('end', () => {
+        return process.exit();
+    });
 
 // Output:
 // id,firstName,lastName,address,isVerified,hasLoggedIn,age

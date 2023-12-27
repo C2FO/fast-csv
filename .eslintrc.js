@@ -25,6 +25,7 @@ module.exports = {
         '@typescript-eslint/no-unsafe-argument': 'off',
         '@typescript-eslint/no-unsafe-return': 'warn',
         'prettier/prettier': 'error',
+        'arrow-body-style': ['warn', 'always'],
         'tsdoc/syntax': 'warn',
         // never allow default export
         'import/prefer-default-export': 'off',

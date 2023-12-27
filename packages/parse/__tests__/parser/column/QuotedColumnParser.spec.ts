@@ -163,8 +163,12 @@ describe('QuotedColumnParser', () => {
 
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '"hello\n"First';
-                expect(() => parse(line, true)).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
-                expect(() => parse(line, false)).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
+                expect(() => {
+                    return parse(line, true);
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
+                expect(() => {
+                    return parse(line, false);
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
             });
 
             describe('hasMoreData is true', () => {
@@ -179,9 +183,9 @@ describe('QuotedColumnParser', () => {
             describe('hasMoreData is false', () => {
                 it('should not parse a column without a closing quote', () => {
                     const line = '"hell""o';
-                    expect(() => parse(line, false)).toThrow(
-                        /Parse Error: missing closing: '"' in line: at '"hell""o'/,
-                    );
+                    expect(() => {
+                        return parse(line, false);
+                    }).toThrow(/Parse Error: missing closing: '"' in line: at '"hell""o'/);
                 });
             });
         });
@@ -310,12 +314,12 @@ describe('QuotedColumnParser', () => {
 
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '"hello\n"First';
-                expect(() => parse(line, true, { delimiter: '\t' })).toThrow(
-                    /Parse Error: expected: '\t' OR new line got: 'F'. at 'First/,
-                );
-                expect(() => parse(line, false, { delimiter: '\t' })).toThrow(
-                    /Parse Error: expected: '\t' OR new line got: 'F'. at 'First/,
-                );
+                expect(() => {
+                    return parse(line, true, { delimiter: '\t' });
+                }).toThrow(/Parse Error: expected: '\t' OR new line got: 'F'. at 'First/);
+                expect(() => {
+                    return parse(line, false, { delimiter: '\t' });
+                }).toThrow(/Parse Error: expected: '\t' OR new line got: 'F'. at 'First/);
             });
 
             describe('hasMoreData is true', () => {
@@ -330,9 +334,9 @@ describe('QuotedColumnParser', () => {
             describe('hasMoreData is false', () => {
                 it('should not parse a column without a closing quote', () => {
                     const line = '"hell""o';
-                    expect(() => parse(line, false, { delimiter: '\t' })).toThrow(
-                        /Parse Error: missing closing: '"' in line: at '"hell""o'/,
-                    );
+                    expect(() => {
+                        return parse(line, false, { delimiter: '\t' });
+                    }).toThrow(/Parse Error: missing closing: '"' in line: at '"hell""o'/);
                 });
             });
         });
@@ -419,12 +423,12 @@ describe('QuotedColumnParser', () => {
 
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '$hello\n$First';
-                expect(() => parse(line, true, { quote: '$' })).toThrow(
-                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
-                );
-                expect(() => parse(line, false, { quote: '$' })).toThrow(
-                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
-                );
+                expect(() => {
+                    return parse(line, true, { quote: '$' });
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
+                expect(() => {
+                    return parse(line, false, { quote: '$' });
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
             });
 
             describe('hasMoreData is true', () => {
@@ -439,9 +443,9 @@ describe('QuotedColumnParser', () => {
             describe('hasMoreData is false', () => {
                 it('should not parse a column without a closing quote', () => {
                     const line = '$hell$$o';
-                    expect(() => parse(line, false, { quote: '$' })).toThrow(
-                        /Parse Error: missing closing: '\$' in line: at '\$hell\$\$o'/,
-                    );
+                    expect(() => {
+                        return parse(line, false, { quote: '$' });
+                    }).toThrow(/Parse Error: missing closing: '\$' in line: at '\$hell\$\$o'/);
                 });
             });
         });
@@ -542,12 +546,12 @@ describe('QuotedColumnParser', () => {
 
             it('should throw an error if a column contains a closing quote that is not followed by a row or column delimiter', () => {
                 const line = '"hello\n"First';
-                expect(() => parse(line, true, { escape: '$' })).toThrow(
-                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
-                );
-                expect(() => parse(line, false, { escape: '$' })).toThrow(
-                    /Parse Error: expected: ',' OR new line got: 'F'. at 'First/,
-                );
+                expect(() => {
+                    return parse(line, true, { escape: '$' });
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
+                expect(() => {
+                    return parse(line, false, { escape: '$' });
+                }).toThrow(/Parse Error: expected: ',' OR new line got: 'F'. at 'First/);
             });
 
             describe('hasMoreData is true', () => {
@@ -562,9 +566,9 @@ describe('QuotedColumnParser', () => {
             describe('hasMoreData is false', () => {
                 it('should not parse a column without a closing quote', () => {
                     const line = '"hell$"o';
-                    expect(() => parse(line, false, { escape: '$' })).toThrow(
-                        /Parse Error: missing closing: '"' in line: at '"hell\$"o'/,
-                    );
+                    expect(() => {
+                        return parse(line, false, { escape: '$' });
+                    }).toThrow(/Parse Error: missing closing: '"' in line: at '"hell\$"o'/);
                 });
             });
         });

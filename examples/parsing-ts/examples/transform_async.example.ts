@@ -14,17 +14,23 @@ type TransformedUserRow = UserRow & {
 
 const stream = parse<UserRow, TransformedUserRow>({ headers: true })
     .transform((data, cb): void => {
-        setImmediate(() =>
-            cb(null, {
+        setImmediate(() => {
+            return cb(null, {
                 firstName: data.firstName.toUpperCase(),
                 lastName: data.lastName.toUpperCase(),
                 properName: `${data.firstName} ${data.lastName}`,
-            }),
-        );
+            });
+        });
     })
-    .on('error', (error) => console.error(error))
-    .on('data', (row) => console.log(JSON.stringify(row)))
-    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => {
+        return console.error(error);
+    })
+    .on('data', (row) => {
+        return console.log(JSON.stringify(row));
+    })
+    .on('end', (rowCount: number) => {
+        return console.log(`Parsed ${rowCount} rows`);
+    });
 
 stream.write(CSV_STRING);
 stream.end();

@@ -11,8 +11,12 @@ class CsvFile {
     static write(stream: NodeJS.WritableStream, rows: Row[], options: FormatterOptionsArgs<Row, Row>): Promise<void> {
         return new Promise((res, rej) => {
             writeToStream(stream, rows, options)
-                .on('error', (err: Error) => rej(err))
-                .on('finish', () => res());
+                .on('error', (err: Error) => {
+                    return rej(err);
+                })
+                .on('finish', () => {
+                    return res();
+                });
         });
     }
 
@@ -66,15 +70,19 @@ csvFile
         { a: 'a3', b: 'b3', c: 'c3' },
     ])
     // append rows to file
-    .then(() =>
-        csvFile.append([
+    .then(() => {
+        return csvFile.append([
             { a: 'a4', b: 'b4', c: 'c4' },
             { a: 'a5', b: 'b5', c: 'c5' },
-        ]),
-    )
+        ]);
+    })
     // append another row
-    .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
-    .then(() => csvFile.read())
+    .then(() => {
+        return csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]);
+    })
+    .then(() => {
+        return csvFile.read();
+    })
     .then((contents) => {
         console.log(contents.toString());
     })

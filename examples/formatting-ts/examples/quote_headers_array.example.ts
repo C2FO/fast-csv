@@ -2,7 +2,9 @@ import { format } from '@fast-csv/format';
 
 const csvStream = format({ headers: ['header1', 'header2'], quoteHeaders: [false, true] });
 
-csvStream.pipe(process.stdout).on('end', () => process.exit());
+csvStream.pipe(process.stdout).on('end', () => {
+    return process.exit();
+});
 
 csvStream.write({ header1: 'value1a', header2: 'value2a' });
 csvStream.write({ header1: 'value1a', header2: 'value2a' });

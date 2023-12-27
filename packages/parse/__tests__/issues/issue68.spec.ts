@@ -3,8 +3,8 @@ import * as domain from 'domain';
 import * as csv from '../../src';
 
 describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
-    it('should handle bubble up parse errors properly', () =>
-        new Promise((res) => {
+    it('should handle bubble up parse errors properly', () => {
+        return new Promise((res) => {
             const d = domain.create();
             let called = false;
             d.on('error', (err: Error) => {
@@ -16,18 +16,21 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                 expect(err.message).toMatch(/^Parse Error/);
                 res(() => {});
             });
-            d.run(() =>
-                csv
+            d.run(() => {
+                return csv
                     .parseFile(path.resolve(__dirname, '__fixtures__', 'issue68-invalid.tsv'), {
                         headers: true,
                         delimiter: '\t',
                     })
-                    .on('data', () => null),
-            );
-        }));
+                    .on('data', () => {
+                        return null;
+                    });
+            });
+        });
+    });
 
-    it('should handle bubble up data errors properly', () =>
-        new Promise((res) => {
+    it('should handle bubble up data errors properly', () => {
+        return new Promise((res) => {
             const d = domain.create();
             let called = false;
             d.on('error', (err: Error) => {
@@ -51,5 +54,6 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                     }
                 });
             });
-        }));
+        });
+    });
 });

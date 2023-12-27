@@ -2,14 +2,15 @@ import { ParserOptions, ParserOptionsArgs, RowArray, RowValidationResult } from 
 import { HeaderTransformer } from '../../src/transforms';
 
 describe('HeaderTransformer', () => {
-    const createHeaderTransformer = (opts?: ParserOptionsArgs) =>
-        new HeaderTransformer<RowArray>(new ParserOptions(opts));
+    const createHeaderTransformer = (opts?: ParserOptionsArgs) => {
+        return new HeaderTransformer<RowArray>(new ParserOptions(opts));
+    };
 
     const transform = (
         row: RowArray,
         transformer: HeaderTransformer<RowArray>,
-    ): Promise<RowValidationResult<RowArray>> =>
-        new Promise((res, rej) => {
+    ): Promise<RowValidationResult<RowArray>> => {
+        return new Promise((res, rej) => {
             transformer.transform(row, (err, results) => {
                 if (err) {
                     return rej(err);
@@ -20,6 +21,7 @@ describe('HeaderTransformer', () => {
                 return res(results);
             });
         });
+    };
 
     describe('#transform', () => {
         it('should return a valid row', async () => {
@@ -67,7 +69,11 @@ describe('HeaderTransformer', () => {
             const row1 = ['origHeader1', 'origHeader2'];
             const row2 = ['a', 'b'];
             const transformer = createHeaderTransformer({
-                headers: (headers) => headers.map((h) => h?.toUpperCase()),
+                headers: (headers) => {
+                    return headers.map((h) => {
+                        return h?.toUpperCase();
+                    });
+                },
             });
             await expect(transform(row1, transformer)).resolves.toEqual({ row: null, isValid: true });
             await expect(transform(row2, transformer)).resolves.toEqual({
@@ -84,12 +90,18 @@ describe('HeaderTransformer', () => {
 
         it('should throw an error if headers is an array and is not unique', () => {
             const headers = ['origHeader1', 'origHeader1', 'origHeader2'];
-            expect(() => createHeaderTransformer({ headers })).toThrow('Duplicate headers found ["origHeader1"]');
+            expect(() => {
+                return createHeaderTransformer({ headers });
+            }).toThrow('Duplicate headers found ["origHeader1"]');
         });
 
         it('should throw an error if headers is a transform and returns non-unique values', async () => {
             const row = ['h1', 'h2', 'h3'];
-            const transformer = createHeaderTransformer({ headers: () => ['h1', 'h1', 'h3'] });
+            const transformer = createHeaderTransformer({
+                headers: () => {
+                    return ['h1', 'h1', 'h3'];
+                },
+            });
             await expect(transform(row, transformer)).rejects.toThrow('Duplicate headers found ["h1"]');
         });
 

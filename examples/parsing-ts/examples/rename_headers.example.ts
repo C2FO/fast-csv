@@ -4,9 +4,15 @@ import { parse } from '@fast-csv/parse';
 const CSV_STRING = ['header1,header2', 'a1,b1', 'a2,b2'].join(EOL);
 
 const stream = parse({ headers: ['a', 'b'], renameHeaders: true })
-    .on('error', (error) => console.error(error))
-    .on('data', (row) => console.log(row))
-    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => {
+        return console.error(error);
+    })
+    .on('data', (row) => {
+        return console.log(row);
+    })
+    .on('end', (rowCount: number) => {
+        return console.log(`Parsed ${rowCount} rows`);
+    });
 
 stream.write(CSV_STRING);
 stream.end();

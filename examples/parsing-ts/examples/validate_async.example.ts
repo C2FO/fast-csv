@@ -10,12 +10,22 @@ type UserRow = {
 
 const stream = parse<UserRow, UserRow>({ headers: true })
     .validate((row, cb): void => {
-        setImmediate(() => cb(null, row.firstName !== 'bob'));
+        setImmediate(() => {
+            return cb(null, row.firstName !== 'bob');
+        });
     })
-    .on('error', (error) => console.error(error))
-    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
-    .on('data-invalid', (row) => console.log(`Invalid [row=${JSON.stringify(row)}]`))
-    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => {
+        return console.error(error);
+    })
+    .on('data', (row) => {
+        return console.log(`Valid [row=${JSON.stringify(row)}]`);
+    })
+    .on('data-invalid', (row) => {
+        return console.log(`Invalid [row=${JSON.stringify(row)}]`);
+    })
+    .on('end', (rowCount: number) => {
+        return console.log(`Parsed ${rowCount} rows`);
+    });
 
 stream.write(CSV_STRING);
 stream.end();

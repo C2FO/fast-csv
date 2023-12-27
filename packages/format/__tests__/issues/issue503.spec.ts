@@ -2,8 +2,8 @@ import { RecordingStream } from '../__fixtures__';
 import { RowArray, write } from '../../src';
 
 describe('Issue #503 - https://github.com/C2FO/fast-csv/issues/503', () => {
-    it('should emit all columns after an empty row', () =>
-        new Promise((res, rej) => {
+    it('should emit all columns after an empty row', () => {
+        return new Promise((res, rej) => {
             const rs = new RecordingStream();
             const data: RowArray[] = [[], ['something']];
 
@@ -14,10 +14,11 @@ describe('Issue #503 - https://github.com/C2FO/fast-csv/issues/503', () => {
                     expect(rs.data).toEqual(['\nsomething']);
                     res(() => {});
                 });
-        }));
+        });
+    });
 
-    it('should not assume first row is a header if header = false', () =>
-        new Promise((res, rej) => {
+    it('should not assume first row is a header if header = false', () => {
+        return new Promise((res, rej) => {
             const rs = new RecordingStream();
             const data: RowArray[] = [['1'], [], ['1', '2', '3']];
 
@@ -28,5 +29,6 @@ describe('Issue #503 - https://github.com/C2FO/fast-csv/issues/503', () => {
                     expect(rs.data).toEqual(['1', '\n', '\n1,2,3']);
                     res(() => {});
                 });
-        }));
+        });
+    });
 });
