@@ -683,8 +683,8 @@ describe('CsvParserStream', () => {
         });
 
         it('should throw an error if validate is not called with a function', () => {
-            // @ts-ignore
             expect(() => {
+                // @ts-ignore
                 return createParserStream({ headers: true }).validate('hello');
             }).toThrow('The validate should be a function');
         });
@@ -777,8 +777,8 @@ describe('CsvParserStream', () => {
         });
 
         it('should throw an error if a transform is not called with a function', () => {
-            // @ts-ignore
             expect(() => {
+                // @ts-ignore
                 return createParserStream({ headers: true }).transform('hello');
             }).toThrow('The transform should be a function');
         });
