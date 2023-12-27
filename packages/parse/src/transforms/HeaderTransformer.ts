@@ -71,7 +71,7 @@ export class HeaderTransformer<O extends Row> {
 
     private processRow(row: RowArray<string>): RowValidationResult<O> {
         if (!this.headers) {
-            return { row: (row as never) as O, isValid: true };
+            return { row: row as never as O, isValid: true };
         }
         const { parserOptions } = this;
         if (!parserOptions.discardUnmappedColumns && row.length > this.headersLength) {
@@ -81,14 +81,14 @@ export class HeaderTransformer<O extends Row> {
                 );
             }
             return {
-                row: (row as never) as O,
+                row: row as never as O,
                 isValid: false,
                 reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
             };
         }
         if (parserOptions.strictColumnHandling && row.length < this.headersLength) {
             return {
-                row: (row as never) as O,
+                row: row as never as O,
                 isValid: false,
                 reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
             };
@@ -115,10 +115,14 @@ export class HeaderTransformer<O extends Row> {
     }
 
     private setHeaders(headers: HeaderArray): void {
-        const filteredHeaders = headers.filter((h) => !!h);
+        const filteredHeaders = headers.filter((h) => {
+            return !!h;
+        });
         if (uniq(filteredHeaders).length !== filteredHeaders.length) {
             const grouped = groupBy(filteredHeaders);
-            const duplicates = Object.keys(grouped).filter((dup) => grouped[dup].length > 1);
+            const duplicates = Object.keys(grouped).filter((dup) => {
+                return grouped[dup].length > 1;
+            });
             throw new Error(`Duplicate headers found ${JSON.stringify(duplicates)}`);
         }
         this.headers = headers;

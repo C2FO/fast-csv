@@ -6,8 +6,12 @@ const rows = [
     ['a2', 'b2'],
 ];
 writeToString(rows)
-    .then((data) => console.log(data))
-    .catch((err: Error) => console.error(err.stack));
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err: Error) => {
+        return console.error(err.stack);
+    });
 
 // Output:
 // a,b

@@ -5,15 +5,19 @@
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2016"],
+    "lib": [
+      "es2022"
+    ],
     "module": "commonjs",
+    "skipLibCheck": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
+    "useUnknownInCatchVariables": false,
     "noImplicitReturns": true,
     "pretty": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2022"
   },
   "exclude": [
     "node_modules",

@@ -1,15 +1,18 @@
 import { ParserOptions, ParserOptionsArgs } from '../../src';
 import { MaybeToken, Scanner, Token } from '../../src/parser';
 
-const createOptions = (opts: ParserOptionsArgs = {}) => new ParserOptions(opts);
+const createOptions = (opts: ParserOptionsArgs = {}) => {
+    return new ParserOptions(opts);
+};
 describe('Scanner', () => {
-    const getScanner = (line: string, hasMoreData: boolean, cursor = 0, parserOpts: ParserOptionsArgs = {}) =>
-        new Scanner({
+    const getScanner = (line: string, hasMoreData: boolean, cursor = 0, parserOpts: ParserOptionsArgs = {}) => {
+        return new Scanner({
             line,
             parserOptions: createOptions(parserOpts),
             hasMoreData,
             cursor,
         });
+    };
 
     const expectNonNullToken = (token: MaybeToken): token is Token => {
         expect(token).not.toBeNull();
@@ -135,7 +138,9 @@ describe('Scanner', () => {
 });
 
 describe('Token', () => {
-    const createToken = (token: string) => new Token({ token, startCursor: 0, endCursor: 1 });
+    const createToken = (token: string) => {
+        return new Token({ token, startCursor: 0, endCursor: 1 });
+    };
 
     describe('.isTokenRowDelimiter', () => {
         it('should return true if the token is a row delimiter', () => {

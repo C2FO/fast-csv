@@ -24,9 +24,7 @@ interface UserDetailsRow {
 fs.createReadStream(path.resolve(__dirname, '..', 'assets', 'snake_case_users.csv'))
     .pipe(csv.parse({ headers: true }))
     // pipe the parsed input into a csv formatter
-    .pipe(
-        csv.format<UserCsvRow, UserDetailsRow>({ headers: true }),
-    )
+    .pipe(csv.format<UserCsvRow, UserDetailsRow>({ headers: true }))
     // Using the transform function from the formatting stream
     .transform((row, next): void => {
         User.findById(+row.id, (err, user) => {
@@ -49,7 +47,9 @@ fs.createReadStream(path.resolve(__dirname, '..', 'assets', 'snake_case_users.cs
         });
     })
     .pipe(process.stdout)
-    .on('end', () => process.exit());
+    .on('end', () => {
+        return process.exit();
+    });
 
 // Output:
 // id,firstName,lastName,address,isVerified,hasLoggedIn,age

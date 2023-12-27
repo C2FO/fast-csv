@@ -21,12 +21,14 @@ describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
         return new Promise((res, rej) => {
             const rows: csv.RowMap[] = [];
             csv.parseString(CSV_CONTENT, { headers: true })
-                .on('data', (r: csv.RowMap) => rows.push(r))
+                .on('data', (r: csv.RowMap) => {
+                    return rows.push(r);
+                })
                 .on('error', rej)
                 .on('end', (count: number) => {
                     expect(rows).toEqual(expectedRows);
                     expect(count).toBe(expectedRows.length);
-                    res();
+                    res(() => {});
                 });
         });
     });
@@ -35,12 +37,14 @@ describe('Issue #214 - https://github.com/C2FO/fast-csv/issues/214', () => {
         return new Promise((res, rej) => {
             const rows: csv.RowMap[] = [];
             csv.parseString(CSV_CONTENT, { headers: true })
-                .addListener('data', (r: csv.RowMap) => rows.push(r))
+                .addListener('data', (r: csv.RowMap) => {
+                    return rows.push(r);
+                })
                 .on('error', rej)
                 .on('end', (count: number) => {
                     expect(rows).toEqual(expectedRows);
                     expect(count).toBe(expectedRows.length);
-                    res();
+                    res(() => {});
                 });
         });
     });

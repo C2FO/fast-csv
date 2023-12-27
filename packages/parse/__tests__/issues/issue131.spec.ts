@@ -12,11 +12,13 @@ describe('Issue #131 - https://github.com/C2FO/fast-csv/issues/131', () => {
             const actual: csv.RowMap[] = [];
             csv.parseString(csvWithBom, { headers: true })
                 .on('error', rej)
-                .on('data', (data) => actual.push(data))
+                .on('data', (data) => {
+                    return actual.push(data);
+                })
                 .on('end', (count: number) => {
                     expect(actual[0].first_name).toBe('First1');
                     expect(count).toBe(actual.length);
-                    res();
+                    res(() => {});
                 });
         });
     });

@@ -9,8 +9,11 @@ export * from './types';
 export { CsvFormatterStream } from './CsvFormatterStream';
 export { FormatterOptions, FormatterOptionsArgs } from './FormatterOptions';
 
-export const format = <I extends Row, O extends Row>(options?: FormatterOptionsArgs<I, O>): CsvFormatterStream<I, O> =>
-    new CsvFormatterStream(new FormatterOptions(options));
+export const format = <I extends Row, O extends Row>(
+    options?: FormatterOptionsArgs<I, O>,
+): CsvFormatterStream<I, O> => {
+    return new CsvFormatterStream(new FormatterOptions(options));
+};
 
 export const write = <I extends Row, O extends Row>(
     rows: I[],
@@ -20,11 +23,14 @@ export const write = <I extends Row, O extends Row>(
     const promiseWrite = promisify((row: I, cb: (error?: Error | null) => void): void => {
         csvStream.write(row, undefined, cb);
     });
-    rows.reduce(
-        (prev: Promise<void>, row: I): Promise<void> => prev.then((): Promise<void> => promiseWrite(row)),
-        Promise.resolve(),
-    )
-        .then((): void => csvStream.end())
+    rows.reduce((prev: Promise<void>, row: I): Promise<void> => {
+        return prev.then((): Promise<void> => {
+            return promiseWrite(row);
+        });
+    }, Promise.resolve())
+        .then((): void => {
+            csvStream.end();
+        })
         .catch((err): void => {
             csvStream.emit('error', err);
         });
@@ -35,7 +41,9 @@ export const writeToStream = <T extends NodeJS.WritableStream, I extends Row, O 
     ws: T,
     rows: I[],
     options?: FormatterOptionsArgs<I, O>,
-): T => write(rows, options).pipe(ws);
+): T => {
+    return write(rows, options).pipe(ws);
+};
 
 export const writeToBuffer = <I extends Row, O extends Row>(
     rows: I[],
@@ -49,7 +57,9 @@ export const writeToBuffer = <I extends Row, O extends Row>(
         },
     });
     return new Promise((res, rej): void => {
-        ws.on('error', rej).on('finish', (): void => res(Buffer.concat(buffers)));
+        ws.on('error', rej).on('finish', (): void => {
+            return res(Buffer.concat(buffers));
+        });
         write(rows, opts).pipe(ws);
     });
 };
@@ -57,7 +67,11 @@ export const writeToBuffer = <I extends Row, O extends Row>(
 export const writeToString = <I extends Row, O extends Row>(
     rows: I[],
     options?: FormatterOptionsArgs<I, O>,
-): Promise<string> => writeToBuffer(rows, options).then((buffer): string => buffer.toString());
+): Promise<string> => {
+    return writeToBuffer(rows, options).then((buffer): string => {
+        return buffer.toString();
+    });
+};
 
 export const writeToPath = <I extends Row, O extends Row>(
     path: string,

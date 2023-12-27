@@ -24,7 +24,9 @@ export class RowFormatter<I extends Row, O extends Row> {
     private static gatherHeaders(row: Row): string[] {
         if (RowFormatter.isRowHashArray(row)) {
             // lets assume a multi-dimesional array with item 0 being the header
-            return row.map((it): string => it[0]);
+            return row.map((it): string => {
+                return it[0];
+            });
         }
         if (Array.isArray(row)) {
             return row;
@@ -152,11 +154,13 @@ export class RowFormatter<I extends Row, O extends Row> {
             throw new Error('Headers is currently null');
         }
         if (!Array.isArray(row)) {
-            return this.headers.map((header): string => row[header] as string);
+            return this.headers.map((header): string => {
+                return row[header] as string;
+            });
         }
         if (RowFormatter.isRowHashArray(row)) {
             return this.headers.map((header, i): string => {
-                const col = (row[i] as unknown) as string;
+                const col = row[i] as unknown as string;
                 if (col) {
                     return col[1];
                 }
@@ -168,19 +172,23 @@ export class RowFormatter<I extends Row, O extends Row> {
         if (RowFormatter.isRowArray(row) && !this.shouldWriteHeaders) {
             return row;
         }
-        return this.headers.map((header, i): string => row[i]);
+        return this.headers.map((header, i): string => {
+            return row[i];
+        });
     }
 
     private callTransformer(row: I, cb: RowTransformCallback<O>): void {
         if (!this._rowTransform) {
-            return cb(null, (row as unknown) as O);
+            return cb(null, row as unknown as O);
         }
         return this._rowTransform(row, cb);
     }
 
     private formatColumns(columns: string[], isHeadersRow: boolean): string {
         const formattedCols = columns
-            .map((field, i): string => this.fieldFormatter.format(field, i, isHeadersRow))
+            .map((field, i): string => {
+                return this.fieldFormatter.format(field, i, isHeadersRow);
+            })
             .join(this.formatterOptions.delimiter);
         const { rowCount } = this;
         this.rowCount += 1;

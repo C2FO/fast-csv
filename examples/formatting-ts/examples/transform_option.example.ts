@@ -5,14 +5,18 @@ interface CsvRow {
     header2: string;
 }
 
-const transform = (row: CsvRow): CsvRow => ({
-    header1: row.header1.toUpperCase(),
-    header2: row.header2.toUpperCase(),
-});
+const transform = (row: CsvRow): CsvRow => {
+    return {
+        header1: row.header1.toUpperCase(),
+        header2: row.header2.toUpperCase(),
+    };
+};
 
 const csvStream = format({ headers: true, transform });
 
-csvStream.pipe(process.stdout).on('end', () => process.exit());
+csvStream.pipe(process.stdout).on('end', () => {
+    return process.exit();
+});
 
 csvStream.write({ header1: 'value1a', header2: 'value2a' });
 csvStream.write({ header1: 'value1a', header2: 'value2a' });

@@ -12,4 +12,6 @@ export type RowTransformFunction<I extends Row, O extends Row> = SyncRowTransfor
 
 export const isSyncTransform = <I extends Row, O extends Row>(
     transform: RowTransformFunction<I, O>,
-): transform is SyncRowTransform<I, O> => transform.length === 1;
+): transform is SyncRowTransform<I, O> => {
+    return transform.length === 1;
+};

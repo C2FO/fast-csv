@@ -14,16 +14,18 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                 }
                 called = true;
                 expect(err.message).toMatch(/^Parse Error/);
-                res();
+                res(() => {});
             });
-            d.run(() =>
-                csv
+            d.run(() => {
+                return csv
                     .parseFile(path.resolve(__dirname, '__fixtures__', 'issue68-invalid.tsv'), {
                         headers: true,
                         delimiter: '\t',
                     })
-                    .on('data', () => null),
-            );
+                    .on('data', () => {
+                        return null;
+                    });
+            });
         });
     });
 
@@ -38,7 +40,7 @@ describe('Issue #68 - https://github.com/C2FO/fast-csv/issues/68', () => {
                 }
                 called = true;
                 expect(err.message).toBe('Data error');
-                res();
+                res(() => {});
             });
             d.run(() => {
                 let count = 0;

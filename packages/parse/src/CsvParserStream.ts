@@ -120,7 +120,9 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
                 }
                 if (i % 100 === 0) {
                     // incase the transform are sync insert a next tick to prevent stack overflow
-                    setImmediate((): void => iterate(i + 1));
+                    setImmediate((): void => {
+                        return iterate(i + 1);
+                    });
                     return undefined;
                 }
                 return iterate(i + 1);
@@ -169,7 +171,7 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
                 }
                 if (!withHeaders.isValid) {
                     if (this.shouldEmitRows) {
-                        return cb(null, { isValid: false, row: (parsedRow as never) as O });
+                        return cb(null, { isValid: false, row: parsedRow as never as O });
                     }
                     // skipped because of skipRows option remove from total row count
                     return this.skipRow(cb);

@@ -2,9 +2,13 @@ import { ParserOptions, ParserOptionsArgs } from '../../src';
 import { Parser } from '../../src/parser';
 
 describe('Parser', () => {
-    const createParser = (parserOptions: ParserOptionsArgs = {}) => new Parser(new ParserOptions(parserOptions));
+    const createParser = (parserOptions: ParserOptionsArgs = {}) => {
+        return new Parser(new ParserOptions(parserOptions));
+    };
 
-    const parse = (data: string, hasMoreData: boolean, parser: Parser) => parser.parse(data, hasMoreData);
+    const parse = (data: string, hasMoreData: boolean, parser: Parser) => {
+        return parser.parse(data, hasMoreData);
+    };
 
     it('should parse a block of CSV text that starts with a BOM', () => {
         const data = '\ufefffirst_name,last_name,email_address';

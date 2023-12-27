@@ -12,10 +12,15 @@ import { RowFormatter } from '../../src/formatter';
 describe('RowFormatter', () => {
     const createFormatter = <I extends Row, O extends Row>(
         formatterOptions: FormatterOptionsArgs<I, O> = {},
-    ): RowFormatter<I, O> => new RowFormatter(new FormatterOptions(formatterOptions));
+    ): RowFormatter<I, O> => {
+        return new RowFormatter(new FormatterOptions(formatterOptions));
+    };
 
-    const formatRow = <I extends Row, O extends Row>(row: I, formatter: RowFormatter<I, O>): Promise<Row> =>
-        new Promise((res, rej): void => {
+    const formatRow = <I extends Row, O extends Row>(
+        row: I,
+        formatter: RowFormatter<I, O>,
+    ): Promise<RowArray | undefined> => {
+        return new Promise((res, rej): void => {
             formatter.format(row, (err, formatted): void => {
                 if (err) {
                     return rej(err);
@@ -23,9 +28,10 @@ describe('RowFormatter', () => {
                 return res(formatted);
             });
         });
+    };
 
-    const finish = <I extends Row, O extends Row>(formatter: RowFormatter<I, O>): Promise<Row> =>
-        new Promise((res, rej): void => {
+    const finish = <I extends Row, O extends Row>(formatter: RowFormatter<I, O>): Promise<RowArray | undefined> => {
+        return new Promise((res, rej): void => {
             formatter.finish((err, formatted): void => {
                 if (err) {
                     return rej(err);
@@ -33,27 +39,36 @@ describe('RowFormatter', () => {
                 return res(formatted);
             });
         });
+    };
 
     describe('#format', () => {
         describe('with array', () => {
             const headerRow = ['a', 'b'];
             const columnsRow = ['a1', 'b1'];
 
-            const syncTransform = (row: RowArray): RowArray => row.map((col) => col.toUpperCase());
+            const syncTransform = (row: RowArray): RowArray => {
+                return row.map((col) => {
+                    return col.toUpperCase();
+                });
+            };
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const syncError = (): Row => {
                 throw new Error('Expected Error');
             };
             const asyncTransform = (row: RowArray, cb: RowTransformCallback<RowArray>): void => {
-                setImmediate(() =>
-                    cb(
+                setImmediate(() => {
+                    return cb(
                         null,
-                        row.map((col) => col.toUpperCase()),
-                    ),
-                );
+                        row.map((col) => {
+                            return col.toUpperCase();
+                        }),
+                    );
+                });
             };
-            const asyncErrorTransform = (row: Row, cb: RowTransformCallback<Row>): void => {
-                setImmediate(() => cb(new Error('Expected Error')));
+            const asyncErrorTransform = (_row: Row, cb: RowTransformCallback<Row>): void => {
+                setImmediate(() => {
+                    return cb(new Error('Expected Error'));
+                });
             };
 
             it('should format an array', async () => {
@@ -144,17 +159,27 @@ describe('RowFormatter', () => {
                 ['b', 'b1'],
             ];
 
-            const syncTransform = (rowToTransform: RowHashArray<string>): RowHashArray =>
-                rowToTransform.map(([header, col]) => [header, col.toUpperCase()]);
+            const syncTransform = (rowToTransform: RowHashArray<string>): RowHashArray => {
+                return rowToTransform.map(([header, col]) => {
+                    return [header, col.toUpperCase()];
+                });
+            };
             const syncError = (): Row => {
                 throw new Error('Expected Error');
             };
             const asyncTransform = (rowToTransform: RowHashArray<string>, cb: RowTransformCallback<RowHashArray>) => {
-                const transformed: RowHashArray = rowToTransform.map(([header, col]) => [header, col.toUpperCase()]);
-                setImmediate(() => cb(null, transformed));
+                const transformed: RowHashArray = rowToTransform.map(([header, col]) => {
+                    return [header, col.toUpperCase()];
+                });
+                setImmediate(() => {
+                    return cb(null, transformed);
+                });
             };
-            const asyncErrorTransform = (rowToTransform: Row, cb: RowTransformCallback<Row>) =>
-                setImmediate(() => cb(new Error('Expected Error')));
+            const asyncErrorTransform = (rowToTransform: Row, cb: RowTransformCallback<Row>) => {
+                return setImmediate(() => {
+                    return cb(new Error('Expected Error'));
+                });
+            };
 
             it('should format a multi-dimensional array with headers true', async () => {
                 const formatter = createFormatter({ headers: true });
@@ -230,17 +255,25 @@ describe('RowFormatter', () => {
         describe('with objects', () => {
             const row = { a: 'a1', b: 'b1' };
 
-            const syncTransform = (rowToTransform: RowMap<string>): Row => ({
-                a: rowToTransform.a.toUpperCase(),
-                b: rowToTransform.b.toUpperCase(),
-            });
+            const syncTransform = (rowToTransform: RowMap<string>): Row => {
+                return {
+                    a: rowToTransform.a.toUpperCase(),
+                    b: rowToTransform.b.toUpperCase(),
+                };
+            };
             const syncError = () => {
                 throw new Error('Expected Error');
             };
-            const asyncTransform = (rowToTransform: RowMap, cb: RowTransformCallback<RowMap>) =>
-                setImmediate(() => cb(null, syncTransform(rowToTransform)));
-            const asyncErrorTransform = (rowToTransform: RowMap, cb: RowTransformCallback<RowMap>) =>
-                setImmediate(() => cb(new Error('Expected Error')));
+            const asyncTransform = (rowToTransform: RowMap, cb: RowTransformCallback<RowMap>) => {
+                return setImmediate(() => {
+                    return cb(null, syncTransform(rowToTransform));
+                });
+            };
+            const asyncErrorTransform = (rowToTransform: RowMap, cb: RowTransformCallback<RowMap>) => {
+                return setImmediate(() => {
+                    return cb(new Error('Expected Error'));
+                });
+            };
 
             it('should return a headers row with when headers true', async () => {
                 const formatter = createFormatter({ headers: true });

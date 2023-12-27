@@ -15,7 +15,7 @@ describe('Issue #97 - https://github.com/C2FO/fast-csv/issues/97', () => {
                 .on('error', rej)
                 .on('finish', () => {
                     expect(rs.data.join('')).toBe('field1,field2\na1"a,b1"b\na2"a,b2"b');
-                    res();
+                    res(() => {});
                 });
         });
     });

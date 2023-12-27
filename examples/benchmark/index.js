@@ -17,7 +17,7 @@ const promisfyStream = (stream, expectedRows) => {
                 if (count !== expectedRows) {
                     rej(new Error(`Error expected ${expectedRows} got ${count}`));
                 } else {
-                    res();
+                    res(() => {});
                 }
             })
             .on('error', rej);

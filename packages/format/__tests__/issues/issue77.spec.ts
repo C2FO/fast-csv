@@ -15,12 +15,14 @@ describe('Issue #77 - https://github.com/C2FO/fast-csv/issues/77', () => {
                     Buffer.from('second,first\n2,1'),
                 );
                 fs.unlinkSync(path.resolve(__dirname, '__fixtures__', 'test.csv'));
-                res();
+                res(() => {});
             });
 
             csvStream.pipe(writable);
 
-            [{ first: '1', second: '2' }].forEach((item) => csvStream.write(item));
+            [{ first: '1', second: '2' }].forEach((item) => {
+                return csvStream.write(item);
+            });
 
             csvStream.end();
         });
@@ -38,12 +40,14 @@ describe('Issue #77 - https://github.com/C2FO/fast-csv/issues/77', () => {
                     Buffer.from('first,second\n,'),
                 );
                 fs.unlinkSync(path.resolve(__dirname, '__fixtures__/test.csv'));
-                res();
+                res(() => {});
             });
 
             csvStream.pipe(writable);
 
-            [{}].forEach((item) => csvStream.write(item));
+            [{}].forEach((item) => {
+                return csvStream.write(item);
+            });
 
             csvStream.end();
         });

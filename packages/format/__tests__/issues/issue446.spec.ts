@@ -17,7 +17,7 @@ describe('Issue #446 - https://github.com/C2FO/fast-csv/issues/446', () => {
                         'header1,header2,header3',
                         `\na quick' brown fox,jumped,"over the lazy brown ""dog"""`,
                     ]);
-                    res();
+                    res(() => {});
                 });
         });
     });

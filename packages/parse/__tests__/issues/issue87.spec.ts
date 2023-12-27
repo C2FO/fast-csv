@@ -11,8 +11,12 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
             super({
                 objectMode: true,
                 highWaterMark: 16,
-                transform: (...args) => this.transform(...args),
-                flush: (done) => done(),
+                transform: (...args) => {
+                    return this.transform(...args);
+                },
+                flush: (done) => {
+                    return done();
+                },
             });
             this.rowCount = 0;
         }
@@ -20,7 +24,9 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
         private transform(data: csv.Row, encoding: string, done: TransformCallback) {
             this.rowCount += 1;
             if (this.rowCount % 2 === 0) {
-                setTimeout(() => done(), 10);
+                setTimeout(() => {
+                    return done();
+                }, 10);
             } else {
                 done();
             }
@@ -38,7 +44,7 @@ describe('Issue #87 - https://github.com/C2FO/fast-csv/issues/87', () => {
                 .on('error', rej)
                 .on('finish', () => {
                     expect(myStream.rowCount).toBe(99);
-                    res();
+                    res(() => {});
                 });
         });
     });

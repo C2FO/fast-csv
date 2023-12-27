@@ -4,9 +4,15 @@ import { parse } from '@fast-csv/parse';
 
 createReadStream(resolve(__dirname, '..', 'assets', 'snake_case_users.csv'))
     .pipe(parse())
-    .on('error', (error) => console.error(error))
-    .on('data', (row) => console.log(row))
-    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => {
+        return console.error(error);
+    })
+    .on('data', (row) => {
+        return console.log(row);
+    })
+    .on('end', (rowCount: number) => {
+        return console.log(`Parsed ${rowCount} rows`);
+    });
 
 // Output:
 // [ 'id', 'first_name', 'last_name', 'address' ]

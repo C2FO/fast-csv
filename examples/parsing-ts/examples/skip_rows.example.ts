@@ -11,11 +11,19 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, skipRows: 2 })
-    .on('error', (error) => console.error(error))
-    .on('data', (row) => console.log(row))
-    .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => {
+        return console.error(error);
+    })
+    .on('data', (row) => {
+        return console.log(row);
+    })
+    .on('end', (rowCount: number) => {
+        return console.log(`Parsed ${rowCount} rows`);
+    });
 
-rows.forEach((row) => stream.write(row));
+rows.forEach((row) => {
+    return stream.write(row);
+});
 stream.end();
 
 // Output:

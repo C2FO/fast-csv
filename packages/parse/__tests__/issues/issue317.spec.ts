@@ -17,14 +17,18 @@ describe('Issue #317 - https://github.com/C2FO/fast-csv/issues/317', () => {
             const invalid: RowArray[] = [];
             const rows: RowMap[] = [];
             parseString(CSV_CONTENT, { headers: true, skipRows: 2, strictColumnHandling: true, maxRows: 4 })
-                .on('data-invalid', (row: RowArray) => invalid.push(row))
-                .on('data', (r: RowMap) => rows.push(r))
+                .on('data-invalid', (row: RowArray) => {
+                    return invalid.push(row);
+                })
+                .on('data', (r: RowMap) => {
+                    return rows.push(r);
+                })
                 .on('error', rej)
                 .on('end', (count: number) => {
                     expect(rows).toEqual(expectedRows);
                     expect(invalid).toEqual(expectedInvalidRows);
                     expect(count).toBe(expectedRows.length + invalid.length);
-                    res();
+                    res(() => {});
                 });
         });
     });

@@ -12,18 +12,23 @@ export interface ParseResults<O extends Row> {
     invalidRows: Row[];
 }
 
-export const collectData = <I extends Row, O extends Row>(stream: CsvParserStream<I, O>): Promise<ParseResults<O>> =>
-    new Promise((res, rej) => {
+export const collectData = <I extends Row, O extends Row>(stream: CsvParserStream<I, O>): Promise<ParseResults<O>> => {
+    return new Promise((res, rej) => {
         const rows: O[] = [];
         const invalidRows: Row[] = [];
         stream
-            .on('data', (row: O) => rows.push(row))
-            .on('data-invalid', (row: Row) => invalidRows.push(row))
+            .on('data', (row: O) => {
+                return rows.push(row);
+            })
+            .on('data-invalid', (row: Row) => {
+                return invalidRows.push(row);
+            })
             .on('error', rej)
             .on('end', (count: number) => {
                 res({ count, rows, invalidRows });
             });
     });
+};
 
 export const parseContentAndCollectFromStream = <I extends Row, O extends Row>(
     data: PathAndContent<O>,
@@ -33,8 +38,12 @@ export const parseContentAndCollectFromStream = <I extends Row, O extends Row>(
         const rows: O[] = [];
         const invalidRows: Row[] = [];
         parser
-            .on('data', (row: O) => rows.push(row))
-            .on('data-invalid', (row) => invalidRows.push(row))
+            .on('data', (row: O) => {
+                return rows.push(row);
+            })
+            .on('data-invalid', (row) => {
+                return invalidRows.push(row);
+            })
             .on('error', rej)
             .on('end', (count: number) => {
                 res({ count, rows, invalidRows });

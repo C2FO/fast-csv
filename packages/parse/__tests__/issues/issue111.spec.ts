@@ -2,8 +2,12 @@ import { Parser } from '../../src/parser';
 import { ParserOptions } from '../../src/ParserOptions';
 
 describe('Issue #111 - https://github.com/C2FO/fast-csv/issues/111', () => {
-    const createParser = (parserOptions = {}) => new Parser(new ParserOptions(parserOptions));
-    const runParser = (data: string, hasMoreData: boolean, parser: Parser) => parser.parse(data, hasMoreData);
+    const createParser = (parserOptions = {}) => {
+        return new Parser(new ParserOptions(parserOptions));
+    };
+    const runParser = (data: string, hasMoreData: boolean, parser: Parser) => {
+        return parser.parse(data, hasMoreData);
+    };
 
     it('should parse a block of CSV text with a trailing delimiter', () => {
         const data = 'first_name,last_name,email_address,empty\nFirst1,Last1,email1@email.com,\n';

@@ -19,11 +19,13 @@ module.exports = {
         'plugin:jest/recommended',
         'plugin:jest/style',
         'prettier',
-        'prettier/@typescript-eslint',
     ],
     ignorePatterns: ['**/build', '**/node_modules', 'documentation'],
     rules: {
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-unsafe-return': 'warn',
         'prettier/prettier': 'error',
+        'arrow-body-style': ['warn', 'always'],
         'tsdoc/syntax': 'warn',
         // never allow default export
         'import/prefer-default-export': 'off',

@@ -25,14 +25,18 @@ describe('Issue #356 - https://github.com/C2FO/fast-csv/issues/356', () => {
                     }
                     return {};
                 })
-                .on('data-invalid', (row: RowArray) => invalid.push(row))
-                .on('data', (r: ClicksRow) => rows.push(r))
+                .on('data-invalid', (row: RowArray) => {
+                    return invalid.push(row);
+                })
+                .on('data', (r: ClicksRow) => {
+                    return rows.push(r);
+                })
                 .on('error', rej)
                 .on('end', (count: number) => {
                     expect(rows).toEqual(expectedRows);
                     expect(invalid).toHaveLength(0);
                     expect(count).toBe(expectedRows.length + invalid.length);
-                    res();
+                    res(() => {});
                 });
         });
     });

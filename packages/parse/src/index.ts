@@ -8,18 +8,23 @@ export * from './types';
 export { CsvParserStream } from './CsvParserStream';
 export { ParserOptions, ParserOptionsArgs } from './ParserOptions';
 
-export const parse = <I extends Row, O extends Row>(args?: ParserOptionsArgs): CsvParserStream<I, O> =>
-    new CsvParserStream(new ParserOptions(args));
+export const parse = <I extends Row, O extends Row>(args?: ParserOptionsArgs): CsvParserStream<I, O> => {
+    return new CsvParserStream(new ParserOptions(args));
+};
 
 export const parseStream = <I extends Row, O extends Row>(
     stream: NodeJS.ReadableStream,
     options?: ParserOptionsArgs,
-): CsvParserStream<I, O> => stream.pipe(new CsvParserStream(new ParserOptions(options)));
+): CsvParserStream<I, O> => {
+    return stream.pipe(new CsvParserStream(new ParserOptions(options)));
+};
 
 export const parseFile = <I extends Row, O extends Row>(
     location: string,
     options: ParserOptionsArgs = {},
-): CsvParserStream<I, O> => fs.createReadStream(location).pipe(new CsvParserStream(new ParserOptions(options)));
+): CsvParserStream<I, O> => {
+    return fs.createReadStream(location).pipe(new CsvParserStream(new ParserOptions(options)));
+};
 
 export const parseString = <I extends Row, O extends Row>(
     string: string,

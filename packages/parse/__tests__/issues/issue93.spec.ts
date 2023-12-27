@@ -16,19 +16,21 @@ describe('Issue #93 - https://github.com/C2FO/fast-csv/issues/93', () => {
                 }
                 called = true;
                 expect(err.message).toBe('End error');
-                res();
+                res(() => {});
             });
-            d.run(() =>
-                csv
+            d.run(() => {
+                return csv
                     .parseString(csvContent, { headers: true, delimiter: '\t' })
-                    .on('error', () => rej(new Error('Should not get here!')))
+                    .on('error', () => {
+                        return rej(new Error('Should not get here!'));
+                    })
                     .on('data', () => {
                         /* do nothing */
                     })
                     .on('end', () => {
                         throw new Error('End error');
-                    }),
-            );
+                    });
+            });
         });
     });
 
@@ -43,19 +45,21 @@ describe('Issue #93 - https://github.com/C2FO/fast-csv/issues/93', () => {
                 }
                 called = true;
                 expect(err.message).toBe('End error');
-                res();
+                res(() => {});
             });
-            d.run(() =>
-                csv
+            d.run(() => {
+                return csv
                     .parseString(csvContent, { headers: false })
-                    .on('error', () => rej(new Error('Should not get here!')))
+                    .on('error', () => {
+                        return rej(new Error('Should not get here!'));
+                    })
                     .on('data', () => {
                         /* do nothing */
                     })
                     .on('end', () => {
                         throw new Error('End error');
-                    }),
-            );
+                    });
+            });
         });
     });
 });
