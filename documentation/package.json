@@ -12,8 +12,8 @@
     "@docusaurus/core": "2.4.3",
     "@docusaurus/preset-classic": "2.4.3",
     "classnames": "2.2.6",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "browserslist": {
     "production": [
