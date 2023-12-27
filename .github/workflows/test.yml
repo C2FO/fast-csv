@@ -27,7 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{matrix.node-version}}-
       - run: npm ci
-      - run: npm run bootstrap
       - run: npm run build
       - run: npm test
       - name: Coveralls GitHub Action
