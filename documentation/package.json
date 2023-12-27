@@ -11,7 +11,7 @@
   "dependencies": {
     "@docusaurus/core": "2.4.3",
     "@docusaurus/preset-classic": "2.4.3",
-    "classnames": "2.2.6",
+    "classnames": "2.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
