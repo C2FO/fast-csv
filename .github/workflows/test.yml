@@ -28,7 +28,10 @@ jobs:
             ${{ runner.os }}-node-${{matrix.node-version}}-
       - run: npm ci
       - run: npm run build
-      - run: npm test
+      - run: npm run lint
+      - run: npm run jest
+      - run: npm run examples
+      - run: npm run benchmarks
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@master
         with:

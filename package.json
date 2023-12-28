@@ -13,8 +13,8 @@
     "lint:ts": "eslint --ext=.ts .",
     "lint:js": "eslint --ext=.js  ./examples/**/examples/**/*.js",
     "jest": "jest --runInBand --coverage",
-    "examples": "lerna run all-examples",
-    "benchmarks": "lerna run benchmarks --stream"
+    "examples": "npm run all-examples --ws",
+    "benchmarks": "npm run benchmarks --ws"
   },
   "repository": {
     "type": "git",
