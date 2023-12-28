@@ -1,5 +1,5 @@
 {
-  "name": "fast-csv-docs",
+  "name": "@fast-csv/docs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
