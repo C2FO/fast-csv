@@ -29,7 +29,6 @@
     "@commitlint/cli": "18.4.3",
     "@commitlint/config-angular": "18.4.3",
     "@types/jest": "29.5.11",
-    "coveralls": "3.1.1",
     "@typescript-eslint/eslint-plugin": "6.16.0",
     "@typescript-eslint/parser": "6.16.0",
     "eslint": "8.56.0",
