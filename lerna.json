@@ -1,16 +1,16 @@
 {
-  "tagVersionPrefix": "v",
-  "command": {
-    "version": {
-      "message": "chore(release): publish %s",
-      "allowBranch": "main",
-      "exact": true,
-      "createRelease": "github",
-      "conventionalCommits": true
+    "tagVersionPrefix": "v",
+    "command": {
+        "version": {
+            "message": "chore(release): publish %s",
+            "allowBranch": "main",
+            "exact": true,
+            "createRelease": "github",
+            "conventionalCommits": true
+        },
+        "bootstrap": {
+            "hoist": true
+        }
     },
-    "bootstrap": {
-      "hoist": true
-    }
-  },
-  "version": "4.3.6"
+    "version": "5.0.0"
 }

@@ -1,15 +1,15 @@
 {
-  "name": "@fast-csv/format-js-examples",
-  "version": "4.3.6",
-  "private": true,
-  "description": "fast-csv formatting examples",
-  "scripts": {
-    "list": "run-examples list",
-    "all-examples": "run-examples all",
-    "example": "run-examples run"
-  },
-  "dependencies": {
-    "@fast-csv/format": "4.3.5",
-    "example-runner": "4.3.6"
-  }
+    "name": "@fast-csv/format-js-examples",
+    "version": "5.0.0",
+    "private": true,
+    "description": "fast-csv formatting examples",
+    "scripts": {
+        "list": "run-examples list",
+        "all-examples": "run-examples all",
+        "example": "run-examples run"
+    },
+    "dependencies": {
+        "@fast-csv/format": "5.0.0",
+        "example-runner": "5.0.0"
+    }
 }

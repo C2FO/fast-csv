@@ -1,19 +1,19 @@
 {
-  "name": "@fast-csv/formatting-ts-examples",
-  "version": "4.3.6",
-  "private": true,
-  "description": "fast-csv formatting typescript examples",
-  "scripts": {
-    "list": "run-examples --dir=build list",
-    "all-examples": "run-examples --dir=build  all",
-    "example": "run-examples --dir=build run",
-    "build": "npm run clean && npm run compile",
-    "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
-    "compile": "tsc"
-  },
-  "dependencies": {
-    "@fast-csv/format": "4.3.5",
-    "example-runner": "4.3.6",
-    "typescript": "5.3.3"
-  }
+    "name": "@fast-csv/formatting-ts-examples",
+    "version": "5.0.0",
+    "private": true,
+    "description": "fast-csv formatting typescript examples",
+    "scripts": {
+        "list": "run-examples --dir=build list",
+        "all-examples": "run-examples --dir=build  all",
+        "example": "run-examples --dir=build run",
+        "build": "npm run clean && npm run compile",
+        "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
+        "compile": "tsc"
+    },
+    "dependencies": {
+        "@fast-csv/format": "5.0.0",
+        "example-runner": "5.0.0",
+        "typescript": "5.3.3"
+    }
 }

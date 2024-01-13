@@ -1,17 +1,17 @@
 {
-  "name": "example-runner",
-  "version": "4.3.6",
-  "private": true,
-  "description": "Runs examples and checks output",
-  "bin": {
-    "run-all-examples": "./bin/run-examples",
-    "run-examples": "./bin/run-examples"
-  },
-  "dependencies": {
-    "@types/yargs": "17.0.32",
-    "globby": "11.1.0",
-    "jest-diff": "29.7.0",
-    "typescript": "5.3.3",
-    "yargs": "17.7.2"
-  }
+    "name": "example-runner",
+    "version": "5.0.0",
+    "private": true,
+    "description": "Runs examples and checks output",
+    "bin": {
+        "run-all-examples": "./bin/run-examples",
+        "run-examples": "./bin/run-examples"
+    },
+    "dependencies": {
+        "@types/yargs": "17.0.32",
+        "globby": "11.1.0",
+        "jest-diff": "29.7.0",
+        "typescript": "5.3.3",
+        "yargs": "17.7.2"
+    }
 }

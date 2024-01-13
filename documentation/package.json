@@ -1,30 +1,30 @@
 {
-  "name": "@fast-csv/docs",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "docusaurus start --port=3001",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
-  },
-  "dependencies": {
-    "@docusaurus/core": "3.1.0",
-    "@docusaurus/preset-classic": "3.1.0",
-    "classnames": "2.5.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "@fast-csv/docs",
+    "version": "5.0.0",
+    "private": true,
+    "scripts": {
+        "start": "docusaurus start --port=3001",
+        "build": "docusaurus build",
+        "swizzle": "docusaurus swizzle",
+        "deploy": "docusaurus deploy"
+    },
+    "dependencies": {
+        "@docusaurus/core": "3.1.0",
+        "@docusaurus/preset-classic": "3.1.0",
+        "classnames": "2.5.1",
+        "react": "18.2.0",
+        "react-dom": "18.2.0"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }
