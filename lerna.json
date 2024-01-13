@@ -3,7 +3,7 @@
   "command": {
     "version": {
       "message": "chore(release): publish %s",
-      "allowBranch": "master",
+      "allowBranch": "main",
       "exact": true,
       "createRelease": "github",
       "conventionalCommits": true
