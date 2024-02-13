@@ -5,6 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [5.0.0](https://github.com/C2FO/fast-csv/compare/v4.3.6...v5.0.0) (2024-01-13)
 
+# BREAKING CHANGES
+
+- **deps!:** Dropped support for Node.js versions 10, 12, 14 and 15 [#833](https://github.com/C2FO/fast-csv/issues/833)
+
 ### Bug Fixes
 
 -   Added missing single quote in error message ([#656](https://github.com/C2FO/fast-csv/issues/656)) ([b9dceab](https://github.com/C2FO/fast-csv/commit/b9dceab207024c75b5bc0a5efb8120ddfebad1f6))
