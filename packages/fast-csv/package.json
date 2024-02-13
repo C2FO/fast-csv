@@ -1,43 +1,43 @@
 {
-  "name": "fast-csv",
-  "version": "5.0.0",
-  "description": "CSV parser and writer",
-  "main": "./build/src/index.js",
-  "types": "./build/src/index.d.ts",
-  "scripts": {
-    "prepublishOnly": "npm run build",
-    "build": "npm run clean && npm run compile",
-    "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
-    "compile": "tsc"
-  },
-  "directories": {
-    "lib": "src",
-    "test": "__tests__"
-  },
-  "files": [
-    "build/src/**"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/C2FO/fast-csv.git",
-    "directory": "packages/fast-csv"
-  },
-  "keywords": [
-    "csv",
-    "parser",
-    "fast",
-    "writer",
-    "csv writer",
-    "CSV"
-  ],
-  "homepage": "https://c2fo.github.io/fast-csv",
-  "author": "Doug Martin",
-  "license": "MIT",
-  "engines": {
-    "node": ">=10.0.0"
-  },
-  "dependencies": {
-    "@fast-csv/format": "5.0.0",
-    "@fast-csv/parse": "5.0.0"
-  }
+    "name": "fast-csv",
+    "version": "5.0.1",
+    "description": "CSV parser and writer",
+    "main": "./build/src/index.js",
+    "types": "./build/src/index.d.ts",
+    "scripts": {
+        "prepublishOnly": "npm run build",
+        "build": "npm run clean && npm run compile",
+        "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
+        "compile": "tsc"
+    },
+    "directories": {
+        "lib": "src",
+        "test": "__tests__"
+    },
+    "files": [
+        "build/src/**"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/C2FO/fast-csv.git",
+        "directory": "packages/fast-csv"
+    },
+    "keywords": [
+        "csv",
+        "parser",
+        "fast",
+        "writer",
+        "csv writer",
+        "CSV"
+    ],
+    "homepage": "https://c2fo.github.io/fast-csv",
+    "author": "Doug Martin",
+    "license": "MIT",
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "dependencies": {
+        "@fast-csv/format": "5.0.0",
+        "@fast-csv/parse": "5.0.0"
+    }
 }
