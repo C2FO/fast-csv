@@ -11,7 +11,7 @@
         "@types/yargs": "17.0.32",
         "globby": "11.1.0",
         "jest-diff": "29.7.0",
-        "typescript": "5.3.3",
+        "typescript": "5.4.3",
         "yargs": "17.7.2"
     }
 }
