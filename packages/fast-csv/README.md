@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://c2fo.io/fast-csv" target="blank"><img src="https://c2fo.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
+  <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
 </p>
 
 [![npm version](https://img.shields.io/npm/v/fast-csv.svg)](https://www.npmjs.org/package/fast-csv)
@@ -9,12 +9,12 @@
 
 # `fast-csv`
 
-Package that combines both [`@fast-csv/format`](https://c2fo.io/fast-csv/docs/formatting/getting-started) and [`@fast-csv/parse`](https://c2fo.io/fast-csv/docs/parsing/getting-started) into a single package.
+Package that combines both [`@fast-csv/format`](https://c2fo.github.io/fast-csv/docs/formatting/getting-started) and [`@fast-csv/parse`](https://c2fo.github.io/fast-csv/docs/parsing/getting-started) into a single package.
 
 ## Installation
 
-[Install Guide](https://c2fo.io/fast-csv/docs/introduction/install)
+[Install Guide](https://c2fo.github.io/fast-csv/docs/introduction/install)
 
 ## Usage
 
-To get started with `fast-csv` [check out the docs](https://c2fo.io/fast-csv/docs/introduction/getting-started)
+To get started with `fast-csv` [check out the docs](https://c2fo.github.io/fast-csv/docs/introduction/getting-started)
