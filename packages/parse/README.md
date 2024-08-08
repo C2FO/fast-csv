@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://c2fo.io/fast-csv" target="blank"><img src="https://c2fo.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
+  <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
 </p>
 
 [![npm version](https://img.shields.io/npm/v/@fast-csv/parse.svg)](https://www.npmjs.org/package/@fast-csv/parse)
@@ -13,8 +13,8 @@
 
 ## Installation
 
-[Install Guide](https://c2fo.io/fast-csv/docs/introduction/install)
+[Install Guide](https://c2fo.github.io/fast-csv/docs/introduction/install)
 
 ## Usage
 
-To get started with `@fast-csv/parse` [check out the docs](https://c2fo.io/fast-csv/docs/parsing/getting-started)
+To get started with `@fast-csv/parse` [check out the docs](https://c2fo.github.io/fast-csv/docs/parsing/getting-started)
