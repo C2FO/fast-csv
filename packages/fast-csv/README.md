@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://c2fo.io/fast-csv" target="blank"><img src="https://c2fo.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
+  <a href="https://c2fo.github.io/fast-csv" target="blank"><img src="https://c2fo.github.io/fast-csv/img/logo.svg" width="200" alt="fast-csv Logo" /></a>
 </p>
 
 [![npm version](https://img.shields.io/npm/v/fast-csv.svg)](https://www.npmjs.org/package/fast-csv)
