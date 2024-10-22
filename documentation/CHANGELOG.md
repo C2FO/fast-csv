@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2](https://github.com/C2FO/fast-csv/compare/v5.0.1...v5.0.2) (2024-10-22)
+
+### Bug Fixes
+
+-   **deps:** update docusaurus monorepo to v3.3.2 ([#888](https://github.com/C2FO/fast-csv/issues/888)) ([60f5e27](https://github.com/C2FO/fast-csv/commit/60f5e2759f8d4455dd39745aab88a6eb6f97e83d))
+-   **deps:** update docusaurus monorepo to v3.4.0 ([#961](https://github.com/C2FO/fast-csv/issues/961)) ([cef2f2e](https://github.com/C2FO/fast-csv/commit/cef2f2ece4612db7d52bac8bbc34dd181c2b19c0))
+
 # [5.0.0](https://github.com/C2FO/fast-csv/compare/v4.3.6...v5.0.0) (2024-01-13)
 
 ### Bug Fixes

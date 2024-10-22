@@ -1,10 +1,10 @@
 {
     "name": "fast-csv-benchmarks",
-    "version": "5.0.1",
+    "version": "5.0.2",
     "private": true,
     "description": "fast-csv examples",
     "dependencies": {
-        "fast-csv": "5.0.1"
+        "fast-csv": "5.0.2"
     },
     "scripts": {
         "benchmarks": "node ./index.js"

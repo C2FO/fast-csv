@@ -1,6 +1,6 @@
 {
     "name": "@fast-csv/parse-ts-examples",
-    "version": "5.0.0",
+    "version": "5.0.2",
     "private": true,
     "description": "fast-csv parsing typescript examples",
     "scripts": {
@@ -12,7 +12,7 @@
         "compile": "tsc"
     },
     "dependencies": {
-        "@fast-csv/parse": "5.0.0",
+        "@fast-csv/parse": "5.0.2",
         "example-runner": "5.0.0",
         "typescript": "5.3.3"
     }
