@@ -1,5 +1,4 @@
 import isFunction from 'lodash.isfunction';
-import isEqual from 'lodash.isequal';
 import { FormatterOptions } from '../FormatterOptions';
 import { FieldFormatter } from './FieldFormatter';
 import { isSyncTransform, Row, RowArray, RowHashArray, RowTransformCallback, RowTransformFunction } from '../types';
@@ -145,7 +144,10 @@ export class RowFormatter<I extends Row, O extends Row> {
             return { shouldFormatColumns: true, headers: null };
         }
         // if the row is equal to headers dont format
-        return { shouldFormatColumns: !isEqual(headers, row), headers };
+        if (Array.isArray(row) && headers.every((header, i): boolean => header === row[i])) {
+            return { shouldFormatColumns: false, headers };
+        }
+        return { shouldFormatColumns: true, headers };
     }
 
     // todo change this method to unknown[]
