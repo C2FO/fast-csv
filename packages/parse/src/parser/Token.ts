@@ -31,7 +31,8 @@ export class Token {
     }
 
     public static isTokenDelimiter(token: Token, parserOptions: ParserOptions): boolean {
-        return token.token === parserOptions.delimiter;
+        const delimiter = Array.isArray(parserOptions.delimiter) ? parserOptions.delimiter : [parserOptions.delimiter];
+        return delimiter.includes(token.token);
     }
 
     public readonly token: string;
