@@ -3,8 +3,7 @@
 </p>
 
 [![npm version](https://img.shields.io/npm/v/fast-csv.svg)](https://www.npmjs.org/package/fast-csv)
-[![Build Status](https://travis-ci.org/C2FO/fast-csv.svg?branch=master)](https://travis-ci.org/C2FO/fast-csv)
-[![Coverage Status](https://coveralls.io/repos/github/C2FO/fast-csv/badge.svg?branch=master)](https://coveralls.io/github/C2FO/fast-csv?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/C2FO/fast-csv/badge.svg?branch=master)](https://coveralls.io/github/C2FO/fast-csv?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/github/C2FO/fast-csv/badge.svg?targetFile=package.json)](https://snyk.io/test/github/C2FO/fast-csv?targetFile=package.json)
 
 # Fast-csv
@@ -27,18 +26,18 @@ See [installation docs](https://c2fo.github.io/fast-csv/docs/introduction/instal
 ## Packages
 
 
-* `fast-csv` - One stop shop for all methods and options from `@fast-csv/format` and `@fast-csv/parse`. [Get Started!](https://c2fo.github.io/fast-csv/docs/introduction/getting-started)
+* `fast-csv` - One-stop shop for all methods and options from `@fast-csv/format` and `@fast-csv/parse`. [Get Started!](https://c2fo.github.io/fast-csv/docs/introduction/getting-started)
 * `@fast-csv/parse` - Parsing package, use this if you only need to parse files. [Get Started!](https://c2fo.github.io/fast-csv/docs/parsing/getting-started)
 * `@fast-csv/format` - Formatting package, use this if you only need to format files. [Get Started!](https://c2fo.github.io/fast-csv/docs/formatting/getting-started)
 
 ## License
 
-MIT <https://github.com/C2FO/fast-csv/raw/master/LICENSE>
+MIT <https://github.com/C2FO/fast-csv/raw/main/LICENSE>
 
 ## Meta
 * Code: `git clone git://github.com/C2FO/fast-csv.git`
 * Website: <http://c2fo.com>
-* Twitter: [http://twitter.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
+* X: [http://x.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
 
 
 
