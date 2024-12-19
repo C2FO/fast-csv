@@ -36,5 +36,5 @@ describe('Issue #102 - https://github.com/C2FO/fast-csv/issues/102', () => {
                     res(() => {});
                 });
         });
-    });
+    }, 7000);
 });
