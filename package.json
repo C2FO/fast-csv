@@ -27,7 +27,7 @@
   ],
   "devDependencies": {
     "@commitlint/cli": "19.6.1",
-    "@commitlint/config-angular": "19.6.0",
+    "@commitlint/config-angular": "19.7.0",
     "@types/jest": "29.5.14",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
