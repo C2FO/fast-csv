@@ -19,6 +19,15 @@ describe('Parser', () => {
         });
     });
 
+    it('should should support multiple potential field delimeters', () => {
+        const data = 'first_name,last_name|email_address\tphone';
+        const myParser = createParser({ delimiter: [',', '|', '\t'] });
+        expect(parse(data, false, myParser)).toEqual({
+            line: '',
+            rows: [['first_name', 'last_name', 'email_address', 'phone']],
+        });
+    });
+
     describe('with \\n', () => {
         describe('unescaped data', () => {
             it('should parse a block of CSV text', () => {
