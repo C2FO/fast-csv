@@ -43,6 +43,6 @@
     "lerna": "8.2.1",
     "prettier": "3.5.3",
     "ts-jest": "29.2.6",
-    "typescript": "5.6.3"
+    "typescript": "5.8.2"
   }
 }
