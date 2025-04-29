@@ -144,7 +144,12 @@ export class RowFormatter<I extends Row, O extends Row> {
             return { shouldFormatColumns: true, headers: null };
         }
         // if the row is equal to headers dont format
-        if (Array.isArray(row) && headers.every((header, i): boolean => header === row[i])) {
+        if (
+            Array.isArray(row) &&
+            headers.every((header, i): boolean => {
+                return header === row[i];
+            })
+        ) {
             return { shouldFormatColumns: false, headers };
         }
         return { shouldFormatColumns: true, headers };
@@ -175,6 +180,7 @@ export class RowFormatter<I extends Row, O extends Row> {
             return row;
         }
         return this.headers.map((header, i): string => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return row[i];
         });
     }
