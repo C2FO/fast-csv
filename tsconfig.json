@@ -12,6 +12,5 @@
     {"path": "./packages/fast-csv"},
     {"path": "./packages/format"},
     {"path": "./packages/parse"}
-
   ]
 }

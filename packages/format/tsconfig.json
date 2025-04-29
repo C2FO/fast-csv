@@ -3,7 +3,8 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "outDir": "./build",
-    "rootDir": "."
+    "rootDir": ".",
+    "composite": true
   },
   "include": [
     "./src",
