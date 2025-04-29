@@ -37,7 +37,7 @@ MIT <https://github.com/C2FO/fast-csv/raw/main/LICENSE>
 ## Meta
 * Code: `git clone git://github.com/C2FO/fast-csv.git`
 * Website: <http://c2fo.com>
-* X: [http://x.com/c2fo](http://twitter.com/c2fo) - 877.465.4045
+* X: [http://x.com/c2fo](http://x.com/c2fo) - 877.465.4045
 
 
 
