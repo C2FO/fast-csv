@@ -98,7 +98,7 @@ export class QuotedColumnParser {
                 // tldr: only part of the column was quoted
                 const linePreview = scanner.lineFromCursor.substr(0, 10).replace(/[\r\n]/g, "\\n'");
                 throw new Error(
-                    `Parse Error: expected: '${parserOptions.escapedDelimiter}' OR new line got: '${nextNonSpaceToken.token}'. at '${linePreview}'`,
+                    `Parse Error: expected: '${parserOptions.escapedDelimiter.join(',')}' OR new line got: '${nextNonSpaceToken.token}'. at '${linePreview}'`,
                 );
             }
             scanner.advanceToToken(nextNonSpaceToken);

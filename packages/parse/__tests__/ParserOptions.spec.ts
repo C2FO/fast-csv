@@ -27,7 +27,7 @@ describe('ParserOptions', () => {
 
         it('should escape a custom delimiter', () => {
             expect(createOptions({ delimiter: '\\' }).delimiter).toBe('\\');
-            expect(createOptions({ delimiter: '\\' }).escapedDelimiter).toBe('\\\\');
+            expect(createOptions({ delimiter: '\\' }).escapedDelimiter).toEqual(['\\\\']);
         });
     });
 
