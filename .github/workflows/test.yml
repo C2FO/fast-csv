@@ -2,9 +2,9 @@ name: Test
 
 on:
   push:
-    branches:    # Array of patterns that match refs/heads
-      - main     # Push events on main branch
-  pull_request:  # Specify a second event with pattern matching
+    branches: # Array of patterns that match refs/heads
+      - main # Push events on main branch
+  pull_request: # Specify a second event with pattern matching
 env:
   CI: true
 jobs:
@@ -34,8 +34,8 @@ jobs:
       - run: npm run benchmarks
       - name: Coveralls GitHub Action
         # Per Actions best practices, SHA is the safest for third party actions
-        # https://github.com/coverallsapp/github-action/releases/tag/v2.3.4
-        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8
+        # https://github.com/coverallsapp/github-action/releases/tag/v2.3.6
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: run-unit-${{ matrix.node-version }}
@@ -47,8 +47,8 @@ jobs:
     steps:
       - name: Coveralls Finished
         # Per Actions best practices, SHA is the safest for third party actions
-        # https://github.com/coverallsapp/github-action/releases/tag/v2.3.4
-        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8
+        # https://github.com/coverallsapp/github-action/releases/tag/v2.3.6
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
