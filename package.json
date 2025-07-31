@@ -33,7 +33,7 @@
     "@typescript-eslint/parser": "6.21.0",
     "eslint": "8.57.1",
     "eslint-config-airbnb-typescript": "17.1.0",
-    "eslint-config-prettier": "10.0.2",
+    "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jest": "28.11.0",
     "eslint-plugin-prettier": "5.2.3",
