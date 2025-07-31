@@ -7,6 +7,12 @@ on:
   pull_request: # Specify a second event with pattern matching
 env:
   CI: true
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   unit:
     runs-on: ubuntu-latest
