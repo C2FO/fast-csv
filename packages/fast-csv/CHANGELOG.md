@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.5](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.5) (2025-08-04)
+
+**Note:** Version bump only for package fast-csv
+
 ## [5.0.2](https://github.com/C2FO/fast-csv/compare/v5.0.1...v5.0.2) (2024-10-22)
 
 **Note:** Version bump only for package fast-csv

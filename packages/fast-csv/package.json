@@ -1,6 +1,6 @@
 {
     "name": "fast-csv",
-    "version": "5.0.2",
+    "version": "5.0.5",
     "description": "CSV parser and writer",
     "main": "./build/src/index.js",
     "types": "./build/src/index.d.ts",
@@ -37,7 +37,7 @@
         "node": ">=10.0.0"
     },
     "dependencies": {
-        "@fast-csv/format": "5.0.2",
-        "@fast-csv/parse": "5.0.2"
+        "@fast-csv/format": "5.0.5",
+        "@fast-csv/parse": "5.0.5"
     }
 }
