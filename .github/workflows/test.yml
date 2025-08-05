@@ -41,7 +41,7 @@ jobs:
       - name: Coveralls GitHub Action
         # Per Actions best practices, SHA is the safest for third party actions
         # https://github.com/coverallsapp/github-action/releases/tag/v2.3.6
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@e7f4f977bd3dba07a6fda03be3053f1658992446
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: run-unit-${{ matrix.node-version }}
@@ -54,7 +54,7 @@ jobs:
       - name: Coveralls Finished
         # Per Actions best practices, SHA is the safest for third party actions
         # https://github.com/coverallsapp/github-action/releases/tag/v2.3.6
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@e7f4f977bd3dba07a6fda03be3053f1658992446
         with:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
