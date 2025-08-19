@@ -14,12 +14,14 @@ If set to `false` all data will be a JSON version of the row.
 ## delimiter
 **Type**: `string` **Default**: `','`
 
-The delimiter that will separate columns. 
+**Type**: `string|string[]` **Default**: `','`
+
+The delimiter(s) that will separate columns.
 
 Set this option if your file uses an alternate delimiter such as `;` or `\t`. [Example](./examples.mdx#alternate-delimiter)
 
 :::note
-When specifying an alternate delimiter you may only pass in a single character! 
+When specifying an alternate delimiter you may only pass in a single character or list of single characters!
 :::
 
 
