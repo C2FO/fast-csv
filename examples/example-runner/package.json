@@ -12,6 +12,6 @@
         "globby": "11.1.0",
         "jest-diff": "30.0.5",
         "typescript": "5.9.2",
-        "yargs": "17.7.2"
+        "yargs": "18.0.0"
     }
 }
