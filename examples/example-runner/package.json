@@ -10,7 +10,7 @@
     "dependencies": {
         "@types/yargs": "17.0.35",
         "globby": "11.1.0",
-        "jest-diff": "30.0.5",
+        "jest-diff": "30.2.0",
         "typescript": "5.9.3",
         "yargs": "17.7.2"
     }
