@@ -40,7 +40,7 @@
     "eslint-plugin-tsdoc": "0.4.0",
     "husky": "9.1.7",
     "jest": "30.2.0",
-    "lerna": "9.0.1",
+    "lerna": "9.0.3",
     "prettier": "3.6.2",
     "ts-jest": "29.4.6",
     "typescript": "5.9.3"
