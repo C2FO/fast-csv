@@ -37,7 +37,7 @@
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jest": "28.14.0",
     "eslint-plugin-prettier": "5.5.4",
-    "eslint-plugin-tsdoc": "0.4.0",
+    "eslint-plugin-tsdoc": "0.5.0",
     "husky": "9.1.7",
     "jest": "30.2.0",
     "lerna": "9.0.3",
