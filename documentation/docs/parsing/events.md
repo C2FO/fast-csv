@@ -27,7 +27,7 @@ If [objectMode](./options.md#objectmode) is set to false then all rows will be a
 
 ## data-invalid
 
-Emitted if there was invalid row encounted;
+Emitted if there was invalid row encountered;
 
 - Emitted when a `validate` function is provided and an invalid row is encountered.
 - Emitted when [strictColumnHandling](./options.md#strictcolumnhandling) is `true` and a row with a different number of fields than headers is encountered.
