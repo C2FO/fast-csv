@@ -8,6 +8,9 @@
         "swizzle": "docusaurus swizzle",
         "deploy": "docusaurus deploy"
     },
+    "engines": {
+        "node": ">=20.0.0"
+    },
     "dependencies": {
         "@docusaurus/core": "3.9.2",
         "@docusaurus/preset-classic": "3.9.2",
