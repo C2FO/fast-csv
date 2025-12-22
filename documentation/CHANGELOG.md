@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.6](https://github.com/juanri0s/fast-csv/compare/v5.0.5...v5.0.6) (2025-12-22)
+
+### Security
+
+- **deps:** update @docusaurus/core and @docusaurus/preset-classic to v3.9.2 to resolve security vulnerabilities
+
 ## [5.0.5](https://github.com/juanri0s/fast-csv/compare/v5.0.2...v5.0.5) (2025-08-04)
 
 ### Bug Fixes

@@ -1,16 +1,15 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[FEATURE]"
+title: '[FEATURE]'
 labels: enhancement
 assignees: doug-martin, dustinsmith1024
-
 ---
 
 **Parsing or Formatting?**
 
- - [ ] Formatting
- - [ ] Parsing 
+- [ ] Formatting
+- [ ] Parsing
 
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]

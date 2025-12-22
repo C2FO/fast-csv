@@ -1,48 +1,48 @@
 {
-  "name": "fast-csv",
-  "private": true,
-  "scripts": {
-    "clean": "lerna run clean",
-    "build": "lerna run build",
-    "lerna:pub": "lerna publish from-git",
-    "lerna:version": "lerna version",
-    "release": "npm run build && npm run lerna:version && npm run lerna:pub",
-    "test": "npm run lint && npm run jest && npm run examples",
-    "lint": "npm run lint:ts && npm run lint:js",
-    "lint:fix": "npm run lint:ts -- --fix && npm run lint:js -- --fix",
-    "lint:ts": "eslint --ext=.ts .",
-    "lint:js": "eslint --ext=.js  ./examples/**/examples/**/*.js",
-    "jest": "jest --runInBand --coverage",
-    "examples": "npm run all-examples --ws",
-    "benchmarks": "npm run benchmarks --ws"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:C2FO/fast-csv.git"
-  },
-  "workspaces": [
-    "packages/*",
-    "examples/*",
-    "documentation"
-  ],
-  "devDependencies": {
-    "@commitlint/cli": "20.2.0",
-    "@commitlint/config-angular": "20.2.0",
-    "@types/jest": "30.0.0",
-    "@typescript-eslint/eslint-plugin": "6.21.0",
-    "@typescript-eslint/parser": "6.21.0",
-    "eslint": "8.57.1",
-    "eslint-config-airbnb-typescript": "17.1.0",
-    "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-jest": "28.14.0",
-    "eslint-plugin-prettier": "5.5.4",
-    "eslint-plugin-tsdoc": "0.5.0",
-    "husky": "9.1.7",
-    "jest": "30.2.0",
-    "lerna": "9.0.3",
-    "prettier": "3.7.4",
-    "ts-jest": "29.4.6",
-    "typescript": "5.9.3"
-  }
+    "name": "fast-csv",
+    "private": true,
+    "scripts": {
+        "clean": "lerna run clean",
+        "build": "lerna run build",
+        "lerna:pub": "lerna publish from-git",
+        "lerna:version": "lerna version",
+        "release": "npm run build && npm run lerna:version && npm run lerna:pub",
+        "test": "npm run lint && npm run jest && npm run examples",
+        "lint": "npm run lint:ts && npm run lint:js",
+        "lint:fix": "npm run lint:ts -- --fix && npm run lint:js -- --fix",
+        "lint:ts": "eslint --ext=.ts .",
+        "lint:js": "eslint --ext=.js  ./examples/**/examples/**/*.js",
+        "jest": "jest --runInBand --coverage",
+        "examples": "npm run all-examples --ws",
+        "benchmarks": "npm run benchmarks --ws"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:C2FO/fast-csv.git"
+    },
+    "workspaces": [
+        "packages/*",
+        "examples/*",
+        "documentation"
+    ],
+    "devDependencies": {
+        "@commitlint/cli": "20.2.0",
+        "@commitlint/config-angular": "20.2.0",
+        "@types/jest": "30.0.0",
+        "@typescript-eslint/eslint-plugin": "6.21.0",
+        "@typescript-eslint/parser": "6.21.0",
+        "eslint": "8.57.1",
+        "eslint-config-airbnb-typescript": "17.1.0",
+        "eslint-config-prettier": "10.1.8",
+        "eslint-plugin-import": "2.32.0",
+        "eslint-plugin-jest": "28.14.0",
+        "eslint-plugin-prettier": "5.5.4",
+        "eslint-plugin-tsdoc": "0.5.0",
+        "husky": "9.1.7",
+        "jest": "30.2.0",
+        "lerna": "9.0.3",
+        "prettier": "3.7.4",
+        "ts-jest": "29.4.6",
+        "typescript": "5.9.3"
+    }
 }

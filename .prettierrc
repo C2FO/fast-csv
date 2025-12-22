@@ -1,17 +1,17 @@
 {
-  "singleQuote": true,
-  "printWidth": 120,
-  "trailingComma": "all",
-  "tabWidth": 4,
-  "overrides": [
-    {
-      "files": ["*.{yaml,yml}"],
-      "options": {
-        "tabWidth": 2,
-        "useTabs": false,
-        "singleQuote": true,
-        "bracketSpacing": true
-      }
-    }
-  ]
+    "singleQuote": true,
+    "printWidth": 120,
+    "trailingComma": "all",
+    "tabWidth": 4,
+    "overrides": [
+        {
+            "files": ["*.{yaml,yml}"],
+            "options": {
+                "tabWidth": 2,
+                "useTabs": false,
+                "singleQuote": true,
+                "bracketSpacing": true
+            }
+        }
+    ]
 }

@@ -1,6 +1,7 @@
 ---
 title: Examples
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -24,8 +25,8 @@ import TabItem from '@theme/TabItem';
 import { parse } from '@fast-csv/parse';
 
 const stream = parse({ headers: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write('header1,header2\n');
@@ -40,9 +41,9 @@ stream.end();
 const { parse } = require('fast-csv');
 
 const stream = parse({ headers: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write('header1,header2\n');
 stream.write('col1,col2');
@@ -80,14 +81,11 @@ You can provide a `delimiter` option to change the delimiter from a `,` characte
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'a1\tb1',
-    'a2\tb2'
-].join(EOL);
+const CSV_STRING = ['a1\tb1', 'a2\tb2'].join(EOL);
 
 const stream = parse({ delimiter: '\t' })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -101,15 +99,12 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'a1\tb1',
-    'a2\tb2'
-].join(EOL);
+const CSV_STRING = ['a1\tb1', 'a2\tb2'].join(EOL);
 
 const stream = parse({ delimiter: '\t' })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -130,6 +125,7 @@ Parsed 2 rows
 ---
 
 ## Headers
+
 ### First Row As Headers
 
 If you expect the first line your CSV to be headers you may pass in a `headers` option.
@@ -150,15 +146,11 @@ Setting the `headers` option to `true` will cause change each row to an object r
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'a,b',
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['a,b', 'a1,b1', 'a2,b2'].join(EOL);
 
 const stream = parse({ headers: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -172,16 +164,12 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'a,b',
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['a,b', 'a1,b1', 'a2,b2'].join(EOL);
 
 const stream = parse({ headers: true })
-  .on('error', error => console.error(error))
-  .on('data', row => console.log(row))
-  .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -224,14 +212,11 @@ not match.
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['a1,b1', 'a2,b2'].join(EOL);
 
 const stream = parse({ headers: ['a', 'b'] })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -245,15 +230,12 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['a1,b1', 'a2,b2'].join(EOL);
 
-const stream = parse({ headers: [ 'a', 'b' ] })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+const stream = parse({ headers: ['a', 'b'] })
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -291,15 +273,11 @@ If the CSV contains a header row but you want to provide custom headers you can 
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'header1,header2',
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['header1,header2', 'a1,b1', 'a2,b2'].join(EOL);
 
 const stream = parse({ headers: ['a', 'b'], renameHeaders: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -313,16 +291,12 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'header1,header2',
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['header1,header2', 'a1,b1', 'a2,b2'].join(EOL);
 
-const stream = parse({ headers: [ 'a', 'b' ], renameHeaders: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+const stream = parse({ headers: ['a', 'b'], renameHeaders: true })
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -360,17 +334,13 @@ If the CSV contains a header row but you want transform the headers you can prov
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'header1,header2',
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['header1,header2', 'a1,b1', 'a2,b2'].join(EOL);
 
 const stream = parse({
-        headers: headers => headers.map(h => h?.toUpperCase()),
-    })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    headers: (headers) => headers.map((h) => h?.toUpperCase()),
+})
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -384,18 +354,14 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'header1,header2',
-    'a1,b1',
-    'a2,b2'
-].join(EOL);
+const CSV_STRING = ['header1,header2', 'a1,b1', 'a2,b2'].join(EOL);
 
 const stream = parse({
-        headers: headers => headers.map(h => h.toUpperCase()),
-    })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    headers: (headers) => headers.map((h) => h.toUpperCase()),
+})
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -433,14 +399,11 @@ To omit some of the data columns you may not need, pass a sparse array as `heade
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'a1,b1,c1',
-    'a2,b2,c2'
-].join(EOL);
+const CSV_STRING = ['a1,b1,c1', 'a2,b2,c2'].join(EOL);
 
 const stream = parse({ headers: ['a', undefined, 'c'] })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -454,19 +417,15 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'a1,b1,c1',
-    'a2,b2,c2'
-].join(EOL);
+const CSV_STRING = ['a1,b1,c1', 'a2,b2,c2'].join(EOL);
 
-const stream = parse({ headers: [ 'a', undefined, 'c' ] })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+const stream = parse({ headers: ['a', undefined, 'c'] })
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
-
 ```
 
 </TabItem>
@@ -505,15 +464,15 @@ import { parse } from '@fast-csv/parse';
 
 const CSV_STRING = [
     'a1,b1',
-    ',',      //empty row empty colums
+    ',', //empty row empty colums
     'a2,b2',
     '   ,\t', //empty row columns with just white space
-    '',       //empty last line
+    '', //empty last line
 ].join(EOL);
 
 const stream = parse({ ignoreEmpty: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -529,16 +488,16 @@ const { parse } = require('fast-csv');
 
 const CSV_STRING = [
     'a1,b1',
-    ',',      //empty row empty colums
+    ',', //empty row empty colums
     'a2,b2',
     '   ,\t', //empty row columns with just white space
-    '',       //empty last line
+    '', //empty last line
 ].join(EOL);
 
 const stream = parse({ ignoreEmpty: true })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -576,12 +535,7 @@ You can transform data by providing a transform function. What is returned from 
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 type UserRow = {
     firstName: string;
@@ -600,7 +554,7 @@ const stream = parse<UserRow, TransformedUserRow>({ headers: true })
             properName: `${data.firstName} ${data.lastName}`,
         }),
     )
-    .on('error', error => console.error(error))
+    .on('error', (error) => console.error(error))
     .on('data', (row: TransformedUserRow) => console.log(JSON.stringify(row)))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
@@ -615,22 +569,17 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 const stream = parse({ headers: true })
-    .transform(data => ({
+    .transform((data) => ({
         firstName: data.firstName.toUpperCase(),
         lastName: data.lastName.toUpperCase(),
         properName: `${data.firstName} ${data.lastName}`,
     }))
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(JSON.stringify(row)))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(JSON.stringify(row)))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -665,12 +614,7 @@ Parsed 3 rows
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 type UserRow = {
     firstName: string;
@@ -691,8 +635,8 @@ const stream = parse<UserRow, TransformedUserRow>({ headers: true })
             }),
         );
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(JSON.stringify(row)))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(JSON.stringify(row)))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -706,24 +650,21 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 const stream = parse({ headers: true })
     .transform((data, cb) => {
-        setImmediate(() => cb(null, {
-            firstName: data.firstName.toUpperCase(),
-            lastName: data.lastName.toUpperCase(),
-            properName: `${data.firstName} ${data.lastName}`,
-        }));
+        setImmediate(() =>
+            cb(null, {
+                firstName: data.firstName.toUpperCase(),
+                lastName: data.lastName.toUpperCase(),
+                properName: `${data.firstName} ${data.lastName}`,
+            }),
+        );
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(JSON.stringify(row)))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(JSON.stringify(row)))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -762,12 +703,7 @@ You can validate each row in the CSV by providing a validate handler. If a row i
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 type UserRow = {
     firstName: string;
@@ -775,7 +711,7 @@ type UserRow = {
 };
 const stream = parse<UserRow, UserRow>({ headers: true })
     .validate((data: UserRow): boolean => data.firstName !== 'bob')
-    .on('error', error => console.error(error))
+    .on('error', (error) => console.error(error))
     .on('data', (row: UserRow) => console.log(`Valid [row=${JSON.stringify(row)}]`))
     .on('data-invalid', (row, rowNumber) =>
         console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}]`),
@@ -793,19 +729,16 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 const stream = parse({ headers: true })
-    .validate(data => data.firstName !== 'bob')
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
-    .on('data-invalid', (row, rowNumber) => console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}]`))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .validate((data) => data.firstName !== 'bob')
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .on('data-invalid', (row, rowNumber) =>
+        console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}]`),
+    )
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -840,12 +773,7 @@ Parsed 2 rows
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 type UserRow = {
     firstName: string;
@@ -856,9 +784,9 @@ const stream = parse<UserRow, UserRow>({ headers: true })
     .validate((row, cb): void => {
         setImmediate(() => cb(null, row.firstName !== 'bob'));
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
-    .on('data-invalid', row => console.log(`Invalid [row=${JSON.stringify(row)}]`))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .on('data-invalid', (row) => console.log(`Invalid [row=${JSON.stringify(row)}]`))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
@@ -872,21 +800,18 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 const stream = parse({ headers: true })
     .validate((row, cb) => {
         setImmediate(() => cb(null, row.firstName !== 'bob'));
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
-    .on('data-invalid', (row, rowNumber) => console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}]`))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .on('data-invalid', (row, rowNumber) =>
+        console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}]`),
+    )
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -921,12 +846,7 @@ Sometimes you may wish to provide a reason that the row was invalid, you can use
 import { EOL } from 'os';
 import { parse } from '@fast-csv/parse';
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 type UserRow = {
     firstName: string;
@@ -941,8 +861,8 @@ const stream = parse<UserRow, UserRow>({ headers: true })
         }
         return cb(null, true);
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
     .on('data-invalid', (row, rowNumber, reason) => {
         console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}] [reason=${reason}]`);
     })
@@ -959,12 +879,7 @@ stream.end();
 const { EOL } = require('os');
 const { parse } = require('fast-csv');
 
-const CSV_STRING = [
-    'firstName,lastName',
-    'bob,yukon',
-    'sally,yukon',
-    'timmy,yukon',
-].join(EOL);
+const CSV_STRING = ['firstName,lastName', 'bob,yukon', 'sally,yukon', 'timmy,yukon'].join(EOL);
 
 const stream = parse({ headers: true })
     .validate((row, cb) => {
@@ -974,12 +889,12 @@ const stream = parse({ headers: true })
         }
         return cb(null, true);
     })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(`Valid [row=${JSON.stringify(row)}]`))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(`Valid [row=${JSON.stringify(row)}]`))
     .on('data-invalid', (row, rowNumber, reason) => {
         console.log(`Invalid [rowNumber=${rowNumber}] [row=${JSON.stringify(row)}] [reason=${reason}]`);
     })
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
 stream.write(CSV_STRING);
 stream.end();
@@ -1032,11 +947,11 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, maxRows: 5 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 ```
 
@@ -1061,11 +976,11 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, maxRows: 5 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 ```
 
@@ -1118,11 +1033,11 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, skipRows: 2 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 ```
 
@@ -1143,11 +1058,11 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, skipRows: 2 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 ```
 
@@ -1199,11 +1114,11 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, skipLines: 2 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 ```
 
@@ -1224,11 +1139,11 @@ const rows = [
 ];
 
 const stream = parse({ headers: true, skipLines: 2 })
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 
-rows.forEach(row => stream.write(row));
+rows.forEach((row) => stream.write(row));
 stream.end();
 ```
 

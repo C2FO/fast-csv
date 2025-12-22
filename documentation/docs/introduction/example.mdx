@@ -90,8 +90,8 @@ import * as csv from 'fast-csv';
 
 fs.createReadStream(path.resolve(__dirname, 'assets', 'parse.csv'))
     .pipe(csv.parse({ headers: true }))
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
     .on('end', (rowCount: number) => console.log(`Parsed ${rowCount} rows`));
 ```
 
@@ -105,9 +105,9 @@ const csv = require('fast-csv');
 
 fs.createReadStream(path.resolve(__dirname, 'assets', 'parse.csv'))
     .pipe(csv.parse({ headers: true }))
-    .on('error', error => console.error(error))
-    .on('data', row => console.log(row))
-    .on('end', rowCount => console.log(`Parsed ${rowCount} rows`));
+    .on('error', (error) => console.error(error))
+    .on('data', (row) => console.log(row))
+    .on('end', (rowCount) => console.log(`Parsed ${rowCount} rows`));
 ```
 
 </TabItem>
@@ -166,9 +166,7 @@ interface UserDetailsRow {
 fs.createReadStream(path.resolve(__dirname, 'assets', 'snake_case_users.csv'))
     .pipe(csv.parse({ headers: true }))
     // pipe the parsed input into a csv formatter
-    .pipe(
-        csv.format<UserCsvRow, UserDetailsRow>({ headers: true }),
-    )
+    .pipe(csv.format<UserCsvRow, UserDetailsRow>({ headers: true }))
     // Using the transform function from the formatting stream
     .transform((row, next): void => {
         User.findById(+row.id, (err, user) => {
