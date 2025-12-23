@@ -1,10 +1,10 @@
 {
-  "extends": ["config:recommended"],
-  "packageRules": [
-    {
-      "matchDepTypes": ["devDependencies"],
-      "automerge": true
-    }
-  ],
-  "ignorePaths": []
+    "extends": ["config:recommended"],
+    "packageRules": [
+        {
+            "matchDepTypes": ["devDependencies"],
+            "automerge": true
+        }
+    ],
+    "ignorePaths": []
 }
