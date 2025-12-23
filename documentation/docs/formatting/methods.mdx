@@ -1,12 +1,10 @@
 ---
 title: Methods
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 ## format
-
 `csv.format(options): CsvFormatterStream`
 
 This is the main entry point for formatting CSVs. It is used by all other helper methods.
@@ -61,7 +59,6 @@ a2,b2
 </Tabs>
 
 ## write
-
 `write(rows[, options]): CsvFormatterStream`
 
 Create a formatter, writes the rows and returns the `CsvFormatterStream`.
@@ -114,7 +111,6 @@ a2,b2
 </Tabs>
 
 ## writeToStream
-
 `writeToStream(stream, rows[, options])`
 
 Write an array of values to a `WritableStream`, and returns the original stream
@@ -167,7 +163,6 @@ a2,b2
 </Tabs>
 
 ## writeToPath
-
 `writeToPath(path, rows[, options])`
 
 Write an array of values to the specified path
@@ -191,8 +186,9 @@ const rows = [
     ['a2', 'b2'],
 ];
 writeToPath(path.resolve(__dirname, 'tmp.csv'), rows)
-    .on('error', (err) => console.error(err))
+    .on('error', err => console.error(err))
     .on('finish', () => console.log('Done writing.'));
+
 ```
 
 </TabItem>
@@ -207,8 +203,9 @@ const rows = [
     ['a2', 'b2'],
 ];
 writeToPath(path.resolve(__dirname, 'tmp.csv'), rows)
-    .on('error', (err) => console.error(err))
+    .on('error', err => console.error(err))
     .on('finish', () => console.log('Done writing.'));
+
 ```
 
 </TabItem>
@@ -224,7 +221,6 @@ a2,b2
 </Tabs>
 
 ## writeToString
-
 `writeToString(arr[, options]): Promise<string>`
 
 Formats the rows and returns a `Promise` that will resolve with the CSV content as a `string`.
@@ -247,7 +243,7 @@ const rows = [
     ['a1', 'b1'],
     ['a2', 'b2'],
 ];
-writeToString(rows).then((data) => console.log(data));
+writeToString(rows).then(data => console.log(data));
 ```
 
 </TabItem>
@@ -261,7 +257,7 @@ const rows = [
     ['a1', 'b1'],
     ['a2', 'b2'],
 ];
-writeToString(rows).then((data) => console.log(data));
+writeToString(rows).then(data => console.log(data));
 ```
 
 </TabItem>
@@ -277,7 +273,6 @@ a2,b2
 </Tabs>
 
 ## writeToBuffer
-
 `writeToBuffer(arr[, options]): Promise<Buffer>`
 
 Formats the rows and returns a `Promise` that will resolve with the CSV content as a `Buffer`.
@@ -300,7 +295,7 @@ const rows = [
     ['a1', 'b1'],
     ['a2', 'b2'],
 ];
-writeToBuffer(rows).then((data) => console.log(data.toString()));
+writeToBuffer(rows).then(data => console.log(data.toString()));
 ```
 
 </TabItem>
@@ -314,7 +309,7 @@ const rows = [
     ['a1', 'b1'],
     ['a2', 'b2'],
 ];
-writeToBuffer(rows).then((data) => console.log(data.toString()));
+writeToBuffer(rows).then(data => console.log(data.toString()));
 ```
 
 </TabItem>

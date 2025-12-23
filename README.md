@@ -12,29 +12,32 @@ Fast-csv is library for parsing and formatting CSVs or any other delimited value
 
 ## Features
 
-- CSV Formatting
-- CSV Parsing
-- Built using typescript.
-- Flexible [formatting](https://c2fo.github.io/fast-csv/docs/formatting/options) and [parsing](https://c2fo.github.io/fast-csv/docs/parsing/options) options, to fit almost any scenario.
-- Built with streams first to avoid creating large memory footprint when parsing large files.
-- Battle tested in production, parsing and formatting millions of records every day.
+* CSV Formatting
+* CSV Parsing
+* Built using typescript.
+* Flexible [formatting](https://c2fo.github.io/fast-csv/docs/formatting/options) and [parsing](https://c2fo.github.io/fast-csv/docs/parsing/options) options, to fit almost any scenario.  
+* Built with streams first to avoid creating large memory footprint when parsing large files. 
+* Battle tested in production, parsing and formatting millions of records every day.
 
-## Install
+## Install 
 
 See [installation docs](https://c2fo.github.io/fast-csv/docs/introduction/install)
 
 ## Packages
 
-- `fast-csv` - One-stop shop for all methods and options from `@fast-csv/format` and `@fast-csv/parse`. [Get Started!](https://c2fo.github.io/fast-csv/docs/introduction/getting-started)
-- `@fast-csv/parse` - Parsing package, use this if you only need to parse files. [Get Started!](https://c2fo.github.io/fast-csv/docs/parsing/getting-started)
-- `@fast-csv/format` - Formatting package, use this if you only need to format files. [Get Started!](https://c2fo.github.io/fast-csv/docs/formatting/getting-started)
+
+* `fast-csv` - One-stop shop for all methods and options from `@fast-csv/format` and `@fast-csv/parse`. [Get Started!](https://c2fo.github.io/fast-csv/docs/introduction/getting-started)
+* `@fast-csv/parse` - Parsing package, use this if you only need to parse files. [Get Started!](https://c2fo.github.io/fast-csv/docs/parsing/getting-started)
+* `@fast-csv/format` - Formatting package, use this if you only need to format files. [Get Started!](https://c2fo.github.io/fast-csv/docs/formatting/getting-started)
 
 ## License
 
 MIT <https://github.com/C2FO/fast-csv/raw/main/LICENSE>
 
 ## Meta
+* Code: `git clone git://github.com/C2FO/fast-csv.git`
+* Website: <http://c2fo.com>
+* X: [http://x.com/c2fo](http://x.com/c2fo) - 877.465.4045
 
-- Code: `git clone git://github.com/C2FO/fast-csv.git`
-- Website: <http://c2fo.com>
-- X: [http://x.com/c2fo](http://x.com/c2fo) - 877.465.4045
+
+

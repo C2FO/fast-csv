@@ -1,11 +1,17 @@
 {
-    "extends": "../../tsconfig.build.json",
-    "compilerOptions": {
-        "skipLibCheck": true,
-        "outDir": "./build",
-        "rootDir": ".",
-        "composite": true
-    },
-    "include": ["./src", "./__tests__"],
-    "exclude": ["node_modules", "dist"]
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "outDir": "./build",
+    "rootDir": ".",
+    "composite": true
+  },
+  "include": [
+    "./src",
+    "./__tests__"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

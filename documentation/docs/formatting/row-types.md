@@ -1,7 +1,6 @@
 ---
 title: Row Types
 ---
-
 When creating a CSV `fast-csv` supports a few row formats.
 
 **`{[string]: any}`**
@@ -26,9 +25,9 @@ You can also pass in your rows as arrays. If your CSV requires headers the first
 
 ```javascript
 [
-    ['a', 'b', 'c'],
-    ['a1', 'b1', 'c1'],
-];
+    ["a", "b", "c"],
+    ["a1", "b1", "c1"]
+]
 //Generated CSV
 //a,b,c
 //a1,b1,c1
@@ -41,14 +40,14 @@ This is the least commonly used format but can be useful if you have requirement
 ```javascript
 [
     [
-        ['a', 'a1'],
-        ['a', 'a2'],
-        ['b', 'b1'],
-        ['b', 'b2'],
-        ['c', 'c1'],
-        ['c', 'c2'],
-    ],
-];
+        ["a", "a1"],
+        ["a", "a2"],
+        ["b", "b1"],
+        ["b", "b2"],
+        ["c", "c1"],
+        ["c", "c2"]
+    ]
+]
 
 //Generated CSV
 //a,a,b,b,c,c
