@@ -1,16 +1,12 @@
 {
-  "extends": "./tsconfig.build.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "fast-csv": ["packages/fast-csv/src"],
-      "@fast-csv/format": ["packages/format/src"],
-      "@fast-csv/parse": ["packages/parse/src"]
-    }
-  },
-  "references": [
-    {"path": "./packages/fast-csv"},
-    {"path": "./packages/format"},
-    {"path": "./packages/parse"}
-  ]
+    "extends": "./tsconfig.build.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "fast-csv": ["packages/fast-csv/src"],
+            "@fast-csv/format": ["packages/format/src"],
+            "@fast-csv/parse": ["packages/parse/src"]
+        }
+    },
+    "references": [{ "path": "./packages/fast-csv" }, { "path": "./packages/format" }, { "path": "./packages/parse" }]
 }

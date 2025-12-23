@@ -19,4 +19,3 @@ To run a specific example
 ```sh
 npm run example -- {example_name}
 ```
-

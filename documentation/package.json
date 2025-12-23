@@ -1,6 +1,6 @@
 {
     "name": "@fast-csv/docs",
-    "version": "5.0.5",
+    "version": "5.0.6",
     "private": true,
     "scripts": {
         "start": "docusaurus start --port=3001",
@@ -8,9 +8,12 @@
         "swizzle": "docusaurus swizzle",
         "deploy": "docusaurus deploy"
     },
+    "engines": {
+        "node": ">=20.0.0"
+    },
     "dependencies": {
-        "@docusaurus/core": "3.8.1",
-        "@docusaurus/preset-classic": "3.8.1",
+        "@docusaurus/core": "3.9.2",
+        "@docusaurus/preset-classic": "3.9.2",
         "classnames": "2.5.1",
         "react": "18.3.1",
         "react-dom": "18.3.1"

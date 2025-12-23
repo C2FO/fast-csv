@@ -1,13 +1,13 @@
 ---
 title: Examples
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 [TypeScript Examples Source](https://github.com/C2FO/fast-csv/tree/master/examples/formatting-ts)
 
 [JavaScript Examples Source](https://github.com/C2FO/fast-csv/tree/master/examples/formatting-js)
-
 
 ## Alternate `delimiter`
 
@@ -379,15 +379,14 @@ value4a,value4b
 </TabItem>
 </Tabs>
 
-
 ### Provided Headers
 
 You can also provide a set of `headers` by providing an array. This allows you to
 
-* Reorder and/or exclude columns when working with object rows.
-* Rename  and/or exclude columns when working with hash array rows.
-* Specify headers or remove columns when working with array rows.
-* Enforce column order, when rows are objects.
+- Reorder and/or exclude columns when working with object rows.
+- Rename and/or exclude columns when working with hash array rows.
+- Specify headers or remove columns when working with array rows.
+- Enforce column order, when rows are objects.
 
 In this example a custom set of headers is provided for rows that are arrays.
 
@@ -653,6 +652,7 @@ not be written.
 :::
 
 ### Do not write headers.
+
 In this example the auto discovered headers are not written.
 
 <Tabs
@@ -710,6 +710,7 @@ value1a,value2a
 </Tabs>
 
 ### Specify column order without headers
+
 In this example the headers are provided to specify order of columns but they are **not** written.
 
 <Tabs
@@ -773,6 +774,7 @@ value2a,value1a
 Sometimes you may need to quote columns in a certain ways in order to meet certain requirements. `fast-csv` can quote columns and headers almost anyway you may need.
 
 ### boolean
+
 Setting `quoteColumns` to true will by default quote all columns and headers.
 
 <Tabs
@@ -890,6 +892,7 @@ value1a,"value2a"
 </Tabs>
 
 ### object
+
 Setting `quoteColumns` to a `{[string]: boolean}` will quote the columns that are in the object with a value of true
 
 <Tabs
@@ -948,6 +951,7 @@ value1a,"value2a"
 </Tabs>
 
 ### Quote Columns NOT headers
+
 If you need to quote columns and not headers you can set `quoteHeaders` to `false`.
 
 <Tabs
@@ -1225,7 +1229,7 @@ csvStream.end();
 ```js
 const { format } = require('@fast-csv/format');
 
-const csvStream = format({ headers: true }).transform(row => ({
+const csvStream = format({ headers: true }).transform((row) => ({
     header1: row.header1.toUpperCase(),
     header2: row.header2.toUpperCase(),
 }));
@@ -1295,7 +1299,7 @@ csvStream.end();
 ```js
 const { format } = require('@fast-csv/format');
 
-const transform = row => ({
+const transform = (row) => ({
     header1: row.header1.toUpperCase(),
     header2: row.header2.toUpperCase(),
 });
@@ -1345,13 +1349,14 @@ interface CsvRow {
     header2: string;
 }
 
-const csvStream = format<CsvRow, CsvRow>({ headers: true })
-    .transform((row, cb) => {
-        setImmediate(() => cb(null, {
-                header1: row.header1.toUpperCase(),
-                header2: row.header2.toUpperCase(),
-        }));
-    });
+const csvStream = format<CsvRow, CsvRow>({ headers: true }).transform((row, cb) => {
+    setImmediate(() =>
+        cb(null, {
+            header1: row.header1.toUpperCase(),
+            header2: row.header2.toUpperCase(),
+        }),
+    );
+});
 
 csvStream.pipe(process.stdout).on('end', () => process.exit());
 
@@ -1368,13 +1373,14 @@ csvStream.end();
 ```js
 const { format } = require('@fast-csv/format');
 
-const csvStream = format({ headers: true })
-    .transform((row, cb) => {
-        setImmediate(() => cb(null, {
+const csvStream = format({ headers: true }).transform((row, cb) => {
+    setImmediate(() =>
+        cb(null, {
             header1: row.header1.toUpperCase(),
             header2: row.header2.toUpperCase(),
-        }));
-    });
+        }),
+    );
+});
 
 csvStream.pipe(process.stdout).on('end', () => process.exit());
 
@@ -1493,10 +1499,10 @@ csvFile
     // append another row
     .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
     .then(() => csvFile.read())
-    .then(contents => {
+    .then((contents) => {
         console.log(`${contents}`);
     })
-    .catch(err => {
+    .catch((err) => {
         console.error(err.stack);
         process.exit(1);
     });
@@ -1514,7 +1520,7 @@ class CsvFile {
     static write(filestream, rows, options) {
         return new Promise((res, rej) => {
             csv.writeToStream(filestream, rows, options)
-                .on('error', err => rej(err))
+                .on('error', (err) => rej(err))
                 .on('finish', () => res());
         });
     }
@@ -1572,10 +1578,10 @@ csvFile
     // append another row
     .then(() => csvFile.append([{ a: 'a6', b: 'b6', c: 'c6' }]))
     .then(() => csvFile.read())
-    .then(contents => {
+    .then((contents) => {
         console.log(`${contents}`);
     })
-    .catch(err => {
+    .catch((err) => {
         console.error(err.stack);
         process.exit(1);
     });
