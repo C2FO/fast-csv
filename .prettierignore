@@ -1,0 +1,25 @@
+# Dependencies
+node_modules
+
+# Build outputs
+build
+**/*.tsbuildinfo
+coverage
+.nyc_output
+
+# Docusaurus generated files
+documentation/.docusaurus
+documentation/build
+
+# IDE
+.idea
+*.iml
+.DS_Store
+
+# Logs
+lerna-debug.log
+
+# Test artifacts
+benchmark/results
+**/*.tmp.csv
+
