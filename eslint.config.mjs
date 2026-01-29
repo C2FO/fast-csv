@@ -1,8 +1,12 @@
 // @ts-check
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import eslint from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import globals from 'globals';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import prettier from 'eslint-plugin-prettier';
 import importPlugin from 'eslint-plugin-import';
 import jest from 'eslint-plugin-jest';
@@ -44,7 +48,7 @@ export default defineConfig([
     languageOptions: {
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: __dirname,
       },
       globals: {
         ...globals.node,
