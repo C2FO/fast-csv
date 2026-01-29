@@ -112,7 +112,7 @@ describe('Scanner', () => {
             const scanner = getScanner('hello', true, 0);
             const token = scanner.nextCharacterToken;
             expectNonNullToken(token);
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
             expect(scanner.advanceToToken(token!).cursor).toBe(token!.startCursor);
         });
     });
@@ -122,7 +122,7 @@ describe('Scanner', () => {
             const scanner = getScanner('hello', true, 0);
             const token = scanner.nextCharacterToken;
             expectNonNullToken(token);
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
             expect(scanner.advancePastToken(token!).cursor).toBe(token!.endCursor + 1);
         });
     });
