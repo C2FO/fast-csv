@@ -51,7 +51,7 @@ describe('RowFormatter', () => {
                     return col.toUpperCase();
                 });
             };
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
             const syncError = (): Row => {
                 throw new Error('Expected Error');
             };

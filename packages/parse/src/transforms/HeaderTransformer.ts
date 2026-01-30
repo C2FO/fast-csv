@@ -103,7 +103,7 @@ export class HeaderTransformer<O extends Row> {
             const header = (headers as string[])[i];
             if (!isUndefined(header)) {
                 const val = row[i];
-                // eslint-disable-next-line no-param-reassign
+
                 if (isUndefined(val)) {
                     rowMap[header] = '';
                 } else {

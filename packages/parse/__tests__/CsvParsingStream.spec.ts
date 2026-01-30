@@ -830,20 +830,18 @@ describe('CsvParserStream', () => {
                 res(() => {});
             });
             d.run(() => {
-                return (
-                    fs
-                        .createReadStream(withHeaders.path)
-                        .on('error', rej)
-                        .pipe(createParserStream({ headers: true }))
-                        .on('error', () => {
-                            return rej(new Error('Should not get here!'));
-                        })
-                        // eslint-disable-next-line @typescript-eslint/no-empty-function
-                        .on('data', () => {})
-                        .on('end', () => {
-                            throw new Error('End error');
-                        })
-                );
+                return fs
+                    .createReadStream(withHeaders.path)
+                    .on('error', rej)
+                    .pipe(createParserStream({ headers: true }))
+                    .on('error', () => {
+                        return rej(new Error('Should not get here!'));
+                    })
+
+                    .on('data', () => {})
+                    .on('end', () => {
+                        throw new Error('End error');
+                    });
             });
         });
     });
