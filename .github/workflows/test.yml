@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Restore Dependencies
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@b7e8d49f17405cc70c1c120101943203c98d3a4b
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{matrix.node-version}}-${{ hashFiles('**/package-lock.json') }}
