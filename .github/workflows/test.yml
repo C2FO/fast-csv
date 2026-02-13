@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        uses: actions/setup-node@d02c89dce7e1ba9ef629ce0680989b3a1cc72edb
         with:
           node-version: ${{ matrix.node-version }}
       - name: Restore Dependencies
