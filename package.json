@@ -28,8 +28,8 @@
         "documentation"
     ],
     "devDependencies": {
-        "@commitlint/cli": "20.4.1",
-        "@commitlint/config-angular": "20.4.1",
+        "@commitlint/cli": "20.4.2",
+        "@commitlint/config-angular": "20.4.2",
         "@eslint/js": "^9.39.2",
         "@types/jest": "30.0.0",
         "@typescript-eslint/eslint-plugin": "8.56.0",
