@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - name: Perform dependency review
-        uses: actions/dependency-review-action@3c4e3dcb1aa7874d2c16be7d79418e9b7efd6261
+        uses: actions/dependency-review-action@dea54b434272cc45b0e9ff17d5f0da4d8676f07d
         with:
           fail-on-severity: low
           comment-summary-in-pr: on-failure
