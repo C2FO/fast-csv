@@ -171,7 +171,7 @@ export class CsvParserStream<I extends Row, O extends Row> extends Transform {
                 }
                 if (!withHeaders.isValid) {
                     if (this.shouldEmitRows) {
-                        return cb(null, { isValid: false, row: parsedRow as never as O });
+                        return cb(null, { isValid: false, row: parsedRow as never as O, reason: withHeaders.reason });
                     }
                     // skipped because of skipRows option remove from total row count
                     return this.skipRow(cb);
