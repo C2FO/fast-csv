@@ -1,4 +1,3 @@
-import isBoolean from 'lodash.isboolean';
 import escapeRegExp from 'lodash.escaperegexp';
 import { FormatterOptions } from '../FormatterOptions';
 import { Row } from '../types';
@@ -28,7 +27,7 @@ export class FieldFormatter<I extends Row, O extends Row> {
 
     private shouldQuote(fieldIndex: number, isHeader: boolean): boolean {
         const quoteConfig = isHeader ? this.formatterOptions.quoteHeaders : this.formatterOptions.quoteColumns;
-        if (isBoolean(quoteConfig)) {
+        if (typeof quoteConfig === 'boolean') {
             return quoteConfig;
         }
         if (Array.isArray(quoteConfig)) {
