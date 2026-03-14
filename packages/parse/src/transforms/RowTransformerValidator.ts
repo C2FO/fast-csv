@@ -1,4 +1,3 @@
-import isFunction from 'lodash.isfunction';
 import {
     Row,
     RowTransformFunction,
@@ -54,14 +53,14 @@ export class RowTransformerValidator<I extends Row, O extends Row> {
     private _rowValidator: RowValidator<O> | null = null;
 
     public set rowTransform(transformFunction: RowTransformFunction<I, O>) {
-        if (!isFunction(transformFunction)) {
+        if (typeof transformFunction !== 'function') {
             throw new TypeError('The transform should be a function');
         }
         this._rowTransform = RowTransformerValidator.createTransform(transformFunction);
     }
 
     public set rowValidator(validateFunction: RowValidate<O>) {
-        if (!isFunction(validateFunction)) {
+        if (typeof validateFunction !== 'function') {
             throw new TypeError('The validate should be a function');
         }
         this._rowValidator = RowTransformerValidator.createValidator(validateFunction);
