@@ -1,4 +1,3 @@
-import isFunction from 'lodash.isfunction';
 import { FormatterOptions } from '../FormatterOptions';
 import { FieldFormatter } from './FieldFormatter';
 import { isSyncTransform, Row, RowArray, RowHashArray, RowTransformCallback, RowTransformFunction } from '../types';
@@ -82,7 +81,7 @@ export class RowFormatter<I extends Row, O extends Row> {
     }
 
     public set rowTransform(transformFunction: RowTransformFunction<I, O>) {
-        if (!isFunction(transformFunction)) {
+        if (typeof transformFunction !== 'function') {
             throw new TypeError('The transform should be a function');
         }
         this._rowTransform = RowFormatter.createTransform(transformFunction);
