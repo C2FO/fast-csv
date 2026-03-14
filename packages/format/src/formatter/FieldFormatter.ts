@@ -1,5 +1,4 @@
 import isBoolean from 'lodash.isboolean';
-import isNil from 'lodash.isnil';
 import escapeRegExp from 'lodash.escaperegexp';
 import { FormatterOptions } from '../FormatterOptions';
 import { Row } from '../types';
@@ -42,7 +41,7 @@ export class FieldFormatter<I extends Row, O extends Row> {
     }
 
     public format(field: string, fieldIndex: number, isHeader: boolean): string {
-        const preparedField = `${isNil(field) ? '' : field}`.replace(/\0/g, '');
+        const preparedField = `${field ?? ''}`.replace(/\0/g, '');
         const { formatterOptions } = this;
         if (formatterOptions.quote !== '') {
             const shouldEscape = preparedField.indexOf(formatterOptions.quote) !== -1;

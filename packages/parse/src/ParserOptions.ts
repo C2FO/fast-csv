@@ -1,5 +1,4 @@
 import escapeRegExp from 'lodash.escaperegexp';
-import isNil from 'lodash.isnil';
 import { HeaderArray, HeaderTransformFunction } from './types';
 
 export interface ParserOptionsArgs {
@@ -76,7 +75,7 @@ export class ParserOptions {
         }
         this.escapedDelimiter = escapeRegExp(this.delimiter);
         this.escapeChar = this.escape ?? this.quote;
-        this.supportsComments = !isNil(this.comment);
+        this.supportsComments = this.comment != null;
         this.NEXT_TOKEN_REGEXP = new RegExp(`([^\\s]|\\r\\n|\\n|\\r|${this.escapedDelimiter})`);
 
         if (this.maxRows > 0) {
