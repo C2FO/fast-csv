@@ -38,12 +38,10 @@
     },
     "dependencies": {
         "lodash.escaperegexp": "^4.1.2",
-        "lodash.isboolean": "^3.0.3",
         "lodash.isfunction": "^3.0.9"
     },
     "devDependencies": {
         "@types/lodash.escaperegexp": "4.1.9",
-        "@types/lodash.isboolean": "3.0.9",
         "@types/lodash.isfunction": "3.0.9",
         "@types/node": "^22.7.8"
     }
