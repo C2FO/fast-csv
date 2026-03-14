@@ -1,4 +1,3 @@
-import isFunction from 'lodash.isfunction';
 import uniq from 'lodash.uniq';
 import groupBy from 'lodash.groupby';
 import { ParserOptions } from '../ParserOptions';
@@ -33,7 +32,7 @@ export class HeaderTransformer<O extends Row> {
             this.shouldUseFirstRow = true;
         } else if (Array.isArray(parserOptions.headers)) {
             this.setHeaders(parserOptions.headers);
-        } else if (isFunction(parserOptions.headers)) {
+        } else if (typeof parserOptions.headers === 'function') {
             this.headersTransform = parserOptions.headers;
         }
     }

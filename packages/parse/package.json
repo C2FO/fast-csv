@@ -40,13 +40,11 @@
     "dependencies": {
         "lodash.escaperegexp": "^4.1.2",
         "lodash.groupby": "^4.6.0",
-        "lodash.isfunction": "^3.0.9",
         "lodash.uniq": "^4.5.0"
     },
     "devDependencies": {
         "@types/lodash.escaperegexp": "4.1.9",
         "@types/lodash.groupby": "4.6.9",
-        "@types/lodash.isfunction": "3.0.9",
         "@types/lodash.partition": "4.6.9",
         "@types/lodash.uniq": "4.5.9",
         "@types/node": "^22.7.8",
