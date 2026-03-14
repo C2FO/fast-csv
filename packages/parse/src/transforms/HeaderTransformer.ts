@@ -1,4 +1,3 @@
-import isUndefined from 'lodash.isundefined';
 import isFunction from 'lodash.isfunction';
 import uniq from 'lodash.uniq';
 import groupBy from 'lodash.groupby';
@@ -101,10 +100,10 @@ export class HeaderTransformer<O extends Row> {
         const { headers, headersLength } = this;
         for (let i = 0; i < headersLength; i += 1) {
             const header = (headers as string[])[i];
-            if (!isUndefined(header)) {
+            if (header !== undefined) {
                 const val = row[i];
 
-                if (isUndefined(val)) {
+                if (val === undefined) {
                     rowMap[header] = '';
                 } else {
                     rowMap[header] = val;
