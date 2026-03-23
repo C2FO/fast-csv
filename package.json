@@ -1,6 +1,10 @@
 {
     "name": "fast-csv",
     "private": true,
+    "overrides": {
+        "copy-webpack-plugin": "14.0.0",
+        "css-minimizer-webpack-plugin": "8.0.0"
+    },
     "scripts": {
         "clean": "lerna run clean",
         "build": "lerna run build",
@@ -39,11 +43,11 @@
         "eslint-plugin-import": "2.32.0",
         "eslint-plugin-jest": "29.15.0",
         "eslint-plugin-prettier": "5.5.5",
-        "eslint-plugin-tsdoc": "0.5.0",
+        "eslint-plugin-tsdoc": "0.5.2",
         "globals": "^17.2.0",
         "husky": "9.1.7",
         "jest": "30.2.0",
-        "lerna": "9.0.4",
+        "lerna": "9.0.7",
         "prettier": "3.8.1",
         "ts-jest": "29.4.6",
         "typescript": "5.9.3",

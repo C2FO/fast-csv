@@ -21,7 +21,7 @@ export const write = <I extends Row, O extends Row>(
 ): CsvFormatterStream<I, O> => {
     const csvStream = format(options);
     const promiseWrite = promisify((row: I, cb: (error?: Error | null) => void): void => {
-        csvStream.write(row, undefined, cb);
+        csvStream.write(row, cb);
     });
     rows.reduce((prev: Promise<void>, row: I): Promise<void> => {
         return prev.then((): Promise<void> => {
