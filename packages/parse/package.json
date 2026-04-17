@@ -54,8 +54,8 @@
         "@types/lodash.partition": "4.6.9",
         "@types/lodash.uniq": "4.5.9",
         "@types/node": "^22.7.8",
-        "@types/sinon": "21.0.0",
+        "@types/sinon": "21.0.1",
         "lodash.partition": "^4.6.0",
-        "sinon": "21.0.3"
+        "sinon": "21.1.2"
     }
 }
