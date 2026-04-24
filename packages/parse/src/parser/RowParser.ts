@@ -20,7 +20,7 @@ export class RowParser {
         this.columnParser = new ColumnParser(parserOptions);
     }
 
-    public parse(scanner: Scanner): RowArray | null {
+    public parse(scanner: Scanner): RowArray<string> | null {
         const { parserOptions } = this;
         const { hasMoreData } = scanner;
         const currentScanner = scanner;
@@ -57,7 +57,7 @@ export class RowParser {
         return null;
     }
 
-    private getStartToken(scanner: Scanner, columns: RowArray): MaybeToken {
+    private getStartToken(scanner: Scanner, columns: RowArray<string>): MaybeToken {
         const currentToken = scanner.nextNonSpaceToken;
         if (currentToken !== null && Token.isTokenDelimiter(currentToken, this.parserOptions)) {
             columns.push('');
@@ -66,7 +66,7 @@ export class RowParser {
         return currentToken;
     }
 
-    private shouldSkipColumnParse(scanner: Scanner, currentToken: Token, columns: RowArray): boolean {
+    private shouldSkipColumnParse(scanner: Scanner, currentToken: Token, columns: RowArray<string>): boolean {
         const { parserOptions } = this;
         if (Token.isTokenDelimiter(currentToken, parserOptions)) {
             scanner.advancePastToken(currentToken);

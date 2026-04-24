@@ -6,7 +6,7 @@ import { Token } from './Token';
 
 export interface ParseResult {
     line: string;
-    rows: string[][];
+    rows: RowArray<string>[];
 }
 export class Parser {
     private static removeBOM(line: string): string {
@@ -40,7 +40,7 @@ export class Parser {
     }
 
     private parseWithoutComments(scanner: Scanner): ParseResult {
-        const rows: RowArray[] = [];
+        const rows: RowArray<string>[] = [];
         let shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = this.parseRow(scanner, rows);
@@ -50,7 +50,7 @@ export class Parser {
 
     private parseWithComments(scanner: Scanner): ParseResult {
         const { parserOptions } = this;
-        const rows: RowArray[] = [];
+        const rows: RowArray<string>[] = [];
         for (let nextToken = scanner.nextCharacterToken; nextToken !== null; nextToken = scanner.nextCharacterToken) {
             if (Token.isTokenComment(nextToken, parserOptions)) {
                 const cursor = scanner.advancePastLine();
@@ -68,7 +68,7 @@ export class Parser {
         return { line: scanner.line, rows };
     }
 
-    private parseRow(scanner: Scanner, rows: RowArray[]): boolean {
+    private parseRow(scanner: Scanner, rows: RowArray<string>[]): boolean {
         const nextToken = scanner.nextNonSpaceToken;
         if (!nextToken) {
             return false;
