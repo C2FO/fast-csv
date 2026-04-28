@@ -3,6 +3,7 @@ module.exports = {
     tagline: 'CSV Parser and Formatter',
     url: 'https://c2fo.github.io',
     baseUrl: '/fast-csv/',
+    onBrokenAnchors: 'throw',
     favicon: 'img/favicon.ico',
     organizationName: 'C2FO', // Usually your GitHub org/user name.
     projectName: 'fast-csv', // Usually your repo name.
@@ -72,6 +73,10 @@ module.exports = {
                 docs: {
                     sidebarPath: require.resolve('./sidebars.js'),
                     editUrl: 'https://github.com/C2FO/fast-csv/edit/master/documentation/',
+                },
+                blog: {
+                    onInlineAuthors: 'throw',
+                    onUntruncatedBlogPosts: 'throw',
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
