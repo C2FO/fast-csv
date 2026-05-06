@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.7](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.7) (2026-05-06)
+
+### Bug Fixes
+
+- **deps:** update dependency typescript to v5.9.2 ([#1130](https://github.com/C2FO/fast-csv/issues/1130)) ([88e40c5](https://github.com/C2FO/fast-csv/commit/88e40c56685382edb69f240e785542fbb74c8ea5))
+- **deps:** update dependency typescript to v5.9.2 ([#1137](https://github.com/C2FO/fast-csv/issues/1137)) ([132e7e0](https://github.com/C2FO/fast-csv/commit/132e7e09f14f3e80e7b7841815ecc194b1d6b67a))
+- **deps:** update dependency typescript to v5.9.3 ([#1163](https://github.com/C2FO/fast-csv/issues/1163)) ([f344b83](https://github.com/C2FO/fast-csv/commit/f344b834a1fd385e4d7c3d32b62e7b475c37f9a2))
+
+### Reverts
+
+- Revert "fix(deps): update dependency typescript to v5.9.2 (#1130)" (#1136) ([15cb9f5](https://github.com/C2FO/fast-csv/commit/15cb9f5bcd81e6b7fb9725e3648688fe71b797c4)), closes [#1130](https://github.com/C2FO/fast-csv/issues/1130) [#1136](https://github.com/C2FO/fast-csv/issues/1136)
+
 ## [5.0.5](https://github.com/juanri0s/fast-csv/compare/v5.0.2...v5.0.5) (2025-08-04)
 
 **Note:** Version bump only for package @fast-csv/parse-ts-examples

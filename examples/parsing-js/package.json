@@ -1,6 +1,6 @@
 {
     "name": "@fast-csv/parse-js-examples",
-    "version": "5.0.5",
+    "version": "5.0.7",
     "private": true,
     "description": "fast-csv parsing examples",
     "scripts": {
@@ -9,7 +9,7 @@
         "example": "run-examples run"
     },
     "dependencies": {
-        "@fast-csv/parse": "5.0.5",
-        "example-runner": "5.0.5"
+        "@fast-csv/parse": "5.0.7",
+        "example-runner": "5.0.7"
     }
 }

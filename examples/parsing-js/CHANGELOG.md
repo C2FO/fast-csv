@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.7](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.7) (2026-05-06)
+
+**Note:** Version bump only for package @fast-csv/parse-js-examples
+
 ## [5.0.5](https://github.com/juanri0s/fast-csv/compare/v5.0.2...v5.0.5) (2025-08-04)
 
 **Note:** Version bump only for package @fast-csv/parse-js-examples

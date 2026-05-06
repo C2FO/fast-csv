@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.7](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.7) (2026-05-06)
+
+### Bug Fixes
+
+- **deps:** update dependency @types/yargs to v17.0.33 ([#1146](https://github.com/C2FO/fast-csv/issues/1146)) ([bfa5b0c](https://github.com/C2FO/fast-csv/commit/bfa5b0c79e8972c31b8f0edc10290cd9ba43ceb0))
+- **deps:** update dependency @types/yargs to v17.0.35 ([#1165](https://github.com/C2FO/fast-csv/issues/1165)) ([d91a6e8](https://github.com/C2FO/fast-csv/commit/d91a6e8ef2230104f64065958497db4010fcb5e8))
+- **deps:** update dependency typescript to v5.9.2 ([#1130](https://github.com/C2FO/fast-csv/issues/1130)) ([88e40c5](https://github.com/C2FO/fast-csv/commit/88e40c56685382edb69f240e785542fbb74c8ea5))
+- **deps:** update dependency typescript to v5.9.2 ([#1137](https://github.com/C2FO/fast-csv/issues/1137)) ([132e7e0](https://github.com/C2FO/fast-csv/commit/132e7e09f14f3e80e7b7841815ecc194b1d6b67a))
+- **deps:** update dependency typescript to v5.9.3 ([#1163](https://github.com/C2FO/fast-csv/issues/1163)) ([f344b83](https://github.com/C2FO/fast-csv/commit/f344b834a1fd385e4d7c3d32b62e7b475c37f9a2))
+- **deps:** update docusaurus monorepo to v3.6.2 ([#1051](https://github.com/C2FO/fast-csv/issues/1051)) ([b41a649](https://github.com/C2FO/fast-csv/commit/b41a64991cf0dd0102ad16b8f05f4e89c397f021))
+- **deps:** update jest monorepo to v30 ([#1133](https://github.com/C2FO/fast-csv/issues/1133)) ([5a5540e](https://github.com/C2FO/fast-csv/commit/5a5540e2ec6552e6174139929542cfabbba54613))
+- **deps:** update jest monorepo to v30.2.0 ([#1149](https://github.com/C2FO/fast-csv/issues/1149)) ([c9233f5](https://github.com/C2FO/fast-csv/commit/c9233f5ce805c0728d8b68bf2ae9dbe49c42cdf2))
+
+### Reverts
+
+- Revert "fix(deps): update dependency typescript to v5.9.2 (#1130)" (#1136) ([15cb9f5](https://github.com/C2FO/fast-csv/commit/15cb9f5bcd81e6b7fb9725e3648688fe71b797c4)), closes [#1130](https://github.com/C2FO/fast-csv/issues/1130) [#1136](https://github.com/C2FO/fast-csv/issues/1136)
+
 ## [Unreleased]
 
 ## [5.0.5](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.5) (2025-08-04)
