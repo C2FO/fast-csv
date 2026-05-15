@@ -23,14 +23,18 @@ jobs:
     steps:
       # https://github.com/actions/checkout/releases/tag/v6.0.2
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - name: Setup pnpm
+        # https://github.com/pnpm/action-setup/releases/tag/v4.2.0
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.0
+          run_install: false
       - name: Use Node.js ${{ matrix.node-version }}
         # https://github.com/actions/setup-node/releases/tag/v6.3.0
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-      - name: Enable Corepack
-        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - run: pnpm run build
