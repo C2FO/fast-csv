@@ -1,10 +1,6 @@
 {
     "name": "fast-csv",
     "private": true,
-    "overrides": {
-        "copy-webpack-plugin": "14.0.0",
-        "css-minimizer-webpack-plugin": "8.0.0"
-    },
     "scripts": {
         "clean": "lerna run clean",
         "build": "lerna run build",
