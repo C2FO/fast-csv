@@ -28,21 +28,17 @@ jobs:
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Restore Dependencies
-        # https://github.com/actions/cache/releases/tag/v5.0.4
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{matrix.node-version}}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{matrix.node-version}}-
-      - run: npm ci
-      - run: npm run build
-      - run: npm run format:check
-      - run: npm run lint
-      - run: npm run jest
-      - run: npm run examples
-      - run: npm run benchmarks
+          cache: "pnpm"
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run format:check
+      - run: pnpm run lint
+      - run: pnpm run jest
+      - run: pnpm run examples
+      - run: pnpm run benchmarks
       - name: Coveralls GitHub Action
         # Per Actions best practices, SHA is the safest for third party actions
         # https://github.com/coverallsapp/github-action/releases/tag/v2.3.7

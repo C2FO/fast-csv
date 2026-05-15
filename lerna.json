@@ -1,5 +1,6 @@
 {
     "tagVersionPrefix": "v",
+    "npmClient": "pnpm",
     "command": {
         "version": {
             "message": "chore(release): publish %s",

@@ -69,7 +69,7 @@ export class HeaderTransformer<O extends Row> {
 
     private processRow(row: RowArray<string>): RowValidationResult<O> {
         if (!this.headers) {
-            return { row: row as never as O, isValid: true };
+            return { row: row as O, isValid: true };
         }
         const { parserOptions } = this;
         if (!parserOptions.discardUnmappedColumns && row.length > this.headersLength) {
@@ -79,14 +79,14 @@ export class HeaderTransformer<O extends Row> {
                 );
             }
             return {
-                row: row as never as O,
+                row: row as O,
                 isValid: false,
                 reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
             };
         }
         if (parserOptions.strictColumnHandling && row.length < this.headersLength) {
             return {
-                row: row as never as O,
+                row: row as O,
                 isValid: false,
                 reason: `Column header mismatch expected: ${this.headersLength} columns got: ${row.length}`,
             };

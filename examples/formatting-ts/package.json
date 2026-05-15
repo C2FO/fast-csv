@@ -7,7 +7,7 @@
         "list": "run-examples --dir=build list",
         "all-examples": "run-examples --dir=build  all",
         "example": "run-examples --dir=build run",
-        "build": "npm run clean && npm run compile",
+        "build": "pnpm run clean && pnpm run compile",
         "clean": "rm -rf ./build && rm -rf tsconfig.tsbuildinfo",
         "compile": "tsc"
     },
