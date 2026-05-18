@@ -1,17 +1,13 @@
 {
     "name": "fast-csv",
     "private": true,
-    "overrides": {
-        "copy-webpack-plugin": "14.0.0",
-        "css-minimizer-webpack-plugin": "8.0.0"
-    },
     "scripts": {
         "clean": "lerna run clean",
         "build": "lerna run build",
         "lerna:pub": "lerna publish from-git",
         "lerna:version": "lerna version",
-        "release": "npm run build && npm run lerna:version && npm run lerna:pub",
-        "test": "npm run lint && npm run jest && npm run examples",
+        "release": "pnpm run build && pnpm run lerna:version && pnpm run lerna:pub",
+        "test": "pnpm run lint && pnpm run jest && pnpm run examples",
         "format": "prettier --write \"**/*.{ts,js,json,md,mdx,css}\" --ignore-path .prettierignore",
         "format:check": "prettier --check \"**/*.{ts,js,json,md,mdx,css}\" --ignore-path .prettierignore",
         "lint": "eslint --max-warnings 0 \"**/*.ts\" \"examples/**/examples/**/*.js\"",
@@ -19,8 +15,8 @@
         "lint:ts": "eslint --max-warnings 0 \"**/*.ts\"",
         "lint:js": "eslint --max-warnings 0 \"examples/**/examples/**/*.js\"",
         "jest": "jest --runInBand --coverage",
-        "examples": "npm run all-examples --ws",
-        "benchmarks": "npm run benchmarks --ws"
+        "examples": "pnpm -r --if-present run all-examples",
+        "benchmarks": "pnpm -r --if-present run benchmarks"
     },
     "repository": {
         "type": "git",
@@ -31,11 +27,17 @@
         "examples/*",
         "documentation"
     ],
+    "packageManager": "pnpm@10.28.0",
+    "engines": {
+        "node": ">=20.0.0",
+        "pnpm": ">=10.28.0"
+    },
     "devDependencies": {
         "@commitlint/cli": "20.5.3",
         "@commitlint/config-angular": "20.5.3",
         "@eslint/js": "^9.39.2",
         "@types/jest": "30.0.0",
+        "@types/node": "24.12.3",
         "@typescript-eslint/eslint-plugin": "8.58.2",
         "@typescript-eslint/parser": "8.58.2",
         "eslint": "9.39.4",

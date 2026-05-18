@@ -23,26 +23,26 @@ jobs:
     steps:
       # https://github.com/actions/checkout/releases/tag/v6.0.2
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - name: Setup pnpm
+        # https://github.com/pnpm/action-setup/releases/tag/v6.0.8
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
+        with:
+          version: 10.28.0
+          run_install: false
       - name: Use Node.js ${{ matrix.node-version }}
-        # https://github.com/actions/setup-node/releases/tag/v6.3.0
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        # https://github.com/actions/setup-node/releases/tag/v6.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Restore Dependencies
-        # https://github.com/actions/cache/releases/tag/v5.0.4
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{matrix.node-version}}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{matrix.node-version}}-
-      - run: npm ci
-      - run: npm run build
-      - run: npm run format:check
-      - run: npm run lint
-      - run: npm run jest
-      - run: npm run examples
-      - run: npm run benchmarks
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run format:check
+      - run: pnpm run lint
+      - run: pnpm run jest
+      - run: pnpm run examples
+      - run: pnpm run benchmarks
       - name: Coveralls GitHub Action
         # Per Actions best practices, SHA is the safest for third party actions
         # https://github.com/coverallsapp/github-action/releases/tag/v2.3.7
