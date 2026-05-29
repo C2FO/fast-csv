@@ -50,6 +50,6 @@
         "@types/node": "24.12.3",
         "@types/sinon": "21.0.1",
         "lodash.partition": "^4.6.0",
-        "sinon": "21.1.2"
+        "sinon": "22.0.0"
     }
 }
