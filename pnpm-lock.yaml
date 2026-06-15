@@ -5,7 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  '@nx/devkit': 22.7.5
   joi: 18.2.1
+  nx: 22.7.5
   qs: 6.15.2
   serialize-javascript: 7.0.5
   shell-quote: 1.8.4
@@ -27,9 +29,6 @@ importers:
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.4
-      '@nx/devkit':
-        specifier: 22.7.5
-        version: 22.7.5(nx@22.7.5)
       '@types/jest':
         specifier: 30.0.0
         version: 30.0.0
@@ -72,9 +71,6 @@ importers:
       lerna:
         specifier: 9.0.7
         version: 9.0.7(@types/node@24.12.3)
-      nx:
-        specifier: 22.7.5
-        version: 22.7.5
       prettier:
         specifier: 3.8.3
         version: 3.8.3
@@ -2235,7 +2231,7 @@ packages:
   '@nx/devkit@22.7.5':
     resolution: {integrity: sha512-/63ziS7kdHXYTLLhwWBu9hFwoFFT8xf+PkcQjsNdPqc5JmkYkSew0cE/vp5ORgBpGLWWnFPJgmfqjbJoO2C7jA==}
     peerDependencies:
-      nx: '>= 21 <= 23 || ^22.0.0-0'
+      nx: 22.7.5
 
   '@nx/nx-darwin-arm64@22.7.5':
     resolution: {integrity: sha512-eoPtwx0qZqvRUD+VVOHm150AlSYwYoPxkDHBBGqKCn5nzPspb0lLWw8q83crM/L1M928YgK0WmGf3C++7eqsTA==}
