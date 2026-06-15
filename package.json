@@ -36,6 +36,7 @@
         "@commitlint/cli": "21.0.2",
         "@commitlint/config-angular": "21.0.2",
         "@eslint/js": "^9.39.2",
+        "@nx/devkit": "22.7.5",
         "@types/jest": "30.0.0",
         "@types/node": "24.12.3",
         "@typescript-eslint/eslint-plugin": "8.58.2",
@@ -50,9 +51,22 @@
         "husky": "9.1.7",
         "jest": "30.3.0",
         "lerna": "9.0.7",
+        "nx": "22.7.5",
         "prettier": "3.8.3",
         "ts-jest": "29.4.11",
         "typescript": "5.9.3",
         "typescript-eslint": "^8.54.0"
+    },
+    "pnpm": {
+        "overrides": {
+            "joi": "18.2.1",
+            "qs": "6.15.2",
+            "serialize-javascript": "7.0.5",
+            "shell-quote": "1.8.4",
+            "tmp": "0.2.7",
+            "uuid": "11.1.1",
+            "ws@^7.0.0": "7.5.11",
+            "ws@^8.0.0": "8.21.0"
+        }
     }
 }
