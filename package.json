@@ -54,5 +54,19 @@
         "ts-jest": "29.4.11",
         "typescript": "5.9.3",
         "typescript-eslint": "^8.54.0"
+    },
+    "pnpm": {
+        "overrides": {
+            "@nx/devkit": "22.7.5",
+            "joi": "18.2.1",
+            "nx": "22.7.5",
+            "qs": "6.15.2",
+            "serialize-javascript": "7.0.5",
+            "shell-quote": "1.8.4",
+            "tmp": "0.2.7",
+            "uuid": "11.1.1",
+            "ws@^7.0.0": "7.5.11",
+            "ws@^8.0.0": "8.21.0"
+        }
     }
 }
