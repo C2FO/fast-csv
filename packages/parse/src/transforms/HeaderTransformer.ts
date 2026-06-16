@@ -1,4 +1,3 @@
-import uniq from 'lodash.uniq';
 import groupBy from 'lodash.groupby';
 import { ParserOptions } from '../ParserOptions';
 import {
@@ -116,7 +115,7 @@ export class HeaderTransformer<O extends Row> {
         const filteredHeaders = headers.filter((h) => {
             return !!h;
         });
-        if (uniq(filteredHeaders).length !== filteredHeaders.length) {
+        if (new Set(filteredHeaders).size !== filteredHeaders.length) {
             const grouped = groupBy(filteredHeaders);
             const duplicates = Object.keys(grouped).filter((dup) => {
                 return grouped[dup].length > 1;
