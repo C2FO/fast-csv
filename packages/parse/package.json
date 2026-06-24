@@ -47,7 +47,7 @@
         "@types/lodash.groupby": "4.6.9",
         "@types/lodash.partition": "4.6.9",
         "@types/lodash.uniq": "4.5.9",
-        "@types/node": "24.12.3",
+        "@types/node": "24.13.2",
         "@types/sinon": "21.0.1",
         "lodash.partition": "^4.6.0",
         "sinon": "22.0.0"
