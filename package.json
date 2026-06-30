@@ -50,7 +50,7 @@
         "husky": "9.1.7",
         "jest": "30.3.0",
         "lerna": "9.0.7",
-        "prettier": "3.8.3",
+        "prettier": "3.9.4",
         "ts-jest": "29.4.11",
         "typescript": "5.9.3",
         "typescript-eslint": "^8.54.0"
