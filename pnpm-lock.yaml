@@ -219,9 +219,6 @@ importers:
       lodash.groupby:
         specifier: ^4.6.0
         version: 4.6.0
-      lodash.uniq:
-        specifier: ^4.5.0
-        version: 4.5.0
     devDependencies:
       '@types/lodash.escaperegexp':
         specifier: 4.1.9
@@ -232,9 +229,6 @@ importers:
       '@types/lodash.partition':
         specifier: 4.6.9
         version: 4.6.9
-      '@types/lodash.uniq':
-        specifier: 4.5.9
-        version: 4.5.9
       '@types/node':
         specifier: 24.12.3
         version: 24.12.3
@@ -2664,9 +2658,6 @@ packages:
 
   '@types/lodash.partition@4.6.9':
     resolution: {integrity: sha512-ANgnHyTw/C07oHr/8/jzoc1BlZZFRafAyDvc04Z8qR1IvWZpAGB8aHPUkd0UCgJWOauqoCsILhvPLXKsTc4rXQ==}
-
-  '@types/lodash.uniq@4.5.9':
-    resolution: {integrity: sha512-2Vd5avnDMNLbDSnUwwgwExKXvX9W3CN72rodT+ikGqGHXn7gVK6BM6Z+kHonbpGgCI2BzM+QDMHrkgKoofOi6A==}
 
   '@types/lodash@4.17.24':
     resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
@@ -12310,10 +12301,6 @@ snapshots:
       '@types/lodash': 4.17.24
 
   '@types/lodash.partition@4.6.9':
-    dependencies:
-      '@types/lodash': 4.17.24
-
-  '@types/lodash.uniq@4.5.9':
     dependencies:
       '@types/lodash': 4.17.24
 
