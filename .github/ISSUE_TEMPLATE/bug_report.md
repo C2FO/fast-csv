@@ -30,7 +30,7 @@ If applicable, add screenshots to help explain your problem.
 
 - OS: [e.g. MacOS]
 - OS Version [e.g. Mojave]
-- Node Version [e.g. 10.16.0]
+- Node Version [e.g. 24.15.0]
 
 **Additional context**
 Add any other context about the problem here.
