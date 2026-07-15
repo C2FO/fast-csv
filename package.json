@@ -33,26 +33,40 @@
         "pnpm": ">=10.28.0"
     },
     "devDependencies": {
-        "@commitlint/cli": "20.5.3",
-        "@commitlint/config-angular": "20.5.3",
+        "@commitlint/cli": "21.0.2",
+        "@commitlint/config-angular": "21.0.2",
         "@eslint/js": "^9.39.2",
         "@types/jest": "30.0.0",
         "@types/node": "24.12.3",
-        "@typescript-eslint/eslint-plugin": "8.58.2",
-        "@typescript-eslint/parser": "8.58.2",
+        "@typescript-eslint/eslint-plugin": "8.61.0",
+        "@typescript-eslint/parser": "8.61.0",
         "eslint": "9.39.4",
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-import": "2.32.0",
-        "eslint-plugin-jest": "29.15.2",
-        "eslint-plugin-prettier": "5.5.5",
+        "eslint-plugin-jest": "29.15.4",
+        "eslint-plugin-prettier": "5.5.6",
         "eslint-plugin-tsdoc": "0.5.2",
         "globals": "^17.2.0",
         "husky": "9.1.7",
         "jest": "30.3.0",
         "lerna": "9.0.7",
         "prettier": "3.8.3",
-        "ts-jest": "29.4.9",
+        "ts-jest": "29.4.11",
         "typescript": "5.9.3",
         "typescript-eslint": "^8.54.0"
+    },
+    "pnpm": {
+        "overrides": {
+            "@nx/devkit": "22.7.5",
+            "joi": "18.2.1",
+            "nx": "22.7.5",
+            "qs": "6.15.2",
+            "serialize-javascript": "7.0.5",
+            "shell-quote": "1.8.4",
+            "tmp": "0.2.7",
+            "uuid": "11.1.1",
+            "ws@^7.0.0": "7.5.11",
+            "ws@^8.0.0": "8.21.0"
+        }
     }
 }
