@@ -78,6 +78,22 @@ describe('FieldFormatter', () => {
                 expect(formatter.format('col', 0, false)).toBe('col');
             });
 
+            it('should not quote the field if it only contains a pipe', () => {
+                const formatter = createFormatter();
+                expect(formatter.format('|', 0, false)).toBe('|');
+            });
+
+            it('should quote the field if it contains a pipe delimiter', () => {
+                const formatter = createFormatter({ delimiter: '|' });
+                expect(formatter.format('|', 0, false)).toBe('"|"');
+            });
+
+            it('should only quote the complete multi-character row delimiter', () => {
+                const formatter = createFormatter({ rowDelimiter: '||' });
+                expect(formatter.format('a|b', 0, false)).toBe('a|b');
+                expect(formatter.format('a||b', 0, false)).toBe('"a||b"');
+            });
+
             it('should quote the field and escape quotes if it contains a quote character', () => {
                 const formatter = createFormatter();
                 expect(formatter.format('c"o"l', 0, false)).toBe('"c""o""l"');
