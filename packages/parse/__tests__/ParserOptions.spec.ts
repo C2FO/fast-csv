@@ -29,6 +29,10 @@ describe('ParserOptions', () => {
             expect(createOptions({ delimiter: '\\' }).delimiter).toBe('\\');
             expect(createOptions({ delimiter: '\\' }).escapedDelimiter).toBe('\\\\');
         });
+
+        it('should use the default delimiter when explicitly set to undefined', () => {
+            expect(createOptions({ delimiter: undefined }).delimiter).toBe(',');
+        });
     });
 
     describe('#strictColumnHandling', () => {

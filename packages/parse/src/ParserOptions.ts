@@ -69,7 +69,12 @@ export class ParserOptions {
     public readonly skipRows: number = 0;
 
     public constructor(opts?: ParserOptionsArgs) {
-        Object.assign(this, opts || {});
+        // Ignore explicitly-`undefined` options so they fall back to the defaults
+        // above instead of overwriting them (e.g. `{ delimiter: undefined }`).
+        const definedOpts = Object.entries(opts || {}).filter(([, value]) => {
+            return value !== undefined;
+        });
+        Object.assign(this, Object.fromEntries(definedOpts));
         if (this.delimiter.length > 1) {
             throw new Error('delimiter option must be one character long');
         }
