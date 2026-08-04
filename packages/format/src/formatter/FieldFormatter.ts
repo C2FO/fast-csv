@@ -1,6 +1,10 @@
-import escapeRegExp from 'lodash.escaperegexp';
 import { FormatterOptions } from '../FormatterOptions';
 import { Row } from '../types';
+
+/** Escape special characters for use in a RegExp. */
+const escapeRegExp = (value: string): string => {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
 
 export class FieldFormatter<I extends Row, O extends Row> {
     private readonly formatterOptions: FormatterOptions<I, O>;

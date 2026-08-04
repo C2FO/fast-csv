@@ -1,5 +1,9 @@
-import escapeRegExp from 'lodash.escaperegexp';
 import { HeaderArray, HeaderTransformFunction } from './types';
+
+/** Escape special characters for use in a RegExp. */
+const escapeRegExp = (value: string): string => {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
 
 export interface ParserOptionsArgs {
     objectMode?: boolean;

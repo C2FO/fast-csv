@@ -37,17 +37,9 @@
     "bugs": {
         "url": "https://github.com/C2FO/fast-csv/issues"
     },
-    "dependencies": {
-        "lodash.escaperegexp": "^4.1.2",
-        "lodash.groupby": "^4.6.0"
-    },
     "devDependencies": {
-        "@types/lodash.escaperegexp": "4.1.9",
-        "@types/lodash.groupby": "4.6.9",
-        "@types/lodash.partition": "4.6.9",
         "@types/node": "24.12.3",
         "@types/sinon": "21.0.1",
-        "lodash.partition": "^4.6.0",
         "sinon": "22.0.0"
     }
 }
