@@ -115,6 +115,7 @@ export class HeaderTransformer<O extends Row> {
             return !!h;
         });
         if (new Set(filteredHeaders).size !== filteredHeaders.length) {
+            // TODO(major): use Object.groupBy once engines require Node >=22 (available since Node 21)
             const grouped = filteredHeaders.reduce<Record<string, string[]>>((acc, header) => {
                 (acc[header] ||= []).push(header);
                 return acc;
