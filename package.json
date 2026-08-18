@@ -69,7 +69,7 @@
             "nx": "22.7.6",
             "qs": "6.15.2",
             "serialize-javascript": "7.0.5",
-            "shell-quote": "1.8.4",
+            "shell-quote": "1.9.0",
             "sigstore": "4.1.1",
             "tar": "7.5.16",
             "tmp": "0.2.7",
