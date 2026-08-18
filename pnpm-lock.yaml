@@ -210,45 +210,19 @@ importers:
         version: link:../parse
 
   packages/format:
-    dependencies:
-      lodash.escaperegexp:
-        specifier: ^4.1.2
-        version: 4.1.2
     devDependencies:
-      '@types/lodash.escaperegexp':
-        specifier: 4.1.9
-        version: 4.1.9
       '@types/node':
         specifier: 24.12.3
         version: 24.12.3
 
   packages/parse:
-    dependencies:
-      lodash.escaperegexp:
-        specifier: ^4.1.2
-        version: 4.1.2
-      lodash.groupby:
-        specifier: ^4.6.0
-        version: 4.6.0
     devDependencies:
-      '@types/lodash.escaperegexp':
-        specifier: 4.1.9
-        version: 4.1.9
-      '@types/lodash.groupby':
-        specifier: 4.6.9
-        version: 4.6.9
-      '@types/lodash.partition':
-        specifier: 4.6.9
-        version: 4.6.9
       '@types/node':
         specifier: 24.12.3
         version: 24.12.3
       '@types/sinon':
         specifier: 21.0.1
         version: 21.0.1
-      lodash.partition:
-        specifier: ^4.6.0
-        version: 4.6.0
       sinon:
         specifier: 22.0.0
         version: 22.0.0
@@ -2703,18 +2677,6 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  '@types/lodash.escaperegexp@4.1.9':
-    resolution: {integrity: sha512-CMQc8v16YzhnPZnMhYQuJUksI8BmL1jy/lHJkiXi4/t24Lx7Qvy7qxew1abrDJGa1T2i0NzLLaR27NK1/qp5Ow==}
-
-  '@types/lodash.groupby@4.6.9':
-    resolution: {integrity: sha512-z2xtCX2ko7GrqORnnYea4+ksT7jZNAvaOcLd6mP9M7J09RHvJs06W8BGdQQAX8ARef09VQLdeRilSOcfHlDQJQ==}
-
-  '@types/lodash.partition@4.6.9':
-    resolution: {integrity: sha512-ANgnHyTw/C07oHr/8/jzoc1BlZZFRafAyDvc04Z8qR1IvWZpAGB8aHPUkd0UCgJWOauqoCsILhvPLXKsTc4rXQ==}
-
-  '@types/lodash@4.17.24':
-    resolution: {integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==}
 
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
@@ -5836,12 +5798,6 @@ packages:
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
-  lodash.escaperegexp@4.1.2:
-    resolution: {integrity: sha512-TM9YBvyC84ZxE3rgfefxUWiQKLilstD6k7PTGt6wfbtXF8ixIJLOL3VYyV/z+ZiPLsVxAsKAFVwWlWeb2Y8Yyw==}
-
-  lodash.groupby@4.6.0:
-    resolution: {integrity: sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==}
-
   lodash.ismatch@4.4.0:
     resolution: {integrity: sha512-fPMfXjGQEV9Xsq/8MTSgUf255gawYRbjwMyDbcvDhXgV7enSZA0hynz6vMPnpAb5iONEzBHBPsT+0zes5Z301g==}
 
@@ -5850,9 +5806,6 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-
-  lodash.partition@4.6.0:
-    resolution: {integrity: sha512-35L3dSF3Q6V1w5j6V3NhNlQjzsRDC/pYKCTdYTmwqSib+Q8ponkAmt/PwEOq3EmI38DSCl+SkIVwLd+uSlVdrg==}
 
   lodash.uniq@4.5.0:
     resolution: {integrity: sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==}
@@ -12394,20 +12347,6 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
-  '@types/lodash.escaperegexp@4.1.9':
-    dependencies:
-      '@types/lodash': 4.17.24
-
-  '@types/lodash.groupby@4.6.9':
-    dependencies:
-      '@types/lodash': 4.17.24
-
-  '@types/lodash.partition@4.6.9':
-    dependencies:
-      '@types/lodash': 4.17.24
-
-  '@types/lodash@4.17.24': {}
-
   '@types/mdast@4.0.4':
     dependencies:
       '@types/unist': 3.0.3
@@ -16103,17 +16042,11 @@ snapshots:
 
   lodash.debounce@4.0.8: {}
 
-  lodash.escaperegexp@4.1.2: {}
-
-  lodash.groupby@4.6.0: {}
-
   lodash.ismatch@4.4.0: {}
 
   lodash.memoize@4.1.2: {}
 
   lodash.merge@4.6.2: {}
-
-  lodash.partition@4.6.0: {}
 
   lodash.uniq@4.5.0: {}
 
