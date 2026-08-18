@@ -21,7 +21,7 @@ overrides:
   sigstore: 4.1.1
   tar: 7.5.16
   tmp: 0.2.7
-  undici: 6.27.0
+  undici: 6.28.0
   uuid: 11.1.1
   webpack-dev-server: 5.2.5
   ws@^7.0.0: 7.5.11
@@ -8193,8 +8193,8 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
-  undici@6.27.0:
-    resolution: {integrity: sha512-YmfV3YnEDzXRC5lZ2jWtWWHKGUm1zIt8AhesR1tens+HTNv+YZlN/dp6G727LOvMJ8xjP9Be7Y2Sdr96LDm+pg==}
+  undici@6.28.0:
+    resolution: {integrity: sha512-LIY910g9TI13YS95lrMFrs8Rm/u/irgHeTWoKCoteeJ04CUJ92eEfj0rVn+7VKMPBpUPiUoBKfhNyLI23EE/KA==}
     engines: {node: '>=18.17'}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
@@ -16833,7 +16833,7 @@ snapshots:
       semver: 7.7.2
       tar: 7.5.16
       tinyglobby: 0.2.12
-      undici: 6.27.0
+      undici: 6.28.0
       which: 6.0.1
 
   node-int64@0.4.0: {}
@@ -19077,7 +19077,7 @@ snapshots:
 
   undici-types@7.16.0: {}
 
-  undici@6.27.0: {}
+  undici@6.28.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
