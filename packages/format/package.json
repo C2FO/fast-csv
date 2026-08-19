@@ -37,6 +37,6 @@
         "url": "https://github.com/C2FO/fast-csv/issues"
     },
     "devDependencies": {
-        "@types/node": "24.12.3"
+        "@types/node": "24.13.3"
     }
 }
