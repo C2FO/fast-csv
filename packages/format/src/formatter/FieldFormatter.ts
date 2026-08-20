@@ -22,7 +22,12 @@ export class FieldFormatter<I extends Row, O extends Row> {
             this.headers = formatterOptions.headers;
         }
         this.REPLACE_REGEXP = new RegExp(formatterOptions.quote, 'g');
-        const escapePattern = `[${formatterOptions.delimiter}${escapeRegExp(formatterOptions.rowDelimiter)}|\r|\n]`;
+        const escapePattern = [formatterOptions.delimiter, formatterOptions.rowDelimiter, '\r', '\n']
+            .filter((value) => {
+                return value.length > 0;
+            })
+            .map(escapeRegExp)
+            .join('|');
         this.ESCAPE_REGEXP = new RegExp(escapePattern);
     }
 
