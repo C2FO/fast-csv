@@ -27,7 +27,7 @@
         "examples/*",
         "documentation"
     ],
-    "packageManager": "pnpm@10.34.4",
+    "packageManager": "pnpm@10.34.5",
     "engines": {
         "node": ">=20.0.0",
         "pnpm": ">=10.34.4"
