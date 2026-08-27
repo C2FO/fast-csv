@@ -58,7 +58,7 @@ export class RowParser {
     }
 
     private getStartToken(scanner: Scanner, columns: RowArray<string>): MaybeToken {
-        const currentToken = scanner.nextNonSpaceToken;
+        const currentToken = scanner.nextCharacterToken;
         if (currentToken !== null && Token.isTokenDelimiter(currentToken, this.parserOptions)) {
             columns.push('');
             return scanner.nextNonSpaceToken;
