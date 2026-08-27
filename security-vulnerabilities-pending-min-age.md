@@ -1,5 +1,5 @@
-## Pending vulnerabilities blocked by minimum-release-age
+## Pending vulnerabilities
 
-| Package           | Patched version | Publish date | Eligible date | Note                                                                                                                                                                                     |
-| ----------------- | --------------- | ------------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@nx/nx-*@22.7.2` | `22.7.2`        | 2026-05-14   | 2026-05-21    | Lockfile updates needed to apply transitive security fixes are currently blocked because newly published optional `nx` platform packages do not yet satisfy `minimum-release-age=10080`. |
+| Package      | Patched version | Publish date | Eligible date | Note                                                                                                                                            |
+| ------------ | --------------- | ------------ | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `image-size` | Not published   | N/A          | N/A           | Latest npm release remains `2.0.2`; update Docusaurus or override `image-size` when a patched release above `2.0.2` becomes available upstream. |
