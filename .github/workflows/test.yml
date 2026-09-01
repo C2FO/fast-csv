@@ -27,7 +27,7 @@ jobs:
         # https://github.com/pnpm/action-setup/releases/tag/v6.0.10
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86
         with:
-          version: 10.34.4
+          version: 11.25.0
           run_install: false
       - name: Use Node.js ${{ matrix.node-version }}
         # https://github.com/actions/setup-node/releases/tag/v7.0.0
