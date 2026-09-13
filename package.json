@@ -75,7 +75,7 @@
             "launch-editor": "2.14.1",
             "nanoid": "3.3.18",
             "nx": "22.7.7",
-            "postcss": "8.5.26",
+            "postcss": "8.5.28",
             "qs": "6.15.2",
             "serialize-javascript": "7.0.5",
             "shell-quote": "1.10.0",
