@@ -76,7 +76,7 @@
             "nanoid": "3.3.18",
             "nx": "22.7.7",
             "postcss": "8.5.26",
-            "qs": "6.15.2",
+            "qs": "6.16.0",
             "serialize-javascript": "7.0.5",
             "shell-quote": "1.10.0",
             "sigstore": "4.1.1",
