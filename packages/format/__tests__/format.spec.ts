@@ -15,6 +15,13 @@ import {
 import { arrayRows, multiDimensionalRows, objectRows, RecordingStream } from './__fixtures__';
 
 describe('.writeToString', () => {
+    it.each([
+        ['*', 'a*b', 'c*d', '*a**b*\n*c**d*'],
+        ['$', 'a$b', 'c$d', '$a$$b$\n$c$$d$'],
+    ])('should escape literal %p quotes in headers and rows', (quote, header, field, expected) => {
+        return expect(writeToString([[header], [field]], { headers: true, quote })).resolves.toBe(expected);
+    });
+
     it('should write an array of arrays', () => {
         return expect(writeToString(arrayRows, { headers: true })).resolves.toBe('a,b\na1,b1\na2,b2');
     });
