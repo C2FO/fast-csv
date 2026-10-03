@@ -12,7 +12,7 @@ overrides:
   nx>brace-expansion: 5.0.12
   nx>smol-toml: 1.9.0
   serialize-javascript: 7.0.5
-  uuid: 11.1.1
+  uuid: 14.0.2
 
 importers:
 
@@ -8189,8 +8189,8 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
-  uuid@11.1.1:
-    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
+  uuid@14.0.2:
+    resolution: {integrity: sha512-xZe/16rV4aa+HGSOCiY2YeLT1OybRLrrkL/Rqaq7p7GMVXjFh+6wN4oMYgjFmnSnhY8t6Xpdl2l9qmnHYuMHwQ==}
     hasBin: true
 
   v8-to-istanbul@9.3.0:
@@ -18349,7 +18349,7 @@ snapshots:
   sockjs@0.3.24:
     dependencies:
       faye-websocket: 0.11.4
-      uuid: 11.1.1
+      uuid: 14.0.2
       websocket-driver: 0.7.5
 
   socks-proxy-agent@8.0.5:
@@ -18963,7 +18963,7 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
-  uuid@11.1.1: {}
+  uuid@14.0.2: {}
 
   v8-to-istanbul@9.3.0:
     dependencies:
