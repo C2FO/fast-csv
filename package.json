@@ -63,7 +63,7 @@
             "nx>axios": "1.20.0",
             "nx>brace-expansion": "5.0.12",
             "nx>smol-toml": "1.9.0",
-            "serialize-javascript": "7.0.5",
+            "serialize-javascript": "7.1.2",
             "uuid": "11.1.1"
         }
     }
