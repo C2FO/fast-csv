@@ -64,7 +64,7 @@
             "nx>brace-expansion": "5.0.12",
             "nx>smol-toml": "1.9.0",
             "serialize-javascript": "7.0.5",
-            "uuid": "11.1.1"
+            "uuid": "14.0.2"
         }
     }
 }
