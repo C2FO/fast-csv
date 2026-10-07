@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.8](https://github.com/C2FO/fast-csv/compare/v5.0.7...v5.0.8) (2026-10-05)
+
+**Note:** Version bump only for package @fast-csv/parse-ts-examples
+
 ## [5.0.7](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.7) (2026-05-06)
 
 ### Bug Fixes
