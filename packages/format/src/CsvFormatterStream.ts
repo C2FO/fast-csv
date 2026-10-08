@@ -57,7 +57,14 @@ export class CsvFormatterStream<I extends Row, O extends Row> extends Transform 
             if (err) {
                 return cb(err);
             }
-            if (rows) {
+            if (rows && rows.length > 0) {
+                // Headers may be flushed here with no preceding rows (e.g.
+                // `alwaysWriteHeaders` with an empty input), so _transform never
+                // ran and the BOM hasn't been written yet.
+                if (!this.hasWrittenBOM) {
+                    this.push(this.formatterOptions.BOM);
+                    this.hasWrittenBOM = true;
+                }
                 rows.forEach((r): void => {
                     this.push(Buffer.from(r, 'utf8'));
                 });
