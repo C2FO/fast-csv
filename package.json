@@ -45,7 +45,7 @@
         "eslint-plugin-import": "2.32.0",
         "eslint-plugin-jest": "29.16.6",
         "eslint-plugin-prettier": "5.5.6",
-        "eslint-plugin-tsdoc": "0.5.2",
+        "eslint-plugin-tsdoc": "0.5.4",
         "globals": "^17.7.0",
         "husky": "9.1.7",
         "jest": "30.4.2",
@@ -64,7 +64,7 @@
             "nx>brace-expansion": "5.0.12",
             "nx>smol-toml": "1.9.0",
             "serialize-javascript": "7.0.5",
-            "uuid": "11.1.1"
+            "uuid": "14.0.2"
         }
     }
 }
