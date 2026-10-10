@@ -88,6 +88,16 @@ describe('RowParser', () => {
                 ]);
             });
 
+            it('should keep a leading whitespace-only field at the start of a row', () => {
+                const { row } = parse(' ,b\n', true);
+                expect(row).toEqual([' ', 'b']);
+            });
+
+            it('should keep a whitespace-only field that is the only column', () => {
+                const { row } = parse('  \n', true);
+                expect(row).toEqual(['  ']);
+            });
+
             it('should parse a row that does have a CR/LF', () => {
                 const line = 'first_name,last_name,email_address\r\n';
                 const { scanner, row } = parse(line, true);
