@@ -70,7 +70,7 @@
             "postcss-merge-rules>postcss-selector-parser": "7.1.6",
             "postcss-minify-selectors>postcss-selector-parser": "7.1.6",
             "postcss-unique-selectors>postcss-selector-parser": "7.1.6",
-            "serialize-javascript": "7.0.5",
+            "serialize-javascript": "7.1.2",
             "stylehacks>postcss-selector-parser": "7.1.6",
             "uuid": "14.0.2"
         }
