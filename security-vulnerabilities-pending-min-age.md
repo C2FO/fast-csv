@@ -1,8 +1,8 @@
 ## Pending vulnerabilities
 
-| Package              | Patched version | Publish date | Eligible date | Note                                                                                                                                                                                     |
-| -------------------- | --------------- | ------------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| http-cache-semantics | 4.3.0           | 2026-10-04   | 2026-10-11    | Parents (`cacheable-request`, `make-fetch-happen`) already allow `^4.1.1`. When eligible, refresh the lockfile with `pnpm update -r --depth Infinity http-cache-semantics`. No override. |
+| Package    | Patched version | Publish date | Eligible date | Note                                                                                                                                                                                                                                                                          |
+| ---------- | --------------- | ------------ | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| handlebars | 4.7.10          | 2026-10-05   | 2026-10-12    | Published 2026-10-05 22:37 UTC, so it is eligible after 22:37 UTC on 2026-10-12. Parents (`ts-jest` `^4.7.9`, `conventional-changelog-writer` `^4.7.7`) already allow it. When eligible, refresh the lockfile with `pnpm update -r --depth Infinity handlebars`. No override. |
 
 ## Intentional holds
 
