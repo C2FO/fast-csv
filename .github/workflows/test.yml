@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20.x, 21.x, 22.x, 24.x]
+        node-version: [20.x, 21.x, 22.x, 24.22.1]
     steps:
       # https://github.com/actions/checkout/releases/tag/v7.0.1
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
