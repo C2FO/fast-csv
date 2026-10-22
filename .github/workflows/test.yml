@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20.x, 21.x, 22.x, 24.22.1]
+        node-version: [22.x, 24.x]
     steps:
       # https://github.com/actions/checkout/releases/tag/v7.0.1
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -27,7 +27,7 @@ jobs:
         # https://github.com/pnpm/action-setup/releases/tag/v6.0.10
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86
         with:
-          version: 10.34.4
+          version: 10.34.7
           run_install: false
       - name: Use Node.js ${{ matrix.node-version }}
         # https://github.com/actions/setup-node/releases/tag/v7.0.0
