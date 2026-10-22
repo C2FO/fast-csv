@@ -7,6 +7,22 @@ describe('FieldFormatter', () => {
     };
 
     describe('#format', () => {
+        it.each(['.', '*', '+', '?', '^', '$', '{', '}', '(', ')', '|', '[', ']', '\\'])(
+            'should escape the literal quote character %p',
+            (quote) => {
+                const formatter = createFormatter({ quote });
+                expect(formatter.format(`a${quote}b${quote}c`, 0, false)).toBe(
+                    `${quote}a${quote}${quote}b${quote}${quote}c${quote}`,
+                );
+                expect(formatter.format('abc', 0, false)).toBe('abc');
+            },
+        );
+
+        it('should preserve dollar signs in the escaped quote', () => {
+            const formatter = createFormatter({ quote: '&', escape: '$' });
+            expect(formatter.format('a&b&c', 0, false)).toBe('&a$&b$&c&');
+        });
+
         describe('header columns', () => {
             it('should return the field not quoted if it contains no quotes', () => {
                 const formatter = createFormatter();
