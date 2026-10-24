@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as domain from 'domain';
-import partition from 'lodash.partition';
 import {
     ParserOptions,
     CsvParserStream,
@@ -11,6 +10,20 @@ import {
     RowValidateCallback,
     HeaderArray,
 } from '../src';
+
+/** Split array into [pass, fail] by predicate. */
+const partition = <T>(array: T[], predicate: (value: T) => boolean): [T[], T[]] => {
+    const pass: T[] = [];
+    const fail: T[] = [];
+    for (const value of array) {
+        if (predicate(value)) {
+            pass.push(value);
+        } else {
+            fail.push(value);
+        }
+    }
+    return [pass, fail];
+};
 import {
     PathAndContent,
     ParseResults,

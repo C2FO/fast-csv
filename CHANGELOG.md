@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.8](https://github.com/C2FO/fast-csv/compare/v5.0.7...v5.0.8) (2026-10-05)
+
+**Note:** Version bump only for package fast-csv
+
 ## [5.0.7](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.7) (2026-05-06)
 
 ### Bug Fixes
@@ -21,6 +25,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - Revert "fix(deps): update dependency typescript to v5.9.2 (#1130)" (#1136) ([15cb9f5](https://github.com/C2FO/fast-csv/commit/15cb9f5bcd81e6b7fb9725e3648688fe71b797c4)), closes [#1130](https://github.com/C2FO/fast-csv/issues/1130) [#1136](https://github.com/C2FO/fast-csv/issues/1136)
 
 ## [Unreleased]
+
+### BREAKING CHANGES
+
+- **deps!:** Dropped support for Node.js 20 (EOL) and non-LTS release lines. Supported Node is 22.x and 24.x LTS (`engines.node`: `^22.0.0 || ^24.0.0`).
+- **deps:** Upgraded `pnpm` to 10.34.7.
 
 ## [5.0.5](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.5) (2025-08-04)
 

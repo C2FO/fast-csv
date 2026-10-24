@@ -1,6 +1,6 @@
 {
     "name": "fast-csv",
-    "version": "5.0.7",
+    "version": "5.0.8",
     "description": "CSV parser and writer",
     "main": "./build/src/index.js",
     "types": "./build/src/index.d.ts",
@@ -34,10 +34,10 @@
     "author": "Doug Martin",
     "license": "MIT",
     "engines": {
-        "node": ">=20.0.0"
+        "node": "^22.0.0 || ^24.0.0"
     },
     "dependencies": {
-        "@fast-csv/format": "5.0.7",
-        "@fast-csv/parse": "5.0.7"
+        "@fast-csv/format": "5.0.8",
+        "@fast-csv/parse": "5.0.8"
     }
 }

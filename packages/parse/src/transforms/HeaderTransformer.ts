@@ -1,5 +1,3 @@
-import uniq from 'lodash.uniq';
-import groupBy from 'lodash.groupby';
 import { ParserOptions } from '../ParserOptions';
 import {
     HeaderArray,
@@ -113,11 +111,15 @@ export class HeaderTransformer<O extends Row> {
     }
 
     private setHeaders(headers: HeaderArray): void {
-        const filteredHeaders = headers.filter((h) => {
+        const filteredHeaders = headers.filter((h): h is string => {
             return !!h;
         });
-        if (uniq(filteredHeaders).length !== filteredHeaders.length) {
-            const grouped = groupBy(filteredHeaders);
+        if (new Set(filteredHeaders).size !== filteredHeaders.length) {
+            // TODO(major): use Object.groupBy once engines require Node >=22 (available since Node 21)
+            const grouped = filteredHeaders.reduce<Record<string, string[]>>((acc, header) => {
+                (acc[header] ||= []).push(header);
+                return acc;
+            }, {});
             const duplicates = Object.keys(grouped).filter((dup) => {
                 return grouped[dup].length > 1;
             });
