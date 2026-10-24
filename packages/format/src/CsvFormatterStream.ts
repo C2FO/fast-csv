@@ -57,7 +57,15 @@ export class CsvFormatterStream<I extends Row, O extends Row> extends Transform 
             if (err) {
                 return cb(err);
             }
-            if (rows && rows.length > 0) {
+            // A formatted header can be the empty string (`headers: []` or `headers: ['']`), so the
+            // array is non-empty while the output has no content. Checking for content rather than
+            // array length keeps those cases from emitting a lone BOM.
+            if (
+                rows &&
+                rows.some((r): boolean => {
+                    return r.length > 0;
+                })
+            ) {
                 // Headers may be flushed here with no preceding rows (e.g.
                 // `alwaysWriteHeaders` with an empty input), so _transform never
                 // ran and the BOM hasn't been written yet.
