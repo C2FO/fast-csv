@@ -640,6 +640,86 @@ value4b
 </TabItem>
 </Tabs>
 
+### Renaming object headers
+
+For object rows, `headers` selects property names; it is not a separate list of
+display labels. For example, `headers: ['Full name', 'Age']` with
+`{ name: 'John', age: 28 }` produces empty fields because those properties do not
+exist. Use a `transform` to return keys matching the output labels:
+
+<Tabs
+  defaultValue="ts"
+  values={[
+    { label: 'TypeScript', value: 'ts', },
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Output', value: 'output', },
+  ]}
+>
+<TabItem value="ts">
+
+```ts
+import { format } from '@fast-csv/format';
+
+interface InputRow {
+    name: string;
+    age: number;
+}
+
+interface OutputRow {
+    'Full name': string;
+    Age: number;
+}
+
+const csvStream = format<InputRow, OutputRow>({
+    headers: ['Full name', 'Age'],
+    transform: (row: InputRow): OutputRow => {
+        return { 'Full name': row.name, Age: row.age };
+    },
+});
+
+csvStream.pipe(process.stdout).on('end', () => {
+    process.exit();
+});
+
+csvStream.write({ name: 'John', age: 28 });
+csvStream.write({ name: 'Alice', age: 34 });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="js">
+
+```js
+const csv = require('@fast-csv/format');
+
+const csvStream = csv.format({
+    headers: ['Full name', 'Age'],
+    transform: (row) => ({ 'Full name': row.name, Age: row.age }),
+});
+
+csvStream.pipe(process.stdout).on('end', () => process.exit());
+
+csvStream.write({ name: 'John', age: 28 });
+csvStream.write({ name: 'Alice', age: 34 });
+csvStream.end();
+```
+
+</TabItem>
+<TabItem value="output">
+
+```csv
+Full name,Age
+John,28
+Alice,34
+```
+
+</TabItem>
+</Tabs>
+
+The transform leaves the original input objects unchanged. Alternatively, map
+each object to an array such as `[row.name, row.age]` and supply the output labels
+with `headers`; array values are matched by position.
+
 ## Write Headers
 
 The `writeHeaders` option can be used to prevent writing headers, while still auto discovering them or providing them.
