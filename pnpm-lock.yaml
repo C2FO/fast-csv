@@ -15,7 +15,7 @@ overrides:
   nx>brace-expansion: 5.0.12
   nx>follow-redirects: 1.16.1
   nx>smol-toml: 1.9.1
-  postcss-calc>postcss-selector-parser: 7.1.6
+  postcss-calc>postcss-selector-parser: 7.1.7
   postcss-discard-unused>postcss-selector-parser: 7.1.6
   postcss-merge-rules>postcss-selector-parser: 7.1.6
   postcss-minify-selectors>postcss-selector-parser: 7.1.6
@@ -7048,6 +7048,10 @@ packages:
 
   postcss-selector-parser@7.1.6:
     resolution: {integrity: sha512-7qASPzhKF2l2KLboRZux8CCTRMdGiV08vWmyKzPz22qZ7ZjQBOeY7rNzNoCLSUiftJ7HUq0GERHmxw/t0dCdMw==}
+    engines: {node: '>=4'}
+
+  postcss-selector-parser@7.1.7:
+    resolution: {integrity: sha512-wWBro/7hJ40ye6TPiXkUQoXKCw23xSsjriUvqd7Uls9Sso3oLiON1flc18cCdnjgCRXw4fBVqUJJeOdDTh3P3g==}
     engines: {node: '>=4'}
 
   postcss-sort-media-queries@5.2.0:
@@ -17365,7 +17369,7 @@ snapshots:
   postcss-calc@9.0.1(postcss@8.5.26):
     dependencies:
       postcss: 8.5.26
-      postcss-selector-parser: 7.1.6
+      postcss-selector-parser: 7.1.7
       postcss-value-parser: 4.2.0
 
   postcss-clamp@4.1.0(postcss@8.5.26):
@@ -17761,6 +17765,11 @@ snapshots:
       postcss-selector-parser: 7.1.6
 
   postcss-selector-parser@7.1.6:
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+
+  postcss-selector-parser@7.1.7:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
