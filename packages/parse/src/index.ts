@@ -23,7 +23,15 @@ export const parseFile = <I extends Row, O extends Row>(
     location: string,
     options: ParserOptionsArgs = {},
 ): CsvParserStream<I, O> => {
-    return fs.createReadStream(location).pipe(new CsvParserStream(new ParserOptions(options)));
+    const parserStream = new CsvParserStream<I, O>(new ParserOptions(options));
+    const fileStream = fs.createReadStream(location);
+    parserStream.once('close', () => {
+        fileStream.destroy();
+    });
+    fileStream.once('error', (error: Error) => {
+        parserStream.destroy(error);
+    });
+    return fileStream.pipe(parserStream);
 };
 
 export const parseString = <I extends Row, O extends Row>(
