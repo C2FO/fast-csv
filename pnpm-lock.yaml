@@ -16,7 +16,7 @@ overrides:
   nx>follow-redirects: 1.16.1
   nx>smol-toml: 1.9.1
   postcss-calc>postcss-selector-parser: 7.1.7
-  postcss-discard-unused>postcss-selector-parser: 7.1.6
+  postcss-discard-unused>postcss-selector-parser: 7.1.7
   postcss-merge-rules>postcss-selector-parser: 7.1.6
   postcss-minify-selectors>postcss-selector-parser: 7.1.6
   postcss-unique-selectors>postcss-selector-parser: 7.1.6
@@ -17461,7 +17461,7 @@ snapshots:
   postcss-discard-unused@6.0.5(postcss@8.5.26):
     dependencies:
       postcss: 8.5.26
-      postcss-selector-parser: 7.1.6
+      postcss-selector-parser: 7.1.7
 
   postcss-double-position-gradients@6.0.4(postcss@8.5.26):
     dependencies:
