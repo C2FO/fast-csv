@@ -65,7 +65,7 @@
             "lerna>tar": "7.5.22",
             "nx>axios": "1.20.0",
             "nx>brace-expansion": "5.0.12",
-            "nx>follow-redirects": "1.16.1",
+            "nx>follow-redirects": "1.16.2",
             "nx>smol-toml": "1.9.1",
             "postcss-calc>postcss-selector-parser": "7.1.7",
             "postcss-discard-unused>postcss-selector-parser": "7.1.6",
