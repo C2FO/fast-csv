@@ -68,7 +68,7 @@
             "nx>follow-redirects": "1.16.1",
             "nx>smol-toml": "1.9.1",
             "postcss-calc>postcss-selector-parser": "7.1.7",
-            "postcss-discard-unused>postcss-selector-parser": "7.1.6",
+            "postcss-discard-unused>postcss-selector-parser": "7.1.7",
             "postcss-merge-rules>postcss-selector-parser": "7.1.6",
             "postcss-minify-selectors>postcss-selector-parser": "7.1.6",
             "postcss-unique-selectors>postcss-selector-parser": "7.1.6",
