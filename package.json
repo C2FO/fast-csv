@@ -2,6 +2,7 @@
     "name": "fast-csv",
     "private": true,
     "scripts": {
+        "prepare": "husky",
         "clean": "lerna run clean",
         "build": "lerna run build",
         "lerna:pub": "lerna publish from-git",
