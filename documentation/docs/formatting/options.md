@@ -75,7 +75,7 @@ If there is not a headers row and you want to provide one then set to a `string[
 
 :::note
 
-- If the row is an object the headers must match fields in the object, otherwise you will end up with empty fields
+- If the row is an object the headers must match fields in the object, otherwise you will end up with empty fields. To use different output labels, [transform the object keys](./examples.mdx#renaming-object-headers) or convert the rows to arrays; `headers` alone does not rename object properties.
 - If there are more headers than columns then additional empty columns will be added
   :::
 
