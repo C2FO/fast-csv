@@ -1,0 +1,3 @@
+# Check formatting of staged files only, then lint
+git diff --cached --name-only --diff-filter=ACMR -z | xargs -0 -r pnpm exec prettier --check --ignore-unknown --ignore-path .prettierignore
+pnpm run lint
