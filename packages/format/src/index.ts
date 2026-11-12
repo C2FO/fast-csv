@@ -60,7 +60,7 @@ export const writeToBuffer = <I extends Row, O extends Row>(
         ws.on('error', rej).on('finish', (): void => {
             return res(Buffer.concat(buffers));
         });
-        write(rows, opts).pipe(ws);
+        write(rows, opts).on('error', rej).pipe(ws);
     });
 };
 

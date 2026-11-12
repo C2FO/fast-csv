@@ -6,6 +6,7 @@ import {
     RowArray,
     RowHashArray,
     RowMap,
+    RowTransformCallback,
     write,
     writeToBuffer,
     writeToPath,
@@ -13,6 +14,44 @@ import {
     writeToString,
 } from '../src';
 import { arrayRows, multiDimensionalRows, objectRows, RecordingStream } from './__fixtures__';
+
+describe.each([
+    ['writeToBuffer', writeToBuffer],
+    ['writeToString', writeToString],
+])('.%s errors', (_name, writeRows) => {
+    it('should reject when a synchronous transform throws', async () => {
+        const error = new Error('Could not transform row');
+        await expect(
+            writeRows(objectRows, {
+                transform(row: RowMap<string>): RowMap<string> {
+                    if (row.a === 'a2') {
+                        throw error;
+                    }
+                    return row;
+                },
+            }),
+        ).rejects.toBe(error);
+    });
+
+    it('should reject when an asynchronous transform returns an error', async () => {
+        const error = new Error('Could not transform row');
+        await expect(
+            writeRows(objectRows, {
+                transform(_row: Row, cb: RowTransformCallback<Row>): void {
+                    setImmediate(() => {
+                        return cb(error);
+                    });
+                },
+            }),
+        ).rejects.toBe(error);
+    });
+
+    it('should reject when writing headers for empty input fails', async () => {
+        await expect(writeRows([], { alwaysWriteHeaders: true })).rejects.toThrow(
+            '`alwaysWriteHeaders` option is set to true but `headers` option not provided.',
+        );
+    });
+});
 
 describe('.writeToString', () => {
     it('should write an array of arrays', () => {
