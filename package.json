@@ -74,7 +74,7 @@
             "jest-config>glob": "14.0.3",
             "jest-runtime>glob": "14.0.3",
             "lerna>js-yaml": "4.3.2",
-            "lerna>pacote": "21.5.1",
+            "lerna>pacote": "21.5.3",
             "lerna>tar": "7.5.22",
             "nx>axios": "1.20.0",
             "nx>brace-expansion": "5.0.12",
