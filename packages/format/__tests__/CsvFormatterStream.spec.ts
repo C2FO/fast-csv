@@ -429,4 +429,34 @@ describe('CsvFormatterStream', () => {
             }),
         ).resolves.toEqual(['\ufeff', 'a,b', '\na1,b1', '\na2,b2']);
     });
+
+    it('should write a BOM character with writeBOM when only headers are written for empty input', () => {
+        return expect(
+            formatRows([], {
+                headers: ['a', 'b'],
+                alwaysWriteHeaders: true,
+                writeBOM: true,
+            }),
+        ).resolves.toEqual(['\ufeff', 'a,b']);
+    });
+
+    it('should not write a BOM character with writeBOM when the headers format to an empty row', () => {
+        return expect(
+            formatRows([], {
+                headers: [''],
+                alwaysWriteHeaders: true,
+                writeBOM: true,
+            }),
+        ).resolves.toEqual([]);
+    });
+
+    it('should not write a BOM character with writeBOM when the headers are an empty array', () => {
+        return expect(
+            formatRows([], {
+                headers: [],
+                alwaysWriteHeaders: true,
+                writeBOM: true,
+            }),
+        ).resolves.toEqual([]);
+    });
 });
