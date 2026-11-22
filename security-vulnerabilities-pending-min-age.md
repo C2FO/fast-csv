@@ -1,11 +1,11 @@
 ## Pending vulnerabilities
 
-| Package    | Patched version | Publish date | Eligible date | Note                                                                                                                                                                                                                                                                          |
-| ---------- | --------------- | ------------ | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| handlebars | 4.7.10          | 2026-10-05   | 2026-10-12    | Published 2026-10-05 22:37 UTC, so it is eligible after 22:37 UTC on 2026-10-12. Parents (`ts-jest` `^4.7.9`, `conventional-changelog-writer` `^4.7.7`) already allow it. When eligible, refresh the lockfile with `pnpm update -r --depth Infinity handlebars`. No override. |
+None pending. Patched releases inside the `minimum-release-age` window (10080 minutes) are not installed, and there is no min-age exclusion.
 
 ## Intentional holds
 
-- `braces` has no patched npm release. The advisory range is `<=3.0.3`, and `3.0.3` is still `latest`. It is pulled in by `micromatch@4.0.8` (`braces: ^3.0.3`) and `chokidar@3` through `@docusaurus/core@3.10.2`. Do not add an override until a release newer than `3.0.3` is published.
-- `lerna` stays on `9.0.7` because `lerna@10` requires Node `^22.13.0 || ^24.0.0 || ^26.0.0`, while CI still tests Node 20.x and 21.x. Upgrading would not remove the `lerna>*` overrides, since `lerna@10.0.1` still pins vulnerable `pacote` (`21.0.1`) and `js-yaml` (`4.3.0`).
-- `nx` versions up to `23.2.1` still pin vulnerable `axios`, `smol-toml`, and `brace-expansion`, so the `nx>*` overrides stay until a release pins patched versions.
+- `deepmerge` has no patched release. `4.3.1` is the latest version and is inside `>=4.2.0 <=4.3.1`. `@svgr/plugin-svgo@8.1.0` and `jest-config@30.5.2` require `^4.3.1`, so there is nothing to override until a fixed release exists.
+- `glob` is overridden to `14.0.3` on the parents that resolve `10.5.0`, `11.1.0`, and `13.0.6` (`test-exclude`, `@npmcli/package-json`, `@jest/reporters`, `jest-config`, `jest-runtime`, `@npmcli/map-workspaces`, `cacache`). Those ranges stop at 10, 11, or 13, and the advisory covers `>=9.0.0 <=14.0.1`. `14.0.4` (published 2026-11-06) is not required to clear the advisory.
+- `minimatch` `>=7.0.0 <11.0.1` is overridden to `11.0.4` for `@npmcli/arborist`, `@npmcli/map-workspaces`, `@nx/devkit`, `@tufjs/models`, `@typescript-eslint/typescript-estree`, `ignore-walk`, `nx`, and `test-exclude`. `minimatch@3` (`lerna`, `eslint`, `serve-handler`) is outside that range. `11.0.5` (published 2026-11-05) is not required to clear the advisory.
+- `lerna` stays on `9.0.7` because upgrading would not remove the `lerna>*` overrides, since `lerna@10.0.1` still pins vulnerable `pacote` (`21.0.1`) and `js-yaml` (`4.3.0`).
+- `nx` versions allowed by `lerna@9` (`>=21.5.3 <23`) still pin vulnerable `axios`, `smol-toml`, and `brace-expansion`, and `nx@22.7.12` pins `follow-redirects@1.16.0`. The `nx>*` overrides stay until a release pins patched versions. `follow-redirects` is overridden to `1.16.2` (`axios>follow-redirects` as well, because `axios@1.20.0` accepts `^1.16.0` but was deduped to the exact nx pin). `http-proxy@1.18.1` allows `^1.0.0`, so it follows the same `1.16.2` without its own override.

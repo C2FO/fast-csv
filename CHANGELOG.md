@@ -26,6 +26,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [Unreleased]
 
+### BREAKING CHANGES
+
+- **deps!:** Dropped support for Node.js 20 (EOL) and non-LTS release lines. Supported Node is 22.x and 24.x LTS (`engines.node`: `^22.0.0 || ^24.0.0`).
+- **deps:** Upgraded `pnpm` to 10.34.7.
+
 ## [5.0.5](https://github.com/C2FO/fast-csv/compare/v5.0.2...v5.0.5) (2025-08-04)
 
 ### Bug Fixes

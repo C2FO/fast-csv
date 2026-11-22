@@ -34,7 +34,7 @@
     "author": "Doug Martin",
     "license": "MIT",
     "engines": {
-        "node": ">=20.0.0"
+        "node": "^22.0.0 || ^24.0.0"
     },
     "dependencies": {
         "@fast-csv/format": "5.0.8",

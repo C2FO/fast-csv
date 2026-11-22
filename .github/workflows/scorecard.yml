@@ -1,0 +1,43 @@
+name: Scorecard supply-chain security
+
+on:
+  # Needed for the Branch-Protection check
+  branch_protection_rule:
+  schedule:
+    - cron: '30 4 * * 1'
+  push:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  analysis:
+    name: Scorecard analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      # Upload results to the code-scanning dashboard
+      security-events: write
+      # Publish results and enable the Scorecard badge
+      id-token: write
+    steps:
+      - name: Checkout code
+        # https://github.com/actions/checkout/releases/tag/v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Run analysis
+        # https://github.com/ossf/scorecard-action/releases/tag/v2.5.0
+        uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+
+      - name: Upload to code-scanning
+        # https://github.com/github/codeql-action/releases/tag/v4.39.1
+        uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370
+        with:
+          sarif_file: results.sarif
