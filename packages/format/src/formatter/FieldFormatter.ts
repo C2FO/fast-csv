@@ -21,7 +21,7 @@ export class FieldFormatter<I extends Row, O extends Row> {
         if (formatterOptions.headers !== null) {
             this.headers = formatterOptions.headers;
         }
-        this.REPLACE_REGEXP = new RegExp(formatterOptions.quote, 'g');
+        this.REPLACE_REGEXP = new RegExp(escapeRegExp(formatterOptions.quote), 'g');
         const escapePattern = `[${formatterOptions.delimiter}${escapeRegExp(formatterOptions.rowDelimiter)}|\r|\n]`;
         this.ESCAPE_REGEXP = new RegExp(escapePattern);
     }
@@ -50,7 +50,11 @@ export class FieldFormatter<I extends Row, O extends Row> {
         if (formatterOptions.quote !== '') {
             const shouldEscape = preparedField.indexOf(formatterOptions.quote) !== -1;
             if (shouldEscape) {
-                return this.quoteField(preparedField.replace(this.REPLACE_REGEXP, formatterOptions.escapedQuote));
+                return this.quoteField(
+                    preparedField.replace(this.REPLACE_REGEXP, () => {
+                        return formatterOptions.escapedQuote;
+                    }),
+                );
             }
         }
         const hasEscapeCharacters = preparedField.search(this.ESCAPE_REGEXP) !== -1;
