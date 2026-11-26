@@ -23,6 +23,17 @@ describe('FieldFormatter', () => {
                 expect(formatter.format('hea\r\nder', 0, true)).toBe('"hea\r\nder"');
             });
 
+            it('should not quote the field if it contains a pipe character', () => {
+                const formatter = createFormatter();
+                expect(formatter.format('hea|der', 0, true)).toBe('hea|der');
+                expect(formatter.format('|', 0, true)).toBe('|');
+            });
+
+            it('should quote the field if it contains a regex-special delimiter', () => {
+                const formatter = createFormatter({ delimiter: '|' });
+                expect(formatter.format('hea|der', 0, true)).toBe('"hea|der"');
+            });
+
             it('should quote the field and if it contains a CR', () => {
                 // set row delimiter to something else to ensure it will still quote
                 const formatter = createFormatter({ rowDelimiter: '#' });
